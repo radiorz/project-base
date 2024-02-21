@@ -1,14 +1,30 @@
 {
   "name": "utils",
-  "version": "1.0.0",
   "private": true,
-  "description": "",
-  "main": "index.ts",
-  "module": "index.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "main": "./dist/utils.umd.cjs",
+  "module": "./dist/utils.js",
+  "types": "./types/lib/main.d.ts",
+  "exports": {
+    "types": "./types/lib/main.d.ts",
+    "import": "./dist/utils.js",
+    "require": "./dist/utils.umd.cjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  },
+  "dependencies": {
+    "@types/node": "^20.3.1"
+  }
 }
