@@ -4,9 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "del": "del-cli --help",
+    "server-template:deploy": "del-cli deploy/server-template --force && pnpm --filter server-template deploy deploy/server-template && cd deploy/server-template && npm run build"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "del-cli": "^5.1.0"
+  }
 }

@@ -3,7 +3,7 @@
  * @param time 时间
  */
 export async function sleep(time: number) {
-  await new Promise((resolve) => {
-    setTimeout(() => resolve, time);
+  return await new Promise((resolve) => {
+    setTimeout(resolve, time);
   });
 }
