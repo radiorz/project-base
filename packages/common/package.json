@@ -1,0 +1,29 @@
+{
+  "name": "common",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist",
+    "types"
+  ],
+  "main": "./dist/common.umd.cjs",
+  "module": "./dist/common.js",
+  "types": "./types/lib/main.d.ts",
+  "exports": {
+    "types": "./index.d.ts",
+    "import": "./dist/common.js",
+    "require": "./dist/common.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vite": "^5.0.10"
+  },
+  "dependencies": {
+    "vite-plugin-dts": "^3.7.2"
+  }
+}
