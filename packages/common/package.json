@@ -23,7 +23,5 @@
     "typescript": "^5.3.3",
     "vite": "^5.0.10"
   },
-  "dependencies": {
-    "vite-plugin-dts": "^3.7.2"
-  }
+  "dependencies": {}
 }
