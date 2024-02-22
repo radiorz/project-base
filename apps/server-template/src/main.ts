@@ -1,15 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { hello } from 'common';
-console.log(`hello`, hello);
-import { checkPathExists } from 'utils';
-
+import appConfig from './config/app.config';
+import { configSwagger } from './config/swagger.config';
 async function bootstrap() {
-  const result = await checkPathExists(
-    'G:\\szk\\code\\project-base\\apps\\server-template\\src',
-  );
-  console.log(`result`, result);
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, appConfig);
+  // api 开头
+  app.setGlobalPrefix('api');
+  configSwagger(app);
   await app.listen(3000);
 }
 bootstrap();
