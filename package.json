@@ -1,4 +1,7 @@
 {
+  "dependencies": {
+    "@nestjs/mapped-types": "*"
+  },
   "name": "voerka-cloud-project",
   "version": "1.0.0",
   "description": "",
