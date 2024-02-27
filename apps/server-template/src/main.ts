@@ -2,38 +2,26 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import appConfig from './config/app.config';
 import { configSwagger } from './config/swagger.config';
-import helmet from 'helmet';
-
-function applyHelmet(app) {
-  // 防止 @apollo/server等不行用
-  const options = {
-    crossOriginEmbedderPolicy: false,
-    contentSecurityPolicy: {
-      directives: {
-        imgSrc: [
-          `'self'`,
-          'data:',
-          'apollo-server-landing-page.cdn.apollographql.com',
-        ],
-        scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
-        manifestSrc: [
-          `'self'`,
-          'apollo-server-landing-page.cdn.apollographql.com',
-        ],
-        frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
-      },
-    },
-  };
-  app.use(helmet(options));
-}
-
+import { ConfigService } from '@nestjs/config';
+import { applyHelmet } from './config/helmet.config';
+import { Logger } from '@nestjs/common';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, appConfig);
+  const app = await NestFactory.create(AppModule, {
+    ...appConfig,
+    logger: new Logger(),
+  });
   // api 开头
   app.setGlobalPrefix('api');
   configSwagger(app);
   applyHelmet(app);
-  await app.listen(3000);
+  const configModule = app.get<ConfigService>(ConfigService);
+  const port = configModule.get('SERVER_PORT') || 3000;
+  // const logger = app.get(Logger); 不知道为啥这样行不通
+
+  await app.listen(port, () => {
+    // TODO 打印日志用打印日志模块
+    Logger.log(`启动成功,端口：${port}`);
+  });
 }
 
 bootstrap();
