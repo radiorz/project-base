@@ -15,7 +15,7 @@ async function bootstrap() {
   configSwagger(app);
   applyHelmet(app);
   const configModule = app.get<ConfigService>(ConfigService);
-  const port = configModule.get('SERVER_PORT') || 3000;
+  const port = configModule.get('HTTP_SERVER_PORT') || 3000;
   // const logger = app.get(Logger); 不知道为啥这样行不通
 
   await app.listen(port, () => {
