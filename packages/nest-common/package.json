@@ -10,16 +10,17 @@
     "types"
   ],
   "type": "commonjs",
-  "main": "./dist/libs/common.js",
-  "module": "./dist/libs/common.js",
-  "types": "./types/libs/common/src/index.d.ts",
+  "main": "./dist/libs/common/index.js",
+  "module": "./dist/libs/common/index.js",
+  "types": "./types/libs/common/index.d.ts",
   "exports": {
-    "require": "./dist/libs/common.js",
-    "types": "./types/libs/common/src/index.d.ts"
+    "module": "./dist/libs/common/index.js",
+    "require": "./dist/libs/common/index.js",
+    "types": "./types/libs/common/index.d.ts"
   },
   "scripts": {
     "_build": "nest build",
-    "types": " ",
+    "types": "tsc --project ./libs/common/tsconfig.lib.json",
     "build": "nest build common && pnpm run types",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",

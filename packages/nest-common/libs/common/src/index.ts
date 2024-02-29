@@ -1,3 +1,6 @@
 export * from './common.module';
 export * from './common.service';
-export interface A {}
+
+export function getHello() {
+  console.log(`123`, 123);
+}

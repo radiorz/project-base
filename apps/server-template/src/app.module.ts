@@ -7,15 +7,10 @@ import { EnvConfigModule } from './config/env.config';
 import { MathServiceClientModule } from './config/microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { CommonModule } from 'nest-common';
+import { CommonService } from 'nest-common';
+console.log(`getHello`, CommonService);
 @Module({
-  imports: [
-    EnvConfigModule,
-    DbModule,
-    UserModule,
-    MathServiceClientModule,
-    CommonModule,
-  ],
+  imports: [EnvConfigModule, DbModule, UserModule, MathServiceClientModule],
   controllers: [AppController],
   providers: [AppService],
 })
