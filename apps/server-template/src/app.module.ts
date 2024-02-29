@@ -4,11 +4,18 @@ import { AppService } from './app.service';
 import { DbModule } from './config/db.config';
 import { UserModule } from './user/user.module';
 import { EnvConfigModule } from './config/env.config';
-import { ClientModule } from './config/microservice.config';
+import { MathServiceClientModule } from './config/microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
-import { Observable, firstValueFrom } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
+import { CommonModule } from 'nest-common';
 @Module({
-  imports: [EnvConfigModule, DbModule, UserModule, ClientModule],
+  imports: [
+    EnvConfigModule,
+    DbModule,
+    UserModule,
+    MathServiceClientModule,
+    CommonModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
