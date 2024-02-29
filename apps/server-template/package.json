@@ -29,12 +29,12 @@
     "@nestjs/typeorm": "^10.0.2",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "common": "workspace:*",
     "helmet": "^7.1.0",
     "mysql2": "^3.9.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
+    "common": "workspace:*",
     "utils": "workspace:*",
     "nest-common": "workspace:*"
   },

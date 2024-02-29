@@ -12,7 +12,7 @@ async function bootstrap() {
     {
       transport: Transport.TCP,
       options: {
-        port: parseInt(process.env.MICROSERVICE_SERVER_PORT, 10) || 3001,
+        port: parseInt(process.env.MICROSERVICE_SERVER_PORT, 10) || 23001,
       },
     },
   );
