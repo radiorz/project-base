@@ -7,8 +7,6 @@ import { EnvConfigModule } from './config/env.config';
 import { MathServiceClientModule } from './config/microservice.config';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import * as common from 'nest-common';
-console.log(`getHello`, common);
 @Module({
   imports: [EnvConfigModule, DbModule, UserModule, MathServiceClientModule],
   controllers: [AppController],

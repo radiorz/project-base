@@ -1,6 +1,4 @@
 export * from './common.module';
 export * from './common.service';
-
-export function getHello() {
-  console.log(`123`, 123);
-}
+export * from './client/client.module';
+export * from './dict/dict.module';
