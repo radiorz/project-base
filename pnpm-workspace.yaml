@@ -2,5 +2,5 @@
 
 packages:
   - "packages/*"
-  - "apps/*"
+  - "projects/*"
   - "micro-services/*"
