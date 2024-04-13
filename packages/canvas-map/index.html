@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const tileSize = 40; // 每个格子的大小
+  const mapWidth = 10; // 地图的宽度（格子数）
+  const mapHeight = 10; // 地图的高度（格子数）
+
+  function drawMap() {
+    for (let row = 0; row < mapHeight; row++) {
+      for (let col = 0; col < mapWidth; col++) {
+        const x = col * tileSize;
+        const y = row * tileSize;
+        ctx.fillStyle = 'gray'; // 设置格子的颜色
+        ctx.fillRect(x, y, tileSize, tileSize); // 绘制格子
+      }
+    }
+  }
+
+  drawMap();
+
+  let playerX = 0; // 人物的初始 X 坐标
+  let playerY = 0; // 人物的初始 Y 坐标
+
+  function drawPlayer() {
+    const x = playerX * tileSize;
+    const y = playerY * tileSize;
+    ctx.fillStyle = 'red'; // 设置人物的颜色
+    ctx.fillRect(x, y, tileSize, tileSize); // 绘制人物
+  }
+
+  function handleKeyPress(event) {
+    const key = event.key;
+
+    // 根据按键调整人物的位置
+    if (key === 'ArrowUp' && playerY > 0) {
+      playerY--;
+    } else if (key === 'ArrowDown' && playerY < mapHeight - 1) {
+      playerY++;
+    } else if (key === 'ArrowLeft' && playerX > 0) {
+      playerX--;
+    } else if (key === 'ArrowRight' && playerX < mapWidth - 1) {
+      playerX++;
+    }
+
+    // 清空 Canvas，并重新绘制地图和人物
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap();
+    drawPlayer();
+  }
+
+  document.addEventListener('keydown', handleKeyPress);
+</script>
+
+</html>

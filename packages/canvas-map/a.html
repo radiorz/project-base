@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="canvas" width="400" height="400"></canvas>
+</body>
+
+<script>
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+
+  const tileSize = 50; // 每个菱形的大小
+  const numRows = 8; // 地图的行数
+  const numCols = 8; // 地图的列数
+
+  let playerRow = 0; // 玩家所在的行
+  let playerCol = 0; // 玩家所在的列
+
+  let mapX = 0; // 地图的 X 偏移量
+  let mapY = 0; // 地图的 Y 偏移量
+  let isDragging = false; // 是否正在拖拽地图
+  let dragStartX = 0; // 拖拽开始时的鼠标 X 坐标
+  let dragStartY = 0; // 拖拽开始时的鼠标 Y 坐标
+
+  // 绘制地图
+  function drawMap() {
+    ctx.fillStyle = 'gray'; // 设置菱形的颜色
+
+    for (let row = 0; row < numRows; row++) {
+      for (let col = 0; col < numCols; col++) {
+        const x = col * tileSize + mapX; // 根据行列和偏移量计算菱形的 x 坐标
+        const y = row * tileSize + mapY; // 根据行列和偏移量计算菱形的 y 坐标
+
+        ctx.beginPath();
+        ctx.moveTo(x + tileSize / 2, y);
+        ctx.lineTo(x + tileSize, y + tileSize / 2);
+        ctx.lineTo(x + tileSize / 2, y + tileSize);
+        ctx.lineTo(x, y + tileSize / 2);
+        ctx.closePath();
+
+        ctx.fill();
+      }
+    }
+  }
+
+  // 鼠标事件处理函数
+  function handleMouseDown(event) {
+    isDragging = true;
+    dragStartX = event.clientX; // 记录拖拽开始时的鼠标 X 坐标
+    dragStartY = event.clientY; // 记录拖拽开始时的鼠标 Y 坐标
+  }
+
+  function handleMouseMove(event) {
+    if (!isDragging) {
+      return;
+    }
+
+    const dx = event.clientX - dragStartX; // 计算鼠标 X 方向上的位移
+    const dy = event.clientY - dragStartY; // 计算鼠标 Y 方向上的位移
+
+    mapX += dx; // 更新地图的 X 偏移量
+    mapY += dy; // 更新地图的 Y 偏移量
+
+    dragStartX = event.clientX; // 更新拖拽开始时的鼠标 X 坐标
+    dragStartY = event.clientY; // 更新拖拽开始时的鼠标 Y 坐标
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap();
+    drawPlayer()
+  }
+
+  function handleMouseUp() {
+    isDragging = false;
+  }
+
+  // 添加鼠标事件监听器
+  canvas.addEventListener('mousedown', handleMouseDown);
+  canvas.addEventListener('mousemove', handleMouseMove);
+  canvas.addEventListener('mouseup', handleMouseUp);
+
+
+
+  // 绘制玩家物体
+  function drawPlayer() {
+    ctx.fillStyle = 'red'; // 设置玩家物体的颜色
+
+    const x = playerCol * tileSize + (playerRow % 2 === 1 ? tileSize / 2 : 0); // 计算玩家物体的 x 坐标
+    const y = playerRow * tileSize / 2; // 计算玩家物体的 y 坐标
+
+    ctx.fillRect(x + mapX, y + mapY, tileSize, tileSize );
+  }
+
+  // 移动玩家物体
+  function movePlayer(direction) {
+    let newRow = playerRow;
+    let newCol = playerCol;
+
+    // 根据移动方向更新行列值
+    if (direction === 'up') {
+      newRow--;
+    } else if (direction === 'down') {
+      newRow++;
+    } else if (direction === 'left') {
+      newCol--;
+    } else if (direction === 'right') {
+      newCol++;
+    }
+
+    // 检查新的行列值是否合法
+    if (newRow >= 0 && newRow < numRows && newCol >= 0 && newCol < numCols) {
+      playerRow = newRow;
+      playerCol = newCol;
+    }
+
+    // 清空 Canvas 并重新绘制
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawMap();
+    drawPlayer();
+  }
+
+  // 监听键盘事件
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'ArrowUp') {
+      movePlayer('up');
+    } else if (event.key === 'ArrowDown') {
+      movePlayer('down');
+    } else if (event.key === 'ArrowLeft') {
+      movePlayer('left');
+    } else if (event.key === 'ArrowRight') {
+      movePlayer('right');
+    }
+  });
+
+  // 绘制初始地图和玩家物体
+  drawMap();
+  drawPlayer();
+
+</script>
+
+</html>
