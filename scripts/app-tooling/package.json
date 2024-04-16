@@ -5,7 +5,10 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc index.js"
+    "build": "tsc"
+  },
+  "bin": {
+    "version": "./dist/version/cli.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,7 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@types/fs-extra": "^11.0.4",
     "archiver": "^7.0.1",
     "commander": "^12.0.0",
     "compressing": "^1.10.0",
