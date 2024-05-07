@@ -1,0 +1,22 @@
+{
+  "name": "server-trpc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "tsx watch ./index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@trpc/server": "npm:@trpc/server@next",
+    "tsx": "^4.9.3",
+    "zod": "^3.23.6"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}
