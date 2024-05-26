@@ -5,3 +5,5 @@ packages:
   - "projects/*"
   - "docs/*"
   - "scripts/*"
+  - "templates/*"
+  - "examples/*"
