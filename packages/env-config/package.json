@@ -1,8 +1,23 @@
 {
   "name": "@tikkhun/env-config",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "main": "dist/index.js",
+      "module": "dist/index.mjs",
+      "types": "dist/index.d.ts"
+    }
+  },
+  "files": [
+    "lib",
+    "dist",
+    "package.json",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsup",
     "dev": "ts-node ./src/index.ts",
@@ -12,11 +27,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/dotenv-safe": "^8.1.6",
     "dotenv-safe": "^9.1.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/dotenv-safe": "^8.1.6",
     "@types/lodash": "^4.17.4",
     "@types/node": "^20.3.1",
     "ts-node": "^10.9.1",
