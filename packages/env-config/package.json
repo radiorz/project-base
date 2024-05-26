@@ -1,0 +1,25 @@
+{
+  "name": "@tikkhun/env-config",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsup",
+    "dev": "ts-node ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/dotenv-safe": "^8.1.6",
+    "dotenv-safe": "^9.1.0",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.4",
+    "@types/node": "^20.3.1",
+    "ts-node": "^10.9.1",
+    "tsup": "^8.0.2"
+  }
+}

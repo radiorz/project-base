@@ -1,0 +1,16 @@
+# yaml 配置
+version: "3"
+services:
+  vdas-web:
+    container_name: vdas-web
+    image: nginx
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../web/dist:/usr/share/nginx/html # html
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf # config
+      - ./log:/var/log/nginx # log
+      # - ./api:/usr/share/nginx/api
+    ports:
+      - 37777:80
+    restart: always
