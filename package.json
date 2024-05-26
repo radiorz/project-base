@@ -1,7 +1,8 @@
 {
   "dependencies": {},
-  "name": "voerka-cloud-project",
+  "name": "project-base",
   "version": "1.0.0",
+  "private":true,
   "description": "",
   "main": "index.js",
   "scripts": {
