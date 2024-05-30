@@ -35,7 +35,7 @@
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.20",
     "common": "workspace:*",
-    "utils": "workspace:*",
+    "@tikkhun/utils": "workspace:*",
     "nest-common": "workspace:*"
   },
   "devDependencies": {

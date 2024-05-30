@@ -1,8 +1,8 @@
 {
   "dependencies": {},
-  "name": "project-base",
+  "name": "server-project-base",
   "version": "1.0.0",
-  "private":true,
+  "private": true,
   "description": "",
   "main": "index.js",
   "scripts": {
