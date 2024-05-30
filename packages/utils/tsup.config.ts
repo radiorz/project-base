@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig((options) => ({
   // 入口文件
-  // 不直接指定index 是因为可以用/的方式一直往下走
+  // 不直接指定index 是为了支持直接使用某个文件
   entry: ['lib/**/*.ts'],
   // 格式化
   format: ['cjs', 'esm'],
