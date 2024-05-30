@@ -1,12 +1,12 @@
-import { config } from "dotenv-safe";
-import { get, set } from "lodash";
+import { config } from 'dotenv-safe';
+import { get, set } from 'lodash';
 config();
-const DEFAULT_DELIMITER = "__";
+const DEFAULT_DELIMITER = '__';
 
-interface Options {
+export interface Options {
   delimiter: string;
 }
-interface GetOptions {
+export interface GetOptions {
   path: string;
 }
 export class EnvManager {
@@ -18,7 +18,7 @@ export class EnvManager {
   }
   init() {
     for (const [key, value] of Object.entries(process.env)) {
-      set(this.env, key.split(this.options.delimiter).join("."), value);
+      set(this.env, key.split(this.options.delimiter).join('.'), value);
     }
   }
   get(getOptions?: Partial<GetOptions>) {
