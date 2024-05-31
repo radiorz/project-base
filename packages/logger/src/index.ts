@@ -1,4 +1,4 @@
-import { Logger } from '../lib';
+import { Logger } from '../lib/impl';
 Logger.log('123');
 Logger.debug!('123');
 Logger.warn('123');

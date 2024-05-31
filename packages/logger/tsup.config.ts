@@ -9,7 +9,7 @@ export default defineConfig((options) => ({
   // typescript 注释
   dts: true,
   // 拆分
-  splitting: true,
+  splitting: false,
   // sourcemap: true,
   clean: true,
   treeshake: true,
@@ -17,7 +17,7 @@ export default defineConfig((options) => ({
   minify: !options.watch,
   banner: {
     js: `/**
-  @tikkhun/utils
+  @tikkhun/logger
 */`,
   },
 }));
