@@ -67,9 +67,14 @@ export class ConsoleLogger implements ILogger {
   }
 }
 export const DEFAULT_LOGGER = new ConsoleLogger();
-
+export interface Options {
+  timestamp: boolean
+}
 export class Logger implements ILogger {
-  constructor(private context?: string) {}
+  constructor(
+    private context?: string,
+    private options?: Options,
+  ) {}
   static log(message: any, ...optionalParams: any[]) {
     Logger.instance.log(message);
   }
