@@ -69,7 +69,7 @@ export class ConsoleLogger implements ILogger {
 export const DEFAULT_LOGGER = new ConsoleLogger();
 
 export class Logger implements ILogger {
-  // constructor(context) {}
+  constructor(private context?: string) {}
   static log(message: any, ...optionalParams: any[]) {
     Logger.instance.log(message);
   }
@@ -91,23 +91,26 @@ export class Logger implements ILogger {
   static setLogLevels?(levels: LogLevel[]) {
     throw new Error('Method not implemented.');
   }
+  static formatContext(context: string) {
+    return `[${context}]`;
+  }
   log(message: any, ...optionalParams: any[]) {
-    this.instance.log(message);
+    this.instance.log(Logger.formatContext(this.context || '') + message);
   }
   error(message: any, ...optionalParams: any[]) {
-    this.instance.error(message);
+    this.instance.error(Logger.formatContext(this.context || '') + message);
   }
   warn(message: any, ...optionalParams: any[]) {
-    this.instance.warn(message);
+    this.instance.warn(Logger.formatContext(this.context || '') + message);
   }
   debug?(message: any, ...optionalParams: any[]) {
-    this.instance.debug?.(message);
+    this.instance.debug?.(Logger.formatContext(this.context || '') + message);
   }
   verbose?(message: any, ...optionalParams: any[]) {
-    this.instance.verbose?.(message);
+    this.instance.verbose?.(Logger.formatContext(this.context || '') + message);
   }
   fatal?(message: any, ...optionalParams: any[]) {
-    this.instance.fatal?.(message);
+    this.instance.fatal?.(Logger.formatContext(this.context || '') + message);
   }
   setLogLevels?(levels: LogLevel[]) {
     throw new Error('Method not implemented.');
