@@ -15,7 +15,7 @@
   "types": "./types/libs/common/index.d.ts",
   "exports": {
     "require": "./dist/libs/common/index.js",
-    "module": "./dist/libs/common/index.js",
+    "import": "./dist/libs/common/index.js",
     "types": "./types/libs/common/index.d.ts"
   },
   "scripts": {
