@@ -21,8 +21,13 @@ export class EnvManager {
       set(this.env, key.split(this.options.delimiter).join('.'), value);
     }
   }
-  get(getOptions?: Partial<GetOptions>) {
-    const { path } = getOptions || {};
+  get(path: string): any;
+  get(getOptions?: Partial<GetOptions>): any;
+  get(options: any) {
+    if (typeof options === 'string') {
+      options = { path: options };
+    }
+    const { path } = options || {};
     if (!path) {
       return this.env;
     }
