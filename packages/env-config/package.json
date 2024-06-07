@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/env-config",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "ts-node ./src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "publish": "npm version patch && pnpm run build && npm publish"
   },
   "publishConfig": {
     "access": "public"
