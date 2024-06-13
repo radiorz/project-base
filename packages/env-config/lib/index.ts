@@ -1,46 +1,37 @@
 import { config } from 'dotenv-safe';
 import { camelCase, get, merge, set } from 'lodash';
-const DEFAULT_DELIMITER = '__';
 
-export interface Options {
+export interface GetOptions {
+  path: string;
+}
+export interface ConfigSource {
+  init?: () => void;
+  load: () => Record<string, any>;
+}
+
+export interface EnvSourceOptions {
   // 层级的分隔符
   delimiter: string;
   // 是否将key 名称转化为 camelCase
   camelCase: boolean;
   allowEmptyValues: boolean;
-  load?: (() => any)[];
 }
-export const DEFAULT_OPTIONS = {
-  delimiter: DEFAULT_DELIMITER,
+
+export const DEFAULT_ENV_CONFIG_OPTIONS = {
+  delimiter: '__',
   camelCase: true,
   allowEmptyValues: true,
 };
-export interface GetOptions {
-  path: string;
-}
-export class EnvManager {
-  env: Record<string, any> = {};
-  options: Options;
-  constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
-  }
-  static create(options?: Partial<Options>) {
-    const envManager = new EnvManager(options);
-    envManager.init();
-    return envManager;
+export class EnvSource implements ConfigSource {
+  options: EnvSourceOptions;
+  constructor(options?: Partial<EnvSourceOptions>) {
+    this.options = Object.assign(DEFAULT_ENV_CONFIG_OPTIONS, options);
   }
   init() {
-    this.env = this.loadEnv();
-    if (this.options.load && this.options.load.length >= 0) {
-      // 自定义加载
-      const results = this.options.load.map((l) => l()); // 暂时先全部都是同步方法，后面在想着异步流程
-      // merge
-      merge(this.env, ...results);
-    }
-  }
-  loadEnv() {
     // 初始化获取 env 依赖
     config({ allowEmptyValues: this.options.allowEmptyValues });
+  }
+  load() {
     // 构成对象
     const env = {};
     for (const [key, value] of Object.entries(process.env)) {
@@ -55,6 +46,40 @@ export class EnvManager {
     }
     return env;
   }
+}
+export interface ConfigOptions {
+  sources: ConfigSource[];
+}
+export class ConfigManager {
+  config: Record<string, any> = {};
+  options: ConfigOptions;
+  sources: ConfigSource[] = [];
+  constructor(options: ConfigOptions) {
+    this.options = options;
+    this.sources = this.options.sources;
+  }
+  static create(options: ConfigOptions) {
+    const configManager = new ConfigManager(options);
+    configManager.init();
+    configManager.load();
+    return configManager;
+  }
+  init() {
+    this.sources.forEach((source) => {
+      if (source.init) source.init();
+    });
+  }
+  load() {
+    // 目前都是同步
+    const results = this.sources.map((source) => source.load());
+    this.config = merge(this.config, ...results);
+  }
+  addSource(source: ConfigSource) {
+    this.sources.push(source);
+    if (source.init) source.init();
+    merge(this.config, source?.load());
+    return this;
+  }
   get(path: string): any;
   get(getOptions?: Partial<GetOptions>): any;
   get(options: any) {
@@ -63,13 +88,10 @@ export class EnvManager {
     }
     const { path } = options || {};
     if (!path) {
-      return this.env;
+      return this.config;
     }
     let _path = path;
-    if (this.options.camelCase) {
-      _path = path.split('.').map(camelCase).join('.');
-    }
-    return get(this.env, _path);
+    return get(this.config, _path);
   }
 }
-export const DEFAULT_ENV_MANAGER = EnvManager.create();
+export const DEFAULT_ENV_MANAGER = ConfigManager.create({ sources: [new EnvSource()] });
