@@ -5,7 +5,7 @@ import fs from 'node:fs';
  * @param path 文件路径
  * @returns
  * @example
- * const result = await getFileStat("./a.txt") // ->
+ * const result = await getFileStat("./a.txt") // -> boolean
  */
 export async function checkPathExists(path: string): Promise<boolean> {
   return new Promise((resolve) => {

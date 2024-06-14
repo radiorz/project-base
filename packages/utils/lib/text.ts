@@ -21,7 +21,6 @@
  * capitalize("abc") // -> "Abc"
  */
 export function capitalize(str: string = ''): string {
-  if (!str) throw new Error('str is not found');
   if (typeof str !== 'string') throw new Error('str is not string');
   const [first, ...rest] = str;
   return !first ? '' : first.toUpperCase() + rest.join('');

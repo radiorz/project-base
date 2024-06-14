@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/utils",
+  "name": "@tikkhun/http-request",
   "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",

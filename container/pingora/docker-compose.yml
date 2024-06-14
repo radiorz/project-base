@@ -1,0 +1,14 @@
+# yaml 配置
+version: '3'
+services:
+  pingora:
+    container_name: pingora
+    image: pingora
+    env_file: .env
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./src:/home/src
+    ports:
+      - 3000:80
+    restart: always

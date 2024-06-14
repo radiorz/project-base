@@ -1,0 +1,34 @@
+# yaml 配置
+version: '3'
+services:
+  server:
+    container_name: node-server
+    image: node:18.20.3
+    env_file: .env
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../projects/server:/home/src
+    ports:
+      - 3000:3000
+    command: bash -c "cd /home/src && pnpm run dev"
+    restart: always
+  install_server:
+    container_name: node-server
+    image: node:18.20.3
+    env_file: .env
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../:/home/src
+    command: bash -c "npm install -g pnpm && cd /home/src && pnpm i"
+  build_server:
+    container_name: build_server
+    image: node:18.20.3
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ../../:/home/src
+    command: bash -c "cd /home/src/projects/server && npm run build"
