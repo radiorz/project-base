@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import { program } from 'commander';
 import { Logger } from '@tikkhun/logger';
 import { Release, DEFAULT_OPTIONS } from './Release';

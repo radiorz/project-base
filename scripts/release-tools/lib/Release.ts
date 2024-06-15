@@ -1,8 +1,11 @@
-import { join, resolve } from 'path';
+import { Logger } from '@tikkhun/logger';
+import archiver from 'archiver';
 import dayjs from 'dayjs';
 import fs from 'fs-extra';
-import archiver from 'archiver';
-import { Logger } from '@tikkhun/logger';
+import { join } from 'path';
+// import ora from 'ora';
+// const spinner = ora('Loading...');
+
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -50,37 +53,61 @@ export class Release {
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
   }
+  get releaseFilePath() {
+    return join(this.releasePath, this.releaseFile);
+  }
   constructor(options?: Partial<Options>) {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
     if (this.options.version) {
       this.version = dayjs().format(this.options.versionPattern);
     }
+    this.watchError();
+  }
+  watchError() {
+    // TODO 当 ctrl+c 删除target文件
+    process.on('SIGINT', () => {
+      this.clean();
+    });
+  }
+  clean() {
+    fs.removeSync(this.releaseFilePath);
   }
   async start() {
     return new Promise(async (resolve, reject) => {
-      this.log.log(`[开始] 压缩文件到路径: ` + this.releasePath);
-      await Release.insureDir(this.releasePath);
-      const releaseFilePath = join(this.releasePath, this.releaseFile);
-      if (this.options.clean) {
-        // 如果有同名应该先删除
-        await fs.remove(releaseFilePath);
+      try {
+        this.log.log(`[开始] 压缩文件到路径: ` + this.releaseFilePath);
+        await Release.insureDir(this.releasePath);
+        if (this.options.clean) {
+          // 如果有同名应该先删除
+          await fs.remove(this.releaseFilePath);
+        }
+        const releaseStream = fs.createWriteStream(this.releaseFilePath);
+        const archive = archiver(this.options.archiveType, this.options.archiveOptions);
+        archive
+          .pipe(releaseStream)
+          .on('pipe', () => {
+            this.log.log('piping');
+          })
+          .on('close', () => {
+            this.log.log('[完毕] 打包完毕');
+            resolve(true);
+            // spinner.stop();
+          });
+        // 添加文件
+        archive.glob(this.options.include, {
+          ignore: this.options.exclude,
+          skip: this.options.exclude,
+          dot: true,
+          cwd: this.options.workspace,
+        });
+        // 执行
+        archive.finalize();
+        this.log.log('[开始] 执行打包');
+        // spinner.start();
+      } catch (error: any) {
+        this.log.log('[失败] 执行打包' + error.message);
+        reject(error);
       }
-      const releaseStream = fs.createWriteStream(releaseFilePath);
-      const archive = archiver(this.options.archiveType, this.options.archiveOptions);
-      archive.pipe(releaseStream).on('close', () => {
-        this.log.log('[完毕] 打包完毕');
-        resolve(true);
-      });
-      // 添加文件
-      archive.glob(this.options.include, {
-        ignore: this.options.exclude,
-        skip: this.options.exclude,
-        dot: true,
-        cwd: this.options.workspace,
-      });
-      // 执行
-      archive.finalize();
-      this.log.log('[开始] 执行打包');
     });
   }
   log = new Logger('Release');
