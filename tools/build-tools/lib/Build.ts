@@ -14,20 +14,24 @@
 export interface ObfuscateOptions {}
 export interface BytenodeOptions {}
 export interface Options {
-  obfuscate: true;
-  obfuscateOptions: ObfuscateOptions;
-  bytenode: true;
-  bytenodeOptions: BytenodeOptions;
+  workspace: string;
+  outDir: string;
+  obfuscate: boolean;
 }
 export const DEFAULT_OPTIONS: Options = {
+  workspace: process.cwd(),
+  outDir: 'dist',
   obfuscate: true,
-  obfuscateOptions: {},
-  bytenode: true,
-  bytenodeOptions: {},
 };
 export class Build {
   options: Options;
   constructor(options?: Partial<Options>) {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
   }
+  // watchError() {
+  //   process.on()
+  // }
+  start() {}
+  stop() {}
+  clean() {}
 }

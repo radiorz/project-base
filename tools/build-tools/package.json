@@ -32,15 +32,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^11.2.0",
-    "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21"
+    "@tikkhun/logger": "^1.0.6",
+    "commander": "^12.1.0"
   },
   "devDependencies": {
-    "@types/dotenv-safe": "^8.1.6",
-    "@types/fs-extra": "^11.0.4",
-    "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.17.4",
+    "@types/archiver": "^6.0.2",
     "@types/node": "^20.3.1",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.2",
