@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/logger",
-  "version": "1.0.6",
+  "name": "@tikkhun/build",
+  "version": "1.0.3",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
