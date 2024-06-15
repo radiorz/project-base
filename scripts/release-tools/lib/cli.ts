@@ -27,5 +27,6 @@ program
     };
     const release = new Release(opts);
     release.start();
-  });
+  })
+  .help();
 program.parse(process.argv);

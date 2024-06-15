@@ -129,7 +129,7 @@ export class Release {
     try {
       return readJsonSync(join(workspace, 'package.json'));
     } catch (error: any) {
-      logger.warn('从package.json获取版本错误' + error.message);
+      logger.warn('从package.json获取版本错误: ' + error.message);
       return 'unknown';
     }
   }

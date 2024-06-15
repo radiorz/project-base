@@ -11,14 +11,20 @@
  * @done
  * @example
  */
-
+export interface ObfuscateOptions {}
+export interface BytenodeOptions {}
 export interface Options {
   obfuscate: true;
   obfuscateOptions: ObfuscateOptions;
   bytenode: true;
-  bytenodeOptions: 
+  bytenodeOptions: BytenodeOptions;
 }
-export const DEFAULT_OPTIONS = {};
+export const DEFAULT_OPTIONS: Options = {
+  obfuscate: true,
+  obfuscateOptions: {},
+  bytenode: true,
+  bytenodeOptions: {},
+};
 export class Build {
   options: Options;
   constructor(options?: Partial<Options>) {
