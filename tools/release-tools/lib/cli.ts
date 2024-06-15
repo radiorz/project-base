@@ -7,7 +7,7 @@ const name = packageJson.name;
 Logger.log(`[欢迎使用] ${name}`);
 
 program
-  .description('获取版本')
+  .description('打包')
   .option('--workspace <workspace>', '根路径', DEFAULT_OPTIONS.workspace)
   .option('--include <include>', '包含', DEFAULT_OPTIONS.include.toString())
   .option('--exclude <exclude>', '不包含', DEFAULT_OPTIONS.exclude.toString())
