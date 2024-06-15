@@ -19,12 +19,19 @@ export class DateVersion {
   }
   static async updateJson(options?: Partial<Options>) {
     const opts: Options = Object.assign(DEFAULT_OPTIONS, options);
-    const version = this.get(opts.filePath);
+    const version = this.get(opts.pattern);
     const originJson = await readJson(opts.filePath);
-    await writeJson(opts.filePath, {
-      ...originJson,
-      version,
-    });
+    await writeJson(
+      opts.filePath,
+      {
+        ...originJson,
+        version,
+      },
+      {
+        spaces: 2,
+      },
+    );
+    return { version };
   }
   options: Options;
   constructor(options?: Partial<Options>) {
@@ -33,8 +40,8 @@ export class DateVersion {
   get() {
     return DateVersion.get(this.options.pattern);
   }
-  update() {
-    DateVersion.updateJson(this.options);
-    this.log.log('[成功] 更新JSON' + JSON.stringify(this.options));
+  async update() {
+    const { version } = await DateVersion.updateJson(this.options);
+    this.log.log('[成功] 更新JSON版本号: ' + version);
   }
 }

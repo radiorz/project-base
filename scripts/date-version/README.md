@@ -1,18 +1,19 @@
-# logger
+# Date-version
 
-实现一个可以替换logger 实现的例子
+其实就是一个简单的日期版本号。
+可以更新 package.json 的 version
+
+## 安装
+
+```powershell
+npm install @tikkhun/date-version -D
+
+```
 
 ## 使用
 
-```
-import { Logger } from '../lib/impl';
-Logger.log('123');
-Logger.debug!('123');
-Logger.warn('123');
-Logger.error('123');
+```powershell
+date-version get
 
-const logger = new Logger('local');
-
-logger.debug!('123');
-
+date-version update
 ```

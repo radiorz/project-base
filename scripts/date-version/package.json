@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/date-version",
-  "version": "0.0.1",
+  "version": "2024.06.15",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
