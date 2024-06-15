@@ -16,7 +16,7 @@ program
   .option('--withTime <withTime>', '需要打包时间', '' + DEFAULT_OPTIONS.withTime)
   .option('--timePattern <timePattern>', '版本号样式', DEFAULT_OPTIONS.timePattern)
   .option('--archiveType <archiveType>', '打包格式', DEFAULT_OPTIONS.archiveType)
-  .action((options: any) => {
+  .action(async (options: any) => {
     const { include, exclude, withVersion, withTime } = options;
     const opts = {
       ...options,
@@ -26,7 +26,6 @@ program
       withTime: withTime === 'true',
     };
     const release = new Release(opts);
-    release.start();
-  })
-  .help();
+    await release.start();
+  });
 program.parse(process.argv);
