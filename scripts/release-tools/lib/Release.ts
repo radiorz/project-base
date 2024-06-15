@@ -1,11 +1,11 @@
 import { Logger } from '@tikkhun/logger';
 import archiver from 'archiver';
 import dayjs from 'dayjs';
-import fs from 'fs-extra';
+import fs, { readJsonSync } from 'fs-extra';
 import { join } from 'path';
 // import ora from 'ora';
 // const spinner = ora('Loading...');
-
+const logger = new Logger('Release');
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -17,20 +17,22 @@ export interface Options {
   exclude: string[];
   releaseName: string;
   releasePath: string; // 释放的路径
-  version: boolean;
-  versionPattern: string;
+  withVersion: boolean;
+  withTime: boolean;
+  timePattern: string;
   archiveType: ArchiveType;
   archiveOptions: any;
   clean: boolean;
 }
-export const DEFAULT_OPTIONS = {
+export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(),
   include: ['**/*'],
   exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
   releaseName: 'project',
   releasePath: 'release',
-  version: true,
-  versionPattern: 'YYYY_MM_DD_hh_mm_ss',
+  withVersion: true,
+  withTime: true,
+  timePattern: 'YYYY_MM_DD_hh_mm_ss',
   archiveType: ArchiveType.zip,
   archiveOptions: {
     zlib: { level: 9 }, // Sets the compression level.
@@ -43,9 +45,10 @@ export const ExtensionMap = {
 };
 export class Release {
   options: Options;
+  releaseTime: string = '';
   version: string = '';
   get releaseName() {
-    return `${this.options.releaseName}_${this.version}`;
+    return `${this.options.releaseName}_${this.version}_${this.releaseTime}`;
   }
   get releaseFile() {
     return this.releaseName + ExtensionMap[this.options.archiveType];
@@ -58,11 +61,15 @@ export class Release {
   }
   constructor(options?: Partial<Options>) {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
-    if (this.options.version) {
-      this.version = dayjs().format(this.options.versionPattern);
+    if (this.options.withVersion) {
+      this.version = Release.getVersionFromPackageJson(this.options.workspace);
+    }
+    if (this.options.withTime) {
+      this.releaseTime = dayjs().format(this.options.timePattern);
     }
     this.watchError();
   }
+
   watchError() {
     // TODO 当 ctrl+c 删除target文件
     process.on('SIGINT', () => {
@@ -110,12 +117,20 @@ export class Release {
       }
     });
   }
-  log = new Logger('Release');
+  log = logger;
   // 确保文件夹
   static async insureDir(dir: string) {
     // 文件夹不存在,就添加文件夹
     if (!fs.existsSync(dir)) {
       await fs.mkdir(dir, { recursive: true });
+    }
+  }
+  static getVersionFromPackageJson(workspace = ''): string {
+    try {
+      return readJsonSync(join(workspace, 'package.json'));
+    } catch (error: any) {
+      logger.warn('从package.json获取版本错误' + error.message);
+      return 'unknown';
     }
   }
 }
