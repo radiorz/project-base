@@ -11,8 +11,10 @@
  * @done
  * @example
  */
+import { Logger } from '@tikkhun/logger';
+const logger = new Logger('Build');
 export interface ObfuscateOptions {}
-export interface BytenodeOptions {}
+// export interface BytenodeOptions {}
 export interface Options {
   workspace: string;
   outDir: string;
@@ -31,7 +33,9 @@ export class Build {
   // watchError() {
   //   process.on()
   // }
-  start() {}
+  start() {
+    logger.log('hello');
+  }
   stop() {}
   clean() {}
 }
