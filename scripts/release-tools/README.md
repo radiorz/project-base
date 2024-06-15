@@ -1,18 +1,21 @@
-# logger
+# release
 
-实现一个可以替换logger 实现的例子
+实现项目的简单打包，最终发到 本地的release 中
+
+## 安装
+
+```
+npm install @tikkhun/release
+```
 
 ## 使用
 
 ```
-import { Logger } from '../lib/impl';
-Logger.log('123');
-Logger.debug!('123');
-Logger.warn('123');
-Logger.error('123');
+tikkhun-release
+```
 
-const logger = new Logger('local');
+## 参数详见命令行工具
 
-logger.debug!('123');
-
+```
+tikkhun-release --help
 ```

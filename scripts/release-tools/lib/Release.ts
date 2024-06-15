@@ -25,7 +25,7 @@ export const DEFAULT_OPTIONS = {
   include: ['**/*'],
   exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
   releaseName: 'project',
-  releasePath: "release",
+  releasePath: 'release',
   version: true,
   versionPattern: 'YYYY_MM_DD_hh_mm_ss',
   archiveType: ArchiveType.zip,
@@ -57,21 +57,31 @@ export class Release {
     }
   }
   async start() {
-    this.log.log(`[开始] 压缩文件到路径: ` + this.releasePath);
-    await Release.insureDir(this.releasePath);
-    const releaseStream = fs.createWriteStream(join(this.releasePath, this.releaseFile));
-    const archive = archiver(this.options.archiveType, this.options.archiveOptions);
-    archive.pipe(releaseStream);
-    // 添加文件
-    archive.glob(this.options.include, {
-      ignore: this.options.exclude,
-      skip: this.options.exclude,
-      dot: true,
-      cwd: this.options.workspace,
+    return new Promise(async (resolve, reject) => {
+      this.log.log(`[开始] 压缩文件到路径: ` + this.releasePath);
+      await Release.insureDir(this.releasePath);
+      const releaseFilePath = join(this.releasePath, this.releaseFile);
+      if (this.options.clean) {
+        // 如果有同名应该先删除
+        await fs.remove(releaseFilePath);
+      }
+      const releaseStream = fs.createWriteStream(releaseFilePath);
+      const archive = archiver(this.options.archiveType, this.options.archiveOptions);
+      archive.pipe(releaseStream).on('close', () => {
+        this.log.log('[完毕] 打包完毕');
+        resolve(true);
+      });
+      // 添加文件
+      archive.glob(this.options.include, {
+        ignore: this.options.exclude,
+        skip: this.options.exclude,
+        dot: true,
+        cwd: this.options.workspace,
+      });
+      // 执行
+      archive.finalize();
+      this.log.log('[开始] 执行打包');
     });
-    // 执行
-    archive.finalize();
-    this.log.log('执行完毕');
   }
   log = new Logger('Release');
   // 确保文件夹
