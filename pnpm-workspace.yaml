@@ -4,6 +4,6 @@ packages:
   - "packages/*"
   - "projects/*"
   - "docs/*"
-  - "scripts/*"
+  - "tools/*"
   - "templates/*"
   - "examples/*"
