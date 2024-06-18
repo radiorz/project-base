@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/date-version",
-  "version": "2024.06.15",
+  "version": "2024.06.18",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -26,6 +26,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "ts-node ./src/index.ts",
+    "update": "ts-node ./lib/cli.ts update",
     "test": "vitest"
   },
   "publishConfig": {
