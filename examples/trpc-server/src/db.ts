@@ -1,4 +1,4 @@
-type User = { id: string; name: string };
+export type User = { id: string; name: string };
 
 // Imaginary database
 const users: User[] = [];
