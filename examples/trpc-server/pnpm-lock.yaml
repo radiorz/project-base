@@ -1,0 +1,34 @@
+lockfileVersion: '6.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+dependencies:
+  '@trpc/client':
+    specifier: 11.0.0-next.320
+    version: 11.0.0-next.320(@trpc/server@11.0.0-next.320)
+  '@trpc/server':
+    specifier: 11.0.0-next.320
+    version: 11.0.0-next.320
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
+
+packages:
+
+  /@trpc/client@11.0.0-next.320(@trpc/server@11.0.0-next.320):
+    resolution: {integrity: sha512-6VuHBXOLpVYflC75ktgMDexq6RkCNkHmPUWxdpi85O+zEk3miCJMYdlFNRO40d78HC0pTmoyuiQzyAX8J4+m3w==, tarball: https://registry.npmjs.org/@trpc/client/-/client-11.0.0-next.320.tgz}
+    peerDependencies:
+      '@trpc/server': 11.0.0-next.320+f3a237ccb
+    dependencies:
+      '@trpc/server': 11.0.0-next.320
+    dev: false
+
+  /@trpc/server@11.0.0-next.320:
+    resolution: {integrity: sha512-cIcJBNt78OnDHAUgGEfUJZNteXfPbzTt6XQ6kTFZkOtlbxwCIfTaVYac+WmQBV4yIQZJTk0BeaDgJkXGcVDp0w==, tarball: https://registry.npmjs.org/@trpc/server/-/server-11.0.0-next.320.tgz}
+    dev: false
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==, tarball: https://registry.npmjs.org/zod/-/zod-3.22.4.tgz}
+    dev: false
