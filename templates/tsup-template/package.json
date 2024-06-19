@@ -1,0 +1,18 @@
+{
+  "name": "@tikkhun/tsup-template",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "bin": "./bin/create-tsup.js",
+  "scripts": {
+    "dev": "node ./bin/create-tsup.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^9.2.23"
+  }
+}
