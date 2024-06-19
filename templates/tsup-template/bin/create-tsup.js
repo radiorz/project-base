@@ -10,16 +10,16 @@ const prompts = [
     name: 'name',
     message: '项目名称',
   },
-  {
-    type: 'list',
-    name: 'lang',
-    message: 'JS/TS',
-    choices: ['JavaScript', 'TypeScript'],
-  },
+  // {
+  //   type: 'list',
+  //   name: 'lang',
+  //   message: 'JS/TS',
+  //   choices: ['JavaScript', 'TypeScript'],
+  // },
 ];
 async function bootstrap() {
-  const { name, lang } = await inquirer.prompt(prompts);
-  console.log(`commandRes`, name, lang);
+  const { name } = await inquirer.prompt(prompts);
+  console.log(`target name:`, name);
   const source = join(fileURLToPath(new URL('.', import.meta.url)), '../template');
   console.log(`source`, source);
   fs.cp(source, name, { recursive: true }, (err) => {
