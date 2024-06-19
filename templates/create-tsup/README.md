@@ -1,8 +1,10 @@
 # tsup_template
 
-使用tsup 的一个末班
+创建 tsup libratry 模板项目的脚手架
 
 ## 使用
+
 ```
+npx @tikkhun/create-tsup
 
 ```
