@@ -48,7 +48,7 @@ export class Release {
   releaseTime: string = '';
   version: string = '';
   get releaseName() {
-    return `${this.options.releaseName}_${this.version}_${this.releaseTime}`;
+    return [this.options.releaseName, this.version, this.releaseTime].filter((a) => a).join('_');
   }
   get releaseFile() {
     return this.releaseName + ExtensionMap[this.options.archiveType];
@@ -61,6 +61,8 @@ export class Release {
   }
   constructor(options?: Partial<Options>) {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
+
+    this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     if (this.options.withVersion) {
       this.version = Release.getVersionFromPackageJson(this.options.workspace);
     }
@@ -127,7 +129,8 @@ export class Release {
   }
   static getVersionFromPackageJson(workspace = ''): string {
     try {
-      return readJsonSync(join(workspace, 'package.json'));
+      const json = readJsonSync(join(workspace, 'package.json'));
+      return json.version;
     } catch (error: any) {
       logger.warn('从package.json获取版本错误: ' + error.message);
       return 'unknown';

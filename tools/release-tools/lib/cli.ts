@@ -12,6 +12,7 @@ program
   .option('--include <include>', '包含', DEFAULT_OPTIONS.include.toString())
   .option('--exclude <exclude>', '不包含', DEFAULT_OPTIONS.exclude.toString())
   .option('--releaseName <releaseName>', '打包名称', DEFAULT_OPTIONS.releaseName)
+  .option('--releasePath <releasePath>', '打包存放位置', DEFAULT_OPTIONS.releasePath)
   .option('--withVersion <withVersion>', '需要版本号', '' + DEFAULT_OPTIONS.withVersion)
   .option('--withTime <withTime>', '需要打包时间', '' + DEFAULT_OPTIONS.withTime)
   .option('--timePattern <timePattern>', '版本号样式', DEFAULT_OPTIONS.timePattern)
