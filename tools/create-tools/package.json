@@ -1,11 +1,13 @@
 {
-  "name": "create-tools",
-  "version": "0.0.0",
+  "name": "@tikkhun/create-tools",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
-  "bin": "./dist/cli.js",
+  "bin": {
+    "tikkhun-create": "./dist/cli.js"
+  },
   "exports": {
     ".": {
       "import": {
