@@ -14,7 +14,7 @@
 import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
-import fsExtra from 'fs-extra';
+import fsExtra, { pathExists } from 'fs-extra';
 const { copy, readFile, writeFile, remove, move } = fsExtra;
 const logger = new Logger('Creator');
 export interface ReplaceDir {
@@ -47,11 +47,15 @@ export class Creator {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
   }
   async start() {
-    // TODO 如果有文件需要先询问
     try {
-      logger.log(`[开始] 创建项目的选项为： ` + JSON.stringify(this.options, null, 2));
+      logger.log(`[开始] 创建项目, 选项为： ` + JSON.stringify(this.options, null, 2));
+      // 检查template目录有咩
+      const isTemplateExist = await pathExists(this.options.template);
+      if (!isTemplateExist) {
+        throw new Error('模板路径不存在: ' + this.options.template);
+      }
       await this.clear(); // 先清除
-      logger.log('[开始] 拷贝到项目中' + this.projectDir);
+      logger.log('[开始] 拷贝${}到项目中' + this.projectDir);
       await copy(this.options.template, this.projectDir, {
         filter: (src: string) => {
           for (const exclude of this.options.templateExclude) {
@@ -82,6 +86,7 @@ export class Creator {
           logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
         }
       }
+      logger.log('[完毕] 创建项目' + +this.projectDir);
     } catch (error: any) {
       logger.error('[失败] 创建项目失败' + error.stack);
       // await this.clear()
