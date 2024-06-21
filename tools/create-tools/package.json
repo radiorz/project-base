@@ -5,6 +5,7 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "bin": "./dist/cli.js",
   "exports": {
     ".": {
       "import": {
@@ -22,7 +23,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "ts-node ./src/index.ts",
+    "dev": "ts-node ./lib/cli.ts",
     "test": "vitest"
   },
   "publishConfig": {
@@ -32,15 +33,18 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/ejs": "^3.1.5",
+    "@types/fs-extra": "^11.0.4",
+    "@types/inquirer": "^9.0.7",
     "@types/node": "^20.14.2",
     "ts-node": "^10.9.1",
     "tsup": "^8.0.2",
-    "@types/fs-extra": "^11.0.4",
-    "@types/inquirer": "^9.0.7",
     "vitest": "^1.3.1"
   },
   "dependencies": {
     "@tikkhun/logger": "^1.0.6",
+    "commander": "^12.1.0",
+    "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",
     "inquirer": "^9.2.23"
   }

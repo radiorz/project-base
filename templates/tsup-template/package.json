@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/tsup-template",
+  "name": "@tikkhun/<%= projectName %>",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
