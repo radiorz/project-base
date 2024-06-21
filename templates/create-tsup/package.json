@@ -4,7 +4,9 @@
   "description": "",
   "type": "module",
   "main": "index.js",
-  "bin": "./bin/create-tsup.js",
+  "bin": {
+    "tikkhun-create-tsup": "./bin/create-tsup.js"
+  },
   "scripts": {
     "dev": "node ./bin/create-tsup.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tikkhun/create-tools": "workspace:^",
     "inquirer": "^9.2.23"
   }
 }
