@@ -14,16 +14,20 @@
 import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
-import { copy, readFile, writeFile, readJson, writeJson, remove } from 'fs-extra';
-import { checkNodeVersion } from './node';
+import { copy, readFile, writeFile, remove, move } from 'fs-extra';
 const logger = new Logger('Creator');
+export interface ReplaceDir {
+  sourcePath: string;
+  targetPath: string;
+}
 export interface Options {
   workspace: string;
-  template: string;
   projectName: string;
 
+  template: string;
   templateExclude: string[];
   templateFiles: string[];
+  replaces: ReplaceDir[];
 }
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
@@ -31,6 +35,7 @@ export const DEFAULT_OPTIONS: Options = {
   templateExclude: ['.git', 'node_modules'], // 排除不复制的内容
   projectName: 'project-name', // 项目名称
   templateFiles: ['package.json'], // 根据文件路径定位
+  replaces: [],
 };
 export class Creator {
   options: Options;
@@ -59,6 +64,11 @@ export class Creator {
         logger.log('[开始] 替换文件' + file);
         await replaceText(join(this.projectDir, file), this.options);
         logger.log('[完毕] 替换文件' + file);
+      }
+      for (const { sourcePath, targetPath } of this.options.replaces) {
+        logger.log('[开始] 迁移文件' + sourcePath + '=>' + targetPath);
+        await move(join(this.projectDir, sourcePath), join(this.projectDir, targetPath));
+        logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
       }
     } catch (error: any) {
       logger.log('[失败] 创建项目失败' + error.message);
