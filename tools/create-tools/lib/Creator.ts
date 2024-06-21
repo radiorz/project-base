@@ -60,18 +60,29 @@ export class Creator {
         },
       });
       logger.log('[完毕] 拷贝到项目中' + this.projectDir);
-      for (const file of this.options.templateFiles) {
-        logger.log('[开始] 替换文件' + file);
-        await replaceText(join(this.projectDir, file), this.options);
-        logger.log('[完毕] 替换文件' + file);
+      if (this.options.templateFiles?.length) {
+        for (const file of this.options.templateFiles) {
+          if (!file) {
+            continue;
+          }
+          logger.log('[开始] 替换文件' + file);
+          await replaceText(join(this.projectDir, file), this.options);
+          logger.log('[完毕] 替换文件' + file);
+        }
       }
-      for (const { sourcePath, targetPath } of this.options.replaces) {
-        logger.log('[开始] 迁移文件' + sourcePath + '=>' + targetPath);
-        await move(join(this.projectDir, sourcePath), join(this.projectDir, targetPath));
-        logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
+      if (this.options.replaces?.length) {
+        const replaces = this.options.replaces.filter((a) => a);
+        for (const { sourcePath, targetPath } of replaces) {
+          if (!sourcePath || !targetPath) {
+            continue;
+          }
+          logger.log('[开始] 迁移文件' + sourcePath + '=>' + targetPath);
+          await move(join(this.projectDir, sourcePath), join(this.projectDir, targetPath));
+          logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
+        }
       }
     } catch (error: any) {
-      logger.log('[失败] 创建项目失败' + error.message);
+      logger.error('[失败] 创建项目失败' + error.stack);
       // await this.clear()
     }
   }
