@@ -19,19 +19,19 @@ program
       ...options,
       templateExclude: options.templateExclude.split(','),
       templateFiles: options.templateFiles.split(','),
-      replaces:
-        options.replaces &&
-        options.replaces.split(',').map((str: string) => {
-          if (!str) return;
-          const [sourcePath, targetPath] = str.split('=');
-          if (!sourcePath || !targetPath) {
-            return;
-          }
-          return {
-            sourcePath,
-            targetPath,
-          };
-        }),
+      replaces: options.replaces
+        ? options.replaces.split(',').map((str: string) => {
+            if (!str) return;
+            const [sourcePath, targetPath] = str.split('=');
+            if (!sourcePath || !targetPath) {
+              return;
+            }
+            return {
+              sourcePath,
+              targetPath,
+            };
+          })
+        : [],
     };
     const inst = new Creator(opts);
     await inst.start();

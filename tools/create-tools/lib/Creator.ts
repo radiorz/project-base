@@ -32,7 +32,7 @@ export interface Options {
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
   template: './template', // template 的位置
-  templateExclude: ['.git', 'node_modules'], // 排除不复制的内容
+  templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
   projectName: 'project-name', // 项目名称
   templateFiles: ['package.json'], // 根据文件路径定位
   replaces: [],
