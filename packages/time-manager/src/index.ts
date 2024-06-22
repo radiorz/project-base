@@ -1,32 +1,41 @@
-import { Timer, Ticker } from '../lib';
+// import { Timer, Ticker } from '../lib';
+// const ticker = new Ticker();
+// const timer = new Timer({
+//   ticker,
+//   isOnTime: 'second',
+//   onTime: (now) => {
+//     console.log(`timer1`, now);
+//   },
+// });
+// const timer2 = new Timer({
+//   ticker,
+//   isOnTime: 'second',
+//   onTime: (now) => {
+//     console.log(`timer2`, now);
+//   },
+// });
+// const timer3 = new Timer({
+//   ticker,
+//   isOnTime: 'second',
+//   onTime: (now) => {
+//     console.log(`timer3`, now);
+//   },
+// });
+// setTimeout(() => {
+//   timer2.stop();
+// }, 3000);
+// setTimeout(() => {
+//   timer.stop();
+// }, 2000);
+// setTimeout(() => {
+//   timer3.stop();
+// }, 4000);
+
+import { Ticker } from '../lib';
 const ticker = new Ticker();
-const timer = new Timer({
-  ticker,
-  isOnTime: 'second',
-  onTime: (now) => {
-    console.log(`timer1`, now);
-  },
-});
-const timer2 = new Timer({
-  ticker,
-  isOnTime: 'second',
-  onTime: (now) => {
-    console.log(`timer2`, now);
-  },
-});
-const timer3 = new Timer({
-  ticker,
-  isOnTime: 'second',
-  onTime: (now) => {
-    console.log(`timer3`, now);
-  },
+ticker.on('change', () => {
+  console.log(`aaa`);
 });
 setTimeout(() => {
-  timer2.stop();
-}, 5000);
-setTimeout(() => {
-  timer.stop();
+  ticker.stop();
 }, 2000);
-setTimeout(() => {
-  timer3.stop();
-}, 6000);

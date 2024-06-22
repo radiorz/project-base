@@ -25,11 +25,6 @@ class Emitter {
   }
 }
 
-// 定时器
-export const oneSecondMillis = 1 * 1000;
-export const oneMinuteMillis = 60 * 1000;
-export const oneHourMillis = 3600 * 1000;
-export const oneDayMillis = 3600 * 1000 * 24;
 //
 export interface TickerOptions {
   accuracy: number; // 这个用毫秒 多久调用一次getNow
@@ -41,52 +36,70 @@ export const defaultTickerOptions: TickerOptions = {
   getNow: () => Date.now(),
   start: true,
 };
-
-export class Ticker extends Emitter {
+export abstract class AbstractTicker extends Emitter {
   id = '' + Math.random();
   options: TickerOptions;
-  private _intervalId: ReturnType<typeof setInterval> | null = null;
   isStart = false;
   now = Date.now();
   timers = new Set<Timer>();
+  [key: string]: any;
   constructor(options?: Partial<TickerOptions>) {
     super();
     this.options = Object.assign(defaultTickerOptions, options);
-    if (this.options.start) this.startInterval();
+    if (this.options.start) this.start();
   }
   async updateNow() {
     this.now = await this.options.getNow();
     this.emit('change', this.now);
   }
-  start(timer: Timer) {
+  addTimer(timer: Timer) {
     if (this.timers.has(timer)) {
       return;
     }
     this.timers.add(timer);
-    this.startInterval();
   }
-  stop(timer: Timer) {
+  removeTimer(timer: Timer) {
     if (!this.timers.has(timer)) {
       return;
     }
     this.timers.delete(timer);
     if (!this.timers.size) {
-      this.stopInterval();
+      this.stop();
     }
   }
-  startInterval() {
+  abstract start(): void;
+  abstract stop(): void;
+}
+// IntervalTicker
+export class Ticker extends AbstractTicker {
+  private _intervalId: ReturnType<typeof setInterval> | undefined; // 这里不能赋予初值
+  start() {
+    // 不重复进入
     if (this.isStart) {
       return;
     }
     this.isStart = true;
-    this._intervalId = setInterval(async () => {
-      await this.updateNow();
+    this._intervalId = setInterval(() => {
+      this.updateNow();
     }, this.options.accuracy);
   }
-  stopInterval() {
-    if (this._intervalId) clearInterval(this._intervalId);
+  stop() {
+    if (this.timers.size) {
+      return;
+    }
+    if (this._intervalId) {
+      clearInterval(this._intervalId);
+      delete this._intervalId;
+    }
+    this.isStart = false;
   }
 }
+// 定时器
+export const oneSecondMillis = 1 * 1000;
+export const oneMinuteMillis = 60 * 1000;
+export const oneHourMillis = 3600 * 1000;
+export const oneDayMillis = 3600 * 1000 * 24;
+
 export interface TimerOptions {
   ticker: Ticker;
   isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
@@ -126,6 +139,7 @@ export class Timer {
       this.isOnTime = (now: number) => true;
     }
     this.onTime = this.onTime.bind(this);
+    this.init();
     if (this.options.start) this.start();
   }
   static isOnSecond(timestamp: number, accuracy: number): boolean {
@@ -148,12 +162,15 @@ export class Timer {
       this.options.onTime(now);
     }
   }
-  stop() {
-    this.options.ticker.off('change', this.onTime);
-    this.options.ticker.stop(this);
+  init() {
+    this.options.ticker.on('change', this.onTime);
+    this.options.ticker.addTimer(this);
   }
   start() {
-    this.options.ticker.on('change', this.onTime);
-    this.options.ticker.start(this);
+    this.options.ticker.start();
+  }
+  stop() {
+    this.options.ticker.off('change', this.onTime);
+    this.options.ticker.removeTimer(this);
   }
 }
