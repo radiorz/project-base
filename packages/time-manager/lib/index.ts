@@ -43,6 +43,7 @@ export const defaultTickerOptions: TickerOptions = {
 };
 
 export class Ticker extends Emitter {
+  id = '' + Math.random();
   options: TickerOptions;
   private _intervalId: ReturnType<typeof setInterval> | null = null;
   isStart = false;
