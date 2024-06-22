@@ -14,8 +14,8 @@
 import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
-import fsExtra, { pathExists } from 'fs-extra';
-const { copy, readFile, writeFile, remove, move } = fsExtra;
+import fsExtra from 'fs-extra';
+const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
 export interface ReplaceDir {
   sourcePath: string;
