@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/time-manager",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -37,7 +37,8 @@
   "dependencies": {
     "fs-extra": "^11.2.0",
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "mitt": "^3.0.1"
   },
   "devDependencies": {
     "@types/dotenv-safe": "^8.1.6",

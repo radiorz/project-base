@@ -1,0 +1,32 @@
+import { Timer, Ticker } from '../lib';
+const ticker = new Ticker();
+const timer = new Timer({
+  ticker,
+  isOnTime: 'second',
+  onTime: (now) => {
+    console.log(`timer1`, now);
+  },
+});
+const timer2 = new Timer({
+  ticker,
+  isOnTime: 'second',
+  onTime: (now) => {
+    console.log(`timer2`, now);
+  },
+});
+const timer3 = new Timer({
+  ticker,
+  isOnTime: 'second',
+  onTime: (now) => {
+    console.log(`timer3`, now);
+  },
+});
+setTimeout(() => {
+  timer2.stop();
+}, 5000);
+setTimeout(() => {
+  timer.stop();
+}, 2000);
+setTimeout(() => {
+  timer3.stop();
+}, 6000);

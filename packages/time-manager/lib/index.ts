@@ -1,84 +1,159 @@
-export default abstract class TimeManager {
+type EventCallback = (...args: any[]) => void;
+
+class Emitter {
+  private listeners: { [eventName: string]: EventCallback[] } = {};
+
+  on(eventName: string, callback: EventCallback) {
+    if (!this.listeners[eventName]) {
+      this.listeners[eventName] = [];
+    }
+    this.listeners[eventName].push(callback);
+  }
+
+  off(eventName: string, callback: EventCallback) {
+    if (this.listeners[eventName]) {
+      this.listeners[eventName] = this.listeners[eventName].filter((listener) => listener !== callback);
+    }
+  }
+
+  emit(eventName: string, ...args: any[]) {
+    if (this.listeners[eventName]) {
+      this.listeners[eventName].forEach((callback) => {
+        callback(...args);
+      });
+    }
+  }
+}
+
+// 定时器
+export const oneSecondMillis = 1 * 1000;
+export const oneMinuteMillis = 60 * 1000;
+export const oneHourMillis = 3600 * 1000;
+export const oneDayMillis = 3600 * 1000 * 24;
+//
+interface TickerOptions {
+  accuracy: number; // 这个用毫秒 多久调用一次getNow
+  getNow: () => number;
+  start: boolean;
+}
+const defaultTickerOptions: TickerOptions = {
+  accuracy: 500,
+  getNow: () => Date.now(),
+  start: true,
+};
+
+export class Ticker extends Emitter {
+  options: TickerOptions;
   private _intervalId: ReturnType<typeof setInterval> | null = null;
-  // return 时间戳的
-  private _interval: number;
-  private _now = Date.now();
-
-  static oneMinuteMillis = 60 * 1000;
-  static oneHourMillis = 3600 * 1000;
-  static oneDayMillis = 3600 * 1000 * 24;
-
-  get now() {
-    return this._now;
+  isStart = false;
+  now = Date.now();
+  timers = new Set<Timer>();
+  constructor(options?: Partial<TickerOptions>) {
+    super();
+    this.options = Object.assign(defaultTickerOptions, options);
+    if (this.options.start) this.startInterval();
   }
-
-  constructor(getTimeFunc: () => number = Date.now, interval: number = 500) {
-    this._interval = interval;
-    this.start(getTimeFunc, interval);
+  async updateNow() {
+    this.now = await this.options.getNow();
+    this.emit('change', this.now);
   }
-  private _isMinutely(timestamp: number): boolean {
-    return timestamp % TimeManager.oneMinuteMillis < this._interval;
-  }
-
-  private _isHourly(timestamp: number): boolean {
-    const isHourly = timestamp % TimeManager.oneHourMillis < this._interval;
-    return isHourly;
-  }
-  private _isDayly(timestamp: number): boolean {
-    return timestamp % TimeManager.oneDayMillis < this._interval;
-  }
-  /**
-   * 每分钟触发
-   * @param now
-   */
-  // @OverRide
-  public abstract onMinutely(now: number): any;
-  /**
-   * 每小时触发
-   * @param now
-   */
-  // @override
-  public abstract onHourly(now: number): any;
-  /**
-   * 每天触发
-   * @param now
-   */
-  // @override
-  public abstract onDayly(now: number): any;
-
-  // @override
-  public abstract onTimeChange(now: number): any;
-  // 因为没有用 event 系统 所以要写这个回调
-  private _onTimeChange(now: number): void {
-    this.onTimeChange(now);
-    setImmediate(() => {
-      if (this._isMinutely(now)) {
-        this.onMinutely(now);
-      }
-    });
-    setImmediate(() => {
-      if (this._isHourly(now)) {
-        this.onHourly(now);
-      }
-    });
-    setImmediate(() => {
-      if (this._isDayly(now)) {
-        this.onDayly(now);
-      }
-    });
-  }
-
-  start(getTimeFunc: Function, interval: number) {
-    if (this._intervalId) {
+  start(timer: Timer) {
+    if (this.timers.has(timer)) {
       return;
     }
-    this._intervalId = setInterval(() => {
-      this._now = getTimeFunc();
-      this._onTimeChange(this._now);
-    }, interval);
+    this.timers.add(timer);
+    this.startInterval();
+  }
+  stop(timer: Timer) {
+    if (!this.timers.has(timer)) {
+      return;
+    }
+    this.timers.delete(timer);
+    if (!this.timers.size) {
+      this.stopInterval();
+    }
+  }
+  startInterval() {
+    if (this.isStart) {
+      return;
+    }
+    this.isStart = true;
+    this._intervalId = setInterval(async () => {
+      await this.updateNow();
+    }, this.options.accuracy);
+  }
+  stopInterval() {
+    if (this._intervalId) clearInterval(this._intervalId);
+  }
+}
+export interface TimerOptions {
+  ticker: Ticker;
+  isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
+  onTime: (now: number) => void;
+  start: true;
+  id: string;
+}
+
+//
+export function getDefaultTimerOptions(): TimerOptions {
+  return {
+    ticker: new Ticker({ start: false }),
+    isOnTime: (now: number) => true,
+    onTime: () => {},
+    start: true,
+    id: '' + Math.random(),
+  };
+}
+
+export class Timer {
+  options: TimerOptions;
+  isOnTime: (now: number) => boolean;
+  constructor(options?: Partial<TimerOptions>) {
+    this.options = Object.assign(getDefaultTimerOptions(), options);
+    if (typeof this.options.isOnTime === 'string') {
+      if (this.options.isOnTime === 'hour') {
+        this.isOnTime = (now: number) => Timer.isOnHour(now, this.options.ticker.options.accuracy);
+      } else if (this.options.isOnTime === 'minute') {
+        this.isOnTime = (now: number) => Timer.isOnMinute(now, this.options.ticker.options.accuracy);
+      } else if (this.options.isOnTime === 'day') {
+        this.isOnTime = (now: number) => Timer.isOnDay(now, this.options.ticker.options.accuracy);
+      } else if (this.options.isOnTime === 'second') {
+        this.isOnTime = (now: number) => Timer.isOnSecond(now, this.options.ticker.options.accuracy);
+      } else {
+        this.isOnTime = (now: number) => true;
+      }
+    } else {
+      this.isOnTime = (now: number) => true;
+    }
+    this.onTime = this.onTime.bind(this);
+    if (this.options.start) this.start();
+  }
+  static isOnSecond(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneSecondMillis < accuracy;
+  }
+  static isOnMinute(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneMinuteMillis < accuracy;
   }
 
-  end() {
-    if (this._intervalId) clearInterval(this._intervalId);
+  static isOnHour(timestamp: number, accuracy: number): boolean {
+    const isHourly = timestamp % oneHourMillis < accuracy;
+    return isHourly;
+  }
+  static isOnDay(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneDayMillis < accuracy;
+  }
+  onTime(now: number) {
+    const isOnTime = this.isOnTime(now);
+    if (isOnTime) {
+      this.options.onTime(now);
+    }
+  }
+  stop() {
+    this.options.ticker.off('change', this.onTime);
+    this.options.ticker.stop(this);
+  }
+  start() {
+    this.options.ticker.on('change', this.onTime);
+    this.options.ticker.start(this);
   }
 }
