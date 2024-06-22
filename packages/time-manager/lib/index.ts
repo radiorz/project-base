@@ -31,12 +31,12 @@ export const oneMinuteMillis = 60 * 1000;
 export const oneHourMillis = 3600 * 1000;
 export const oneDayMillis = 3600 * 1000 * 24;
 //
-interface TickerOptions {
+export interface TickerOptions {
   accuracy: number; // 这个用毫秒 多久调用一次getNow
   getNow: () => number;
   start: boolean;
 }
-const defaultTickerOptions: TickerOptions = {
+export const defaultTickerOptions: TickerOptions = {
   accuracy: 500,
   getNow: () => Date.now(),
   start: true,
@@ -91,7 +91,6 @@ export interface TimerOptions {
   isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
   onTime: (now: number) => void;
   start: true;
-  id: string;
 }
 
 //
@@ -101,11 +100,11 @@ export function getDefaultTimerOptions(): TimerOptions {
     isOnTime: (now: number) => true,
     onTime: () => {},
     start: true,
-    id: '' + Math.random(),
   };
 }
 
 export class Timer {
+  id = '' + Math.random();
   options: TimerOptions;
   isOnTime: (now: number) => boolean;
   constructor(options?: Partial<TimerOptions>) {
