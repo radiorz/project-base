@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/time-manager",
-  "version": "1.0.5",
+  "name": "@tikkhun/timer",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -32,16 +32,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tikkhun/logger": "^1.0.6",
     "fs-extra": "^11.2.0",
     "js-yaml": "^4.1.0",
-    "lodash": "^4.17.21",
     "mitt": "^3.0.1"
   },
   "devDependencies": {
+    "@tikkhun/utils": "workspace:^",
     "@types/dotenv-safe": "^8.1.6",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.17.5",
     "@types/node": "^20.14.8",
     "ts-node": "^10.9.2",
     "tsup": "^8.1.0",

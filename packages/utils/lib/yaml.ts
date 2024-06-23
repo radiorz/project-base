@@ -1,6 +1,7 @@
 import { readFileSync, writeFileSync } from 'fs';
 import { load, dump } from 'js-yaml';
-import { ensureFile, pathExists } from 'fs-extra';
+import fsExtra from 'fs-extra';
+const { ensureFile, pathExists } = fsExtra;
 export async function readYaml(filePath: string): Promise<Record<string, any> | unknown> {
   const isFilePathExist = await pathExists(filePath);
   if (!isFilePathExist) return;

@@ -1,5 +1,7 @@
 import { defineConfig } from 'tsup';
-
+import packageJson from './package.json';
+import { capitalize } from '@tikkhun/utils';
+const name = packageJson.name.split('/')[1];
 export default defineConfig((options) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
@@ -13,6 +15,14 @@ export default defineConfig((options) => ({
   // sourcemap: true,
   clean: true,
   treeshake: true,
+  globalName: capitalize(name),
+  compileOptions: {
+    global_defs: {
+      crypto: 'crypto',
+    },
+  },
+  'built-ins': ['crypto'],
+  external: ['crypto'],
   // 压缩代码
   minify: !options.watch,
   banner: {

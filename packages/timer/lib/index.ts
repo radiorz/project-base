@@ -1,3 +1,5 @@
+import { Logger } from '@tikkhun/logger';
+import crypto from 'crypto';
 type EventCallback = (...args: any[]) => void;
 
 class Emitter {
@@ -37,7 +39,7 @@ export const defaultTickerOptions: TickerOptions = {
   start: true,
 };
 export abstract class AbstractTicker extends Emitter {
-  id = '' + Math.random();
+  id = crypto.randomUUID();
   options: TickerOptions;
   isStart = false;
   now = Date.now();
@@ -72,6 +74,7 @@ export abstract class AbstractTicker extends Emitter {
 }
 // IntervalTicker
 export class Ticker extends AbstractTicker {
+  logger = new Logger(this.id);
   private _intervalId: ReturnType<typeof setInterval> | undefined; // 这里不能赋予初值
   start() {
     // 不重复进入
@@ -92,6 +95,7 @@ export class Ticker extends AbstractTicker {
       delete this._intervalId;
     }
     this.isStart = false;
+    this.logger.debug!('ticker is stop');
   }
 }
 // 定时器
@@ -118,11 +122,18 @@ export function getDefaultTimerOptions(): TimerOptions {
 }
 
 export class Timer {
-  id = '' + Math.random();
+  id = crypto.randomUUID();
   options: TimerOptions;
-  isOnTime: (now: number) => boolean;
+  isOnTime: (now: number) => boolean = (now: number) => true;
+  logger = new Logger(this.id);
   constructor(options?: Partial<TimerOptions>) {
     this.options = Object.assign(getDefaultTimerOptions(), options);
+    this.setIsOnTime();
+    this.onTime = this.onTime.bind(this);
+    this.init();
+    if (this.options.start) this.start();
+  }
+  setIsOnTime() {
     if (typeof this.options.isOnTime === 'string') {
       if (this.options.isOnTime === 'hour') {
         this.isOnTime = (now: number) => Timer.isOnHour(now, this.options.ticker.options.accuracy);
@@ -136,26 +147,10 @@ export class Timer {
         this.isOnTime = (now: number) => true;
       }
     } else {
-      this.isOnTime = (now: number) => true;
+      this.isOnTime = this.options.isOnTime;
     }
-    this.onTime = this.onTime.bind(this);
-    this.init();
-    if (this.options.start) this.start();
-  }
-  static isOnSecond(timestamp: number, accuracy: number): boolean {
-    return timestamp % oneSecondMillis < accuracy;
-  }
-  static isOnMinute(timestamp: number, accuracy: number): boolean {
-    return timestamp % oneMinuteMillis < accuracy;
   }
 
-  static isOnHour(timestamp: number, accuracy: number): boolean {
-    const isHourly = timestamp % oneHourMillis < accuracy;
-    return isHourly;
-  }
-  static isOnDay(timestamp: number, accuracy: number): boolean {
-    return timestamp % oneDayMillis < accuracy;
-  }
   onTime(now: number) {
     const isOnTime = this.isOnTime(now);
     if (isOnTime) {
@@ -172,5 +167,20 @@ export class Timer {
   stop() {
     this.options.ticker.off('change', this.onTime);
     this.options.ticker.removeTimer(this);
+    this.logger.debug!('timer is stop');
+  }
+  static isOnSecond(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneSecondMillis < accuracy;
+  }
+  static isOnMinute(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneMinuteMillis < accuracy;
+  }
+
+  static isOnHour(timestamp: number, accuracy: number): boolean {
+    const isHourly = timestamp % oneHourMillis < accuracy;
+    return isHourly;
+  }
+  static isOnDay(timestamp: number, accuracy: number): boolean {
+    return timestamp % oneDayMillis < accuracy;
   }
 }
