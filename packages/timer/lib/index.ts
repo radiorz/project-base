@@ -1,5 +1,10 @@
 import { Logger } from '@tikkhun/logger';
-import crypto from 'crypto';
+let crypto: any;
+if (typeof window !== 'undefined' && window.crypto) {
+  crypto = window.crypto;
+} else {
+  crypto = require('node:crypto');
+}
 type EventCallback = (...args: any[]) => void;
 
 class Emitter {
