@@ -10,20 +10,21 @@ const prompts = [
     name: 'projectName',
     message: '项目名称',
   },
-  // {
-  //   type: 'list',
-  //   name: 'lang',
-  //   message: 'JS/TS',
-  //   choices: ['JavaScript', 'TypeScript'],
-  // },
+  {
+    type: 'list',
+    name: 'template',
+    message: '项目模板',
+    choices: ['lib', 'vuetify-lib'],
+    // 手动输入
+  },
 ];
 async function bootstrap() {
   checkNodeVersion(12);
-  echoPackage()
+  echoPackage();
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
-    template: join(dirname(fileURLToPath(import.meta.url)), '../template'),
+    template: join(dirname(fileURLToPath(import.meta.url)), `../template/${options.template}`),
   });
   await creator.start();
 }
