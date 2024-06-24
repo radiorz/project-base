@@ -564,6 +564,15 @@ importers:
         specifier: ^9.2.23
         version: 9.2.23
 
+  templates/create-vite:
+    dependencies:
+      '@tikkhun/create-tools':
+        specifier: workspace:^
+        version: link:../../tools/create-tools
+      inquirer:
+        specifier: ^9.2.23
+        version: 9.2.23
+
   templates/tsup-template:
     devDependencies:
       '@types/node':

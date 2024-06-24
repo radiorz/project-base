@@ -5,10 +5,10 @@
   "type": "module",
   "main": "./bin/create.mjs",
   "bin": {
-    "tikkhun-create-tsup": "./bin/create-tsup.mjs"
+    "tikkhun-create-vite": "./bin/create.mjs"
   },
   "scripts": {
-    "dev": "node ./bin/create-tsup.mjs",
+    "dev": "node ./bin/create.mjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
