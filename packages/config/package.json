@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/env-config",
-  "version": "1.0.18",
+  "name": "@tikkhun/config",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
