@@ -24,7 +24,7 @@ async function bootstrap() {
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
-    template: join(dirname(fileURLToPath(import.meta.url)), `../template/${options.template}`),
+    template: join(dirname(fileURLToPath(import.meta.url)), `../templates/${options.template}`),
   });
   await creator.start();
 }
