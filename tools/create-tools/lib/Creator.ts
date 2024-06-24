@@ -55,24 +55,33 @@ export class Creator {
         throw new Error('模板路径不存在: ' + this.options.template);
       }
       await this.clear(); // 先清除
-      logger.log('[开始] 拷贝模板到项目中' + this.projectDir);
+      logger.log('[开始] 拷贝模板到项目中 ' + this.projectDir);
+      const tempPath = this.options.template.replace(/\\\\/g, '\\');
       await copy(this.options.template, this.projectDir, {
         filter: (src: string) => {
-          for (const exclude of this.options.templateExclude) {
-            if (src.includes(exclude)) return false;
+          // template 是\\
+          // 这里的src 是一个\的 所以会导致 mjs 无法复制成功修复一波。
+          if (this.options.template === src) {
+            return true;
+          }
+          const theRelativePath = src.split(tempPath)?.[1];
+          if (theRelativePath) {
+            for (const exclude of this.options.templateExclude) {
+              if (theRelativePath.includes(exclude)) return false;
+            }
           }
           return true;
         },
       });
-      logger.log('[完毕] 拷贝模板到项目中' + this.projectDir);
+      logger.log('[完毕] 拷贝模板到项目中 ' + this.projectDir);
       if (this.options.templateFiles?.length) {
         for (const file of this.options.templateFiles) {
           if (!file) {
             continue;
           }
-          logger.log('[开始] 替换文件' + file);
+          logger.log('[开始] 替换文件 ' + file);
           await replaceText(join(this.projectDir, file), this.options);
-          logger.log('[完毕] 替换文件' + file);
+          logger.log('[完毕] 替换文件 ' + file);
         }
       }
       if (this.options.replaces?.length) {
@@ -81,21 +90,21 @@ export class Creator {
           if (!sourcePath || !targetPath) {
             continue;
           }
-          logger.log('[开始] 迁移文件' + sourcePath + '=>' + targetPath);
+          logger.log('[开始] 迁移文件 ' + sourcePath + ' => ' + targetPath);
           await move(join(this.projectDir, sourcePath), join(this.projectDir, targetPath));
-          logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
+          logger.log('[完毕] 迁移文件 ' + sourcePath + ' => ' + targetPath);
         }
       }
-      logger.log('[完毕] 创建项目' + this.projectDir);
+      logger.log('[完毕] 创建项目 ' + this.projectDir);
     } catch (error: any) {
-      logger.error('[失败] 创建项目失败' + error.stack);
+      logger.error('[失败] 创建项目失败 ' + error.stack);
       // await this.clear()
     }
   }
   async clear() {
-    logger.log('[开始] 删除项目文件' + this.projectDir);
+    logger.log('[开始] 删除项目文件 ' + this.projectDir);
     await remove(this.projectDir);
-    logger.log('[完毕] 删除项目文件' + this.projectDir);
+    logger.log('[完毕] 删除项目文件 ' + this.projectDir);
   }
 }
 async function replaceText(filepath: string, context: any) {

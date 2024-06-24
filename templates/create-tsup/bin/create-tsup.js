@@ -19,7 +19,7 @@ const prompts = [
 ];
 async function bootstrap() {
   checkNodeVersion(12);
-  echoPackage();
+  echoPackage()
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
