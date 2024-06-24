@@ -1,0 +1,24 @@
+{
+  "name": "@tikkhun/create-vite",
+  "version": "0.1.0",
+  "description": "",
+  "type": "module",
+  "main": "./bin/create.mjs",
+  "bin": {
+    "tikkhun-create-tsup": "./bin/create-tsup.mjs"
+  },
+  "scripts": {
+    "dev": "node ./bin/create-tsup.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@tikkhun/create-tools": "latest"
+  },
+  "dependencies": {
+    "@tikkhun/create-tools": "workspace:^",
+    "inquirer": "^9.2.23"
+  }
+}
