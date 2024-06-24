@@ -2,6 +2,7 @@
 
 import inquirer from 'inquirer';
 import { Creator, checkNodeVersion } from '@tikkhun/create-tools';
+import path from 'path';
 const prompts = [
   {
     type: 'input',
@@ -18,7 +19,7 @@ const prompts = [
 async function bootstrap() {
   checkNodeVersion(12);
   let options = await inquirer.prompt(prompts);
-  const creator = new Creator({ ...options, template: './template' });
+  const creator = new Creator({ ...options, template: path.join(__dirname, '../template') });
   await creator.start();
 }
 bootstrap();
