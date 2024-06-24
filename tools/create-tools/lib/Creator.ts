@@ -16,6 +16,7 @@ import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
+import { echoPackageVersion } from './node';
 const logger = new Logger('Creator');
 export interface ReplaceDir {
   sourcePath: string;
@@ -48,6 +49,7 @@ export class Creator {
   }
   async start() {
     try {
+      echoPackageVersion();
       logger.log(`[开始] 创建项目, 选项为： ` + JSON.stringify(this.options, null, 2));
       // 检查template目录有咩
       const isTemplateExist = await pathExists(this.options.template);
@@ -55,7 +57,7 @@ export class Creator {
         throw new Error('模板路径不存在: ' + this.options.template);
       }
       await this.clear(); // 先清除
-      logger.log('[开始] 拷贝${}到项目中' + this.projectDir);
+      logger.log('[开始] 拷贝模板到项目中' + this.projectDir);
       await copy(this.options.template, this.projectDir, {
         filter: (src: string) => {
           for (const exclude of this.options.templateExclude) {
@@ -64,7 +66,7 @@ export class Creator {
           return true;
         },
       });
-      logger.log('[完毕] 拷贝到项目中' + this.projectDir);
+      logger.log('[完毕] 拷贝模板到项目中' + this.projectDir);
       if (this.options.templateFiles?.length) {
         for (const file of this.options.templateFiles) {
           if (!file) {
