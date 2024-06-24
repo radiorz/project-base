@@ -72,7 +72,7 @@ export class Config extends Emitter {
     } else {
       opts = first;
     }
-    
+
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (!path && !data) return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发

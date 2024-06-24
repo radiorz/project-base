@@ -27,7 +27,7 @@
     "build": "tsup",
     "dev": "ts-node ./src/index.ts",
     "test": "vitest",
-    "publish": "npm version patch && pnpm run build && npm publish"
+    "_publish": "npm version patch && pnpm run build && npm publish"
   },
   "publishConfig": {
     "access": "public"
