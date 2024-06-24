@@ -1,20 +1,25 @@
-import { defineConfig } from "vite";
-import packageJson from "./package.json";
-import banner from "vite-plugin-banner";
-import { fileURLToPath, URL } from "node:url";
-const name = packageJson.name.split("/")[1];
+import { defineConfig } from 'vite';
+import packageJson from './package.json';
+import banner from 'vite-plugin-banner';
+import { fileURLToPath, URL } from 'node:url';
+const name = packageJson.name.split('/')[1];
 export default defineConfig({
-  plugins: [banner(`@tikkhun/web-utils`)],
+  plugins: [
+    banner(`
+    packageName: ${packageJson.name} 
+    version: ${packageJson.version}
+    `),
+  ],
   build: {
     lib: {
-      entry: "./lib/index.ts",
+      entry: './lib/index.ts',
       name: toBigCamelCase(name),
       fileName: name,
     },
   },
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./lib", import.meta.url)),
+      '@': fileURLToPath(new URL('./lib', import.meta.url)),
     },
   },
 });
