@@ -2,7 +2,7 @@
 
 import inquirer from 'inquirer';
 import { Creator, checkNodeVersion } from '@tikkhun/create-tools';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const prompts = [
   {
@@ -22,7 +22,7 @@ async function bootstrap() {
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
-    template: path.join(dirname(fileURLToPath(import.meta.url)), '../template'),
+    template: join(dirname(fileURLToPath(import.meta.url)), '../template'),
   });
   await creator.start();
 }
