@@ -1,9 +1,9 @@
-import { DEFAULT_ENV_MANAGER, ConfigManager, EnvSource } from '../lib';
-console.log(`env`, DEFAULT_ENV_MANAGER.get());
+import { DEFAULT_ENV_MANAGER, Config, EnvSource } from '../lib';
+// console.log(`env`, DEFAULT_ENV_MANAGER.get());
 console.log(`env`, DEFAULT_ENV_MANAGER.get({ path: 'c.c.c' }));
 console.log(`env`, DEFAULT_ENV_MANAGER.get('c.c.c'));
 
-const m = ConfigManager.create({
+const m = Config.create({
   sources: [
     new EnvSource(),
     {
@@ -19,10 +19,12 @@ const m = ConfigManager.create({
     },
   ],
 });
+m.on('change', (config) => console.log('change', config.nnn));
 console.log(`envManager.get()`, m.get('a.b.c'));
 m.addSource({
   load() {
     return { nnn: '123' };
   },
 });
+m.set('nnn', '1234');
 console.log(`m.get('nnn')`, m.get('nnn'));

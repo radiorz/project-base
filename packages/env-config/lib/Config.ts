@@ -13,9 +13,16 @@ export interface SetOptions {
 }
 import { Emitter } from './Emitter';
 export class Config extends Emitter {
-  config: Record<string, any> = {};
+  _config: Record<string, any> = {};
   options: ConfigOptions;
   sources: ConfigSource[] = [];
+  get config() {
+    return this._config;
+  }
+  set config(value) {
+    this._config = value;
+    this.emit('change', this._config);
+  }
   constructor(options: ConfigOptions) {
     super();
     this.options = options;
@@ -35,12 +42,12 @@ export class Config extends Emitter {
   load() {
     // 目前都是同步
     const results = this.sources.map((source) => source.load());
-    this.config = merge(this.config, ...results);
+    this.config = merge({}, ...results);
   }
   addSource(source: ConfigSource) {
     this.sources.push(source);
     if (source.init) source.init();
-    merge(this.config, source?.load());
+    this.config = merge(this.config, source?.load());
     return this;
   }
   get(path: string): any;
@@ -56,10 +63,24 @@ export class Config extends Emitter {
     let _path = path;
     return get(this.config, _path);
   }
-  set(setOptions?: Partial<SetOptions>) {
-    const { path, data } = Object.assign({ path: '' }, setOptions);
+  set(path: string, data: any): any;
+  set(setOptions?: Partial<SetOptions>): any;
+  set(first?: string | Partial<SetOptions>, second?: any) {
+    let opts: any = {};
+    if (typeof first === 'string') {
+      opts = { path: first, data: second };
+    } else {
+      opts = first;
+    }
+    
+    const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (!path && !data) return;
-    merge(this.config, set({}, path, data));
-    this.emit('change', this.config); // 直接触发最新config比较直接。
+    // 这里直接赋值使得每次变化都能被set 函数监听到并触发
+    this.config = set(this.config, path, data);
+  }
+  // 重置整个config
+  reset() {
+    // 重新加载即可
+    this.load();
   }
 }
