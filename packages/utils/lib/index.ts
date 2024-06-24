@@ -10,3 +10,4 @@ export * from './time';
 export * from './tree';
 export * from './yaml';
 export * from './consts';
+export * from './platform';
