@@ -16,7 +16,6 @@ import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
-import { echoPackageVersion } from './node';
 const logger = new Logger('Creator');
 export interface ReplaceDir {
   sourcePath: string;
@@ -49,7 +48,6 @@ export class Creator {
   }
   async start() {
     try {
-      echoPackageVersion();
       logger.log(`[开始] 创建项目, 选项为： ` + JSON.stringify(this.options, null, 2));
       // 检查template目录有咩
       const isTemplateExist = await pathExists(this.options.template);
@@ -88,7 +86,7 @@ export class Creator {
           logger.log('[完毕] 迁移文件' + sourcePath + '=>' + targetPath);
         }
       }
-      logger.log('[完毕] 创建项目' + +this.projectDir);
+      logger.log('[完毕] 创建项目' + this.projectDir);
     } catch (error: any) {
       logger.error('[失败] 创建项目失败' + error.stack);
       // await this.clear()

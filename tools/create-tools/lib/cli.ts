@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { Logger } from '@tikkhun/logger';
 import { Creator, DEFAULT_OPTIONS } from './Creator';
-import packageJson from '../package.json';
-const name = packageJson.name;
-Logger.log(`[欢迎使用] ${name}`);
-
+import { echoPackage } from './package';
+echoPackage();
 program
   .description('打包')
   .option('--template <template>', '模板路径', DEFAULT_OPTIONS.template)

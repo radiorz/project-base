@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create-tsup",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "type": "module",
   "main": "./bin/create-tsup.js",

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer';
-import { Creator, checkNodeVersion } from '@tikkhun/create-tools';
+import { Creator, checkNodeVersion, echoPackage } from '@tikkhun/create-tools';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const prompts = [
@@ -19,6 +19,7 @@ const prompts = [
 ];
 async function bootstrap() {
   checkNodeVersion(12);
+  echoPackage();
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
