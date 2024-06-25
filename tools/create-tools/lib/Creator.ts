@@ -15,7 +15,7 @@ import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
-import _, { includes } from 'lodash';
+import _ from 'lodash';
 import { minimatch } from 'minimatch';
 const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
@@ -74,17 +74,16 @@ export class Creator {
       }
       await this.clear(); // 先清除
       logger.log('[开始] 拷贝模板到项目中 ' + this.projectDir);
-      console.log(` this.options.template`, this.options.template);
-      const templatePath = this.options.template.replace(/\\\\/g, '\\').replace(/^\.\//, '');
-      console.log(`template`, templatePath);
+      const templatePath = this.options.template.replace(/\\\\/g, '/').replace(/^\.\//, '');
       await copy(this.options.template, this.projectDir, {
         filter: (src: string) => {
-          // template 是\\
-          // 这里的src 是一个\的 所以会导致 mjs 无法复制成功修复一波。
+          // 排除根文件
           if (this.options.template === src) {
             return true;
           }
-          // 统一使用/ 做分割符号
+          // template 是 \\
+          // 但具体到每一个文件是一个 \ 的
+          // 统一使用 / 做分割符号
           const theRelativePath = removePrefix(src.replace(/\\/g, '/'), templatePath + '/');
           if (theRelativePath) {
             for (const exclude of this.options.templateExclude) {
@@ -96,23 +95,27 @@ export class Creator {
       });
       logger.log('[完毕] 拷贝模板到项目中 ' + this.projectDir);
       if (this.options.templateFiles?.length) {
-        for (const file of this.options.templateFiles) {
-          if (!file) {
-            continue;
-          }
-          logger.log('[开始] 替换文件 ' + file);
-          await replaceText(join(this.projectDir, file), this.options);
-          logger.log('[完毕] 替换文件 ' + file);
-        }
+        const templateFiles = this.options.templateFiles.filter((f) => f);
+        await Promise.all(
+          templateFiles.map(async (file) => {
+            return await replaceText(join(this.projectDir, file), this.options);
+          }),
+        );
       }
       if (this.options.replaces?.length) {
-        const replaces = this.options.replaces.filter((a) => a);
+        const replaces = this.options.replaces.filter((r) => {
+          if (!r) return false;
+          return r.sourcePath && r.targetPath;
+        });
+        // 这里可能存在先后顺序 所以使用for循环
         for (const { sourcePath, targetPath } of replaces) {
-          if (!sourcePath || !targetPath) {
+          logger.log('[开始] 迁移文件 ' + sourcePath + ' => ' + targetPath);
+          const _source = join(this.projectDir, sourcePath);
+          if (!(await pathExists(_source))) {
+            logger.log('[出错] 迁移文件,但文件不存在 ' + sourcePath + ' =>' + targetPath);
             continue;
           }
-          logger.log('[开始] 迁移文件 ' + sourcePath + ' => ' + targetPath);
-          await move(join(this.projectDir, sourcePath), join(this.projectDir, targetPath));
+          await move(_source, join(this.projectDir, targetPath));
           logger.log('[完毕] 迁移文件 ' + sourcePath + ' => ' + targetPath);
         }
       }
@@ -132,9 +135,17 @@ function getProjectDirName(name: string, options: Omit<ProjectDirOptions, 'build
   return [options.prefix, name, options.suffix].join(options.delimiter);
 }
 async function replaceText(filepath: string, context: any) {
-  let text = (await readFile(filepath)).toString();
-  text = ejs.render(text, context);
-  await writeFile(filepath, text);
+  try {
+    logger.debug!('[开始] 替换模板文本 ' + filepath);
+    let text = (await readFile(filepath)).toString();
+    text = ejs.render(text, context);
+    await writeFile(filepath, text);
+    logger.debug!('[完毕] 替换模板文本 ' + filepath);
+    return true;
+  } catch (e) {
+    logger.error('[错误] 替换模板文本 ' + filepath);
+    return false;
+  }
 }
 function removePrefix(str: string, prefix: string) {
   return str.startsWith(prefix) ? str.slice(prefix.length) : str;
