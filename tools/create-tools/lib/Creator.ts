@@ -121,7 +121,7 @@ export class Creator {
     await remove(this.projectDir);
     logger.log('[完毕] 删除项目文件 ' + this.projectDir);
   }
-  static getProjectDirName(name: string, options: any) {
+  static getProjectDirName(name: string, options: ProjectDirOptions) {
     return [options.prefix, name, options.suffix].join(options.delimiter);
   }
 }
