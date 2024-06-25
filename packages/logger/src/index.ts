@@ -1,10 +1,10 @@
 import { Logger } from '../lib/impl';
-Logger.log('123');
-Logger.debug!('123');
-Logger.warn('123');
-Logger.error('123');
+Logger.log('log');
+Logger.debug!('debug');
+Logger.warn('warn');
+Logger.error('error');
 
 const logger = new Logger('local');
-logger.debug!('123');
+logger.debug!('debug1');
 logger.setLogLevels!(['log']);
-logger.debug!('123');
+logger.debug!('debug2');

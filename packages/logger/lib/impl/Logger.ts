@@ -1,4 +1,3 @@
-import { ConsoleLogger } from '../../dist';
 import { DEFAULT_LOGGER } from '../instance';
 import { ILogger, LoggerOptions, LogLevel } from '../interfaces';
 
@@ -64,7 +63,7 @@ export class Logger implements ILogger {
     if (Logger.instance) {
       return Logger.instance;
     } else {
-      return new ConsoleLogger();
+      return DEFAULT_LOGGER;
     }
   }
 }
