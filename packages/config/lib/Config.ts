@@ -1,7 +1,7 @@
 import { get, merge, set } from 'lodash';
 import { ConfigSource } from './ConfigSource';
 import { Emitter } from './Emitter';
-import type { Api, GetOptions, SetOptions } from './Api';
+import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 export interface ConfigOptions {
   sources: ConfigSource[];
 }
@@ -76,5 +76,14 @@ export class Config extends Emitter implements Api {
   reset() {
     // 重新加载即可
     this.load();
+  }
+  remove(path: string): any;
+  remove(options?: Partial<RemoveOptions>): any;
+  remove(first?: string | Partial<RemoveOptions>) {
+    if (typeof first === 'string') {
+      return this.set(first, undefined);
+    } else {
+      return this.set({ ...first, data: undefined });
+    }
   }
 }
