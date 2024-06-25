@@ -5,7 +5,7 @@
 ## 安装
 
 ```bash
-yarn global add @tikkhun/create-tools
+yarn global add @tikkhun/create
 ```
 
 ## 使用

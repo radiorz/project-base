@@ -15,10 +15,10 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@tikkhun/create-tools": "latest"
+    "@tikkhun/create": "latest"
   },
   "dependencies": {
-    "@tikkhun/create-tools": "workspace:^",
+    "@tikkhun/create": "workspace:^",
     "inquirer": "^9.2.23"
   }
 }

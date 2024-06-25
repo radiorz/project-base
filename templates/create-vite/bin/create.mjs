@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import inquirer from 'inquirer';
-import { Creator, checkNodeVersion, echoPackage } from '@tikkhun/create-tools';
+import { Creator, checkNodeVersion, echoPackage } from '@tikkhun/create';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 const prompts = [

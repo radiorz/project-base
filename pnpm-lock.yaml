@@ -585,7 +585,7 @@ importers:
 
   templates/create-tsup:
     dependencies:
-      '@tikkhun/create-tools':
+      '@tikkhun/create':
         specifier: workspace:^
         version: link:../../tools/create-tools
       inquirer:
@@ -594,7 +594,7 @@ importers:
 
   templates/create-vite:
     dependencies:
-      '@tikkhun/create-tools':
+      '@tikkhun/create':
         specifier: workspace:^
         version: link:../../tools/create-tools
       inquirer:
