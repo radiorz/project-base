@@ -1,18 +1,12 @@
 import { get, merge, set } from 'lodash';
 import { ConfigSource } from './ConfigSource';
+import { Emitter } from './Emitter';
+import type { Api, GetOptions, SetOptions } from './Api';
 export interface ConfigOptions {
   sources: ConfigSource[];
 }
 
-export interface GetOptions {
-  path: string;
-}
-export interface SetOptions {
-  path: string;
-  data: any;
-}
-import { Emitter } from './Emitter';
-export class Config extends Emitter {
+export class Config extends Emitter implements Api {
   _config: Record<string, any> = {};
   options: ConfigOptions;
   sources: ConfigSource[] = [];
