@@ -746,6 +746,9 @@ importers:
       inquirer:
         specifier: ^9.2.23
         version: 9.2.23
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
     devDependencies:
       '@types/ejs':
         specifier: ^3.1.5
@@ -756,6 +759,9 @@ importers:
       '@types/inquirer':
         specifier: ^9.0.7
         version: 9.0.7
+      '@types/lodash':
+        specifier: ^4.17.4
+        version: 4.17.4
       '@types/node':
         specifier: ^20.14.2
         version: 20.14.2

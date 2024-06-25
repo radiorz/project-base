@@ -15,20 +15,27 @@ import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
+import _ from 'lodash';
+const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
 export interface ReplaceDir {
   sourcePath: string;
   targetPath: string;
 }
+export interface ProjectDirOptions {
+  prefix: string;
+  suffix: string;
+  delimiter: string;
+}
 export interface Options {
   workspace: string;
   projectName: string;
-
   template: string;
   templateExclude: string[];
   templateFiles: string[];
   replaces: ReplaceDir[];
+  projectDirOptions: ProjectDirOptions;
 }
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
@@ -37,14 +44,22 @@ export const DEFAULT_OPTIONS: Options = {
   projectName: 'project-name', // 项目名称
   templateFiles: ['package.json'], // 根据文件路径定位
   replaces: [],
+  projectDirOptions: {
+    prefix: '',
+    suffix: '',
+    delimiter: '',
+  },
 };
 export class Creator {
   options: Options;
   get projectDir() {
-    return join(this.options.workspace, this.options.projectName);
+    return join(
+      this.options.workspace,
+      Creator.getProjectDirName(this.options.projectName, this.options.projectDirOptions),
+    );
   }
   constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
+    this.options = merge({}, DEFAULT_OPTIONS, options);
   }
   async start() {
     try {
@@ -105,6 +120,9 @@ export class Creator {
     logger.log('[开始] 删除项目文件 ' + this.projectDir);
     await remove(this.projectDir);
     logger.log('[完毕] 删除项目文件 ' + this.projectDir);
+  }
+  static getProjectDirName(name: string, options: any) {
+    return [options.prefix, name, options.suffix].join(options.delimiter);
   }
 }
 async function replaceText(filepath: string, context: any) {
