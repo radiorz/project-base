@@ -15,7 +15,8 @@ import { join } from 'path';
 import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
-import _ from 'lodash';
+import _, { includes } from 'lodash';
+import { minimatch } from 'minimatch';
 const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
@@ -73,7 +74,9 @@ export class Creator {
       }
       await this.clear(); // 先清除
       logger.log('[开始] 拷贝模板到项目中 ' + this.projectDir);
-      const tempPath = this.options.template.replace(/\\\\/g, '\\');
+      console.log(` this.options.template`, this.options.template);
+      const templatePath = this.options.template.replace(/\\\\/g, '\\').replace(/^\.\//, '');
+      console.log(`template`, templatePath);
       await copy(this.options.template, this.projectDir, {
         filter: (src: string) => {
           // template 是\\
@@ -81,10 +84,11 @@ export class Creator {
           if (this.options.template === src) {
             return true;
           }
-          const theRelativePath = src.split(tempPath)?.[1];
+          // 统一使用/ 做分割符号
+          const theRelativePath = removePrefix(src.replace(/\\/g, '/'), templatePath + '/');
           if (theRelativePath) {
             for (const exclude of this.options.templateExclude) {
-              if (theRelativePath.includes(exclude)) return false;
+              if (minimatch(theRelativePath, exclude)) return false;
             }
           }
           return true;
@@ -131,4 +135,7 @@ async function replaceText(filepath: string, context: any) {
   let text = (await readFile(filepath)).toString();
   text = ejs.render(text, context);
   await writeFile(filepath, text);
+}
+function removePrefix(str: string, prefix: string) {
+  return str.startsWith(prefix) ? str.slice(prefix.length) : str;
 }
