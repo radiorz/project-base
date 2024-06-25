@@ -27,6 +27,7 @@ export interface ProjectDirOptions {
   prefix: string;
   suffix: string;
   delimiter: string;
+  build: (name: string, options: Omit<ProjectDirOptions, 'build'>) => string;
 }
 export interface Options {
   workspace: string;
@@ -48,6 +49,7 @@ export const DEFAULT_OPTIONS: Options = {
     prefix: '',
     suffix: '',
     delimiter: '',
+    build: getProjectDirName,
   },
 };
 export class Creator {
@@ -55,7 +57,7 @@ export class Creator {
   get projectDir() {
     return join(
       this.options.workspace,
-      Creator.getProjectDirName(this.options.projectName, this.options.projectDirOptions),
+      this.options.projectDirOptions.build(this.options.projectName, this.options.projectDirOptions),
     );
   }
   constructor(options?: Partial<Options>) {
@@ -121,9 +123,9 @@ export class Creator {
     await remove(this.projectDir);
     logger.log('[完毕] 删除项目文件 ' + this.projectDir);
   }
-  static getProjectDirName(name: string, options: ProjectDirOptions) {
-    return [options.prefix, name, options.suffix].join(options.delimiter);
-  }
+}
+function getProjectDirName(name: string, options: Omit<ProjectDirOptions, 'build'>) {
+  return [options.prefix, name, options.suffix].join(options.delimiter);
 }
 async function replaceText(filepath: string, context: any) {
   let text = (await readFile(filepath)).toString();
