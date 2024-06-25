@@ -1,3 +1,4 @@
+import { ConsoleLogger } from '../../dist';
 import { DEFAULT_LOGGER } from '../instance';
 import { ILogger, LoggerOptions, LogLevel } from '../interfaces';
 
@@ -6,6 +7,7 @@ export class Logger implements ILogger {
     private context?: string,
     private options?: LoggerOptions,
   ) {}
+  protected static logLevels?: LogLevel[];
   static log(message: any, ...optionalParams: any[]) {
     Logger.instance.log(message);
   }
@@ -23,9 +25,6 @@ export class Logger implements ILogger {
   }
   static fatal?(message: any, ...optionalParams: any[]) {
     Logger.instance.fatal?.(message);
-  }
-  static setLogLevels?(levels: LogLevel[]) {
-    throw new Error('Method not implemented.');
   }
   static formatContext(context: string) {
     return `[${context}]`;
@@ -49,7 +48,8 @@ export class Logger implements ILogger {
     this.instance.fatal?.(Logger.formatContext(this.context || '') + message);
   }
   setLogLevels?(levels: LogLevel[]) {
-    throw new Error('Method not implemented.');
+    Logger.logLevels = levels;
+    this.instance.setLogLevels?.(levels);
   }
   protected static instance: ILogger = DEFAULT_LOGGER;
   /**
@@ -61,6 +61,10 @@ export class Logger implements ILogger {
   }
 
   get instance(): ILogger {
-    return Logger.instance;
+    if (Logger.instance) {
+      return Logger.instance;
+    } else {
+      return new ConsoleLogger();
+    }
   }
 }

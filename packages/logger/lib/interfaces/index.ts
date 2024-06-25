@@ -46,4 +46,5 @@ export interface ILogger {
 
 export interface LoggerOptions {
   timestamp: boolean;
+  logLevels: LogLevel[];
 }
