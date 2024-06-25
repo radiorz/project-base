@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/create-tools",
-  "version": "0.1.0",
+  "name": "@tikkhun/create",
+  "version": "0.1.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
