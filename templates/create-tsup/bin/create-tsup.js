@@ -19,11 +19,12 @@ const prompts = [
 ];
 async function bootstrap() {
   checkNodeVersion(12);
-  echoPackage()
+  echoPackage();
   let options = await inquirer.prompt(prompts);
   const creator = new Creator({
     ...options,
     template: join(dirname(fileURLToPath(import.meta.url)), '../template'),
+    templateFiles: ['package.json', 'README.md'],
   });
   await creator.start();
 }
