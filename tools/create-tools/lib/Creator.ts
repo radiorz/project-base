@@ -44,7 +44,7 @@ export const DEFAULT_OPTIONS: Options = {
   template: './template', // template 的位置
   templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
   projectName: 'project-name', // 项目名称
-  templateFiles: ['package.json'], // 根据文件路径定位
+  templateFiles: ['package.json','README.md'], // 根据文件路径定位
   replaces: [],
   projectDirOptions: {
     prefix: '',
