@@ -1,10 +1,9 @@
-# vite_template
+# nest template
 
-创建 vite libratry 模板项目的脚手架
+create nest lib or app
 
 ## 使用
 
-```
-npx @tikkhun/create-vite
-
+``````BASH
+npx @tikkhun/create-nest
 ```
