@@ -1,0 +1,24 @@
+{
+  "name": "@tikkhun/create-nest",
+  "version": "0.1.4",
+  "description": "",
+  "type": "module",
+  "main": "./bin/create.mjs",
+  "bin": {
+    "tk-create-nest": "./bin/create.mjs"
+  },
+  "scripts": {
+    "dev": "node ./bin/create.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@tikkhun/create": "latest"
+  },
+  "dependencies": {
+    "@tikkhun/create": "workspace:^",
+    "inquirer": "^9.2.23"
+  }
+}

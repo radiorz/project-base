@@ -43,7 +43,7 @@ export interface Options {
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url)); // esmodule 这么用
 export const libDir = join(__dirname, '..');
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
