@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -22,7 +22,7 @@
   },
   "files": [
     "dist",
-    "template"
+    "templates"
   ],
   "scripts": {
     "build": "tsup",
