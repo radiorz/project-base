@@ -1,12 +1,13 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "tikkhun-create": "./dist/cli.js"
+    "tk-create": "./dist/cli.mjs",
+    "tk-create-question": "./dist/cli-question.mjs"
   },
   "exports": {
     ".": {

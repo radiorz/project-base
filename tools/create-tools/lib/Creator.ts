@@ -11,15 +11,16 @@
  * @done
  * @example
  */
-import { join } from 'path';
-import ejs from 'ejs';
 import { Logger } from '@tikkhun/logger';
+import ejs from 'ejs';
 import fsExtra from 'fs-extra';
 import _ from 'lodash';
 import { minimatch } from 'minimatch';
+import { join } from 'path';
 const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
+
 export interface ReplaceDir {
   sourcePath: string;
   targetPath: string;
@@ -39,12 +40,17 @@ export interface Options {
   replaces: ReplaceDir[];
   projectDirOptions: ProjectDirOptions;
 }
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+export const libDir = join(__dirname, '..');
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
-  template: './templates/default', // template 的位置
+  template: join(libDir, 'templates/default'), // template 的位置
   templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
   projectName: 'project-name', // 项目名称
-  templateFiles: ['package.json','README.md'], // 根据文件路径定位
+  templateFiles: ['package.json', 'README.md'], // 根据文件路径定位
   replaces: [],
   projectDirOptions: {
     prefix: '',
@@ -67,18 +73,19 @@ export class Creator {
   async start() {
     try {
       logger.log(`[开始] 创建项目, 选项为： ` + JSON.stringify(this.options, null, 2));
+      let template = this.options.template;
       // 检查template目录有咩
-      const isTemplateExist = await pathExists(this.options.template);
+      const isTemplateExist = await pathExists(template);
       if (!isTemplateExist) {
-        throw new Error('模板路径不存在: ' + this.options.template);
+        throw new Error('模板路径不存在: ' + template);
       }
       await this.clear(); // 先清除
       logger.log('[开始] 拷贝模板到项目中 ' + this.projectDir);
-      const templatePath = this.options.template.replace(/\\\\/g, '/').replace(/^\.\//, '');
-      await copy(this.options.template, this.projectDir, {
+      const templatePath = template.replace(/\\\\/g, '/').replace(/^\.\//, '');
+      await copy(template, this.projectDir, {
         filter: (src: string) => {
           // 排除根文件
-          if (this.options.template === src) {
+          if (template === src) {
             return true;
           }
           // template 是 \\
