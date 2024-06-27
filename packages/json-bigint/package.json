@@ -1,0 +1,20 @@
+{
+	"name": "@voerka/json-bigint",
+	"version": "2.4.8",
+	"description": "json-bigint",
+	"files": [
+		"dist"
+	],
+	"main": "./dist/json-bigint.umd.js",
+	"module": "./dist/json-bigint.es.js",
+	"scripts": {
+		"build": "vite build"
+	},
+	"author": {
+		"name": "sclin"
+	},
+	"devDependencies": {
+		"vite": "^2.1.2"
+	},
+	"license": "ISC"
+}

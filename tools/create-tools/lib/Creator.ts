@@ -41,7 +41,7 @@ export interface Options {
 }
 export const DEFAULT_OPTIONS: Options = {
   workspace: process.cwd(), // template 复制到的位置
-  template: './template', // template 的位置
+  template: './templates/default', // template 的位置
   templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
   projectName: 'project-name', // 项目名称
   templateFiles: ['package.json','README.md'], // 根据文件路径定位
