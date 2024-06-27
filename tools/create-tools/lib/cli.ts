@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { Creator, DEFAULT_OPTIONS } from './Creator';
+import { Creator, DEFAULT_OPTIONS, libDir } from './Creator';
 import { echoPackage } from './package';
 echoPackage();
 program
@@ -33,4 +33,7 @@ program
     const inst = new Creator(opts);
     await inst.start();
   });
+program.command('question').action(() => {
+  import('./cli-question');
+});
 program.parse(process.argv);

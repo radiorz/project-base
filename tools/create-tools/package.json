@@ -6,8 +6,7 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "bin": {
-    "tk-create": "./dist/cli.mjs",
-    "tk-create-question": "./dist/cli-question.mjs"
+    "tk-create": "./dist/cli.mjs"
   },
   "exports": {
     ".": {
