@@ -16,3 +16,4 @@ export * from './tree';
 export * from './version';
 export * from './yaml';
 export * from './package';
+export * from './size';
