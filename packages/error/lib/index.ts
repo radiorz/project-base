@@ -5,11 +5,13 @@ import _ from 'lodash';
 const { merge } = _;
 interface TkErrorOptions {
   message: string;
+  code: string | number;
   // i18n: boolean;
   i18nAdapter: (message: string) => string;
 }
 const defaultOptions: TkErrorOptions = {
   message: '',
+  code: 1,
   // i18n: false,
   i18nAdapter: (message: string) => message, // 等于5️无
 };
