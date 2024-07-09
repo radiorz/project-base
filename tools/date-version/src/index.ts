@@ -1,1 +1,1 @@
-export {};
+import { VersionManager } from '../lib';

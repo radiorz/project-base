@@ -3,7 +3,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig((options) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
-  entry: ['lib/**/*.ts'],
+  entry: ['lib/**/*.ts', 'cli/**/*.ts'],
   // 格式化
   format: ['cjs', 'esm'],
   // typescript 注释
