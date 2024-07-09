@@ -28,10 +28,12 @@ export enum Positions {
 export interface SemanticVersionGetterOptions {
   file: string;
   position: Positions;
+  key: string;
 }
 export const DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS: SemanticVersionGetterOptions = {
   file: 'package.json',
   position: Positions.patch,
+  key: 'version',
 };
 export class SemanticVersionGetter implements Getter {
   opts: SemanticVersionGetterOptions;
@@ -41,7 +43,7 @@ export class SemanticVersionGetter implements Getter {
     this.filePath = path.join(workspace, this.opts.file);
   }
   async get() {
-    const { version: oldVersion } = await readJson(this.filePath);
+    const { [this.opts.key]: oldVersion } = await readJson(this.filePath);
     const [major, minor, patch] = oldVersion.split('.');
     if (this.opts.position === Positions.major) {
       return [Number(major) + 1, minor, patch].join('.');

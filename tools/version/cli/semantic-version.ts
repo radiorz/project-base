@@ -18,11 +18,12 @@ interface UpdateJsonVersionOptions {
 program
   .command('update')
   .description('更新')
-  .option('-p --position <position>', '日期格式', '' + DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position)
+  .option('-p --position <position>', '更新位置', Positions[DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position])
   .option('-f --file <filePath>', 'json文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
   .action(async (options) => {
+    const position = Positions[options.position as keyof typeof Positions];
     const versionManager = new VersionManager({
-      getter: new SemanticVersionGetter({ position: options.position }),
+      getter: new SemanticVersionGetter({ position, file: options.file }),
       store: new JsonStore({
         file: options.path,
         key: 'version',
@@ -37,10 +38,11 @@ program
 program
   .command('get')
   .description('获取版本')
-  .option('-p --position <position>', '更新位置', '' + DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position)
-  .action(({ position }: any) => {
+  .option('-p --position <position>', '更新位置', Positions[DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position])
+  .action(async (options: any) => {
+    const position = Positions[options.position as keyof typeof Positions];
     const getter = new SemanticVersionGetter({ position: position });
-    Logger.log(getter.get());
+    Logger.log(await getter.get());
   });
 
 program.parse(process.argv);

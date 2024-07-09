@@ -1,10 +1,11 @@
 {
   "name": "@tikkhun/version",
-  "version": "2024.07.02",
+  "version": "2024.07.03",
   "description": "",
   "bin": {
     "date-version": "./dist/cli/date-version.js",
-    "node-version": "./dist/cli/node-version.js"
+    "node-version": "./dist/cli/node-version.js",
+    "semantic-version": "./dist/cli/semantic-version.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
