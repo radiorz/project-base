@@ -33,7 +33,7 @@ export class VersionManager {
     const value = this.get();
     const stores = Array.isArray(this.opts.store) ? this.opts.store : [this.opts.store];
     try {
-      const results = await Promise.all(stores.map((store) => store.update));
+      const results = await Promise.all(stores.map((store) => store.update(value)));
       if (results.filter((r) => !r).length) {
         throw new Error('update error');
       }

@@ -8,12 +8,14 @@ Logger.log('[欢迎] node-version');
 program
   .command('save')
   .description('保存版本')
-  .action(() => {
+  .action(async () => {
     const versionManager = new VersionManager({
       getter: new NodeVersionGetter(),
       store: new TextStore({ file: '.node-version' }),
     });
-    versionManager.update();
-    Logger.debug!('node 版本更新成功');
+    const result = await versionManager.update();
+    if (result) {
+      Logger.debug!('node 版本更新成功');
+    }
   });
 program.parse(process.argv);
