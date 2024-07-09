@@ -2,14 +2,14 @@ import dayjs from 'dayjs';
 import { readJson, writeJson } from 'fs-extra';
 import { Logger } from '@tikkhun/logger';
 import path from 'path';
-const rootDir = process.cwd();
+import { workspace } from './utils';
 export interface Options {
   filePath: string;
   pattern: string;
 }
 export const DEFAULT_OPTIONS = {
   pattern: 'YYYY.MM.DD',
-  filePath: path.join(rootDir, 'package.json'),
+  filePath: path.join(workspace, 'package.json'),
 };
 export class DateVersion {
   log = new Logger(this.constructor.name);

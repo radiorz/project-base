@@ -1,8 +1,9 @@
 import { program } from 'commander';
 import { Logger } from '@tikkhun/logger';
 import { DateVersion, Options } from './DateVersion';
+import { Version } from './Version';
 
-Logger.log('[欢迎] date-version');
+Logger.log('[欢迎] version');
 
 program
   .command('update')
@@ -21,5 +22,14 @@ program
   .action(({ format }: any) => {
     console.log(`format`, DateVersion.get(format));
     Logger.log(DateVersion.get(format));
+  });
+// node version
+program
+  .command('version')
+  .description('保存版本')
+  .action(() => {
+    const version = new Version();
+    version.setDotNodeVersion();
+    console.log(`保存版本完毕`);
   });
 program.parse(process.argv);
