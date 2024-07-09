@@ -1,8 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import { workspace } from '../utils';
-import { readJson, writeJson } from 'fs-extra';
-import { Store } from './Store';
 /**
  * @author
  * @file JsonStore.ts
@@ -16,6 +11,10 @@ import { Store } from './Store';
  * @done
  * @example
  */
+import { readJson, writeJson } from 'fs-extra';
+import path from 'path';
+import { workspace } from '../utils';
+import { Store } from './Store';
 
 export interface JsonStoreOptions {
   file: string;
