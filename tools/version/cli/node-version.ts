@@ -1,11 +1,8 @@
+#!/usr/bin/env node
 import { Logger } from '@tikkhun/logger';
 import { program } from 'commander';
-import {
-  NodeVersionGetter,
-  TextStore,
-  VersionManager
-} from '../lib';
-Logger.log('[欢迎] version');
+import { NodeVersionGetter, TextStore, VersionManager } from '../lib';
+Logger.log('[欢迎] node-version');
 
 // node version
 program
