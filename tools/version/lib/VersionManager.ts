@@ -30,7 +30,7 @@ export class VersionManager {
     return this.opts.getter.get();
   }
   async update() {
-    const value = this.get();
+    const value = await this.get();
     const stores = Array.isArray(this.opts.store) ? this.opts.store : [this.opts.store];
     try {
       const results = await Promise.all(stores.map((store) => store.update(value)));

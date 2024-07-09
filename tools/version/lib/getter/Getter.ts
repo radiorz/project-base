@@ -1,3 +1,3 @@
 export interface Getter {
-  get(): string | number;
+  get(): Promise<string | number> | string | number;
 }
