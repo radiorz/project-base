@@ -3,7 +3,8 @@
   "version": "2024.07.09",
   "description": "",
   "bin": {
-    "date-version": "./dist/cli/index.js"
+    "date-version": "./dist/cli/date-version.js",
+    "node-version": "./dist/cli/node-version.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
