@@ -32,8 +32,14 @@ export class VersionManager {
   async update() {
     const value = this.get();
     const stores = Array.isArray(this.opts.store) ? this.opts.store : [this.opts.store];
-    for (const store of stores) {
-      await store.update(value);
+    try {
+      const results = await Promise.all(stores.map((store) => store.update));
+      if (results.filter((r) => !r).length) {
+        throw new Error('update error');
+      }
+      return true;
+    } catch (error) {
+      return false;
     }
   }
 }

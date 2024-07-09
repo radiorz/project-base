@@ -1,6 +1,14 @@
 import { program } from 'commander';
 import { Logger } from '@tikkhun/logger';
-import { VersionManager, JsonStore, TextStore, DateVersionGetter, NodeVersionGetter } from '../lib';
+import {
+  VersionManager,
+  JsonStore,
+  TextStore,
+  DateVersionGetter,
+  NodeVersionGetter,
+  DEFAULT_JSON_STORE_OPTIONS,
+  DEFAULT_DATE_VERSION_GETTER_OPTIONS,
+} from '../lib';
 Logger.log('[欢迎] version');
 
 interface UpdateJsonVersionOptions {
@@ -10,9 +18,9 @@ interface UpdateJsonVersionOptions {
 program
   .command('updateJsonVersion')
   .description('更新JSON')
-  .option('-f --format <format>', '日期格式')
-  .option('-p --path <filePath>', 'json文件路径')
-  .action((options: UpdateJsonVersionOptions) => {
+  .option('-f --format <format>', '日期格式', DEFAULT_DATE_VERSION_GETTER_OPTIONS.pattern)
+  .option('-p --path <filePath>', 'json文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
+  .action(async (options: UpdateJsonVersionOptions) => {
     const versionManager = new VersionManager({
       getter: new DateVersionGetter({
         pattern: options.format,
@@ -22,7 +30,10 @@ program
         key: 'version',
       }),
     });
-    versionManager.update();
+    const result = await versionManager.update();
+    if (result) {
+      Logger.debug!('package json 的版本更新成功');
+    }
   });
 
 program
@@ -43,5 +54,6 @@ program
       store: new TextStore({ file: '.node-version' }),
     });
     versionManager.update();
+    Logger.debug!('node 版本更新成功');
   });
 program.parse(process.argv);

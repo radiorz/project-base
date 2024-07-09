@@ -21,7 +21,7 @@ export interface JsonStoreOptions {
   file: string;
   key: string;
 }
-export const DEFAULT_OPTIONS = {
+export const DEFAULT_JSON_STORE_OPTIONS = {
   file: 'package.json',
   key: 'version',
 };
@@ -29,7 +29,7 @@ export class JsonStore implements Store {
   opts: JsonStoreOptions;
   filePath: string;
   constructor(options?: Partial<JsonStoreOptions>) {
-    this.opts = Object.assign(DEFAULT_OPTIONS, options);
+    this.opts = Object.assign(DEFAULT_JSON_STORE_OPTIONS, options);
     this.filePath = path.join(workspace, this.opts.file);
   }
   async update(value: any) {
