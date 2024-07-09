@@ -35,7 +35,7 @@ export class VersionManager {
     try {
       const results = await Promise.all(stores.map((store) => store.update(value)));
       if (results.filter((r) => !r).length) {
-        throw new Error('update error');
+        throw new Error(`update, but error`);
       }
       return true;
     } catch (error) {
