@@ -2,14 +2,13 @@
 import { Logger } from '@tikkhun/logger';
 import { program } from 'commander';
 import {
-  SemanticVersionGetter,
   DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS,
-  DEFAULT_JSON_STORE_OPTIONS,
   JsonStore,
-  VersionManager,
   Positions,
+  SemanticVersionGetter,
+  VersionManager
 } from '../lib';
-Logger.log('[欢迎] date-version');
+Logger.log('[欢迎] semantic-version');
 
 interface UpdateJsonVersionOptions {
   format: string;
