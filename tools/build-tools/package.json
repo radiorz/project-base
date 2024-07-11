@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/build",
-  "version": "1.0.3",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -33,10 +33,15 @@
   "license": "ISC",
   "dependencies": {
     "@tikkhun/logger": "^1.0.7",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.4.5",
+    "javascript-obfuscator": "^4.1.1",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.2",
+    "@types/lodash": "^4.17.6",
     "@types/node": "^20.14.10",
     "ts-node": "^10.9.2",
     "tsup": "^8.1.0",

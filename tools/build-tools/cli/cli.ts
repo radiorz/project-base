@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 import { Logger } from '@tikkhun/logger';
-import { Build, DEFAULT_OPTIONS } from './Build';
+import { Build, DEFAULT_OPTIONS } from '../lib/Build';
 import packageJson from '../package.json';
 const name = packageJson.name;
 const logger = new Logger(name);
