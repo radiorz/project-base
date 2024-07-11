@@ -10,10 +10,6 @@ import {
 } from '../lib';
 Logger.log('[欢迎] semantic-version');
 
-interface UpdateJsonVersionOptions {
-  format: string;
-  path: string;
-}
 program
   .command('update')
   .description('更新')
