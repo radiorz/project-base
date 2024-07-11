@@ -79,6 +79,9 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
+      '@tikkhun/version':
+        specifier: latest
+        version: 2024.7.4
       '@types/dotenv-safe':
         specifier: ^8.1.6
         version: 8.1.6
@@ -199,15 +202,6 @@ importers:
       '@tikkhun/logger':
         specifier: ^1.0.6
         version: 1.0.6
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
-      js-yaml:
-        specifier: ^4.1.0
-        version: 4.1.0
-      mitt:
-        specifier: ^3.0.1
-        version: 3.0.1
     devDependencies:
       '@tikkhun/utils':
         specifier: workspace:^
@@ -215,12 +209,6 @@ importers:
       '@types/dotenv-safe':
         specifier: ^8.1.6
         version: 8.1.6
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
       '@types/node':
         specifier: ^20.14.8
         version: 20.14.8
@@ -732,37 +720,6 @@ importers:
         specifier: ^1.3.1
         version: 1.6.0(@types/node@20.14.2)(terser@5.27.2)
 
-  tools/date-version:
-    dependencies:
-      '@tikkhun/logger':
-        specifier: ^1.0.6
-        version: 1.0.6
-      commander:
-        specifier: ^12.1.0
-        version: 12.1.0
-      dayjs:
-        specifier: ^1.11.11
-        version: 1.11.11
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
-    devDependencies:
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/node':
-        specifier: ^20.14.2
-        version: 20.14.2
-      ts-node:
-        specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.14.2)(typescript@5.4.5)
-      tsup:
-        specifier: ^8.1.0
-        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.2)(typescript@5.4.5))(typescript@5.4.5)
-      vitest:
-        specifier: ^1.6.0
-        version: 1.6.0(@types/node@20.14.2)(terser@5.27.2)
-
   tools/eslint-config-server:
     dependencies:
       '@waldronmatt/eslint-config':
@@ -771,8 +728,6 @@ importers:
       eslint-plugin-import:
         specifier: ^2.26.0
         version: 2.29.1(@typescript-eslint/parser@5.62.0(eslint@8.56.0)(typescript@5.4.5))(eslint@8.56.0)
-
-  tools/hhh: {}
 
   tools/prettier-config: {}
 
@@ -830,6 +785,37 @@ importers:
       vitest:
         specifier: ^1.3.1
         version: 1.6.0(@types/node@20.14.2)(terser@5.27.2)
+
+  tools/version:
+    dependencies:
+      '@tikkhun/logger':
+        specifier: ^1.0.6
+        version: 1.0.6
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+      dayjs:
+        specifier: ^1.11.11
+        version: 1.11.11
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
+    devDependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
+      '@types/node':
+        specifier: ^20.14.2
+        version: 20.14.8
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@20.14.8)(typescript@5.4.5)
+      tsup:
+        specifier: ^8.1.0
+        version: 8.1.0(postcss@8.4.38)(ts-node@10.9.2(@types/node@20.14.8)(typescript@5.4.5))(typescript@5.4.5)
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.0(@types/node@20.14.8)(terser@5.27.2)
 
 packages:
 
@@ -2063,6 +2049,10 @@ packages:
 
   '@tikkhun/logger@1.0.6':
     resolution: {integrity: sha512-tCMuVD1ta+J0BdjbcQFaKPCmZaRtAneuzxUykdVyzLPkOCMb4w6fHrtPmX/yhNIJ9ORbGPWvghYi+nqMoysq9w==}
+
+  '@tikkhun/version@2024.7.4':
+    resolution: {integrity: sha512-nbYAxnKHEwURoQBzVOSVXtG+ckW0kSInBeCP9sfyz4IoByy2OVbtgByDU85c57a+hE4VlLCIYIVD1P2VxesbRg==}
+    hasBin: true
 
   '@trpc/client@11.0.0-rc.382':
     resolution: {integrity: sha512-O+MSRed5r8AJJ+j3peZkd/b7WINEkhKaFilRuPH8VQsrlMZToxUzQl9aShPIgnOhhQGxvWqdh2lXwUvrFCea/A==}
@@ -7680,6 +7670,13 @@ snapshots:
       fs-extra: 11.2.0
       js-yaml: 4.1.0
       lodash: 4.17.21
+
+  '@tikkhun/version@2024.7.4':
+    dependencies:
+      '@tikkhun/logger': 1.0.6
+      commander: 12.1.0
+      dayjs: 1.11.11
+      fs-extra: 11.2.0
 
   '@trpc/client@11.0.0-rc.382(@trpc/server@11.0.0-rc.403)':
     dependencies:

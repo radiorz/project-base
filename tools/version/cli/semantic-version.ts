@@ -19,13 +19,13 @@ program
   .command('update')
   .description('更新')
   .option('-p --position <position>', '更新位置', Positions[DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position])
-  .option('-f --file <filePath>', 'json文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
+  .option('-f --file <filePath>', 'json文件路径', DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.file)
   .action(async (options) => {
     const position = Positions[options.position as keyof typeof Positions];
     const versionManager = new VersionManager({
       getter: new SemanticVersionGetter({ position, file: options.file }),
       store: new JsonStore({
-        file: options.path,
+        file: options.file,
         key: 'version',
       }),
     });
