@@ -24,14 +24,17 @@ export interface ObfuscateOptions {
   include: string[];
   exclude: string[];
 }
-// export interface BytenodeOptions {}
+export interface BytenodeOptions {
+  include: string[];
+  exclude: string[];
+}
 export interface Options {
   workspace: string;
   outDir: string;
   obfuscate: boolean;
   obfuscateOptions: ObfuscateOptions;
 }
-export const DEFAULT_OPTIONS: Options = {
+export const DEFAULT_BUILD_OPTIONS: Options = {
   workspace: process.cwd(),
   outDir: 'dist',
   obfuscate: true,
@@ -43,7 +46,7 @@ export const DEFAULT_OPTIONS: Options = {
 export class Build {
   options: Options;
   constructor(options?: Partial<Options>) {
-    this.options = merge(DEFAULT_OPTIONS, options);
+    this.options = merge(DEFAULT_BUILD_OPTIONS, options);
   }
   get outDir() {
     return path.join(workspace, this.options.outDir);

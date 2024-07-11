@@ -17,7 +17,7 @@ export default defineConfig((options) => ({
   minify: !options.watch,
   banner: {
     js: `/**
-  @tikkhun/logger
+  @tikkhun/version
 */`,
   },
 }));
