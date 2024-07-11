@@ -1,5 +1,4 @@
 {
-  "dependencies": {},
   "name": "server-project-base",
   "version": "1.0.0",
   "private": true,
@@ -17,6 +16,6 @@
   "license": "ISC",
   "devDependencies": {
     "del-cli": "^5.1.0",
-    "turbo": "^1.13.2"
+    "turbo": "^1.13.4"
   }
 }

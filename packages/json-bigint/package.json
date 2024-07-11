@@ -14,7 +14,7 @@
 		"name": "sclin"
 	},
 	"devDependencies": {
-		"vite": "^2.1.2"
+		"vite": "^2.9.18"
 	},
 	"license": "ISC"
 }
