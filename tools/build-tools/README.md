@@ -1,18 +1,20 @@
-# logger
+# build
 
-实现一个可以替换logger 实现的例子
+用于打包简单的js项目
 
-## 使用
-
+## 使用 cli
+一般使用命令行进行
+```powershell
+npx @tikkhun/build
 ```
-import { Logger } from '../lib/impl';
-Logger.log('123');
-Logger.debug!('123');
-Logger.warn('123');
-Logger.error('123');
 
-const logger = new Logger('local');
-
-logger.debug!('123');
+## 使用代码
+```typescript
+import { Build } from '../lib';
+const build = new Build({
+  outDir: 'test-dist',
+  obfuscate: true,
+});
+build.start();
 
 ```
