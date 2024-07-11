@@ -79,6 +79,9 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
+      '@tikkhun/release':
+        specifier: workspace:^
+        version: link:../../tools/release-tools
       '@tikkhun/version':
         specifier: latest
         version: 2024.7.5
