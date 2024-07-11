@@ -79,12 +79,9 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
-      '@tikkhun/release':
-        specifier: workspace:^
-        version: link:../../tools/release-tools
       '@tikkhun/version':
         specifier: latest
-        version: 2024.7.5
+        version: 2024.7.7
       '@types/dotenv-safe':
         specifier: ^8.1.6
         version: 8.1.6
@@ -733,6 +730,12 @@ importers:
         version: 2.29.1(@typescript-eslint/parser@5.62.0(eslint@8.57.0)(typescript@5.5.3))(eslint@8.57.0)
 
   tools/prettier-config: {}
+
+  tools/project-name:
+    dependencies:
+      '@tikkhun/release':
+        specifier: workspace:^
+        version: link:../release-tools
 
   tools/release-tools:
     dependencies:
@@ -1690,8 +1693,8 @@ packages:
   '@tikkhun/logger@1.0.7':
     resolution: {integrity: sha512-z1o67jXp7X3V1yoBFTPuPsSjBeqPBbPwTlUVdTmev4NDjV6mlP3/+oCZhVQweyyv8xe3PkBHz2K5wIqIRcnurw==}
 
-  '@tikkhun/version@2024.7.5':
-    resolution: {integrity: sha512-yapXxslY+cqQ/nDMs/4auGXaL3I6EjmMgbXQ7BYNDD3Jppj+6UQYOtXffzuKxeoKK44Wq2h/OTWMvgp2NGmbgQ==}
+  '@tikkhun/version@2024.7.7':
+    resolution: {integrity: sha512-Brrxk5qQHYNWZcIeuMerioHongag8u/3TVOW4tNwG19ws3amU7DzMEy+gNIP3IUWSxJsHnzXYJW9WpvWQGgDLQ==}
     hasBin: true
 
   '@trpc/client@11.0.0-rc.403':
@@ -6896,7 +6899,7 @@ snapshots:
       js-yaml: 4.1.0
       lodash: 4.17.21
 
-  '@tikkhun/version@2024.7.5':
+  '@tikkhun/version@2024.7.7':
     dependencies:
       '@tikkhun/logger': 1.0.7
       commander: 12.1.0
