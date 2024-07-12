@@ -1,3 +1,4 @@
+// 理论上需要用userAgent 去搞
 // isWeb
 export function isClient() {
   return typeof window !== 'undefined' && typeof document !== 'undefined';
