@@ -195,7 +195,7 @@ export class Timer {
       this.options.ticker = new Ticker({ start: false });
     }
     // 监听
-    (this.options.ticker as Ticker).addTimer(this);
+    this.options.ticker.addTimer(this);
     return this;
   }
   get ticker(): Ticker | null {
