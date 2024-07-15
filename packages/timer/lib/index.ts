@@ -207,6 +207,7 @@ export class Timer {
     }
     this.options.ticker.start();
   }
+  // pause(){}
   stop() {
     this.options.ticker?.off('change', this.onTime);
     this.options.ticker?.off('stop', this.onStop);
