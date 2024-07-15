@@ -66,6 +66,7 @@ export abstract class AbstractTicker extends Emitter {
     }
     this.on('change', timer.onTime);
     this.on('stop', timer.onStop);
+    this.on('start', timer.onStart);
     this.timers.add(timer);
   }
   removeTimer(timer: Timer) {
@@ -74,6 +75,7 @@ export abstract class AbstractTicker extends Emitter {
     }
     this.off('change', timer.onTime);
     this.off('stop', timer.onStop);
+    this.off('start', timer.onStart);
     this.timers.delete(timer);
     if (!this.timers.size) {
       this.stop();
@@ -81,6 +83,9 @@ export abstract class AbstractTicker extends Emitter {
   }
   onStop() {
     this.emit('stop');
+  }
+  onStart() {
+    this.emit('start');
   }
   abstract start(): void;
   abstract stop(): void;
@@ -95,6 +100,7 @@ export class Ticker extends AbstractTicker {
       return;
     }
     this.isStart = true;
+    this.onStart();
     this._intervalId = setInterval(() => {
       this.updateNow();
     }, this.options.accuracy);
@@ -102,6 +108,10 @@ export class Ticker extends AbstractTicker {
   onStop(): void {
     super.onStop();
     this.logger.debug!('ticker is stop');
+  }
+  onStart(): void {
+    super.onStart();
+    this.logger.debug!('ticker is start');
   }
   stop() {
     if (this._intervalId) {
@@ -154,6 +164,7 @@ export class Timer {
     this.setIsOnTime();
     this.onTime = this.onTime.bind(this);
     this.onStop = this.onStop.bind(this);
+    this.onStart = this.onStart.bind(this);
     if (this.options.ticker) this.init();
     if (this.options.ticker && this.options.start) this.start();
   }
@@ -214,6 +225,9 @@ export class Timer {
   stop() {
     this.options.ticker?.removeTimer(this);
     this.onStop();
+  }
+  onStart() {
+    this.logger.debug!('timer is start');
   }
   onStop() {
     this.logger.debug!('timer is stop');
