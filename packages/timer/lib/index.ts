@@ -110,7 +110,7 @@ export const oneHourMillis = 3600 * 1000;
 export const oneDayMillis = 3600 * 1000 * 24;
 
 export interface TimerOptions {
-  ticker: Ticker;
+  ticker: Ticker | true | null;
   isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
   onTime: (now: number) => void;
   start: true;
@@ -119,35 +119,48 @@ export interface TimerOptions {
 //
 export function getDefaultTimerOptions(): TimerOptions {
   return {
-    ticker: new Ticker({ start: false }),
+    ticker: null,
     isOnTime: (now: number) => true,
     onTime: () => {},
     start: true,
   };
 }
-
+export interface ReallyTimerOptions {
+  ticker: Ticker | null;
+  isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
+  onTime: (now: number) => void;
+  start: true;
+}
 export class Timer {
   id = crypto.randomUUID();
-  options: TimerOptions;
+  options: ReallyTimerOptions;
   isOnTime: (now: number) => boolean = (now: number) => true;
   logger = new Logger(this.id);
   constructor(options?: Partial<TimerOptions>) {
-    this.options = Object.assign(getDefaultTimerOptions(), options);
+    const defaultOptions = getDefaultTimerOptions();
+    if (defaultOptions.ticker === true) {
+      defaultOptions.ticker = new Ticker({ start: false });
+    }
+    this.options = Object.assign(defaultOptions as ReallyTimerOptions, options);
     this.setIsOnTime();
     this.onTime = this.onTime.bind(this);
-    this.init();
-    if (this.options.start) this.start();
+    if (this.options.ticker) this.init();
+    if (this.options.ticker && this.options.start) this.start();
   }
   setIsOnTime() {
     if (typeof this.options.isOnTime === 'string') {
       if (this.options.isOnTime === 'hour') {
-        this.isOnTime = (now: number) => Timer.isOnHour(now, this.options.ticker.options.accuracy);
+        this.isOnTime = (now: number) =>
+          Timer.isOnHour(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
       } else if (this.options.isOnTime === 'minute') {
-        this.isOnTime = (now: number) => Timer.isOnMinute(now, this.options.ticker.options.accuracy);
+        this.isOnTime = (now: number) =>
+          Timer.isOnMinute(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
       } else if (this.options.isOnTime === 'day') {
-        this.isOnTime = (now: number) => Timer.isOnDay(now, this.options.ticker.options.accuracy);
+        this.isOnTime = (now: number) =>
+          Timer.isOnDay(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
       } else if (this.options.isOnTime === 'second') {
-        this.isOnTime = (now: number) => Timer.isOnSecond(now, this.options.ticker.options.accuracy);
+        this.isOnTime = (now: number) =>
+          Timer.isOnSecond(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
       } else {
         this.isOnTime = (now: number) => true;
       }
@@ -162,16 +175,35 @@ export class Timer {
       this.options.onTime(now);
     }
   }
-  init() {
-    this.options.ticker.on('change', this.onTime);
-    this.options.ticker.addTimer(this);
+  init(ticker?: Ticker) {
+    if (ticker) {
+      this.options.ticker = ticker;
+    }
+
+    if (!this.options.ticker) {
+      // 如果没有 ticker 就加上 ticker
+      this.options.ticker = new Ticker({ start: false });
+    }
+    // 监听
+    (this.options.ticker as Ticker).on('change', this.onTime);
+    (this.options.ticker as Ticker).addTimer(this);
+    return this;
+  }
+  get ticker(): Ticker | null {
+    return this.options.ticker as Ticker | null;
+  }
+  set ticker(ticker: Ticker) {
+    this.options.ticker = ticker;
   }
   start() {
+    if (!this.options.ticker) {
+      throw new Error('ticker is not defined');
+    }
     this.options.ticker.start();
   }
   stop() {
-    this.options.ticker.off('change', this.onTime);
-    this.options.ticker.removeTimer(this);
+    this.options.ticker?.off('change', this.onTime);
+    this.options.ticker?.removeTimer(this);
     this.logger.debug!('timer is stop');
   }
   static isOnSecond(timestamp: number, accuracy: number): boolean {

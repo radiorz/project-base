@@ -1,12 +1,12 @@
 import { Timer, Ticker } from '../lib';
 const ticker = new Ticker();
 const timer = new Timer({
-  ticker,
   isOnTime: 'second',
   onTime: (now) => {
     console.log(`timer1`, now);
   },
 });
+
 const timer2 = new Timer({
   ticker,
   isOnTime: 'second',
@@ -21,6 +21,7 @@ const timer3 = new Timer({
     console.log(`timer3`, now);
   },
 });
+timer.init(ticker).start();
 setTimeout(() => {
   timer2.stop();
 }, 3000);
