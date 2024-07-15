@@ -59,6 +59,7 @@ export abstract class AbstractTicker extends Emitter {
     this.now = await this.options.getNow();
     this.emit('change', this.now);
   }
+
   addTimer(timer: Timer) {
     if (this.timers.has(timer)) {
       return;
@@ -73,6 +74,9 @@ export abstract class AbstractTicker extends Emitter {
     if (!this.timers.size) {
       this.stop();
     }
+  }
+  onStop() {
+    this.emit('stop');
   }
   abstract start(): void;
   abstract stop(): void;
@@ -91,16 +95,17 @@ export class Ticker extends AbstractTicker {
       this.updateNow();
     }, this.options.accuracy);
   }
+  onStop(): void {
+    super.onStop();
+    this.logger.debug!('ticker is stop');
+  }
   stop() {
-    if (this.timers.size) {
-      return;
-    }
     if (this._intervalId) {
       clearInterval(this._intervalId);
       delete this._intervalId;
     }
     this.isStart = false;
-    this.logger.debug!('ticker is stop');
+    this.onStop();
   }
 }
 // 定时器
@@ -185,7 +190,8 @@ export class Timer {
       this.options.ticker = new Ticker({ start: false });
     }
     // 监听
-    (this.options.ticker as Ticker).on('change', this.onTime);
+    (this.options.ticker as Ticker).on('change', this.onTime.bind(this));
+    (this.options.ticker as Ticker).on('stop', this.onStop.bind(this));
     (this.options.ticker as Ticker).addTimer(this);
     return this;
   }
@@ -203,7 +209,11 @@ export class Timer {
   }
   stop() {
     this.options.ticker?.off('change', this.onTime);
+    this.options.ticker?.off('stop', this.onStop);
     this.options.ticker?.removeTimer(this);
+    this.onStop();
+  }
+  onStop() {
     this.logger.debug!('timer is stop');
   }
   static isOnSecond(timestamp: number, accuracy: number): boolean {

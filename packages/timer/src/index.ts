@@ -22,12 +22,17 @@ const timer3 = new Timer({
   },
 });
 timer.init(ticker).start();
+// setTimeout(() => {
+//   timer2.stop();
+// }, 3000);
+// setTimeout(() => {
+//   timer.stop();
+// }, 2000);
+// setTimeout(() => {
+//   timer3.stop();
+// }, 4000);
+
 setTimeout(() => {
-  timer2.stop();
-}, 3000);
-setTimeout(() => {
-  timer.stop();
-}, 2000);
-setTimeout(() => {
-  timer3.stop();
-}, 4000);
+  ticker.stop();
+  ticker.start();
+}, 5000);
