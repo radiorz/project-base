@@ -64,12 +64,16 @@ export abstract class AbstractTicker extends Emitter {
     if (this.timers.has(timer)) {
       return;
     }
+    this.on('change', timer.onTime);
+    this.on('stop', timer.onStop);
     this.timers.add(timer);
   }
   removeTimer(timer: Timer) {
     if (!this.timers.has(timer)) {
       return;
     }
+    this.off('change', timer.onTime);
+    this.off('stop', timer.onStop);
     this.timers.delete(timer);
     if (!this.timers.size) {
       this.stop();
@@ -149,6 +153,7 @@ export class Timer {
     this.options = Object.assign(defaultOptions as ReallyTimerOptions, options);
     this.setIsOnTime();
     this.onTime = this.onTime.bind(this);
+    this.onStop = this.onStop.bind(this);
     if (this.options.ticker) this.init();
     if (this.options.ticker && this.options.start) this.start();
   }
@@ -190,8 +195,6 @@ export class Timer {
       this.options.ticker = new Ticker({ start: false });
     }
     // 监听
-    (this.options.ticker as Ticker).on('change', this.onTime.bind(this));
-    (this.options.ticker as Ticker).on('stop', this.onStop.bind(this));
     (this.options.ticker as Ticker).addTimer(this);
     return this;
   }
@@ -209,8 +212,6 @@ export class Timer {
   }
   // pause(){}
   stop() {
-    this.options.ticker?.off('change', this.onTime);
-    this.options.ticker?.off('stop', this.onStop);
     this.options.ticker?.removeTimer(this);
     this.onStop();
   }
