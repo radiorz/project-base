@@ -38,7 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "lodash": "^4.17.21",
-    "@tikkhun/config-core": "workspace:^"
+    "@tikkhun-config/core": "workspace:^"
   },
   "devDependencies": {
     "@tikkhun/version": "latest",
