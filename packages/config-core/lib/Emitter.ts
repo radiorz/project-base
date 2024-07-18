@@ -1,4 +1,4 @@
-type EventCallback = (...args: any[]) => void;
+export type EventCallback = (...args: any[]) => void;
 
 export class Emitter {
   private listeners: { [eventName: string]: EventCallback[] } = {};

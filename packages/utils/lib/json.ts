@@ -12,11 +12,24 @@ export interface ListItem {
 export interface ListToJsonOptions {
   delimiter: string;
   list: ListItem[];
+  /**
+   * 比如将 keyItem 转小写等
+   * @param v
+   */
+  keyItemTransformer(v: string): string;
 }
-export function listToJson(options: ListToJsonOptions): Record<string, any> {
+export const defaultListToJsonOptions: ListToJsonOptions = {
+  delimiter: '.',
+  list: [],
+  keyItemTransformer: function (v: string): string {
+    return v;
+  },
+};
+export function listToJson(options?: Partial<ListToJsonOptions>): Record<string, any> {
+  const { delimiter, keyItemTransformer, list } = Object.assign(defaultListToJsonOptions, options);
   const json = {};
-  options.list.forEach(({ key, value }) => {
-    set(json, key.split(options.delimiter).join('.'), value);
+  list.forEach(({ key, value }) => {
+    set(json, key.split(delimiter).map(keyItemTransformer).join('.'), value);
   });
   return json;
 }
