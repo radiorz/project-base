@@ -1,8 +1,9 @@
 import { config } from 'dotenv-safe';
 import { camelCase, set } from 'lodash';
 import { ConfigSource } from '@tikkhun/config-core';
+import { listToJson } from '@tikkhun/utils-core';
 export interface EnvSourceOptions {
-  prefix: string;
+  includePrefix: string;
   // 层级的分隔符
   delimiter: string;
   // 是否将key 名称转化为 camelCase
@@ -11,7 +12,7 @@ export interface EnvSourceOptions {
 }
 
 export const DEFAULT_ENV_CONFIG_OPTIONS = {
-  prefix: '',
+  includePrefix: '',
   delimiter: '__',
   camelCase: true,
   allowEmptyValues: true,
@@ -26,22 +27,25 @@ export class EnvSource implements ConfigSource {
     config({ allowEmptyValues: this.options.allowEmptyValues });
   }
   load() {
-    // 构成对象
-    const env = {};
-    for (const [key, value] of Object.entries(process.env)) {
-      if (this.options.prefix && !key.startsWith(this.options.prefix)) {
-        // 这里排除前缀不为设置的前缀的配置，这样可以缩小范围
-        continue;
-      }
-      const keys = key.split(this.options.delimiter);
-      let _key;
-      if (this.options.camelCase) {
-        _key = keys.map(camelCase).join('.');
-      } else {
-        _key = keys.join('.');
-      }
-      set(env, _key, value);
-    }
-    return env;
+    const { delimiter, includePrefix, camelCase: camelCaseOption } = this.options;
+    return listToJson({
+      delimiter,
+      isKeyInclude(key: string) {
+        if (!includePrefix) {
+          return true;
+        }
+        return key.startsWith(includePrefix);
+      },
+      keyItemTransformer(item: string) {
+        if (camelCaseOption) return camelCase(item);
+        return item;
+      },
+      list: Object.entries(process.env).map(([key, value]) => {
+        return {
+          key,
+          value,
+        };
+      }),
+    });
   }
 }

@@ -38,6 +38,7 @@
   "license": "ISC",
   "dependencies": {
     "@tikkhun/config-core": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
     "dotenv-safe": "^9.1.0",
     "lodash": "^4.17.21"
   },

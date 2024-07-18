@@ -30,6 +30,6 @@ m.set('nnn', '1234');
 console.log(`m.get('nnn')`, m.get('nnn'));
 
 const v = Config.create({
-  sources: [new EnvSource({ prefix: 'tikkhun' })],
+  sources: [new EnvSource({ includePrefix: 'tikkhun' })],
 });
 console.log(`v.get()`, v.get());
