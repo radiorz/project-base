@@ -31,7 +31,7 @@ export const defaultJsonToListOptions: JsonToListOptions = {
   json: {},
 };
 export function jsonToList(options?: Partial<JsonToListOptions>): ListItem[] {
-  const { delimiter, json, prefix } = Object.assign(defaultJsonToListOptions, options);
+  const { delimiter, json, prefix }: JsonToListOptions = Object.assign(defaultJsonToListOptions, options);
   return Object.keys(json).reduce((acc: ListItem[], key: string) => {
     const propKey = prefix ? `${prefix}${delimiter}${key}` : key;
 
