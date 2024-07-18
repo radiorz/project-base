@@ -182,7 +182,7 @@ importers:
 
   packages/node-config:
     dependencies:
-      '@tikkhun-config/core':
+      '@tikkhun/config-core':
         specifier: workspace:^
         version: link:../config-core
       dotenv-safe:
@@ -273,7 +273,7 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7
     devDependencies:
-      '@tikkhun-utils/core':
+      '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../utils
       '@types/dotenv-safe':
