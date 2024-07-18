@@ -185,6 +185,9 @@ importers:
       '@tikkhun-config/core':
         specifier: workspace:^
         version: link:../config-core
+      dotenv-safe:
+        specifier: ^9.1.0
+        version: 9.1.0(dotenv@16.4.5)
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
@@ -192,9 +195,15 @@ importers:
       '@tikkhun/version':
         specifier: latest
         version: 2024.7.7
+      '@types/dotenv-safe':
+        specifier: ^8.1.6
+        version: 8.1.6
       '@types/lodash':
         specifier: ^4.17.6
         version: 4.17.6
+      '@types/node':
+        specifier: ^20.14.10
+        version: 20.14.10
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@20.14.10)(typescript@5.5.3)
@@ -2987,6 +2996,11 @@ packages:
   dotenv-expand@10.0.0:
     resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
     engines: {node: '>=12'}
+
+  dotenv-safe@9.1.0:
+    resolution: {integrity: sha512-2qwVAnUN+EDpu41pIK1XiJpHXKHV9Dnti3cE1EnUXT1/BV5+B7xuSZtgZ/4LExkCpp5F6BGikraezQL+8hKCOA==}
+    peerDependencies:
+      dotenv: '>= 8.2.0'
 
   dotenv@16.4.5:
     resolution: {integrity: sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==}
@@ -8543,6 +8557,10 @@ snapshots:
   dom-accessibility-api@0.5.16: {}
 
   dotenv-expand@10.0.0: {}
+
+  dotenv-safe@9.1.0(dotenv@16.4.5):
+    dependencies:
+      dotenv: 16.4.5
 
   dotenv@16.4.5: {}
 

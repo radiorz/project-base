@@ -1,6 +1,6 @@
 import { config } from 'dotenv-safe';
 import { camelCase, set } from 'lodash';
-import { ConfigSource } from './ConfigSource';
+import { ConfigSource } from '@tikkhun-config/core';
 export interface EnvSourceOptions {
   prefix: string;
   // 层级的分隔符
