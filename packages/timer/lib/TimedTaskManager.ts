@@ -1,10 +1,10 @@
 /**
  * @author
- * @file Cron.ts
- * @fileBase Cron
- * @path packages\timer\lib\Cron.ts
+ * @file TimedTaskManager.ts
+ * @fileBase TimedTaskManager
+ * @path packages\timer\lib\TimedTaskManager.ts
  * @from
- * @desc
+ * @desc 这个就是简单的一个定时任务的设置 但是是一次性的 不像cron 可以多次
  * @todo
  *
  *
@@ -40,7 +40,7 @@ export class TimedTaskManager implements ITimer {
   onTime(now: number): void {
     // 判断是否jobs 到点了
     this.jobs.forEach((job, id) => {
-      const isOnTime = Cron.isOnNow(now, job.timestamp, this.options.ticker!.options.accuracy);
+      const isOnTime = TimedTaskManager.isOnNow(now, job.timestamp, this.options.ticker!.options.accuracy);
       if (isOnTime) {
         job.onTick(now);
         this.jobs.delete(id);
