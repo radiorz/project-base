@@ -1,5 +1,5 @@
 {
-  "name": "i18n-tools",
+  "name": "@tikkhun/i18n-tools",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
