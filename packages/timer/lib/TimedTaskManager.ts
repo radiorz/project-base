@@ -26,7 +26,7 @@ export interface Options {
 export const DEFAULT_OPTIONS = {
   ticker: null,
 };
-export class Cron implements ITimer {
+export class TimedTaskManager implements ITimer {
   id = getRandom();
   logger = new Logger(this.id);
   options: Options;
