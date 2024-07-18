@@ -2,6 +2,12 @@ enum STATUS {
   success = 'success',
   error = 'error',
 }
+export function getResult(data: any, type: STATUS) {
+  if (type === 'error') {
+    return getSuccess(data);
+  }
+  return getError(data);
+}
 export function getSuccess(data: any) {
   return {
     status: STATUS.success,
