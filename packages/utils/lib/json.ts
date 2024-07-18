@@ -1,10 +1,4 @@
-import fsExtra from 'fs-extra';
 import { set } from 'lodash';
-import { packageJsonPath } from './path';
-const { readJson } = fsExtra;
-export async function getPackageJson() {
-  return await readJson(packageJsonPath);
-}
 export interface ListItem {
   key: string;
   value: any;
