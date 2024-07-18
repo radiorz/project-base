@@ -10,3 +10,4 @@ export * from './text';
 export * from './time';
 export * from './tree';
 export * from './version';
+export * from './JsonBigInt';
