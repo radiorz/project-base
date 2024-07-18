@@ -36,7 +36,7 @@
     "@tikkhun/logger": "^1.0.7"
   },
   "devDependencies": {
-    "@tikkhun/utils": "workspace:^",
+    "@tikkhun-utils/core": "workspace:^",
     "@types/dotenv-safe": "^8.1.6",
     "@types/node": "^20.14.10",
     "ts-node": "^10.9.2",

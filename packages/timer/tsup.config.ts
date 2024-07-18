@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsup';
 import packageJson from './package.json';
-import { capitalize } from '@tikkhun/utils';
+import { capitalize } from '@tikkhun-utils/core';
 const name = packageJson.name.split('/')[1];
 export default defineConfig((options) => ({
   // 入口文件
