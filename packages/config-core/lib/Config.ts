@@ -21,6 +21,12 @@ export class Config extends Emitter implements Api {
     super();
     this.options = options;
     this.sources = this.options.sources;
+    this.on('change', (config) => {
+      // 同步到源上
+      this.sources.forEach((source) => {
+        source.save?.(config);
+      });
+    });
   }
   static create(options: ConfigOptions) {
     const configManager = new Config(options);
@@ -71,10 +77,6 @@ export class Config extends Emitter implements Api {
     if (!path && !data) return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
     this.config = set(this.config, path, data);
-    // TODO 设置回去
-    this.sources.forEach((source) => {
-      source.save?.(this.config);
-    });
   }
   // 重置整个config
   reset() {
