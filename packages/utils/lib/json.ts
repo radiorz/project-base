@@ -1,4 +1,5 @@
-import { set } from 'lodash';
+import lodash from 'lodash';
+const { set } = lodash;
 export interface ListItem {
   key: string;
   value: any;
