@@ -8,15 +8,20 @@ interface Message {
 // 模拟一下
 const emitter = {
   callbacks: [] as any[],
-  onResponse(callback: any) {
+  on(topic: string, callback: any) {
     this.callbacks.push(callback);
   },
-  offResponse(callback: any) {
+  off(callback: any) {
     this.callbacks = this.callbacks.filter((c) => c === callback);
   },
-  sendRequest(message: Message) {
+  emit(message: Message) {
     this.callbacks.forEach((callback) => {
-      callback(message);
+      callback({
+        type: 'Response',
+        sessionId: message.sessionId,
+        url: message.url,
+        payload: {},
+      });
     });
   },
 };

@@ -1,4 +1,3 @@
-import { getRandom } from '../../timer/lib/utils';
 /**
  * @author
  * @file Requestable.ts
@@ -18,46 +17,52 @@ export interface Message {
   type: 'Request' | 'Response';
   payload: any;
 }
-export interface EmitterAdapter {
-  onResponse(callback: any): void;
-  sendRequest(message: Message): void;
+export interface Callback {
+  (message: Message): void;
+}
+export interface Emitter {
+  on(topic: string, callback: Callback): void;
+  emit(message: Message): void;
 }
 export interface Options {
   timeout: number;
   isResponse(data: any): boolean;
-  emitter: EmitterAdapter;
+  emitter: Emitter | null;
+  responseTopic: string;
 }
 export const DEFAULT_OPTIONS: Options = {
+  responseTopic: 'response',
   timeout: 30_000,
   isResponse: (data: any) => data.type === 'response',
-  emitter: {
-    onResponse(callback: any) {
-      callback();
-    },
-    sendRequest(message: Message) {},
-  },
+  emitter: null,
 };
 export interface RequestOptions {
   url: string;
   payload: any;
+  timeout?: number;
 }
 export class Requestable {
   options: Options;
   constructor(options?: Partial<Options>) {
     this.options = Object.assign(DEFAULT_OPTIONS, options);
-    this.options.emitter.onResponse((data: any) => {
-      const { sessionId } = data;
-      this.requestWaiters.get(sessionId).resolve(data);
+    this.options.emitter?.on(this.options.responseTopic, (data: any) => {
+      this.requestWaiters.get(data.sessionId).resolve(data);
     });
   }
   requestWaiters = new Map<string, any>();
+  set emitter(emitter: Emitter) {
+    this.options.emitter = emitter;
+  }
   async request(options: RequestOptions) {
+    if (!this.options.emitter) {
+      throw new Error('emitter is not defined');
+    }
     // 超时逻辑
     const sessionId = getRandom();
     const resultPromise = new Promise((resolve) => {
       this.requestWaiters.set(sessionId, { resolve });
     });
-    let { timeout } = this.options;
+    let timeout = options.timeout ?? this.options.timeout;
     let timeoutId;
     const timeoutPromise = new Promise((resolve, reject) => {
       timeoutId = setTimeout(() => {
@@ -66,13 +71,13 @@ export class Requestable {
       }, timeout);
     });
     const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
-    this.options.emitter.sendRequest({ ...options, sessionId, type: 'Request' });
+    this.options.emitter?.emit({ ...options, sessionId, type: 'Request' });
     const result = await combinedPromise;
-    clearTimeout(timeoutId);
+    if (timeoutId) clearTimeout(timeoutId);
     return result;
   }
 }
 let a = 1;
-function getRandom() {
+export function getRandom() {
   return '' + Date.now() + a++;
 }
