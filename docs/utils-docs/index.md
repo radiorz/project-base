@@ -6,7 +6,7 @@
 
 ## 使用
 
-可以打开命令行通过"window._"进行函数尝试。所有函数都绑在上面
+可以打开命令行通过"window.\_"进行函数尝试。所有函数都绑在上面
 
 <script setup>
   import * as utils from '@tikkhun/utils-core'
