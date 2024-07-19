@@ -4,6 +4,7 @@ import { Emitter } from './Emitter';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 export interface ConfigOptions {
   sources: ConfigSource[];
+  global?: string;
 }
 
 export class Config extends Emitter implements Api {
@@ -27,6 +28,10 @@ export class Config extends Emitter implements Api {
         source.save?.(config);
       });
     });
+    // 设置到全局
+    if (this.options.global) {
+      (globalThis as any)[this.options.global] = this;
+    }
   }
   static create(options: ConfigOptions) {
     const configManager = new Config(options);
