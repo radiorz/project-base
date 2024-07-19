@@ -8,6 +8,11 @@
 ## 使用
 
 ```javascript
-imp
+import { Requestable } from '@tikkhun/requestable';
 
+const r = new Requestable({emitter: <emitter>});
+const result = await r.request({
+  url: '',
+  payload: {},
+});
 ```
