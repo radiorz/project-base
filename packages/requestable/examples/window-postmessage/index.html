@@ -17,7 +17,6 @@
         window.addEventListener('message', (event) => {
           this.source = event.source
           if (event.data.topic !== topic) {
-            console.log(`topic`, event.data.topic, topic)
             return
           }
           cb(event.data.message)

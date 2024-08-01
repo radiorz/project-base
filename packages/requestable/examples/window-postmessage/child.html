@@ -15,7 +15,6 @@
       on(topic, cb) {
         window.addEventListener('message', (event) => {
           if (event.data.topic !== topic) {
-            console.log(`topic`, event.data.topic, topic)
             return
           }
           cb(event.data.message)
