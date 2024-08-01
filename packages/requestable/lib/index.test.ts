@@ -1,6 +1,7 @@
 import { it, expect } from 'vitest';
 import { Message, Requestable, Responsive } from './index';
 import { Emitter } from './index';
+import { faker } from '@faker-js/faker';
 it('request response work', async () => {
   // 模拟一下
   const emitter: Emitter = {
@@ -18,10 +19,10 @@ it('request response work', async () => {
     },
   };
   const responsive = new Responsive({ emitter: emitter });
-  responsive.addRoute('hello', (data) => {
-    console.log(`hello data`, data);
+  function handler(data: any) {
     return data;
-  });
+  }
+  responsive.addRoute('hello', handler);
   responsive.init();
   const requestable = new Requestable({
     emitter: emitter,
@@ -29,15 +30,15 @@ it('request response work', async () => {
   requestable.init();
   const requestMessage = {
     url: 'hello',
-    payload: {
-      1: 123,
-    },
+    payload: { name: faker.string.uuid() },
   };
+  console.log(`payload`, requestMessage);
   const result = await requestable.request(requestMessage);
-  expect(result.payload).toBe(requestMessage.payload);
+  const handlerResult = await handler(requestMessage.payload);
+  expect(result.payload).toBe(handlerResult);
   expect(result.url).toBe(requestMessage.url);
 });
-it('request response work', async () => {
+it('response 404', async () => {
   // 模拟一下
   const emitter = {
     callbacks: [] as any[],
@@ -61,9 +62,7 @@ it('request response work', async () => {
   requestable.init();
   const requestMessage = {
     url: 'hello',
-    payload: {
-      1: 123,
-    },
+    payload: null,
   };
   const result = await requestable.request(requestMessage);
   expect(result.payload.status).toBe(404);
