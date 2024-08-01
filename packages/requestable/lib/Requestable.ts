@@ -49,7 +49,7 @@ export class Requestable {
       this.requestWaiters.get(data.sessionId).resolve(data);
     });
   }
-  async request(options: RequestOptions) {
+  async request(options: RequestOptions): Promise<Message> {
     // console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');

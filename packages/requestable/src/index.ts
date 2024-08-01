@@ -1,5 +1,4 @@
-import { Responsive } from '../lib';
-import { Requestable } from '../lib/Requestable';
+import { Requestable, Responsive } from '../lib';
 
 interface Message {
   sessionId: string;
