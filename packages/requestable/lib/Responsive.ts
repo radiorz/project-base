@@ -17,14 +17,14 @@ export interface Handler {
 }
 export interface ResponsiveOptions {
   emitter: Emitter | null;
-  requestTopic: 'request';
   responseTopicBuilder: (data: Message) => string;
+  requestTopic: 'request';
   isRequest(data: any): boolean;
 }
 export const DEFAULT_RESPONSIVE_OPTIONS: ResponsiveOptions = {
   emitter: null,
-  requestTopic: 'request',
   responseTopicBuilder: (data: Message) => 'response',
+  requestTopic: 'request',
   isRequest: (data: any) => data.type === MessageType.Request,
 };
 export interface ResponseOptions {}
@@ -41,12 +41,13 @@ export class Responsive {
       this.onRequest(data);
     });
   }
-  routes = new Map<string, Handler>();
-  // 这里要弄一个route
+  private routes = new Map<string, Handler>();
+  // 添加 route
   addRoute(url: string, handler: Handler) {
     this.routes.set(url, handler);
   }
-  async onRequest(data: Message) {
+  // 监听
+  private async onRequest(data: Message) {
     // console.log(`onRequest`, data);
     if (!this.options.isRequest(data)) {
       return;

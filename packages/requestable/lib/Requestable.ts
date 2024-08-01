@@ -12,6 +12,7 @@
  * @example
  */
 import { Emitter, Message, MessageType } from './common';
+import { getRandom } from './utils';
 export interface RequestableOptions {
   timeout: number;
   isResponse(data: any): boolean;
@@ -36,7 +37,7 @@ export class Requestable {
   constructor(options?: Partial<RequestableOptions>) {
     this.options = Object.assign(DEFAULT_REQUESTABLE_OPTIONS, options);
   }
-  requestWaiters = new Map<string, any>();
+  private requestWaiters = new Map<string, any>();
   set emitter(emitter: Emitter) {
     this.options.emitter = emitter;
   }
@@ -74,8 +75,4 @@ export class Requestable {
     if (timeoutId) clearTimeout(timeoutId);
     return result;
   }
-}
-let a = 1;
-export function getRandom() {
-  return '' + Date.now() + a++;
 }
