@@ -10,10 +10,11 @@
 <body>
   <div>child</div>
   <script type="module">
-    import { Requestable } from '../../dist/index.mjs'
+    import { Requestable, Responsive } from '../../dist/index.mjs'
     const emitter = {
       on(topic, cb) {
         window.addEventListener('message', (event) => {
+          console.log(`child receive event.data`, event.data)
           if (event.data.topic !== topic) {
             return
           }
@@ -21,15 +22,20 @@
         })
       },
       emit(topic, message) {
+        console.log(`child emit topic,message`, topic, message)
         window.parent.postMessage({ topic, message }, '*')
       }
     }
-    const requestable = new Requestable({
-      emitter
+    const responsive = new Responsive({ emitter })
+    responsive.addRoute('home', (data) => {
+      return 'home from child'
     })
-    requestable.init()
+    responsive.init()
     async function bootstrap() {
-      console.log(`123`, 123)
+      const requestable = new Requestable({
+        emitter
+      })
+      requestable.init()
       const result = await requestable.request({
         url: 'home',
         payload: {

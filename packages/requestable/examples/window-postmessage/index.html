@@ -10,12 +10,14 @@
 <body>
   <iframe id="child" src="./child.html" width="50%" height="50%"></iframe>
   <script type="module">
-    import { Responsive } from '../../dist/index.mjs'
+    import { Responsive, Requestable } from '../../dist/index.mjs'
     const emitter = {
       source: null,
       on(topic, cb) {
+        console.log(`topic`, topic)
         window.addEventListener('message', (event) => {
-          this.source = event.source
+          // console.log(`parent message`, event.data.topic, topic)
+          // this.source = event.source
           if (event.data.topic !== topic) {
             return
           }
@@ -23,17 +25,39 @@
         })
       },
       emit(topic, message) {
-        this.source.postMessage({ topic, message }, '*')
+        // this.source.postMessage({ topic, message }, '*')
+        child.contentWindow.postMessage({ topic, message }, '*')
       }
     }
     const responsive = new Responsive({
       emitter
     })
     responsive.addRoute('home', (data) => {
-      console.log(`data`, data)
-      return 123123
+      return data
     })
     responsive.init()
+    async function bootstrap() {
+      const requestable = new Requestable({
+        emitter
+      })
+      requestable.init()
+      const result = await requestable.request({
+        url: 'home',
+        payload: {
+          a: 123
+        }
+      })
+      console.log(`result`, result)
+      const resultFail = await requestable.request({
+        url: 'hhh',
+        payload: null
+      })
+      console.log(`resultFail`, resultFail)
+    }
+    setTimeout(() => {
+
+      bootstrap()
+    }, 1000)
   </script>
 </body>
 
