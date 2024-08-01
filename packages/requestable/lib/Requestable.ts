@@ -11,30 +11,20 @@
  * @done
  * @example
  */
-export interface Message {
-  sessionId: string;
-  url: string;
-  type: 'Request' | 'Response';
-  payload: any;
-}
-export interface Callback {
-  (message: Message): void;
-}
-export interface Emitter {
-  on(topic: string, callback: Callback): void;
-  emit(message: Message): void;
-}
-export interface Options {
+import { Emitter, Message, MessageType } from './common';
+export interface RequestableOptions {
   timeout: number;
   isResponse(data: any): boolean;
   emitter: Emitter | null;
   responseTopic: string;
+  requestTopicBuilder: (data: Message) => string;
 }
-export const DEFAULT_OPTIONS: Options = {
+export const DEFAULT_REQUESTABLE_OPTIONS: RequestableOptions = {
   responseTopic: 'response',
   timeout: 30_000,
-  isResponse: (data: any) => data.type === 'response',
+  isResponse: (data: any) => data.type === MessageType.Response,
   emitter: null,
+  requestTopicBuilder: (data: any) => 'request',
 };
 export interface RequestOptions {
   url: string;
@@ -42,18 +32,24 @@ export interface RequestOptions {
   timeout?: number;
 }
 export class Requestable {
-  options: Options;
-  constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
-    this.options.emitter?.on(this.options.responseTopic, (data: any) => {
-      this.requestWaiters.get(data.sessionId).resolve(data);
-    });
+  options: RequestableOptions;
+  constructor(options?: Partial<RequestableOptions>) {
+    this.options = Object.assign(DEFAULT_REQUESTABLE_OPTIONS, options);
   }
   requestWaiters = new Map<string, any>();
   set emitter(emitter: Emitter) {
     this.options.emitter = emitter;
   }
+  init() {
+    if (!this.options.emitter) {
+      return;
+    }
+    this.options.emitter.on(this.options.responseTopic, (data: any) => {
+      this.requestWaiters.get(data.sessionId).resolve(data);
+    });
+  }
   async request(options: RequestOptions) {
+    console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');
     }
@@ -71,7 +67,9 @@ export class Requestable {
       }, timeout);
     });
     const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
-    this.options.emitter?.emit({ ...options, sessionId, type: 'Request' });
+    const data: Message = { ...options, sessionId, type: MessageType.Request };
+    const topic = this.options.requestTopicBuilder(data);
+    this.options.emitter?.emit(topic, data);
     const result = await combinedPromise;
     if (timeoutId) clearTimeout(timeoutId);
     return result;
