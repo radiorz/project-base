@@ -54,6 +54,15 @@ export class Responsive {
     }
     if (!this.routes.has(data.url)) {
       // 返回错误
+      this.options.emitter!.emit(this.options.responseTopicBuilder(data), {
+        url: data.url,
+        type: MessageType.Response,
+        sessionId: data.sessionId,
+        payload: {
+          status: 404,
+          message: 'url is not found',
+        },
+      });
       return;
     }
     const handler = this.routes.get(data.url);

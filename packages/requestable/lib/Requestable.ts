@@ -50,7 +50,7 @@ export class Requestable {
     });
   }
   async request(options: RequestOptions) {
-    console.log(`request`, options);
+    // console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');
     }

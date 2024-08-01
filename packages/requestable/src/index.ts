@@ -24,7 +24,7 @@ const emitter = {
 async function bootstrap() {
   const responsive = new Responsive({ emitter: emitter });
   responsive.addRoute('hello', (data) => {
-    console.log(`data`, data);
+    console.log(`hello data`, data);
     return data;
   });
   responsive.init();
@@ -39,5 +39,10 @@ async function bootstrap() {
     },
   });
   console.log(`result`, result);
+  const response = await requestable.request({
+    url: 'hhhh',
+    payload: {},
+  });
+  console.log(`response`, response);
 }
 bootstrap();
