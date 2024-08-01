@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <iframe id="child" src="./child.html" width="50%" height="50%"></iframe>
+  <script type="module">
+    import { Responsive } from '../../dist/index.mjs'
+    const emitter = {
+      source: null,
+      on(topic, cb) {
+        window.addEventListener('message', (event) => {
+          this.source = event.source
+          if (event.data.topic !== topic) {
+            console.log(`topic`, event.data.topic, topic)
+            return
+          }
+          cb(event.data.message)
+        })
+      },
+      emit(topic, message) {
+        this.source.postMessage({ topic, message }, '*')
+      }
+    }
+    const responsive = new Responsive({
+      emitter
+    })
+    responsive.addRoute('home', (data) => {
+      console.log(`data`, data)
+      return 123123
+    })
+    responsive.init()
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <div>child</div>
+  <script type="module">
+    import { Requestable } from '../../dist/index.mjs'
+    const emitter = {
+      on(topic, cb) {
+        window.addEventListener('message', (event) => {
+          if (event.data.topic !== topic) {
+            console.log(`topic`, event.data.topic, topic)
+            return
+          }
+          cb(event.data.message)
+        })
+      },
+      emit(topic, message) {
+        window.parent.postMessage({ topic, message }, '*')
+      }
+    }
+    const requestable = new Requestable({
+      emitter
+    })
+    requestable.init()
+    async function bootstrap() {
+      console.log(`123`, 123)
+      const result = await requestable.request({
+        url: 'home',
+        payload: {
+          a: 123
+        }
+      })
+      console.log(`result`, result)
+    }
+    setTimeout(() => {
+      bootstrap()
+    }, 1000)
+  </script>
+</body>
+
+</html>
