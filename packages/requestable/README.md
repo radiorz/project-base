@@ -1,12 +1,14 @@
 # requestable
 
 在普通的emitter上包装一层，以支持类似http的请求响应模式
-实际工作中经常会用到单向触发的api
-- tcp
-- mqtt 
-- window.parent.postMessage window.addEventListener('message',onMessage)
-有时我们想要等待一个请求产生的结果，那么只需要使用 Requestable 包裹一下客户端，Responsive 包装一下服务端，即可使用请求响应的模式。
 
+实际工作中经常会用到单向触发的api
+
+- tcp
+- mqtt
+- window.parent.postMessage window.addEventListener('message',onMessage)
+
+有时我们想要等待一个请求产生的结果，那么只需要使用 Requestable 包裹一下客户端，Responsive 包装一下服务端，即可使用请求响应的模式。
 
 ## 使用
 
@@ -55,3 +57,11 @@ async function bootstrap() {
 bootstrap();
 
 ```
+
+## 未完待续
+
+server -> like express
+
+route -> wildcard support
+
+// 或者 like trpc  server 即 client（类型提醒，直接执行方法）
