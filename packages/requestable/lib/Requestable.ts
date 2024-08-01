@@ -49,19 +49,19 @@ export class Requestable {
       this.requestWaiters.get(data.sessionId).resolve(data);
     });
   }
-  async request(options: RequestOptions): Promise<Message> {
+  async request(options: RequestOptions): Promise<Message | unknown> {
     // console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');
     }
     // 超时逻辑
     const sessionId = getRandom();
-    const resultPromise = new Promise((resolve) => {
+    const resultPromise: Promise<Message> = new Promise((resolve) => {
       this.requestWaiters.set(sessionId, { resolve });
     });
     let timeout = options.timeout ?? this.options.timeout;
     let timeoutId;
-    const timeoutPromise = new Promise((resolve, reject) => {
+    const timeoutPromise: Promise<Error> = new Promise((resolve, reject) => {
       timeoutId = setTimeout(() => {
         this.requestWaiters.delete(sessionId);
         reject(new Error('Request timed out'));
