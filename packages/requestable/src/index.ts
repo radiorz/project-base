@@ -1,10 +1,5 @@
-import { Requestable, Responsive } from '../lib';
+import { type Message, Requestable, Responsive } from '../lib';
 
-interface Message {
-  sessionId: string;
-  url: string;
-  type: 'Request' | 'Response';
-}
 // 模拟一下
 const emitter = {
   callbacks: [] as any[],
