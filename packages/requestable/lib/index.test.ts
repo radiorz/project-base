@@ -3,16 +3,16 @@ import { Message, Requestable, Responsive } from './index';
 import { Emitter } from './index';
 it('request response work', async () => {
   // 模拟一下
-  const emitter = {
+  const emitter: Emitter = {
     callbacks: [] as any[],
     on(topic: string, callback: any) {
       this.callbacks.push(callback);
     },
     off(callback: any) {
-      this.callbacks = this.callbacks.filter((c) => c === callback);
+      this.callbacks = this.callbacks.filter((c: any) => c === callback);
     },
     emit(topic: string, message: Message) {
-      this.callbacks.forEach((callback) => {
+      this.callbacks.forEach((callback: any) => {
         callback(message);
       });
     },

@@ -15,4 +15,5 @@ export interface Callback {
 export interface Emitter {
   on(topic: string, callback: Callback): void;
   emit(topic: string, message: Message): void;
+  [props: string]: any;
 }
