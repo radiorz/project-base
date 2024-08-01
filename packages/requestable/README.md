@@ -2,13 +2,16 @@
 
 在普通的emitter上包装一层，以支持类似http的请求响应模式
 
-实际工作中经常会用到单向触发的api
+实际工作中经常会用到单向触发的api 也就是一个收 一个发
 
-- tcp
-- mqtt
-- window.parent.postMessage window.addEventListener('message',onMessage)
-
-有时我们想要等待一个请求产生的结果，那么只需要使用 Requestable 包裹一下客户端，Responsive 包装一下服务端，即可使用请求响应的模式。
+- tcp 的 on 和 write
+- udp  的 on 和 write
+- mqtt 的 subscribe 和 publish
+- iframe 
+  - window.parent.postMessage
+  - window.addEventListener('message',onMessage)
+有时我们想要等待一个请求产生的结果，就是发之后等待收，
+只需要使用 Requestable 包裹一下客户端，Responsive 包装一下服务端，即可使用请求响应的模式。
 
 ## 使用
 
