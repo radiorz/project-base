@@ -48,6 +48,7 @@ export class Responsive implements Peer {
   private routes = new Map<string, Handler>();
   // 添加 route
   addRoute(url: string, handler: Handler) {
+    // TODO 或许可以模仿express 的蛇形handle
     this.routes.set(url, handler);
   }
   // 匹配路由
@@ -74,7 +75,7 @@ export class Responsive implements Peer {
       this.options.protocol.buildResponseMessage({
         self: this,
         request,
-        payload: result,
+        result: result,
       }),
     );
   }

@@ -47,7 +47,7 @@ export interface RequestMessageInput<Peer> {
 export interface ResponseMessageInput<Peer> {
   self: Peer;
   request: RequestMessage;
-  payload: any;
+  result: any;
 }
 const requestTopic = 'request';
 const responseTopic = 'response';
@@ -62,17 +62,17 @@ export class Protocol {
   buildRequestTopic(data: any): string {
     return requestTopic;
   }
+  buildResponseTopic(data: any): string {
+    return responseTopic;
+  }
   isRequestTopic(topic: string) {
     return topic === requestTopic;
   }
   isRequestMessage(message: RequestMessage) {
     return message.type === MessageType.Request;
   }
-  isRequest(topic: string, data: RequestMessage) {
-    return this.isRequestTopic(topic) && this.isRequestMessage(data);
-  }
-  buildResponseTopic(data: any): string {
-    return responseTopic;
+  isRequest(topic: string, message: RequestMessage) {
+    return this.isRequestTopic(topic) && this.isRequestMessage(message);
   }
   isResponseTopic(topic: string) {
     return topic === responseTopic;
@@ -80,9 +80,10 @@ export class Protocol {
   isResponseMessage(message: ResponseMessage) {
     return message.type === MessageType.Response;
   }
-  isResponse(topic: string, data: ResponseMessage) {
-    return this.isResponseTopic(topic) && this.isResponseMessage(data);
+  isResponse(topic: string, message: ResponseMessage) {
+    return this.isResponseTopic(topic) && this.isResponseMessage(message);
   }
+  // isMyRequest
   isRequestToMe(message: RequestMessage, self: Peer) {
     return message.to === '*' || message.to === self.id;
   }
@@ -105,14 +106,14 @@ export class Protocol {
     };
   }
   // 生成 response message
-  buildResponseMessage({ request, self, payload }: ResponseMessageInput<Peer>): ResponseMessage {
+  buildResponseMessage({ request, self, result }: ResponseMessageInput<Peer>): ResponseMessage {
     return {
       to: request.from,
       from: self.id,
       sessionId: request.sessionId,
       type: MessageType.Response,
       url: request.url,
-      payload,
+      payload: result,
     };
   }
 }
