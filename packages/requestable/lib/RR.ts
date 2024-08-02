@@ -12,7 +12,7 @@
  * @example
  */
 
-import { Emitter, Message } from './common';
+import { Emitter } from './Emitter';
 import { Requestable, RequestableOptions, RequestOptions } from './Requestable';
 import { Handler, Responsive, ResponsiveOptions } from './Responsive';
 
@@ -32,7 +32,7 @@ export class RR {
     this.responsive.init();
     this.requestable.init();
   }
-  async request(options: RequestOptions): Promise<Message | unknown> {
+  async request(options: RequestOptions) {
     return this.requestable.request(options);
   }
   addRoute(url: string, handler: Handler) {

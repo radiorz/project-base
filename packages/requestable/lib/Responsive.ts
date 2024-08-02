@@ -11,27 +11,27 @@
  * @done
  * @example
  */
-import { Message, Emitter, MessageType } from './common';
+import { Emitter } from './Emitter';
 import { getRandom } from '../../timer/lib/utils';
+import { Peer, Protocol, RequestMessage } from './Protocol';
 export interface Handler {
-  (data: Message): any;
+  (data: RequestMessage): any;
 }
 export interface ResponsiveOptions {
   id: string;
   emitter: Emitter | null;
-  responseTopicBuilder: (data: Message) => string;
-  requestTopic: 'request';
-  isRequest(data: any): boolean;
+  protocol: Protocol;
 }
 export const DEFAULT_RESPONSIVE_OPTIONS: ResponsiveOptions = {
   id: getRandom(),
   emitter: null,
-  responseTopicBuilder: (data: Message) => 'response',
-  requestTopic: 'request',
-  isRequest: (data: any) => data.type === MessageType.Request,
+  protocol: new Protocol(),
 };
 export interface ResponseOptions {}
-export class Responsive {
+export class Responsive implements Peer {
+  get id() {
+    return this.options.id;
+  }
   options: ResponsiveOptions;
   constructor(options?: Partial<ResponsiveOptions>) {
     this.options = Object.assign(DEFAULT_RESPONSIVE_OPTIONS, options);
@@ -41,8 +41,8 @@ export class Responsive {
       return;
     }
     // 开启监听
-    this.options.emitter.on(this.options.requestTopic, (data: any) => {
-      this.onRequest(data);
+    this.options.emitter.on(this.options.protocol.getWatchRequestTopic(this), (data: any) => {
+      this.onMessage(data);
     });
   }
   private routes = new Map<string, Handler>();
@@ -55,24 +55,34 @@ export class Responsive {
     // TODO 这里只是进行了最简单的匹配
     return this.routes.has(path);
   }
-  
-  private isToMe(data: Message) {
-    return data.to == '*' || data.to === this.options.id;
+
+  private isToMe(data: RequestMessage) {
+    return data.to == '*' || data.to === this.id;
   }
   // 监听
-  private async onRequest(request: Message) {
+  private async onMessage(message: RequestMessage) {
     // console.log(`onRequest`, request);
-    if (!this.options.isRequest(request)) {
+    if (!this.options.protocol.isRequestMessage(message)) {
       return;
     }
-    if (!this.isToMe(request)) {
+    if (!this.isToMe(message)) {
       return;
     }
+    this.onRequest(message);
+  }
+  private async onRequest(request: RequestMessage) {
     let result = await this.handle(request);
-    this.options.emitter!.emit(this.options.responseTopicBuilder(request), this.buildMessage(request, result));
+    this.options.emitter!.emit(
+      this.options.protocol.buildResponseTopic(request),
+      this.options.protocol.buildResponseMessage({
+        self: this,
+        request,
+        payload: result,
+      }),
+    );
   }
   // 处理request 并返回结果
-  private async handle(request: Message) {
+  private async handle(request: RequestMessage) {
     if (!this.matchRoute(request.url)) {
       return {
         status: 404,
@@ -82,17 +92,6 @@ export class Responsive {
       const handler = this.routes.get(request.url);
       return await handler!(request.payload);
     }
-  }
-  // 生成 response message
-  private buildMessage(request: Message, result: any) {
-    return {
-      to: request.from,
-      from: this.options.id,
-      url: request.url,
-      type: MessageType.Response,
-      sessionId: request.sessionId,
-      payload: result,
-    };
   }
 }
 

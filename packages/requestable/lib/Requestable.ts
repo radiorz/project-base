@@ -11,32 +11,31 @@
  * @done
  * @example
  */
-import { Emitter, Message, MessageType } from './common';
+import { Emitter } from './Emitter';
+import { Protocol, Peer, RequestMessage, ResponseMessage, MessageType } from './Protocol';
 import { getRandom } from './utils';
 export interface RequestableOptions {
   id: string;
-  serverId: string;
+  toPeer?: Peer;
   timeout: number;
-  isResponse(data: any): boolean;
   emitter: Emitter | null;
-  responseTopic: string;
-  requestTopicBuilder: (data: Message) => string;
+  protocol: Protocol;
 }
 export const DEFAULT_REQUESTABLE_OPTIONS: RequestableOptions = {
   id: getRandom(),
-  serverId: '*',
-  responseTopic: 'response',
   timeout: 30_000,
-  isResponse: (data: any) => data.type === MessageType.Response,
   emitter: null,
-  requestTopicBuilder: (data: any) => 'request',
+  protocol: new Protocol(),
 };
 export interface RequestOptions {
   url: string;
   payload: any;
   timeout?: number;
 }
-export class Requestable {
+export class Requestable implements Peer {
+  get id() {
+    return this.options.id;
+  }
   options: RequestableOptions;
   constructor(options?: Partial<RequestableOptions>) {
     this.options = Object.assign(DEFAULT_REQUESTABLE_OPTIONS, options);
@@ -49,29 +48,39 @@ export class Requestable {
     if (!this.options.emitter) {
       return;
     }
-    this.options.emitter.on(this.options.responseTopic, this.onResponse);
+    this.options.emitter.on(this.options.protocol.getWatchResponseTopic(this), this.onMessage.bind(this));
   }
-  private isToMe(data: Message) {
-    return data.to == '*' || data.to === this.options.id;
+  private isToMe(data: RequestMessage) {
+    return data.to == '*' || data.to === this.id;
   }
-  private onResponse = (data: Message) => {
-    if (!this.options.isResponse(data)) {
+  private onMessage(message: any) {
+    // console.log(`message`, message);
+    if (!this.options.protocol.isResponseMessage(message)) {
       return;
     }
-    if (!this.isToMe(data)) {
+    if (!this.isToMe(message)) {
       return;
     }
-    this.requestWaiters.get(data.sessionId).resolve(data);
-  };
-  async request(options: RequestOptions): Promise<Message | unknown> {
+    this.onResponse(message);
+  }
+  private onResponse(response: ResponseMessage) {
+    // console.log(`onResponse`, this.requestWaiters);
+    this.requestWaiters.get(response.sessionId)?.resolve(response);
+  }
+  async request(options: RequestOptions): Promise<ResponseMessage | unknown> {
     // console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');
     }
-    const sessionId = getRandom();
-    // 等待
-    const resultPromise: Promise<Message> = new Promise((resolve) => {
-      this.requestWaiters.set(sessionId, { resolve });
+    // 准备消息
+    const requestMessage: RequestMessage = this.options.protocol.buildRequestMessage({
+      self: this,
+      url: options.url,
+      payload: options.payload,
+    });
+    // 等待结果
+    const resultPromise: Promise<ResponseMessage> = new Promise((resolve) => {
+      this.requestWaiters.set(requestMessage.sessionId, { resolve });
     });
     // 超时处理
     let timeout = options.timeout ?? this.options.timeout;
@@ -82,17 +91,11 @@ export class Requestable {
       }, timeout);
     });
     const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
-    // 准备消息
-    const data: Message = {
-      ...options,
-      sessionId,
-      type: MessageType.Request,
-      from: this.options.id,
-      to: this.options.serverId,
-    };
-    const topic = this.options.requestTopicBuilder(data);
+    // topic
+    const topic = this.options.protocol.buildRequestTopic({ self: this, requestMessage });
     // 发送消息
-    this.options.emitter?.emit(topic, data);
+    this.options.emitter?.emit(topic, requestMessage);
+    // console.log(`topic,requestMessage`, topic, requestMessage);
     try {
       const result = await combinedPromise;
       return result;
@@ -100,7 +103,7 @@ export class Requestable {
       throw err;
     } finally {
       // 结尾处理
-      this.requestWaiters.delete(sessionId);
+      this.requestWaiters.delete(requestMessage.sessionId);
       if (timeoutId) clearTimeout(timeoutId);
     }
   }

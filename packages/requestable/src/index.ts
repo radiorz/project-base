@@ -1,4 +1,4 @@
-import { type Message, Requestable, Responsive } from '../lib';
+import { Requestable, Responsive } from '../lib';
 
 // 模拟一下
 const emitter = {
@@ -9,7 +9,7 @@ const emitter = {
   off(callback: any) {
     this.callbacks = this.callbacks.filter((c) => c === callback);
   },
-  emit(topic: string, message: Message) {
+  emit(topic: string, message: any) {
     this.callbacks.forEach((callback) => {
       callback(message);
     });
