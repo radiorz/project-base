@@ -65,6 +65,7 @@ it('response 404', async () => {
     payload: null,
   };
   const result = await requestable.request(requestMessage);
+  console.log(`result`, result);
   expect(result.payload.status).toBe(404);
   expect(result.url).toBe(requestMessage.url);
 });

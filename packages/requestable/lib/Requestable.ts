@@ -49,29 +49,40 @@ export class Requestable {
     if (!this.options.emitter) {
       return;
     }
-    this.options.emitter.on(this.options.responseTopic, (data: any) => {
-      this.requestWaiters.get(data.sessionId).resolve(data);
-    });
+    this.options.emitter.on(this.options.responseTopic, this.onResponse);
   }
+  private isToMe(data: Message) {
+    return data.to == '*' || data.to === this.options.id;
+  }
+  private onResponse = (data: Message) => {
+    if (!this.options.isResponse(data)) {
+      return;
+    }
+    if (!this.isToMe(data)) {
+      return;
+    }
+    this.requestWaiters.get(data.sessionId).resolve(data);
+  };
   async request(options: RequestOptions): Promise<Message | unknown> {
     // console.log(`request`, options);
     if (!this.options.emitter) {
       throw new Error('emitter is not defined');
     }
-    // 超时逻辑
     const sessionId = getRandom();
+    // 等待
     const resultPromise: Promise<Message> = new Promise((resolve) => {
       this.requestWaiters.set(sessionId, { resolve });
     });
+    // 超时处理
     let timeout = options.timeout ?? this.options.timeout;
     let timeoutId;
     const timeoutPromise: Promise<Error> = new Promise((resolve, reject) => {
       timeoutId = setTimeout(() => {
-        this.requestWaiters.delete(sessionId);
         reject(new Error('Request timed out'));
       }, timeout);
     });
     const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
+    // 准备消息
     const data: Message = {
       ...options,
       sessionId,
@@ -80,9 +91,16 @@ export class Requestable {
       to: this.options.serverId,
     };
     const topic = this.options.requestTopicBuilder(data);
+    // 发送消息
     this.options.emitter?.emit(topic, data);
-    const result = await combinedPromise;
-    if (timeoutId) clearTimeout(timeoutId);
-    return result;
+    try {
+      const result = await combinedPromise;
+      return result;
+    } catch (err) {
+      throw err;
+    } finally {
+      this.requestWaiters.delete(sessionId);
+      if (timeoutId) clearTimeout(timeoutId);
+    }
   }
 }

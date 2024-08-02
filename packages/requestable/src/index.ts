@@ -33,10 +33,10 @@ async function bootstrap() {
     },
   });
   console.log(`result`, result);
-  const response = await requestable.request({
+  const responseFail = await requestable.request({
     url: 'hhhh',
     payload: {},
   });
-  console.log(`response`, response);
+  console.log(`response`, responseFail);
 }
 bootstrap();

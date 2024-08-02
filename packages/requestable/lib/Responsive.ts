@@ -49,10 +49,16 @@ export class Responsive {
   addRoute(url: string, handler: Handler) {
     this.routes.set(url, handler);
   }
+  private isToMe(data: Message) {
+    return data.to == '*' || data.to === this.options.id;
+  }
   // 监听
   private async onRequest(data: Message) {
     // console.log(`onRequest`, data);
     if (!this.options.isRequest(data)) {
+      return;
+    }
+    if (!this.isToMe(data)) {
       return;
     }
     if (!this.routes.has(data.url)) {
@@ -82,3 +88,12 @@ export class Responsive {
     });
   }
 }
+
+// class Result {
+//   success(payload) {
+//     return;
+//   }
+//   error(meta, paylaod) {
+//     return;
+//   }
+// }
