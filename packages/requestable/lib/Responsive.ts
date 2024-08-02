@@ -41,8 +41,8 @@ export class Responsive implements Peer {
       return;
     }
     // 开启监听
-    this.options.emitter.on(this.options.protocol.getWatchRequestTopic(this), (data: any) => {
-      this.onMessage(data);
+    this.options.emitter.on(this.options.protocol.getWatchRequestTopic(this), (topic: string, message: any) => {
+      this.onMessage(topic, message);
     });
   }
   private routes = new Map<string, Handler>();
@@ -58,8 +58,11 @@ export class Responsive implements Peer {
   }
 
   // 监听
-  private async onMessage(message: RequestMessage) {
-    // console.log(`onRequest`, request);
+  private async onMessage(topic: string, message: RequestMessage) {
+    // console.log(`onMessage`, topic,message);
+    if (!this.options.protocol.isRequestTopic(topic)) {
+      return;
+    }
     if (!this.options.protocol.isRequestMessage(message)) {
       return;
     }

@@ -1,9 +1,8 @@
 import { it, expect } from 'vitest';
-import { Message, Requestable, Responsive } from './index';
+import { Requestable, Responsive } from './index';
 import { Emitter } from './index';
 import { faker } from '@faker-js/faker';
-it('request response work', async () => {
-  // 模拟一下
+function getEmitter() {
   const emitter: Emitter = {
     callbacks: [] as any[],
     on(topic: string, callback: any) {
@@ -12,12 +11,17 @@ it('request response work', async () => {
     off(callback: any) {
       this.callbacks = this.callbacks.filter((c: any) => c === callback);
     },
-    emit(topic: string, message: Message) {
+    emit(topic: string, message: any) {
       this.callbacks.forEach((callback: any) => {
-        callback(message);
+        callback(topic, message);
       });
     },
   };
+  return emitter;
+}
+it('request response work', async () => {
+  // 模拟一下
+  const emitter = getEmitter();
   const responsive = new Responsive({ emitter: emitter });
   function handler(data: any) {
     return data;
@@ -40,20 +44,7 @@ it('request response work', async () => {
 });
 it('response 404', async () => {
   // 模拟一下
-  const emitter = {
-    callbacks: [] as any[],
-    on(topic: string, callback: any) {
-      this.callbacks.push(callback);
-    },
-    off(callback: any) {
-      this.callbacks = this.callbacks.filter((c) => c === callback);
-    },
-    emit(topic: string, message: Message) {
-      this.callbacks.forEach((callback) => {
-        callback(message);
-      });
-    },
-  };
+  const emitter = getEmitter();
   const responsive = new Responsive({ emitter: emitter });
   responsive.init();
   const requestable = new Requestable({

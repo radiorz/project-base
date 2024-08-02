@@ -1,17 +1,17 @@
-import { Requestable, Responsive } from '../lib';
+import { Emitter, Callback, Requestable, Responsive } from '../lib';
 
 // 模拟一下
-const emitter = {
-  callbacks: [] as any[],
-  on(topic: string, callback: any) {
+const emitter: Emitter = {
+  callbacks: [] as Callback[],
+  on(topic: string, callback: Callback) {
     this.callbacks.push(callback);
   },
   off(callback: any) {
-    this.callbacks = this.callbacks.filter((c) => c === callback);
+    this.callbacks = this.callbacks.filter((c: Callback) => c === callback);
   },
   emit(topic: string, message: any) {
-    this.callbacks.forEach((callback) => {
-      callback(message);
+    this.callbacks.forEach((callback: Callback) => {
+      callback(topic, message);
     });
   },
 };

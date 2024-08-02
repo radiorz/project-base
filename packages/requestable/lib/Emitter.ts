@@ -1,5 +1,5 @@
 export interface Callback {
-  (message: any): void;
+  (topic: string, message: any): void;
 }
 export interface Emitter {
   on(topic: string, callback: Callback): void;
