@@ -40,6 +40,7 @@ export class Responsive implements Peer {
     if (!this.options.emitter) {
       return;
     }
+    // listen
     // 开启监听
     this.options.emitter.on(this.options.protocol.getWatchRequestTopic(this), (topic: string, message: any) => {
       this.onMessage(topic, message);

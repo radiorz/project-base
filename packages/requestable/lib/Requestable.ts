@@ -48,6 +48,7 @@ export class Requestable implements Peer {
     if (!this.options.emitter) {
       return;
     }
+    // listen
     this.options.emitter.on(this.options.protocol.getWatchResponseTopic(this), this.onMessage.bind(this));
   }
   private onMessage(topic: string, message: any) {

@@ -51,7 +51,7 @@ it('response 404', async () => {
   });
   requestable.init();
   const requestMessage = {
-    url: 'hello',
+    url: faker.string.alphanumeric(),
     payload: null,
   };
   const result = await requestable.request(requestMessage);
