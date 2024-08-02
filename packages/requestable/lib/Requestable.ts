@@ -50,15 +50,12 @@ export class Requestable implements Peer {
     }
     this.options.emitter.on(this.options.protocol.getWatchResponseTopic(this), this.onMessage.bind(this));
   }
-  private isToMe(data: RequestMessage) {
-    return data.to == '*' || data.to === this.id;
-  }
   private onMessage(message: any) {
     // console.log(`message`, message);
     if (!this.options.protocol.isResponseMessage(message)) {
       return;
     }
-    if (!this.isToMe(message)) {
+    if (!this.options.protocol.isResponseToMe(message, this)) {
       return;
     }
     this.onResponse(message);

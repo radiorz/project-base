@@ -83,6 +83,13 @@ export class Protocol {
   isResponse(topic: string, data: ResponseMessage) {
     return this.isResponseTopic(topic) && this.isResponseMessage(data);
   }
+  isRequestToMe(message: RequestMessage, self: Peer) {
+    return message.to === '*' || message.to === self.id;
+  }
+  isResponseToMe(message: ResponseMessage, self: Peer) {
+    return message.to === '*' || message.to === self.id;
+  }
+
   getSessionId() {
     return getRandom();
   }

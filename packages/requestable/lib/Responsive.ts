@@ -56,16 +56,13 @@ export class Responsive implements Peer {
     return this.routes.has(path);
   }
 
-  private isToMe(data: RequestMessage) {
-    return data.to == '*' || data.to === this.id;
-  }
   // 监听
   private async onMessage(message: RequestMessage) {
     // console.log(`onRequest`, request);
     if (!this.options.protocol.isRequestMessage(message)) {
       return;
     }
-    if (!this.isToMe(message)) {
+    if (!this.options.protocol.isRequestToMe(message, this)) {
       return;
     }
     this.onRequest(message);
