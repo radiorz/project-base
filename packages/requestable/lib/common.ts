@@ -4,6 +4,8 @@ export const MessageType = {
 } as const;
 export type MessageType = keyof typeof MessageType;
 export interface Message {
+  from: string;
+  to: string;
   sessionId: string;
   url: string;
   type: MessageType;

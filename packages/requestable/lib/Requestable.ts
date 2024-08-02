@@ -6,7 +6,7 @@
  * @from
  * @desc
  * @todo
- *
+
  *
  * @done
  * @example
@@ -14,6 +14,8 @@
 import { Emitter, Message, MessageType } from './common';
 import { getRandom } from './utils';
 export interface RequestableOptions {
+  id: string;
+  serverId: string;
   timeout: number;
   isResponse(data: any): boolean;
   emitter: Emitter | null;
@@ -21,6 +23,8 @@ export interface RequestableOptions {
   requestTopicBuilder: (data: Message) => string;
 }
 export const DEFAULT_REQUESTABLE_OPTIONS: RequestableOptions = {
+  id: getRandom(),
+  serverId: '*',
   responseTopic: 'response',
   timeout: 30_000,
   isResponse: (data: any) => data.type === MessageType.Response,
@@ -68,7 +72,13 @@ export class Requestable {
       }, timeout);
     });
     const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
-    const data: Message = { ...options, sessionId, type: MessageType.Request };
+    const data: Message = {
+      ...options,
+      sessionId,
+      type: MessageType.Request,
+      from: this.options.id,
+      to: this.options.serverId,
+    };
     const topic = this.options.requestTopicBuilder(data);
     this.options.emitter?.emit(topic, data);
     const result = await combinedPromise;

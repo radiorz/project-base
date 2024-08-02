@@ -4,8 +4,8 @@
 
 实际工作中经常会用到单向触发的api 也就是一个收 一个发
 
-- tcp 的 on 和 write
-- udp  的 on 和 write
+- tcp 的 on('data') 和 write
+- udp  的 on('data') 和 write
 - mqtt 的 subscribe 和 publish
 - iframe 
   - window.parent.postMessage
