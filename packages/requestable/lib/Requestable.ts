@@ -99,6 +99,7 @@ export class Requestable {
     } catch (err) {
       throw err;
     } finally {
+      // 结尾处理
       this.requestWaiters.delete(sessionId);
       if (timeoutId) clearTimeout(timeoutId);
     }

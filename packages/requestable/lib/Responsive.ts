@@ -40,6 +40,7 @@ export class Responsive {
     if (!this.options.emitter) {
       return;
     }
+    // 开启监听
     this.options.emitter.on(this.options.requestTopic, (data: any) => {
       this.onRequest(data);
     });
@@ -49,43 +50,49 @@ export class Responsive {
   addRoute(url: string, handler: Handler) {
     this.routes.set(url, handler);
   }
+  // 匹配路由
+  private matchRoute(path: string) {
+    // TODO 这里只是进行了最简单的匹配
+    return this.routes.has(path);
+  }
+  
   private isToMe(data: Message) {
     return data.to == '*' || data.to === this.options.id;
   }
   // 监听
-  private async onRequest(data: Message) {
-    // console.log(`onRequest`, data);
-    if (!this.options.isRequest(data)) {
+  private async onRequest(request: Message) {
+    // console.log(`onRequest`, request);
+    if (!this.options.isRequest(request)) {
       return;
     }
-    if (!this.isToMe(data)) {
+    if (!this.isToMe(request)) {
       return;
     }
-    if (!this.routes.has(data.url)) {
-      // 返回错误
-      this.options.emitter!.emit(this.options.responseTopicBuilder(data), {
-        to: data.from,
-        from: this.options.id,
-        url: data.url,
-        type: MessageType.Response,
-        sessionId: data.sessionId,
-        payload: {
-          status: 404,
-          message: 'url is not found',
-        },
-      });
-      return;
+    let result = await this.handle(request);
+    this.options.emitter!.emit(this.options.responseTopicBuilder(request), this.buildMessage(request, result));
+  }
+  // 处理request 并返回结果
+  private async handle(request: Message) {
+    if (!this.matchRoute(request.url)) {
+      return {
+        status: 404,
+        message: 'url is not found',
+      };
+    } else {
+      const handler = this.routes.get(request.url);
+      return await handler!(request.payload);
     }
-    const handler = this.routes.get(data.url);
-    const result = await handler!(data.payload);
-    this.options.emitter!.emit(this.options.responseTopicBuilder(data), {
-      to: data.from,
+  }
+  // 生成 response message
+  private buildMessage(request: Message, result: any) {
+    return {
+      to: request.from,
       from: this.options.id,
-      url: data.url,
+      url: request.url,
       type: MessageType.Response,
-      sessionId: data.sessionId,
+      sessionId: request.sessionId,
       payload: result,
-    });
+    };
   }
 }
 
