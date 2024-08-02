@@ -1,7 +1,6 @@
-import { it, expect } from 'vitest';
-import { Requestable, Responsive } from './index';
-import { Emitter } from './index';
 import { faker } from '@faker-js/faker';
+import { expect, it } from 'vitest';
+import { Emitter, Requestable, ResponseMessage, RequestMessage, Responsive } from './index';
 function getEmitter() {
   const emitter: Emitter = {
     callbacks: [] as any[],
@@ -39,8 +38,8 @@ it('request response work', async () => {
   };
   const result = await requestable.request(requestMessage);
   const handlerResult = await handler(requestMessage.payload);
-  expect(result.payload).toBe(handlerResult);
-  expect(result.url).toBe(requestMessage.url);
+  expect((result as ResponseMessage).payload).toBe(handlerResult);
+  expect((result as ResponseMessage).url).toBe(requestMessage.url);
 });
 it('response 404', async () => {
   // 模拟一下
@@ -57,6 +56,6 @@ it('response 404', async () => {
   };
   const result = await requestable.request(requestMessage);
   console.log(`result`, result);
-  expect(result.payload.status).toBe(404);
-  expect(result.url).toBe(requestMessage.url);
+  expect((result as ResponseMessage).payload.status).toBe(404);
+  expect((result as ResponseMessage).url).toBe(requestMessage.url);
 });
