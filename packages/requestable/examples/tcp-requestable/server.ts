@@ -30,7 +30,7 @@ class TCPServer implements Emitter {
   }
 
   emit(topic: string, message: any): void {
-  
+    this.server.rawListeners
   }
 
   start(port: number): void {
