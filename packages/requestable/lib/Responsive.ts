@@ -91,12 +91,16 @@ export class Responsive implements Peer {
     );
   }
   // 处理request 并返回结果
+  private doneHandler(url: string) {
+    return {
+      status: 404,
+      message: 'url is not found',
+      url: url,
+    };
+  }
   private async handleRequest(request: RequestMessage) {
     if (!this.matchRoute(request.url)) {
-      return {
-        status: 404,
-        message: 'url is not found',
-      };
+      return this.doneHandler(request.url);
     } else {
       const handler = this.routes.get(request.url);
       return await handler!(request.payload);

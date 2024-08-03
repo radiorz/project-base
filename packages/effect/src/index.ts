@@ -1,6 +1,6 @@
 import { App } from '../lib';
 const app = new App();
-app.useEffect(function (c) {
+app.use(function (c) {
   c.a = 1;
   console.log(`1.s`, c);
   const a = 123;
@@ -10,7 +10,7 @@ app.useEffect(function (c) {
     console.log(`1.b`, c);
   };
 });
-app.useEffect(function (c) {
+app.use(function (c) {
   c.b = 1;
   const nnn = 123;
   console.log(`2.s`, c);
