@@ -3,6 +3,8 @@
   "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
+  "unpkg": "dist/index.mjs",
+  "jsdelivr": "dist/index.mjs",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "exports": {
