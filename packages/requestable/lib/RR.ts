@@ -28,9 +28,9 @@ export class RR {
     this.requestable = new Requestable({ emitter: options?.emitter, ...options?.requestableOptions });
     this.responsive = new Responsive({ emitter: options?.emitter, ...options?.responsiveOptions });
   }
-  init() {
-    this.responsive.init();
-    this.requestable.init();
+  start() {
+    this.responsive.start();
+    this.requestable.start();
   }
   async request(options: RequestOptions) {
     return this.requestable.request(options);

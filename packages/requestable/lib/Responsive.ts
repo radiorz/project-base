@@ -35,16 +35,23 @@ export class Responsive implements Peer {
   options: ResponsiveOptions;
   constructor(options?: Partial<ResponsiveOptions>) {
     this.options = Object.assign(DEFAULT_RESPONSIVE_OPTIONS, options);
+    this.onMessage = this.onMessage.bind(this);
   }
-  init() {
+  start() {
     if (!this.options.emitter) {
-      return;
+      throw new Error('emitter is not found');
     }
     // listen
     // 开启监听
-    this.options.emitter.on(this.options.protocol.getWatchRequestTopic(this), (topic: string, message: any) => {
-      this.onMessage(topic, message);
-    });
+    const type = this.options.protocol.getWatchRequestTopic(this);
+    this.options.emitter.on(type, this.onMessage);
+  }
+  stop() {
+    if (!this.options.emitter) {
+      throw new Error('emitter is not found');
+    }
+    const type = this.options.protocol.getWatchRequestTopic(this);
+    this.options.emitter.off(type, this.onMessage);
   }
   private routes = new Map<string, Handler>();
   // 添加 route
@@ -73,7 +80,7 @@ export class Responsive implements Peer {
     this.onRequest(message);
   }
   private async onRequest(request: RequestMessage) {
-    let result = await this.handle(request);
+    let result = await this.handleRequest(request);
     this.options.emitter!.emit(
       this.options.protocol.buildResponseTopic(request),
       this.options.protocol.buildResponseMessage({
@@ -84,7 +91,7 @@ export class Responsive implements Peer {
     );
   }
   // 处理request 并返回结果
-  private async handle(request: RequestMessage) {
+  private async handleRequest(request: RequestMessage) {
     if (!this.matchRoute(request.url)) {
       return {
         status: 404,

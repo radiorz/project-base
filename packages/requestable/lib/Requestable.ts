@@ -39,17 +39,27 @@ export class Requestable implements Peer {
   options: RequestableOptions;
   constructor(options?: Partial<RequestableOptions>) {
     this.options = Object.assign(DEFAULT_REQUESTABLE_OPTIONS, options);
+    this.onMessage = this.onMessage.bind(this);
   }
   private requestWaiters = new Map<string, any>();
   set emitter(emitter: Emitter) {
     this.options.emitter = emitter;
   }
-  init() {
+  start() {
     if (!this.options.emitter) {
-      return;
+      throw new Error('emitter is not defined');
     }
     // listen
-    this.options.emitter.on(this.options.protocol.getWatchResponseTopic(this), this.onMessage.bind(this));
+    const type = this.options.protocol.getWatchResponseTopic(this);
+    this.options.emitter.on(type, this.onMessage);
+  }
+  stop() {
+    if (!this.options.emitter) {
+      throw new Error('emitter is not defined');
+    }
+    // listen
+    const type = this.options.protocol.getWatchResponseTopic(this);
+    this.options.emitter.off(type, this.onMessage);
   }
   private onMessage(topic: string, message: any) {
     // console.log(`message`, topic, message);
@@ -79,19 +89,25 @@ export class Requestable implements Peer {
       url: options.url,
       payload: options.payload,
     });
+    const promises = [];
     // 等待结果
     const resultPromise: Promise<ResponseMessage> = new Promise((resolve) => {
       this.requestWaiters.set(requestMessage.sessionId, { resolve });
     });
+    promises.push(resultPromise);
     // 超时处理
     let timeout = options.timeout ?? this.options.timeout;
     let timeoutId;
-    const timeoutPromise: Promise<Error> = new Promise((resolve, reject) => {
-      timeoutId = setTimeout(() => {
-        reject(new Error('Request timed out'));
-      }, timeout);
-    });
-    const combinedPromise = Promise.race([resultPromise, timeoutPromise]);
+    // timeout不存在就不要过期
+    if (timeout) {
+      const timeoutPromise: Promise<Error> = new Promise((resolve, reject) => {
+        timeoutId = setTimeout(() => {
+          reject(new Error('Request timed out'));
+        }, timeout);
+      });
+      promises.push(timeoutPromise);
+    }
+    const combinedPromise = Promise.race(promises);
     // topic
     const topic = this.options.protocol.buildRequestTopic({ self: this, requestMessage });
     // 发送消息

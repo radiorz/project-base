@@ -30,12 +30,12 @@
     responsive.addRoute('home', (data) => {
       return 'home from child'
     })
-    responsive.init()
+    responsive.start()
     async function bootstrap() {
       const requestable = new Requestable({
         emitter
       })
-      requestable.init()
+      requestable.start()
       const result = await requestable.request({
         url: 'home',
         payload: {

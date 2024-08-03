@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { expect, it } from 'vitest';
+import { expect, it, vi } from 'vitest';
 import { Emitter, Requestable, ResponseMessage, RequestMessage, Responsive } from './index';
 function getEmitter() {
   const emitter: Emitter = {
@@ -22,34 +22,38 @@ it('request response work', async () => {
   // 模拟一下
   const emitter = getEmitter();
   const responsive = new Responsive({ emitter: emitter });
-  function handler(data: any) {
-    return data;
-  }
+  const handlerMock = vi.fn().mockImplementation(() => 1);
   const url = faker.string.uuid();
-  responsive.addRoute(url, handler);
-  responsive.init();
+  responsive.addRoute(url, handlerMock);
+  responsive.start();
   const requestable = new Requestable({
     emitter: emitter,
   });
-  requestable.init();
+  requestable.start();
   const requestMessage = {
     url: url,
     payload: { name: faker.string.uuid() },
   };
   const result = await requestable.request(requestMessage);
-  const handlerResult = await handler(requestMessage.payload);
-  expect((result as ResponseMessage).payload).toBe(handlerResult);
+  // 被调用了一次
+  expect(handlerMock.mock.calls.length).toBe(1);
+  // handler传入参数是对的
+  expect(handlerMock.mock.calls[0][0]).toBe(requestMessage.payload);
+  // 处理结果url正确
   expect((result as ResponseMessage).url).toBe(requestMessage.url);
+  // 处理结果正确
+  const handlerResult = await handlerMock(requestMessage.payload);
+  expect((result as ResponseMessage).payload).toBe(handlerResult);
 });
 it('response 404', async () => {
   // 模拟一下
   const emitter = getEmitter();
   const responsive = new Responsive({ emitter: emitter });
-  responsive.init();
+  responsive.start();
   const requestable = new Requestable({
     emitter: emitter,
   });
-  requestable.init();
+  requestable.start();
   const requestMessage = {
     url: faker.string.alphanumeric(),
     payload: null,

@@ -39,11 +39,11 @@ async function bootstrap() {
     console.log(`hello data`, data);
     return data;
   });
-  responsive.init();
+  responsive.start();
   const requestable = new Requestable({
     emitter: emitter,
   });
-  requestable.init();
+  requestable.start();
   const result = await requestable.request({
     url: 'hello',
     payload: {

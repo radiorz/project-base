@@ -48,4 +48,4 @@ server.on('message', (topic, message) => {
 server.start(3000);
 
 const responsive = new Responsive({ emitter: server });
-responsive.init();
+responsive.start();
