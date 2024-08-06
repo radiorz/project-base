@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/dir-flat",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "bin": {
     "tikkhun-dir-flat": "dist/cli/cli.js"
