@@ -1,6 +1,7 @@
 .turbo
 .history
 *.local
+dist*
 release
 # Logs
 logs

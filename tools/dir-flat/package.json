@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsup",
     "dev": "ts-node ./src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "build:exe": "pkg ."
   },
   "publishConfig": {
     "access": "public"
@@ -34,10 +35,17 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "pkg": {
+    "assets": [
+      "dist/cli/cli.js"
+    ],
+    "outputPath": "dist_exe"
+  },
   "dependencies": {
     "@tikkhun/logger": "workspace:^",
     "commander": "^12.1.0",
-    "glob": "^10.4.5"
+    "glob": "^10.4.5",
+    "pkg": "^5.8.1"
   },
   "devDependencies": {
     "@types/commander": "^2.12.2",
