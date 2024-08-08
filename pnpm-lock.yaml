@@ -111,6 +111,10 @@ importers:
         version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.10)(typescript@5.5.3))(typescript@5.5.3)
 
   packages/effect:
+    dependencies:
+      '@tikkhun/requestable':
+        specifier: ^0.0.5
+        version: 0.0.5
     devDependencies:
       '@types/node':
         specifier: ^20.3.1
@@ -1918,6 +1922,9 @@ packages:
 
   '@tikkhun/logger@1.0.7':
     resolution: {integrity: sha512-z1o67jXp7X3V1yoBFTPuPsSjBeqPBbPwTlUVdTmev4NDjV6mlP3/+oCZhVQweyyv8xe3PkBHz2K5wIqIRcnurw==}
+
+  '@tikkhun/requestable@0.0.5':
+    resolution: {integrity: sha512-H+vurLGR5byTuHV3JaZFnS6DrkXkyksLVKqgUoNiVAJajhs8oKbBf8u10rHhiIGxuZTyembJvL44p0gCbJbTpw==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
@@ -7254,6 +7261,8 @@ snapshots:
       fs-extra: 11.2.0
       js-yaml: 4.1.0
       lodash: 4.17.21
+
+  '@tikkhun/requestable@0.0.5': {}
 
   '@tikkhun/utils-core@0.0.3':
     dependencies:

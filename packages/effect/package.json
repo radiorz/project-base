@@ -31,7 +31,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "@tikkhun/requestable": "^0.0.5"
+  },
   "devDependencies": {
     "@types/node": "^20.3.1",
     "ts-node": "^10.9.1",

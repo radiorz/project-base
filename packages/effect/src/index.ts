@@ -1,5 +1,8 @@
-import { App } from '../lib';
-const app = new App();
+import { Router } from '../lib';
+const app = new Router({
+  protocol,
+  emitter,
+});
 app.use(function (c) {
   c.a = 1;
   console.log(`1.s`, c);

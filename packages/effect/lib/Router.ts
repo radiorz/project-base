@@ -1,4 +1,5 @@
-import { Effect, EffectManager } from './Onion';
+import { Skin, Onion } from './Onion';
+import { Emitter } from '@tikkhun/requestable';
 class Protocol {
   buildListenTopic() {
     return 'request';
@@ -7,21 +8,21 @@ class Protocol {
     return 'response';
   }
 }
-interface AppOptions {
+interface RouterOptions {
   protocol: Protocol;
   emitter: Emitter;
 }
-export class App {
-  options: AppOptions;
-  constructor(options: AppOptions) {
+export class Router {
+  options: RouterOptions;
+  constructor(options: RouterOptions) {
     this.options = options;
   }
-  effects: Effect[] = [];
-  use(effect: Effect) {
+  effects: Skin[] = [];
+  use(effect: Skin) {
     this.effects.push(effect);
   }
   async handle(context: any) {
-    return await EffectManager.do(context, this.effects);
+    return await Onion.do(context, this.effects);
   }
   listen() {
     // 不断发送请求过来
