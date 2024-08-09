@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { program } from 'commander';
-import { Creator, DEFAULT_OPTIONS, libDir } from './Creator';
+import { Creator, DEFAULT_OPTIONS } from './Creator';
 import { echoPackage } from './package';
 import { OptionHandler } from '@tikkhun/cli-utils';
 echoPackage();
