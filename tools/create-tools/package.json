@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.1.9",
+  "version": "0.1.10",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -46,6 +46,7 @@
     "vitest": "^1.6.0"
   },
   "dependencies": {
+    "@tikkhun/cli-utils": "workspace:^",
     "@tikkhun/logger": "^1.0.7",
     "commander": "^12.1.0",
     "ejs": "^3.1.10",

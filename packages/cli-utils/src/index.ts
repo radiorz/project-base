@@ -21,5 +21,7 @@ async function bootstrap() {
     },
   );
   console.log(`typedObj`, typedObj);
+  const stringObj = OptionHandler.toString(typedObj);
+  console.log(`stringObj`, stringObj);
 }
 bootstrap();

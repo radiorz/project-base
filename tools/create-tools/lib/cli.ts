@@ -2,7 +2,9 @@
 import { program } from 'commander';
 import { Creator, DEFAULT_OPTIONS, libDir } from './Creator';
 import { echoPackage } from './package';
+import { OptionHandler } from '@tikkhun/cli-utils';
 echoPackage();
+const stringDefaultOptions = OptionHandler.toString(DEFAULT_OPTIONS);
 program
   .description('打包')
   .option('--template <template>', '模板路径', DEFAULT_OPTIONS.template)
