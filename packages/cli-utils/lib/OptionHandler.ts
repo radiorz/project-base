@@ -15,10 +15,15 @@ export class OptionHandler {
       return value.split(',');
     }
     if (type === 'keyValueArray') {
-      return value.split(',').map((strItem) => {
-        const [key, value] = strItem.split('=');
-        return { key, value };
-      });
+      if (!value) return [];
+      return value
+        .split(',')
+        .map((strItem) => {
+          if (!strItem) return undefined;
+          const [key, value] = strItem.split('=');
+          return { key, value };
+        })
+        .filter((i) => i);
     }
     if (type === 'number') {
       return Number(value);
