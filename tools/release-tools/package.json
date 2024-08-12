@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/release",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -36,7 +36,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/logger": "^1.0.7",
+    "@tikkhun/cli-utils": "workspace:^",
+    "@tikkhun/logger": "workspace:^",
     "archiver": "^7.0.1",
     "commander": "^12.1.0",
     "dayjs": "^1.11.11",

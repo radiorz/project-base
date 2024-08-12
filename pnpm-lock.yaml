@@ -965,9 +965,12 @@ importers:
 
   tools/release-tools:
     dependencies:
+      '@tikkhun/cli-utils':
+        specifier: workspace:^
+        version: link:../../packages/cli-utils
       '@tikkhun/logger':
-        specifier: ^1.0.7
-        version: 1.0.7
+        specifier: workspace:^
+        version: link:../../packages/logger
       archiver:
         specifier: ^7.0.1
         version: 7.0.1
