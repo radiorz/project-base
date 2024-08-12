@@ -98,6 +98,10 @@ export class Release {
           .on('pipe', () => {
             this.log.log('piping');
           })
+          .on('error', (err) => {
+            this.log.error('[失败] 打包失败' + err.message);
+            reject(err);
+          })
           .on('close', () => {
             this.log.log('[完毕] 打包完毕');
             resolve(true);
