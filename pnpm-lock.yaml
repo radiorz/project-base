@@ -971,6 +971,9 @@ importers:
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
+      '@tikkhun/utils-core':
+        specifier: ^0.0.3
+        version: 0.0.3
       archiver:
         specifier: ^7.0.1
         version: 7.0.1

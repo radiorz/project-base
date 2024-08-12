@@ -1,5 +1,5 @@
 import { config } from 'dotenv-safe';
-import { camelCase, set } from 'lodash';
+import { camelCase } from 'lodash';
 import { ConfigSource } from '@tikkhun/config-core';
 import { listToJson } from '@tikkhun/utils-core';
 export interface EnvSourceOptions {

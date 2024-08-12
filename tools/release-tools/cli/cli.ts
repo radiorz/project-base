@@ -1,70 +1,69 @@
 #!/usr/bin/env node
-import { program } from 'commander';
+import { Command, program } from 'commander';
 import { Logger } from '@tikkhun/logger';
 import { Release, DEFAULT_RELEASE_OPTIONS, ReleaseFileNameOptions } from '../lib/Release';
 import packageJson from '../package.json';
 import { OptionHandler } from '@tikkhun/cli-utils';
-import { workspace } from '../../version/lib/utils';
+import { jsonToList, listToJson } from '@tikkhun/utils-core';
 const { name, version } = packageJson;
 Logger.log(`[欢迎使用] ${name}`);
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_RELEASE_OPTIONS);
-program
-  .version(version)
-  .description('打包')
-  .option('--workspace <workspace>', '根路径', stringDefaultOptions.workspace)
-  .option('--include <include>', '包含', stringDefaultOptions.include)
-  .option('--exclude <exclude>', '不包含', stringDefaultOptions.exclude)
-  .option('--releasePath <releasePath>', '打包存放位置', stringDefaultOptions.releasePath)
-  .option('--archiveType <archiveType>', '打包格式', stringDefaultOptions.archiveType)
-
-  .option('--projectName <projectName>', '打包名称', stringDefaultOptions.releaseFileNameOptions.projectName)
-  .option('--withVersion <withVersion>', '需要版本号', stringDefaultOptions.releaseFileNameOptions.withVersion)
-  .option('--withTime <withTime>', '需要打包时间', stringDefaultOptions.releaseFileNameOptions.withTime)
-  .option('--timePattern <timePattern>', '版本号样式', stringDefaultOptions.releaseFileNameOptions.timePattern)
-  .option('--versionTag <versionTag>', '版本标签', stringDefaultOptions.releaseFileNameOptions.versionTag)
-  .option('--environment <environment>', '版本标签', stringDefaultOptions.releaseFileNameOptions.environment)
-  .action(async (options: any) => {
-    const {
-      workspace,
-      include,
-      exclude,
-      archiveType,
-      releasePath,
-      projectName,
-      withVersion,
-      withTime,
-      timePattern,
-      versionTag,
-      environment,
-    } = OptionHandler.toType(options, {
-      workspace: 'string',
-      include: 'array',
-      exclude: 'array',
-      archiveType: 'string',
-      releasePath: 'string',
-      //
+program.version(version);
+function setOptionsByDefaultAndTitles(
+  program: Command,
+  options: Record<string, any>,
+  optionTitles: Record<string, any>,
+): Command {
+  const optionList = jsonToList({ delimiter: '.', json: options });
+  optionList.forEach(({ key, value }) => {
+    program.option(`--${key} <${key}>`, optionTitles[key], value);
+  });
+  return program;
+}
+const optionTitles = {
+  workspace: '项目根目录',
+  include: '包含问界',
+  exclude: '排除文件',
+  archiveType: '打包类型',
+  archiveOptions: '打包选项',
+  clean: '清空旧记录',
+  releasePath: '释放文件夹',
+  releaseFileNameOptions: {
+    projectName: '项目名称',
+    withVersion: '带有版本',
+    versionTag: '版本标志',
+    withTime: '带有时间',
+    timePattern: '时间格式',
+    environment: '环境参数',
+  },
+};
+setOptionsByDefaultAndTitles(program, stringDefaultOptions, optionTitles).action(async (options: any) => {
+  console.log(`options`, options);
+  const jsonOptions = listToJson({
+    delimiter: '.',
+    list: Object.entries(options).map(([key, value]) => ({ key, value })),
+  });
+  const typedOptions = OptionHandler.toType(jsonOptions, {
+    workspace: 'string',
+    include: 'array',
+    exclude: 'array',
+    archiveType: 'string',
+    archiveOptions: { zlib: { level: 'number' } },
+    releasePath: 'string',
+    clean: 'boolean',
+    //
+    releaseFileNameOptions: {
       projectName: 'string',
       withVersion: 'boolean',
       withTime: 'boolean',
       timePattern: 'string',
       versionTag: 'versionTag',
       environment: 'string',
-    });
-    const release = new Release({
-      workspace,
-      include,
-      exclude,
-      archiveType,
-      releasePath,
-      releaseFileNameOptions: {
-        projectName,
-        withVersion,
-        withTime,
-        timePattern,
-        versionTag,
-        environment,
-      },
-    });
-    await release.start();
+    },
   });
+  // TODO 暂时不支持function
+  delete typedOptions.releaseFileNameOptions.releaseFileNameBuilder;
+  const release = new Release(typedOptions);
+  await release.start();
+});
 program.parse(process.argv);

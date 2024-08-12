@@ -11,6 +11,7 @@ export default defineConfig((options: any) => ({
   dts: true,
   // 拆分
   splitting: false,
+  sourcemap: true,
   // sourcemap: true,
   clean: true,
   treeshake: true,
