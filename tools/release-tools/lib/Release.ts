@@ -42,6 +42,7 @@ export const DEFAULT_OPTIONS: Options = {
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
   [ArchiveType.tar]: '.tar',
+  // [ArchiveType.tar]: '.tar.gz',
 };
 export class Release {
   options: Options;
@@ -110,8 +111,9 @@ export class Release {
           cwd: this.options.workspace,
         });
         // 执行
-        archive.finalize();
         this.log.log('[开始] 执行打包');
+        await archive.finalize();
+        this.log.log('[结束] 执行打包');
         // spinner.start();
       } catch (error: any) {
         this.log.log('[失败] 执行打包' + error.message);

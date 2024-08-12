@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { program } from 'commander';
 import { Logger } from '@tikkhun/logger';
-import { Release, DEFAULT_OPTIONS } from './Release';
+import { Release, DEFAULT_OPTIONS } from '../lib/Release';
 import packageJson from '../package.json';
 import { OptionHandler } from '@tikkhun/cli-utils';
-const name = packageJson.name;
+const { name, version } = packageJson;
 Logger.log(`[欢迎使用] ${name}`);
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_OPTIONS);
 program
+  .version(version)
   .description('打包')
   .option('--workspace <workspace>', '根路径', stringDefaultOptions.workspace)
   .option('--include <include>', '包含', stringDefaultOptions.include)
