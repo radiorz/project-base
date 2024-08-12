@@ -6,53 +6,123 @@ import { join } from 'path';
 // import ora from 'ora';
 // const spinner = ora('Loading...');
 const logger = new Logger('Release');
+import { merge } from 'lodash';
+export interface ReleaseFileNameOptions {
+  workspace: string; // 项目根目录
+  projectName: string; // 项目名称
+  withVersion: boolean; // 带版本号
+  withTime: boolean; // 带打包时间
+  timePattern: string; // 时间的具体格式
+  versionTag: string; // 比如beta1 这种标签
+  environment: string; // 其他环境参数
+  releaseFileNameBuilder: (options: Partial<ReleaseFileNameBuilderOptions>) => string;
+}
+export interface ReleaseFileNameBuilderOptions {
+  projectName: string;
+  version: string;
+  releaseTime: string;
+  versionTag: string; // 版本标志
+  environment: string; // 环境参数
+}
+export class ReleaseFileName {
+  static options: ReleaseFileNameOptions = {
+    workspace: process.cwd(),
+    projectName: 'project',
+    withVersion: true,
+    withTime: true,
+    timePattern: 'YYYY_MM_DD_hh_mm_ss',
+    versionTag: '',
+    environment: '',
+    releaseFileNameBuilder: function (options: Partial<ReleaseFileNameBuilderOptions>): string {
+      return [options.projectName, options.version, options.versionTag, options.releaseTime, options.environment]
+        .filter((a) => a)
+        .join('_');
+    },
+  };
+  static getVersionFromPackageJson(workspace = ''): string {
+    try {
+      const json = readJsonSync(join(workspace, 'package.json'));
+      return json.version;
+    } catch (error: any) {
+      logger.warn('从package.json获取版本错误: ' + error.message);
+      return 'unknown';
+    }
+  }
+  static getTimeByPattern(pattern: string) {
+    return dayjs().format(pattern);
+  }
+  static get(options: Partial<ReleaseFileNameOptions>) {
+    const { releaseFileNameBuilder, withVersion, withTime, ...opts } = Object.assign(ReleaseFileName.options, options);
+    let version = withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
+    let releaseTime = withTime ? ReleaseFileName.getTimeByPattern(opts.timePattern) : '';
+    return releaseFileNameBuilder({
+      ...opts,
+      version,
+      releaseTime,
+    });
+  }
+
+  releaseTime: string = '';
+  version: string;
+  options: ReleaseFileNameOptions;
+  constructor(options: Partial<ReleaseFileNameOptions>) {
+    this.options = merge(ReleaseFileName.options, options);
+    this.version = this.options.withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
+    this.releaseTime = this.options.withTime ? ReleaseFileName.getTimeByPattern(this.options.timePattern) : '';
+  }
+  get() {
+    return this.options.releaseFileNameBuilder({
+      ...this.options,
+      releaseTime: this.releaseTime,
+      version: this.version,
+    });
+  }
+}
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
 }
 // 目前想到的就是用  archive 进行打包。
-export interface Options {
+export interface ReleaseOptions {
+  /* # 打包源头 */
   workspace: string;
   include: string[];
   exclude: string[];
-  releaseName: string;
-  releasePath: string; // 释放的路径
-  withVersion: boolean;
-  withTime: boolean;
-  timePattern: string;
+  /* ## 打包的压缩类型 */
   archiveType: ArchiveType;
-  archiveOptions: any;
+  archiveOptions: Record<string, any>;
+  /* # 存放相关 */
+  /* ## 文件名称 */
+  releasePath: string; // 释放的路径
+  releaseFileNameOptions: Partial<ReleaseFileNameOptions>;
+  /* ## 是否清空 */
   clean: boolean;
 }
-export const DEFAULT_OPTIONS: Options = {
-  workspace: process.cwd(),
-  include: ['**/*'],
-  exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
-  releaseName: 'project',
-  releasePath: 'release',
-  withVersion: true,
-  withTime: true,
-  timePattern: 'YYYY_MM_DD_hh_mm_ss',
-  archiveType: ArchiveType.zip,
-  archiveOptions: {
-    zlib: { level: 9 }, // Sets the compression level.
-  },
-  clean: true,
-};
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
   [ArchiveType.tar]: '.tar',
   // [ArchiveType.tar]: '.tar.gz',
 };
+
+export const DEFAULT_RELEASE_OPTIONS: ReleaseOptions = {
+  workspace: process.cwd(),
+  include: ['**/*'],
+  exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
+  archiveType: ArchiveType.zip,
+  archiveOptions: {
+    zlib: { level: 9 }, // Sets the compression level.
+  },
+  clean: true,
+  releasePath: 'release',
+  releaseFileNameOptions: ReleaseFileName.options,
+};
+
 export class Release {
-  options: Options;
-  releaseTime: string = '';
-  version: string = '';
-  get releaseName() {
-    return [this.options.releaseName, this.version, this.releaseTime].filter((a) => a).join('_');
-  }
+  options: ReleaseOptions;
+  releaseFileName: ReleaseFileName;
+  log = logger;
   get releaseFile() {
-    return this.releaseName + ExtensionMap[this.options.archiveType];
+    return this.releaseFileName.get() + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
@@ -60,16 +130,14 @@ export class Release {
   get releaseFilePath() {
     return join(this.releasePath, this.releaseFile);
   }
-  constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
-
+  constructor(options?: Partial<ReleaseOptions>) {
+    this.options = merge(DEFAULT_RELEASE_OPTIONS, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
-    if (this.options.withVersion) {
-      this.version = Release.getVersionFromPackageJson(this.options.workspace);
-    }
-    if (this.options.withTime) {
-      this.releaseTime = dayjs().format(this.options.timePattern);
-    }
+    // 名称
+    this.releaseFileName = new ReleaseFileName({
+      ...this.options.releaseFileNameOptions,
+      workspace: this.options.workspace,
+    });
     this.watchError();
   }
 
@@ -85,12 +153,15 @@ export class Release {
   async start() {
     return new Promise(async (resolve, reject) => {
       try {
-        this.log.log(`[开始] 压缩文件到路径: ` + this.releaseFilePath);
+        this.log.log(`[开始] 释放文件确认: ` + this.releasePath);
         await Release.insureDir(this.releasePath);
         if (this.options.clean) {
+          this.log.log(`[开始] 重名文件删除 ` + this.releaseFilePath);
           // 如果有同名应该先删除
           await fs.remove(this.releaseFilePath);
         }
+        this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
+        // 打包
         const releaseStream = fs.createWriteStream(this.releaseFilePath);
         const archive = archiver(this.options.archiveType, this.options.archiveOptions);
         archive
@@ -99,7 +170,7 @@ export class Release {
             this.log.log('piping');
           })
           .on('error', (err) => {
-            this.log.error('[失败] 打包失败' + err.message);
+            this.log.error('[失败] 打包,但失败，原因为：' + err.message);
             reject(err);
           })
           .on('close', () => {
@@ -116,30 +187,21 @@ export class Release {
         });
         // 执行
         this.log.log('[开始] 执行打包');
+        // spinner.start();
         await archive.finalize();
         this.log.log('[结束] 执行打包');
-        // spinner.start();
       } catch (error: any) {
-        this.log.log('[失败] 执行打包' + error.message);
+        this.log.error('[失败] 执行打包' + error.message);
         reject(error);
       }
     });
   }
-  log = logger;
+
   // 确保文件夹
   static async insureDir(dir: string) {
     // 文件夹不存在,就添加文件夹
     if (!fs.existsSync(dir)) {
       await fs.mkdir(dir, { recursive: true });
-    }
-  }
-  static getVersionFromPackageJson(workspace = ''): string {
-    try {
-      const json = readJsonSync(join(workspace, 'package.json'));
-      return json.version;
-    } catch (error: any) {
-      logger.warn('从package.json获取版本错误: ' + error.message);
-      return 'unknown';
     }
   }
 }
