@@ -173,20 +173,19 @@ export class Release {
     };
   }
   private async save() {
-    this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
     const outputStream = fs.createWriteStream(this.releaseFilePath);
 
     const result = await new Promise(async (resolve, reject) => {
-      outputStream.on('close', () => {
-        this.log.log('[close] 写入文件结束，总共字节数: ' + archive.pointer());
-      });
-      outputStream.on('end', () => {
-        // console.log('Data has been drained');
-        this.log.log('[end] 写入文件完毕');
-        resolve(true);
-      });
+      outputStream
+        .on('close', () => {
+          this.log.log('[close] 写入文件关闭，总共字节数: ' + archive.pointer());
+        })
+        .on('finish', () => {
+          this.log.log('[finish] 写入文件完毕');
+          resolve(true);
+        });
 
       archive
         .pipe(outputStream)
@@ -227,7 +226,9 @@ export class Release {
     try {
       await this.ensureReleasePath();
       await this.cleanReleaseFilePath();
+      this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
       const result = await this.save();
+      this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
       return result;
     } catch (error: any) {
       this.log.error('[错误] 打包，但失败，原因为：' + error.message);
