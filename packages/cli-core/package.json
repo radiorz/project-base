@@ -38,7 +38,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.17.7",
-    "@types/commander": "^2.12.2",
     "@types/node": "^20.3.1",
     "ts-node": "^10.9.2",
     "tsup": "^8.2.4",

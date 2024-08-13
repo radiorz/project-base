@@ -2,7 +2,7 @@
 import { program } from 'commander';
 import { Creator, DEFAULT_OPTIONS } from './Creator';
 import { echoPackage } from './package';
-import { OptionHandler } from '@tikkhun/cli-utils';
+import { OptionHandler } from '@tikkhun/cli-core';
 echoPackage();
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_OPTIONS);
 program
