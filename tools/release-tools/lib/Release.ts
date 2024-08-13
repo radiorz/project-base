@@ -148,58 +148,66 @@ export class Release {
   clean() {
     fs.removeSync(this.releaseFilePath);
   }
-  async start() {
+  private async ensureReleasePath() {
     this.log.log(`[开始] 确认释放文件夹: ` + this.releasePath);
     await Release.insureDir(this.releasePath);
-    if (this.options.clean) {
-      this.log.log(`[开始] 删除可能的重名文件: ` + this.releaseFilePath);
-      // 如果有同名应该先删除
-      await fs.remove(this.releaseFilePath);
+  }
+  private async cleanReleaseFilePath() {
+    if (!this.options.clean) {
+      return;
     }
-    // 这个打包选项就不让用户去关心了，直接写死
-    let archiveOptions: archiver.ArchiverOptions = {
-      zlib: { level: 9 }, // Sets the compression level.
-    };
-    if (this.options.archiveType === ArchiveType.tar) {
-      archiveOptions = {
+    this.log.log(`[开始] 删除可能的重名文件: ` + this.releaseFilePath);
+    // 如果有同名应该先删除
+    await fs.remove(this.releaseFilePath);
+  }
+  // 这个打包选项就不让用户去关心了，直接写死
+  private static getArchiveOptions(archiveType: ArchiveType): archiver.ArchiverOptions {
+    if (archiveType === ArchiveType.tar) {
+      return {
         gzip: true,
         gzipOptions: { level: 9 },
       };
     }
+    return {
+      zlib: { level: 9 }, // Sets the compression level.
+    };
+  }
+  private async save() {
     this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
     // 打包
+    const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
+    const outputStream = fs.createWriteStream(this.releaseFilePath);
+
     const result = await new Promise(async (resolve, reject) => {
-      const outputStream = fs.createWriteStream(this.releaseFilePath);
       outputStream.on('close', () => {
-        this.log.log('总共字节数:' + archive.pointer());
+        this.log.log('[close] 写入文件结束，总共字节数: ' + archive.pointer());
       });
       outputStream.on('end', () => {
         // console.log('Data has been drained');
-        this.log.log('[写入文件] 完毕');
+        this.log.log('[end] 写入文件完毕');
         resolve(true);
       });
-      const archive = archiver(this.options.archiveType, archiveOptions);
+
       archive
         .pipe(outputStream)
         .on('warning', (err) => {
           if (err.code === 'ENOENT') {
             this.log.warn(err.message);
           }
-          this.log.error('[失败] 打包');
+          this.log.error('[warning] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
         .on('error', (err) => {
-          this.log.error('[失败] 打包,但失败，原因为：' + err.message);
+          this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
-
         .on('close', () => {
-          this.log.log('[关闭] 打包');
-          // spinner.stop();
+          this.log.log('[close] 打包推流');
         })
         .on('finish', () => {
-          this.log.log('[结束] 打包');
+          this.log.log('[finish] 打包推流');
         });
+
       // 添加文件
       archive.glob(this.options.include, {
         ignore: this.options.exclude,
@@ -214,6 +222,17 @@ export class Release {
       this.log.log('[结束] 执行打包');
     });
     return result;
+  }
+  async start() {
+    try {
+      await this.ensureReleasePath();
+      await this.cleanReleaseFilePath();
+      const result = await this.save();
+      return result;
+    } catch (error: any) {
+      this.log.error('[错误] 打包，但失败，原因为：' + error.message);
+      throw error;
+    }
   }
 
   // 确保文件夹
