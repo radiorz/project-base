@@ -182,9 +182,11 @@ export class Release {
             reject(err);
           })
           .on('close', () => {
-            this.log.log('[完毕] 打包完毕');
+            this.log.log('[关闭] 打包');
             resolve(true);
             // spinner.stop();
+          }).on('finish',()=>{
+            this.log.log('[结束] 打包')
           });
         // 添加文件
         archive.glob(this.options.include, {

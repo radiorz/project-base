@@ -5,7 +5,6 @@ import { Release, DEFAULT_RELEASE_OPTIONS, ReleaseFileNameOptions } from '../lib
 import packageJson from '../package.json';
 import { OptionHandler } from '@tikkhun/cli-utils';
 import { unflatJson, jsonToList, flatJson } from '@tikkhun/utils-core';
-import { workspace } from '../../version/lib/utils';
 import _ from 'lodash';
 const { get } = _;
 const { name, version } = packageJson;
