@@ -156,7 +156,6 @@ export class Release {
       // 如果有同名应该先删除
       await fs.remove(this.releaseFilePath);
     }
-    this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
     // 这个打包选项就不让用户去关心了，直接写死
     let archiveOptions: archiver.ArchiverOptions = {
       zlib: { level: 9 }, // Sets the compression level.
@@ -167,6 +166,7 @@ export class Release {
         gzipOptions: { level: 9 },
       };
     }
+    this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
     // 打包
     const result = await new Promise(async (resolve, reject) => {
       const outputStream = fs.createWriteStream(this.releaseFilePath);
@@ -192,9 +192,7 @@ export class Release {
           this.log.error('[失败] 打包,但失败，原因为：' + err.message);
           reject(err);
         })
-        .on('pipe', () => {
-          this.log.log('piping');
-        })
+
         .on('close', () => {
           this.log.log('[关闭] 打包');
           // spinner.stop();
