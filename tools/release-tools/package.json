@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/release",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
@@ -38,7 +38,7 @@
   "dependencies": {
     "@tikkhun/cli-utils": "workspace:^",
     "@tikkhun/logger": "workspace:^",
-    "@tikkhun/utils-core": "^0.0.3",
+    "@tikkhun/utils-core": "workspace:^",
     "archiver": "^7.0.1",
     "commander": "^12.1.0",
     "dayjs": "^1.11.11",

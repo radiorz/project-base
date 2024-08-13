@@ -7,6 +7,7 @@ import { join } from 'path';
 // const spinner = ora('Loading...');
 const logger = new Logger('Release');
 import { merge } from 'lodash';
+import { UnderlineDelimiter } from '@tikkhun/utils-core';
 export interface ReleaseFileNameOptions {
   workspace: string; // 项目根目录
   projectName: string; // 项目名称
@@ -36,7 +37,7 @@ export class ReleaseFileName {
     releaseFileNameBuilder: function (options: Partial<ReleaseFileNameBuilderOptions>): string {
       return [options.projectName, options.version, options.versionTag, options.releaseTime, options.environment]
         .filter((a) => a)
-        .join('_');
+        .join(UnderlineDelimiter);
     },
   };
   static getVersionFromPackageJson(workspace = ''): string {

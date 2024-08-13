@@ -4,10 +4,14 @@ import { Logger } from '@tikkhun/logger';
 import { Release, DEFAULT_RELEASE_OPTIONS, ReleaseFileNameOptions } from '../lib/Release';
 import packageJson from '../package.json';
 import { OptionHandler } from '@tikkhun/cli-utils';
-import { jsonToList, listToJson } from '@tikkhun/utils-core';
+import { unflatJson, jsonToList, flatJson } from '@tikkhun/utils-core';
+import { workspace } from '../../version/lib/utils';
 const { name, version } = packageJson;
 Logger.log(`[欢迎使用] ${name}`);
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_RELEASE_OPTIONS);
+// TODO 暂时不支持function
+delete stringDefaultOptions.releaseFileNameOptions.releaseFileNameBuilder;
+delete stringDefaultOptions.releaseFileNameOptions.workspace;
 program.version(version);
 const optionTypes = {
   workspace: 'string',
@@ -23,7 +27,7 @@ const optionTypes = {
     withVersion: 'boolean',
     withTime: 'boolean',
     timePattern: 'string',
-    versionTag: 'versionTag',
+    versionTag: 'string',
     environment: 'string',
   },
 };
@@ -33,11 +37,9 @@ function setOptionsByDefaultAndTitles(
   optionTitles: Record<string, any>,
 ): Command {
   const optionList = jsonToList({ delimiter: '.', json: options });
-  console.log(`optionList`, optionList);
-  const optionTypeList = jsonToList({ delimiter: '.', json: optionTypes });
+  const optionTypeMap = flatJson({ delimiter: '.', data: optionTypes });
   optionList.forEach(({ key, value }) => {
-    const type = optionTypeList.some((item) => item.key === key);
-    console.log(`type`, type, key);
+    const type = optionTypeMap[key];
     program.option(`--${key} <${type}>`, optionTitles[key], value);
   });
   return program;
@@ -60,14 +62,12 @@ const optionTitles = {
   },
 };
 setOptionsByDefaultAndTitles(program, stringDefaultOptions, optionTitles).action(async (options: any) => {
-  console.log(`options`, options);
-  const jsonOptions = listToJson({
+  const jsonOptions = unflatJson({
     delimiter: '.',
-    list: Object.entries(options).map(([key, value]) => ({ key, value })),
+    data: options,
   });
   const typedOptions = OptionHandler.toType(jsonOptions, optionTypes);
-  // TODO 暂时不支持function
-  delete typedOptions.releaseFileNameOptions.releaseFileNameBuilder;
+
   const release = new Release(typedOptions);
   await release.start();
 });
