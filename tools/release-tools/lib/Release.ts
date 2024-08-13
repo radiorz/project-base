@@ -101,7 +101,7 @@ export interface ReleaseOptions {
 }
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
-  [ArchiveType.tar]: '.tar.gz',// 直接压缩
+  [ArchiveType.tar]: '.tar.gz', // 直接压缩
   // [ArchiveType.tar]: '.tar.gz',
 };
 
@@ -149,62 +149,73 @@ export class Release {
     fs.removeSync(this.releaseFilePath);
   }
   async start() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        this.log.log(`[开始] 释放文件确认: ` + this.releasePath);
-        await Release.insureDir(this.releasePath);
-        if (this.options.clean) {
-          this.log.log(`[开始] 重名文件删除 ` + this.releaseFilePath);
-          // 如果有同名应该先删除
-          await fs.remove(this.releaseFilePath);
-        }
-        this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
-        // 打包
-        const releaseStream = fs.createWriteStream(this.releaseFilePath);
-        // 这个打包选项就不让用户去关心了，直接写死
-        let archiveOptions: archiver.ArchiverOptions = {
-          zlib: { level: 9 }, // Sets the compression level.
-        };
-        if (this.options.archiveType === ArchiveType.tar) {
-          archiveOptions = {
-            gzip: true,
-            gzipOptions: { level: 9 },
-          };
-        }
-        const archive = archiver(this.options.archiveType, archiveOptions);
-        archive
-          .pipe(releaseStream)
-          .on('pipe', () => {
-            this.log.log('piping');
-          })
-          .on('error', (err) => {
-            this.log.error('[失败] 打包,但失败，原因为：' + err.message);
-            reject(err);
-          })
-          .on('close', () => {
-            this.log.log('[关闭] 打包');
-            resolve(true);
-            // spinner.stop();
-          }).on('finish',()=>{
-            this.log.log('[结束] 打包')
-          });
-        // 添加文件
-        archive.glob(this.options.include, {
-          ignore: this.options.exclude,
-          skip: this.options.exclude,
-          dot: true,
-          cwd: this.options.workspace,
+    this.log.log(`[开始] 确认释放文件夹: ` + this.releasePath);
+    await Release.insureDir(this.releasePath);
+    if (this.options.clean) {
+      this.log.log(`[开始] 删除可能的重名文件: ` + this.releaseFilePath);
+      // 如果有同名应该先删除
+      await fs.remove(this.releaseFilePath);
+    }
+    this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
+    // 这个打包选项就不让用户去关心了，直接写死
+    let archiveOptions: archiver.ArchiverOptions = {
+      zlib: { level: 9 }, // Sets the compression level.
+    };
+    if (this.options.archiveType === ArchiveType.tar) {
+      archiveOptions = {
+        gzip: true,
+        gzipOptions: { level: 9 },
+      };
+    }
+    // 打包
+    const result = await new Promise(async (resolve, reject) => {
+      const outputStream = fs.createWriteStream(this.releaseFilePath);
+      outputStream.on('close', () => {
+        this.log.log('总共字节数:' + archive.pointer());
+      });
+      outputStream.on('end', () => {
+        // console.log('Data has been drained');
+        this.log.log('[写入文件] 完毕');
+        resolve(true);
+      });
+      const archive = archiver(this.options.archiveType, archiveOptions);
+      archive
+        .pipe(outputStream)
+        .on('warning', (err) => {
+          if (err.code === 'ENOENT') {
+            this.log.warn(err.message);
+          }
+          this.log.error('[失败] 打包');
+          reject(err);
+        })
+        .on('error', (err) => {
+          this.log.error('[失败] 打包,但失败，原因为：' + err.message);
+          reject(err);
+        })
+        .on('pipe', () => {
+          this.log.log('piping');
+        })
+        .on('close', () => {
+          this.log.log('[关闭] 打包');
+          // spinner.stop();
+        })
+        .on('finish', () => {
+          this.log.log('[结束] 打包');
         });
-        // 执行
-        this.log.log('[开始] 执行打包');
-        // spinner.start();
-        await archive.finalize();
-        this.log.log('[结束] 执行打包');
-      } catch (error: any) {
-        this.log.error('[失败] 执行打包' + error.message);
-        reject(error);
-      }
+      // 添加文件
+      archive.glob(this.options.include, {
+        ignore: this.options.exclude,
+        skip: this.options.exclude,
+        dot: true,
+        cwd: this.options.workspace,
+      });
+      // 执行
+      this.log.log('[开始] 执行打包');
+      // spinner.start();
+      await archive.finalize();
+      this.log.log('[结束] 执行打包');
     });
+    return result;
   }
 
   // 确保文件夹
