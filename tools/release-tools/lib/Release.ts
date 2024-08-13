@@ -150,7 +150,7 @@ export class Release {
   }
   private async ensureReleasePath() {
     this.log.log(`[开始] 确认释放文件夹: ` + this.releasePath);
-    await Release.insureDir(this.releasePath);
+    await Release.ensureDir(this.releasePath);
   }
   private async cleanReleaseFilePath() {
     if (!this.options.clean) {
@@ -237,7 +237,7 @@ export class Release {
   }
 
   // 确保文件夹
-  static async insureDir(dir: string) {
+  static async ensureDir(dir: string) {
     // 文件夹不存在,就添加文件夹
     if (!fs.existsSync(dir)) {
       await fs.mkdir(dir, { recursive: true });
