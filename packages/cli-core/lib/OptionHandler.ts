@@ -1,3 +1,5 @@
+import { Command } from "commander";
+
 export const TYPES = {
   array: 'array',
   keyValueArray: 'keyValueArray',
@@ -13,7 +15,6 @@ export class OptionHandler {
   constructor(schema: Record<string, any>) {
     this.schema = schema;
   }
-
   static getTypeValue(value: string, type: string) {
     if (type === TYPES.array) {
       return value.split(',');
@@ -77,4 +78,5 @@ export class OptionHandler {
     }
     return '' + value;
   }
+
 }
