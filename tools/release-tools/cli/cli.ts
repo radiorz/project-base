@@ -18,7 +18,6 @@ const cli = new Cli({
     include: 'array',
     exclude: 'array',
     archiveType: 'string',
-    archiveOptions: { zlib: { level: 'number' } },
     releasePath: 'string',
     clean: 'boolean',
     releaseFileNameOptions: {
