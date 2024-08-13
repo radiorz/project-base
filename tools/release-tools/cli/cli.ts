@@ -6,6 +6,8 @@ import packageJson from '../package.json';
 import { OptionHandler } from '@tikkhun/cli-utils';
 import { unflatJson, jsonToList, flatJson } from '@tikkhun/utils-core';
 import { workspace } from '../../version/lib/utils';
+import _ from 'lodash';
+const { get } = _;
 const { name, version } = packageJson;
 Logger.log(`[欢迎使用] ${name}`);
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_RELEASE_OPTIONS);
@@ -40,7 +42,7 @@ function setOptionsByDefaultAndTitles(
   const optionTypeMap = flatJson({ delimiter: '.', data: optionTypes });
   optionList.forEach(({ key, value }) => {
     const type = optionTypeMap[key];
-    program.option(`--${key} <${type}>`, optionTitles[key], value);
+    program.option(`--${key} <${type}>`, get(optionTitles, key), value);
   });
   return program;
 }

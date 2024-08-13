@@ -91,7 +91,7 @@ export interface ReleaseOptions {
   exclude: string[];
   /* ## 打包的压缩类型 */
   archiveType: ArchiveType;
-  archiveOptions: Record<string, any>;
+  // archiveOptions: Record<string, any>;
   /* # 存放相关 */
   /* ## 文件名称 */
   releasePath: string; // 释放的路径
@@ -101,7 +101,7 @@ export interface ReleaseOptions {
 }
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
-  [ArchiveType.tar]: '.tar',
+  [ArchiveType.tar]: '.tar.gz',// 直接压缩
   // [ArchiveType.tar]: '.tar.gz',
 };
 
@@ -110,9 +110,6 @@ export const DEFAULT_RELEASE_OPTIONS: ReleaseOptions = {
   include: ['**/*'],
   exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
   archiveType: ArchiveType.zip,
-  archiveOptions: {
-    zlib: { level: 9 }, // Sets the compression level.
-  },
   clean: true,
   releasePath: 'release',
   releaseFileNameOptions: ReleaseFileName.options,
@@ -164,7 +161,17 @@ export class Release {
         this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
         // 打包
         const releaseStream = fs.createWriteStream(this.releaseFilePath);
-        const archive = archiver(this.options.archiveType, this.options.archiveOptions);
+        // 这个打包选项就不让用户去关心了，直接写死
+        let archiveOptions: archiver.ArchiverOptions = {
+          zlib: { level: 9 }, // Sets the compression level.
+        };
+        if (this.options.archiveType === ArchiveType.tar) {
+          archiveOptions = {
+            gzip: true,
+            gzipOptions: { level: 9 },
+          };
+        }
+        const archive = archiver(this.options.archiveType, archiveOptions);
         archive
           .pipe(releaseStream)
           .on('pipe', () => {
