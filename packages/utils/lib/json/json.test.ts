@@ -1,5 +1,7 @@
 import { expect, describe, test } from 'vitest';
-import { jsonToList, ListItem, listToJson } from './listToJson';
+import { ListItem } from './json.interface';
+import { listToJson } from './listToJson';
+import { jsonToList } from './jsonToList';
 describe('listToJson', () => {
   test('converts list to JSON object', () => {
     const list: ListItem[] = [

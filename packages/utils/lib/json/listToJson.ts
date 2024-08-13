@@ -1,4 +1,5 @@
-import { set } from 'lodash';
+import _ from 'lodash';
+const { set } = _;
 import { ListItem } from './json.interface';
 export interface ListToJsonOptions {
   delimiter: string;
@@ -27,4 +28,3 @@ export function listToJson(options?: Partial<ListToJsonOptions>): Record<string,
   });
   return json;
 }
-export { ListItem };

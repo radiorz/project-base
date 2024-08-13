@@ -391,15 +391,18 @@ importers:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
+      '@linjiajian999/esbuild-plugin-import':
+        specifier: ^1.0.2
+        version: 1.0.2
       '@types/lodash':
         specifier: ^4.17.6
         version: 4.17.6
       '@types/node':
         specifier: ^20.3.1
         version: 20.14.10
-      babel-plugin-lodash:
-        specifier: ^3.3.4
-        version: 3.3.4
+      esbuild-plugin-lodash:
+        specifier: ^1.2.0
+        version: 1.2.0
       ts-node:
         specifier: ^10.9.1
         version: 10.9.2(@types/node@20.14.10)(typescript@5.5.3)
@@ -407,7 +410,7 @@ importers:
         specifier: ^8.0.2
         version: 8.1.0(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.10)(typescript@5.5.3))(typescript@5.5.3)
       vitest:
-        specifier: ^1.3.1
+        specifier: ^1.6.0
         version: 1.6.0(@types/node@20.14.10)(terser@5.31.2)
 
   projects/client-trpc:
@@ -1652,6 +1655,9 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
+  '@linjiajian999/esbuild-plugin-import@1.0.2':
+    resolution: {integrity: sha512-gWODK1Ssn7u7vU9sCLufvY/z3SvQv4vDVGQOHgR/NRUF1MzGrsusGdfSlwjwIPcsbFyaUnohrPQtxJCIo6dBZA==}
+
   '@ljharb/through@2.3.13':
     resolution: {integrity: sha512-/gKJun8NNiWGZJkGzI/Ragc53cOdcLNdzjLaIa+GEjguQs0ulsurx8WN0jijdK9yPqDvziX995sMRLyLt1uZMQ==}
     engines: {node: '>= 0.4'}
@@ -2689,9 +2695,6 @@ packages:
     resolution: {integrity: sha512-ESAc/RJvGTFEzRwOTT4+lNDk/GNHMkKbNzsvT0qKRfDyyYTskxB5rnU2njIDYVxXCBHHEI1c0YwHob3WaYujOg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
 
-  babel-plugin-lodash@3.3.4:
-    resolution: {integrity: sha512-yDZLjK7TCkWl1gpBeBGmuaDIFhZKmkoL+Cu2MUUjv5VxUZx/z7tBGBCBcQs5RI1Bkz5LLmNdjx7paOyQtMovyg==}
-
   babel-preset-current-node-syntax@1.0.1:
     resolution: {integrity: sha512-M7LQ0bxarkxQoN+vz5aJPsLBn77n8QgTFmo8WK0/44auK2xlCXrYcUxHFxgU7qW5Yzw/CjmLRK2uJzaCd7LvqQ==}
     peerDependencies:
@@ -3320,6 +3323,13 @@ packages:
 
   es6-object-assign@1.1.0:
     resolution: {integrity: sha512-MEl9uirslVwqQU369iHNWZXsI8yaZYGg/D65aOgZkeyFJwHYSxilf7rQzXKI7DdDuBPrBXbfk3sl9hJhmd5AUw==}
+
+  esbuild-plugin-lodash@1.2.0:
+    resolution: {integrity: sha512-8CyR67Z/VMvcJ4ABYYSaR2hhioeuoFVII1IsyPb6AwAKN57VQW8jFXyY27OwH4FGU3h3OVwwQ/GVNbo+RgpTGA==}
+
+  esbuild@0.12.29:
+    resolution: {integrity: sha512-w/XuoBCSwepyiZtIRsKsetiLDUVGPVw1E/R3VTFSecIy8UR7Cq3SOtwKHJMFoVqqVG36aGkzh4e8BvpO1Fdc7g==}
+    hasBin: true
 
   esbuild@0.21.5:
     resolution: {integrity: sha512-mg3OPMV4hXywwpoDxu3Qda5xCKQi+vCTZq8S9J/EpkhB2HzKXq4SNFZE3+NK93JYxc8VMSep+lOUSC/RVKaBqw==}
@@ -5220,9 +5230,6 @@ packages:
     resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
 
-  require-package-name@2.0.1:
-    resolution: {integrity: sha512-uuoJ1hU/k6M0779t3VMVIYpb2VMJk05cehCaABFhXaibcbvfgR8wKiozLjVFSzJPmQMRqIcO0HMyTFqfV09V6Q==}
-
   requireindex@1.2.0:
     resolution: {integrity: sha512-L9jEkOi3ASd9PYit2cwRfyppc9NoABujTP8/5gFcbERmo5jUoAKovIC3fsF17pkTnGsrByysqX+Kxd2OTNI1ww==}
     engines: {node: '>=0.10.5'}
@@ -7023,6 +7030,11 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
+  '@linjiajian999/esbuild-plugin-import@1.0.2':
+    dependencies:
+      esbuild: 0.12.29
+      fs-extra: 10.1.0
+
   '@ljharb/through@2.3.13':
     dependencies:
       call-bind: 1.0.7
@@ -8246,16 +8258,6 @@ snapshots:
       '@types/babel__core': 7.20.5
       '@types/babel__traverse': 7.20.6
 
-  babel-plugin-lodash@3.3.4:
-    dependencies:
-      '@babel/helper-module-imports': 7.24.7
-      '@babel/types': 7.24.7
-      glob: 7.2.3
-      lodash: 4.17.21
-      require-package-name: 2.0.1
-    transitivePeerDependencies:
-      - supports-color
-
   babel-preset-current-node-syntax@1.0.1(@babel/core@7.24.7):
     dependencies:
       '@babel/core': 7.24.7
@@ -8942,6 +8944,10 @@ snapshots:
       is-symbol: 1.0.4
 
   es6-object-assign@1.1.0: {}
+
+  esbuild-plugin-lodash@1.2.0: {}
+
+  esbuild@0.12.29: {}
 
   esbuild@0.21.5:
     optionalDependencies:
@@ -11193,8 +11199,6 @@ snapshots:
   require-directory@2.1.1: {}
 
   require-from-string@2.0.2: {}
-
-  require-package-name@2.0.1: {}
 
   requireindex@1.2.0: {}
 

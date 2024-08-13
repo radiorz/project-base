@@ -23,3 +23,8 @@ export function flatJson(options: Partial<FlatJsonOptions>): Record<string, any>
 }
 
 flatJson.prototype.defaultFlatJsonOptions = defaultFlatJsonOptions;
+
+// 使用示例
+const nestedJson = { a: { b: { c: 123 } } };
+const flattedJson = flatJson({ data: nestedJson });
+console.log(flattedJson); // Output: { 'a.b.c': 123 }
