@@ -9,14 +9,36 @@ const { name, version } = packageJson;
 Logger.log(`[欢迎使用] ${name}`);
 const stringDefaultOptions = OptionHandler.toString(DEFAULT_RELEASE_OPTIONS);
 program.version(version);
+const optionTypes = {
+  workspace: 'string',
+  include: 'array',
+  exclude: 'array',
+  archiveType: 'string',
+  archiveOptions: { zlib: { level: 'number' } },
+  releasePath: 'string',
+  clean: 'boolean',
+  //
+  releaseFileNameOptions: {
+    projectName: 'string',
+    withVersion: 'boolean',
+    withTime: 'boolean',
+    timePattern: 'string',
+    versionTag: 'versionTag',
+    environment: 'string',
+  },
+};
 function setOptionsByDefaultAndTitles(
   program: Command,
   options: Record<string, any>,
   optionTitles: Record<string, any>,
 ): Command {
   const optionList = jsonToList({ delimiter: '.', json: options });
+  console.log(`optionList`, optionList);
+  const optionTypeList = jsonToList({ delimiter: '.', json: optionTypes });
   optionList.forEach(({ key, value }) => {
-    program.option(`--${key} <${key}>`, optionTitles[key], value);
+    const type = optionTypeList.some((item) => item.key === key);
+    console.log(`type`, type, key);
+    program.option(`--${key} <${type}>`, optionTitles[key], value);
   });
   return program;
 }
@@ -43,24 +65,7 @@ setOptionsByDefaultAndTitles(program, stringDefaultOptions, optionTitles).action
     delimiter: '.',
     list: Object.entries(options).map(([key, value]) => ({ key, value })),
   });
-  const typedOptions = OptionHandler.toType(jsonOptions, {
-    workspace: 'string',
-    include: 'array',
-    exclude: 'array',
-    archiveType: 'string',
-    archiveOptions: { zlib: { level: 'number' } },
-    releasePath: 'string',
-    clean: 'boolean',
-    //
-    releaseFileNameOptions: {
-      projectName: 'string',
-      withVersion: 'boolean',
-      withTime: 'boolean',
-      timePattern: 'string',
-      versionTag: 'versionTag',
-      environment: 'string',
-    },
-  });
+  const typedOptions = OptionHandler.toType(jsonOptions, optionTypes);
   // TODO 暂时不支持function
   delete typedOptions.releaseFileNameOptions.releaseFileNameBuilder;
   const release = new Release(typedOptions);

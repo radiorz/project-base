@@ -17,6 +17,9 @@ export default defineConfig((options) => ({
   treeshake: true,
   // 压缩代码
   minify: !options.watch,
+  babel: {
+    plugins: ['babel-plugin-lodash'],
+  },
   banner: {
     js: `/**
   ${name}
