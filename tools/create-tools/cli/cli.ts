@@ -36,12 +36,10 @@ const cli = new Cli({
     },
   },
 });
+cli.program.command('question').action(() => {
+  import('./cli-question');
+});
 cli.start(async (options: any) => {
   const inst = new Creator(options);
   await inst.start();
 });
-
-// program.command('question').action(() => {
-//   import('./cli-question');
-// });
-// program.parse(process.argv);

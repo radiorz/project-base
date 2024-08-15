@@ -2,9 +2,9 @@
 
 import { input, select } from '@inquirer/prompts';
 import { join } from 'path';
-import { checkNodeVersion, Creator, libDir } from '../lib';
-
+import { checkNodeVersion, Creator, echoPackage, libDir } from '../lib';
 checkNodeVersion(12);
+echoPackage();
 
 // const questions: QuestionCollection = [
 //   {
