@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 import { Cli } from '@tikkhun/cli-core';
-import { Release, DEFAULT_RELEASE_OPTIONS } from '../lib';
+import { Release } from '../lib';
 import packageJson from '../package.json';
 import { Logger } from '@tikkhun/logger';
 Logger.debug!(`[欢迎使用] ${packageJson.name} ${packageJson.version}`);
 const cli = new Cli({
   version: packageJson.version,
   description: packageJson.description,
-  defaultOptions: DEFAULT_RELEASE_OPTIONS,
+  defaultOptions: Release.defaultOptions,
   excludeOptions: [
     //
     'releaseFileNameOptions.releaseFileNameBuilder',

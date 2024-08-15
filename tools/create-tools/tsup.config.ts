@@ -1,12 +1,12 @@
 import { defineConfig } from 'tsup';
 import packageJson from './package.json';
-const name = packageJson.name;
+const { name, version } = packageJson;
 export default defineConfig((options) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
-  entry: [`lib/**/*.ts`, '!lib/**/*.test.ts'],
+  entry: [`lib/**/*.ts`, '!lib/**/*.test.ts', 'cli/**/*.ts'],
   // 格式化
-  format: ['esm'],
+  format: ['esm', 'cjs'],
   // typescript 注释
   dts: true,
   // 拆分
@@ -19,6 +19,7 @@ export default defineConfig((options) => ({
   banner: {
     js: `/**
   ${name}
+  ${version}
 */`,
   },
 }));

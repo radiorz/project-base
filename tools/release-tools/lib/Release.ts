@@ -105,17 +105,16 @@ export const ExtensionMap = {
   // [ArchiveType.tar]: '.tar.gz',
 };
 
-export const DEFAULT_RELEASE_OPTIONS: ReleaseOptions = {
-  workspace: process.cwd(),
-  include: ['**/*'],
-  exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
-  archiveType: ArchiveType.zip,
-  clean: true,
-  releasePath: 'release',
-  releaseFileNameOptions: ReleaseFileName.options,
-};
-
 export class Release {
+  static defaultOptions: ReleaseOptions = {
+    workspace: process.cwd(),
+    include: ['**/*'],
+    exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
+    archiveType: ArchiveType.zip,
+    clean: true,
+    releasePath: 'release',
+    releaseFileNameOptions: ReleaseFileName.options,
+  };
   options: ReleaseOptions;
   releaseFileName: ReleaseFileName;
   log = logger;
@@ -129,7 +128,7 @@ export class Release {
     return join(this.releasePath, this.releaseFile);
   }
   constructor(options?: Partial<ReleaseOptions>) {
-    this.options = merge(DEFAULT_RELEASE_OPTIONS, options);
+    this.options = merge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 名称
     this.releaseFileName = new ReleaseFileName({

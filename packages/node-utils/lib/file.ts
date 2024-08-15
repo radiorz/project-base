@@ -36,7 +36,7 @@ export function copy(src: string, dist: string) {
  * @param filePath {String}
  * @returns
  * @example
- * deleteFile('./a.txt') // 
+ * deleteFile('./a.txt') //
  */
 export function deleteFile(filePath: string): Promise<void> {
   return new Promise((resolve, reject) => {
@@ -48,4 +48,14 @@ export function deleteFile(filePath: string): Promise<void> {
       }
     });
   });
+}
+/**
+ * 确保某个目录存在
+ * @param dir 
+ */
+export async function ensureDir(dir: string) {
+  // 文件夹不存在,就添加文件夹
+  if (!fs.existsSync(dir)) {
+    await fs.mkdir(dir, { recursive: true });
+  }
 }

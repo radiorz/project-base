@@ -31,8 +31,9 @@ export interface ProjectDirOptions {
   delimiter: string;
   build: (name: string, options: Omit<ProjectDirOptions, 'build'>) => string;
 }
-export interface Options {
+export interface CreatorOptions {
   workspace: string;
+  clean: boolean;
   projectName: string;
   template: string;
   templateExclude: string[];
@@ -40,35 +41,43 @@ export interface Options {
   replaces: ReplaceDir[];
   projectDirOptions: ProjectDirOptions;
 }
+let libDir: string;
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-
-const __dirname = dirname(fileURLToPath(import.meta.url)); // esmodule 这么用
-export const libDir = join(__dirname, '..');
-export const DEFAULT_OPTIONS: Options = {
-  workspace: process.cwd(), // template 复制到的位置
-  template: join(libDir, 'templates/default'), // template 的位置
-  templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
-  projectName: 'project-name', // 项目名称
-  templateFiles: ['package.json', 'README.md'], // 根据文件路径定位
-  replaces: [],
-  projectDirOptions: {
-    prefix: '',
-    suffix: '',
-    delimiter: '',
-    build: getProjectDirName,
-  },
-};
+if (typeof __dirname !== 'undefined') {
+  // CommonJS 环境
+  libDir = join(__dirname, '../..');
+} else {
+  // ES 模块环境
+  const __dirname = dirname(fileURLToPath(import.meta.url)); // esmodule 这么用
+  libDir = join(__dirname, '../..');
+}
+export { libDir };
 export class Creator {
-  options: Options;
+  static DEFAULT_OPTIONS: CreatorOptions = {
+    workspace: process.cwd(), // template 复制到的位置
+    clean: true,
+    template: join(libDir, 'templates/default'), // template 的位置
+    templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
+    projectName: 'project-name', // 项目名称
+    templateFiles: ['package.json', 'README.md'], // 根据文件路径定位
+    replaces: [],
+    projectDirOptions: {
+      prefix: '',
+      suffix: '',
+      delimiter: '',
+      build: getProjectDirName,
+    },
+  };
+  options: CreatorOptions;
   get projectDir() {
     return join(
       this.options.workspace,
       this.options.projectDirOptions.build(this.options.projectName, this.options.projectDirOptions),
     );
   }
-  constructor(options?: Partial<Options>) {
-    this.options = merge({}, DEFAULT_OPTIONS, options);
+  constructor(options?: Partial<CreatorOptions>) {
+    this.options = merge({}, Creator.DEFAULT_OPTIONS, options);
   }
   async start() {
     try {
@@ -133,6 +142,9 @@ export class Creator {
     }
   }
   async clear() {
+    if (!this.options.clean) {
+      return;
+    }
     logger.log('[开始] 删除项目文件 ' + this.projectDir);
     await remove(this.projectDir);
     logger.log('[完毕] 删除项目文件 ' + this.projectDir);
