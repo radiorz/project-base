@@ -13,7 +13,7 @@ export interface CommandOptions {
 }
 
 export abstract class AbstractCommand {
-  static DEFAULT_CLI_OPTIONS: CommandOptions = {
+  static readonly DEFAULT_OPTIONS: CommandOptions = {
     version: '',
     description: '',
     defaultOptions: {},
@@ -24,7 +24,7 @@ export abstract class AbstractCommand {
 
   options: CommandOptions;
   constructor(options?: Partial<CommandOptions>) {
-    this.options = merge(AbstractCommand.DEFAULT_CLI_OPTIONS, options);
+    this.options = merge({}, AbstractCommand.DEFAULT_OPTIONS, options);
     this.init();
   }
   abstract init(): void;

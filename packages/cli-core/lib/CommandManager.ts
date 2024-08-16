@@ -13,7 +13,7 @@ export interface CommandManagerOptions extends CommandOptions {
 }
 export class CommandManager {
   static readonly DEFAULT_OPTIONS: CommandManagerOptions = {
-    ...AbstractCommand.DEFAULT_CLI_OPTIONS,
+    ...AbstractCommand.DEFAULT_OPTIONS,
     types: [CommandTypes.args],
     name: '',
   };
@@ -22,7 +22,7 @@ export class CommandManager {
   argsCommand?: ArgsCommand;
   promptsCommand?: PromptsCommand;
   constructor(options: Partial<CommandManagerOptions>) {
-    this.options = merge(CommandManager.DEFAULT_OPTIONS, options);
+    this.options = merge({}, CommandManager.DEFAULT_OPTIONS, options);
     this.logger = new Logger(this.options.name);
     this.welcome();
     this.init();

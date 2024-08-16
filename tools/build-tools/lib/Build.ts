@@ -46,7 +46,7 @@ export const DEFAULT_BUILD_OPTIONS: Options = {
 export class Build {
   options: Options;
   constructor(options?: Partial<Options>) {
-    this.options = merge(DEFAULT_BUILD_OPTIONS, options);
+    this.options = merge({}, DEFAULT_BUILD_OPTIONS, options);
   }
   get outDir() {
     return path.join(workspace, this.options.outDir);

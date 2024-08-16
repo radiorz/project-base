@@ -36,7 +36,7 @@ const cli = new Cli({
     },
   },
 });
-cli.program.command('question').action(() => {
+cli.program!.command('question').action(() => {
   import('./cli-question');
 });
 cli.start(async (options: any) => {

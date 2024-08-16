@@ -52,7 +52,7 @@ export class Config extends Emitter implements Api {
   addSource(source: ConfigSource) {
     this.sources.push(source);
     if (source.init) source.init();
-    this.config = merge(this.config, source?.load());
+    this.config = merge({},this.config, source?.load());
     return this;
   }
   get(path: string): any;

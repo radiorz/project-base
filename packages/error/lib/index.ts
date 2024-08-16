@@ -24,7 +24,7 @@ export class TkError extends Error {
       finalMessage = i18nAdapter(finalMessage);
     }
     super(finalMessage);
-    this.opts = merge(this.opts, options);
+    this.opts = merge({}, this.opts, options);
   }
 }
 

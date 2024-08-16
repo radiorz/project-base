@@ -71,7 +71,7 @@ export class ReleaseFileName {
   version: string;
   options: ReleaseFileNameOptions;
   constructor(options: Partial<ReleaseFileNameOptions>) {
-    this.options = merge(ReleaseFileName.options, options);
+    this.options = merge({}, ReleaseFileName.options, options);
     this.version = this.options.withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
     this.releaseTime = this.options.withTime ? ReleaseFileName.getTimeByPattern(this.options.timePattern) : '';
   }
@@ -132,7 +132,7 @@ export class Release {
     return join(this.releasePath, this.releaseFile);
   }
   constructor(options?: Partial<ReleaseOptions>) {
-    this.options = merge(Release.defaultOptions, options);
+    this.options = merge({}, Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 名称
     this.releaseFileName = new ReleaseFileName({
