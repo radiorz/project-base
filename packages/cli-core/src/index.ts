@@ -1,8 +1,9 @@
 import { Cli, CommandTypes } from '../lib';
 const cli = new Cli({
+  name: 'adfad ',
   version: '1.1.1',
   description: 'hahaha',
-  types: [CommandTypes.args,CommandTypes.prompts],
+  types: [CommandTypes.args, CommandTypes.prompts],
   defaultOptions: {
     n: 1,
     s: '123',

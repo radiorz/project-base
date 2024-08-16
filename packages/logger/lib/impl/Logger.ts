@@ -26,7 +26,7 @@ export class Logger implements ILogger {
     Logger.instance.fatal?.(message);
   }
   static formatContext(context: string) {
-    return `[${context}]`;
+    return `[${context}] `;
   }
   log(message: any, ...optionalParams: any[]) {
     this.instance.log(Logger.formatContext(this.context || '') + message);

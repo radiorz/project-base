@@ -11,11 +11,10 @@
  * @done
  * @example
  */
-import { jsonToList } from './jsonToList';
-import { flatJson, unflatJson } from '@tikkhun/utils-core';
-import { AbstractCommand, Action } from './command.interface';
-import { input, number, select } from '@inquirer/prompts';
+import { input } from '@inquirer/prompts';
+import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
 import { OptionHandler, TYPES } from '../OptionHandler';
+import { AbstractCommand, Action } from './command.interface';
 // const actionMap = {
 //   [TYPES.array]: input,
 //   [TYPES.keyValueArray]: input,
@@ -27,14 +26,10 @@ export class PromptsCommand extends AbstractCommand {
   program: any;
   init() {
     const defaultOptionList = jsonToList({ delimiter: '.', json: this.options.defaultOptions });
-    console.log(`defaultOptionList`, defaultOptionList);
-    const defaultOptionList1 = jsonToList({ delimiter: '.', json: this.options.defaultOptions });
-    console.log(`defaultOptionList1`, defaultOptionList1);
     const flattedOptionType = flatJson({
       delimiter: '.',
       data: this.options.optionTypes,
     });
-    console.log(`flattedOptionType`, this.options.optionTypes, flattedOptionType);
     const flattedOptionTitle = flatJson({
       delimiter: '.',
       data: this.options.optionTitles,
@@ -60,10 +55,8 @@ export class PromptsCommand extends AbstractCommand {
   }
   async start(action: Action) {
     const options = await this.program();
-    console.log(`options`, options);
     const unflattedOptions = unflatJson({ delimiter: '.', data: options });
     const typedResults = OptionHandler.toType(unflattedOptions, this.options.optionTypes);
-    console.log(`unfl`, unflattedOptions);
     action(typedResults);
   }
 }
