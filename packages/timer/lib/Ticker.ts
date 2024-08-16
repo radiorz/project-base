@@ -23,7 +23,7 @@ export abstract class AbstractTicker extends Emitter {
   [key: string]: any;
   constructor(options?: Partial<TickerOptions>) {
     super();
-    this.options = Object.assign(defaultTickerOptions, options);
+    this.options = Object.assign({}, defaultTickerOptions, options);
     this.onStart = this.onStart.bind(this);
     this.onStop = this.onStop.bind(this);
     if (this.options.start) this.start();

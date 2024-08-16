@@ -16,7 +16,7 @@ export class DateVersionGetter implements Getter {
 
   options: Options;
   constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_DATE_VERSION_GETTER_OPTIONS, options);
+    this.options = Object.assign({}, DEFAULT_DATE_VERSION_GETTER_OPTIONS, options);
   }
   get() {
     return DateVersionGetter.get(this.options.pattern);

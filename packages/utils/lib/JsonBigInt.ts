@@ -21,7 +21,7 @@ export const DEFAULT_JSON_BIGINT_OPTIONS = {
 export class JsonBigInt {
   options: JsonBigIntOptions;
   constructor(options?: Partial<JsonBigIntOptions>) {
-    this.options = Object.assign(DEFAULT_JSON_BIGINT_OPTIONS, options);
+    this.options = Object.assign({}, DEFAULT_JSON_BIGINT_OPTIONS, options);
   }
   private reviver(key: any, value: any) {
     if (typeof value === 'string' && value.includes(this.options.magicString)) {

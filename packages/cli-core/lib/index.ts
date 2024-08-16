@@ -1,3 +1,5 @@
+export * from './command';
+export * from './CommandManager';
 export * from './OptionHandler';
-export * from './Cli';
 export * from './package';
+

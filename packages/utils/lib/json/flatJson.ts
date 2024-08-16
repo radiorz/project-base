@@ -11,7 +11,7 @@ export const defaultFlatJsonOptions: FlatJsonOptions = {
 };
 
 export function flatJson(options: Partial<FlatJsonOptions>): Record<string, any> {
-  const { data, delimiter, prefix } = Object.assign(defaultFlatJsonOptions, options);
+  const { data, delimiter, prefix } = Object.assign({}, defaultFlatJsonOptions, options);
   return Object.entries(data).reduce((acc = {}, [key, value]) => {
     const newPrefix = prefix ? `${prefix}${delimiter}${key}` : key;
     if (typeof value === 'object' && value !== null) {

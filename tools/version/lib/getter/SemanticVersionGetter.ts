@@ -38,7 +38,7 @@ export class SemanticVersionGetter implements Getter {
   opts: SemanticVersionGetterOptions;
   filePath: string;
   constructor(options?: Partial<SemanticVersionGetterOptions>) {
-    this.opts = Object.assign(DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS, options);
+    this.opts = Object.assign({}, DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS, options);
     this.filePath = path.join(workspace, this.opts.file);
   }
   async get() {

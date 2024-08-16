@@ -20,7 +20,7 @@ export const DEFAULT_ENV_CONFIG_OPTIONS = {
 export class EnvSource implements ConfigSource {
   options: EnvSourceOptions;
   constructor(options?: Partial<EnvSourceOptions>) {
-    this.options = Object.assign(DEFAULT_ENV_CONFIG_OPTIONS, options);
+    this.options = Object.assign({},DEFAULT_ENV_CONFIG_OPTIONS, options);
   }
   init() {
     // 初始化获取 env 依赖

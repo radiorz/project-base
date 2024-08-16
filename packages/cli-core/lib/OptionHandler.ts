@@ -1,5 +1,3 @@
-import { Command } from "commander";
-
 export const TYPES = {
   array: 'array',
   keyValueArray: 'keyValueArray',
@@ -7,7 +5,9 @@ export const TYPES = {
   number: 'number',
   object: 'object',
   string: 'string',
+  select: 'select', // 几个中进行选择 选择一项
 } as const;
+export type TYPES = keyof typeof TYPES;
 export const asTrueValues = ['true', true, '1', 1];
 export const asFalseValues = ['false', false, '', 0];
 export class OptionHandler {
@@ -78,5 +78,4 @@ export class OptionHandler {
     }
     return '' + value;
   }
-
 }

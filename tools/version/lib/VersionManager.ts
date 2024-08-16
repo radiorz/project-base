@@ -24,7 +24,7 @@ export const DEFAULT_VERSION_MANAGER_OPTIONS: VersionManagerOptions = {
 export class VersionManager {
   opts: VersionManagerOptions;
   constructor(options?: Partial<VersionManagerOptions>) {
-    this.opts = Object.assign(DEFAULT_VERSION_MANAGER_OPTIONS, options);
+    this.opts = Object.assign({}, DEFAULT_VERSION_MANAGER_OPTIONS, options);
   }
   get() {
     return this.opts.getter.get();

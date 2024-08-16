@@ -31,7 +31,7 @@ export class TimedTaskManager implements ITimer {
   logger = new Logger(this.id);
   options: Options;
   constructor(options?: Partial<Options>) {
-    this.options = Object.assign(DEFAULT_OPTIONS, options);
+    this.options = Object.assign({}, DEFAULT_OPTIONS, options);
     this.onTime = this.onTime.bind(this);
     this.onStart = this.onStart.bind(this);
     this.onStop = this.onStop.bind(this);

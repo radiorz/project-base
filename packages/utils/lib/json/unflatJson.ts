@@ -25,7 +25,7 @@ export const defaultunflatJsonOptions: unflatJsonOptions = {
 };
 
 export function unflatJson(options: Partial<unflatJsonOptions> = {}) {
-  const { data, delimiter } = Object.assign(defaultunflatJsonOptions, options);
+  const { data, delimiter } = Object.assign({}, defaultunflatJsonOptions, options);
   const _unflatJson: Record<string, any> = {};
   Object.entries(data).forEach(([key, value]) => {
     set(_unflatJson, key.split(delimiter).join('.'), value);

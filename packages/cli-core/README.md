@@ -5,8 +5,8 @@
 ## 使用
 
 ```javascript
-import { Cli } from '../lib';
-const cli = new Cli({
+import { Command } from '../lib';
+const cli = new Command({
   version: '1.1.1',
   description: 'hahaha',
   defaultOptions: {
@@ -45,3 +45,9 @@ cli.start((option) => {
   console.log(`option`, option);
 });
 ```
+
+## 1.0
+
+除了命令行传参 args 的方式 可能有的同志更喜欢 问答式（prompts） 的方式
+
+所以我们提供两种cli类型的构建 你可以通过types 去设置他

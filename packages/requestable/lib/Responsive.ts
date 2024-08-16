@@ -34,7 +34,7 @@ export class Responsive implements Peer {
   }
   options: ResponsiveOptions;
   constructor(options?: Partial<ResponsiveOptions>) {
-    this.options = Object.assign(DEFAULT_RESPONSIVE_OPTIONS, options);
+    this.options = Object.assign({}, DEFAULT_RESPONSIVE_OPTIONS, options);
     this.onMessage = this.onMessage.bind(this);
   }
   start() {

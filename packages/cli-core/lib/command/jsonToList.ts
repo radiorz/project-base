@@ -1,4 +1,8 @@
-import { ListItem } from './json.interface';
+// import { ListItem } from './json.interface';
+interface ListItem {
+  key: string;
+  value: any;
+}
 export interface JsonToListOptions {
   delimiter: string;
   json: Record<string, any>;
@@ -11,8 +15,9 @@ export const defaultJsonToListOptions: JsonToListOptions = {
 export function jsonToList(options?: Partial<JsonToListOptions>): ListItem[] {
   const { delimiter, json, prefix }: JsonToListOptions = Object.assign({}, defaultJsonToListOptions, options);
   return Object.keys(json).reduce((acc: ListItem[], key: string) => {
+    console.log(`acc,key`, acc, key);
     const propKey = prefix ? `${prefix}${delimiter}${key}` : key;
-
+    console.log(`propKey`, propKey);
     if (typeof json[key] === 'object' && json[key] !== null) {
       const subList = jsonToList({ ...options, json: json[key], prefix: propKey });
       if (subList && subList.length) {

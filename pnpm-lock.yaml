@@ -93,6 +93,9 @@ importers:
 
   packages/cli-core:
     dependencies:
+      '@inquirer/prompts':
+        specifier: ^5.3.8
+        version: 5.3.8
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../logger
@@ -693,12 +696,18 @@ importers:
 
   templates/create-tsup:
     dependencies:
+      '@inquirer/prompts':
+        specifier: ^5.3.8
+        version: 5.3.8
       '@tikkhun/create':
         specifier: workspace:^
         version: link:../../tools/create-tools
 
   templates/create-vite:
     dependencies:
+      '@inquirer/prompts':
+        specifier: ^5.3.8
+        version: 5.3.8
       '@tikkhun/create':
         specifier: workspace:^
         version: link:../../tools/create-tools

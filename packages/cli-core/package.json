@@ -32,8 +32,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/utils-core": "workspace:^",
+    "@inquirer/prompts": "^5.3.8",
     "@tikkhun/logger": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
     "commander": "^12.1.0",
     "lodash": "^4.17.21"
   },

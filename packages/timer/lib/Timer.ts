@@ -41,7 +41,7 @@ export class Timer implements ITimer {
     if (defaultOptions.ticker === true) {
       defaultOptions.ticker = new Ticker({ start: false });
     }
-    this.options = Object.assign(defaultOptions as ReallyTimerOptions, options);
+    this.options = Object.assign({}, defaultOptions as ReallyTimerOptions, options);
     this.setIsOnTime();
     this.onTime = this.onTime.bind(this);
     this.onStop = this.onStop.bind(this);

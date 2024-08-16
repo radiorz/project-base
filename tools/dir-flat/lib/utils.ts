@@ -20,6 +20,7 @@ export const DEFAULT_FLAT_DIR_OPTIONS: FlatDirOptions = {
 export async function flatDir(options: Partial<FlatDirOptions> = {}) {
   const logger = new Logger('平整文件');
   const { sourcePath, includes, excludes, targetPath }: FlatDirOptions = Object.assign(
+    {},
     DEFAULT_FLAT_DIR_OPTIONS,
     options,
   );

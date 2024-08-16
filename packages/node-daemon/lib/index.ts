@@ -19,7 +19,7 @@ class Daemon extends EventEmitter {
   opts: DaemonOptions;
   constructor(options: DaemonOptions) {
     super();
-    this.opts = Object.assign(defaultDaemonOptions, options);
+    this.opts = Object.assign({},defaultDaemonOptions, options);
   }
   checkMemoryUsage() {
     const freeMemory = os.freemem();

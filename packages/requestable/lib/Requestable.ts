@@ -38,7 +38,7 @@ export class Requestable implements Peer {
   }
   options: RequestableOptions;
   constructor(options?: Partial<RequestableOptions>) {
-    this.options = Object.assign(DEFAULT_REQUESTABLE_OPTIONS, options);
+    this.options = Object.assign({}, DEFAULT_REQUESTABLE_OPTIONS, options);
     this.onMessage = this.onMessage.bind(this);
   }
   private requestWaiters = new Map<string, any>();

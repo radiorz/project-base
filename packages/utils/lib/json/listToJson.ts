@@ -20,7 +20,7 @@ export const defaultListToJsonOptions: ListToJsonOptions = {
   },
 };
 export function listToJson(options?: Partial<ListToJsonOptions>): Record<string, any> {
-  const { delimiter, keyItemTransformer, list, isKeyInclude } = Object.assign(defaultListToJsonOptions, options);
+  const { delimiter, keyItemTransformer, list, isKeyInclude } = Object.assign({}, defaultListToJsonOptions, options);
   const json = {};
   list.forEach(({ key, value }) => {
     if (!isKeyInclude(key)) return;

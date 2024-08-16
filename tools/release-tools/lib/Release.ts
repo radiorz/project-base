@@ -53,7 +53,11 @@ export class ReleaseFileName {
     return dayjs().format(pattern);
   }
   static get(options: Partial<ReleaseFileNameOptions>) {
-    const { releaseFileNameBuilder, withVersion, withTime, ...opts } = Object.assign(ReleaseFileName.options, options);
+    const { releaseFileNameBuilder, withVersion, withTime, ...opts } = Object.assign(
+      {},
+      ReleaseFileName.options,
+      options,
+    );
     let version = withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
     let releaseTime = withTime ? ReleaseFileName.getTimeByPattern(opts.timePattern) : '';
     return releaseFileNameBuilder({
