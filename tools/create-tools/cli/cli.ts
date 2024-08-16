@@ -3,8 +3,8 @@ import { Creator, echoPackage } from '../lib';
 import { Cli } from '@tikkhun/cli-core';
 import packageJson from '../package.json';
 
-echoPackage();
 const cli = new Cli({
+  name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
   defaultOptions: Creator.DEFAULT_OPTIONS,
@@ -36,7 +36,7 @@ const cli = new Cli({
     },
   },
 });
-cli.program!.command('question').action(() => {
+cli?.argsCommand?.program!.command('question').action(() => {
   import('./cli-question');
 });
 cli.start(async (options: any) => {
