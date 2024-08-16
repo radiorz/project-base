@@ -36,7 +36,7 @@ export class PromptsCommand extends AbstractCommand {
     });
     this.program = async () => {
       const result: Record<string, any> = {};
-      for (const { key, value } of defaultOptionList) {
+      for (const { key, value: defaultValue } of defaultOptionList) {
         const type = flattedOptionType[key];
         if (!type) {
           continue;
@@ -45,13 +45,14 @@ export class PromptsCommand extends AbstractCommand {
         if (!title) {
           continue;
         }
-        result[key] = (await this.getActionResult(type, title)) || value;
+        result[key] = (await this.getActionResult({ type, message: title, default: defaultValue })) || defaultValue;
       }
       return result;
     };
   }
-  private async getActionResult(type: TYPES, message: string) {
-    return await input({ message });
+  private async getActionResult(options: GetActionResultOptions) {
+    const { type, ...opts } = options;
+    return await input(opts);
   }
   async start(action: Action) {
     const options = await this.program();
@@ -59,4 +60,10 @@ export class PromptsCommand extends AbstractCommand {
     const typedResults = OptionHandler.toType(unflattedOptions, this.options.optionTypes);
     action(typedResults);
   }
+}
+
+export interface GetActionResultOptions {
+  type: TYPES;
+  message: string;
+  default: any;
 }
