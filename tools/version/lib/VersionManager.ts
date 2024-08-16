@@ -28,12 +28,15 @@ export class VersionManager {
   constructor(options?: Partial<VersionManagerOptions>) {
     this.opts = Object.assign({}, DEFAULT_VERSION_MANAGER_OPTIONS, options);
   }
+  // 获取
   get() {
     return this.opts.getter.get();
   }
   async update() {
+    // 获取
     const value = await this.get();
     this.logger.log('new version: ' + value);
+    // 保存
     const stores = Array.isArray(this.opts.store) ? this.opts.store : [this.opts.store];
     try {
       const results = await Promise.all(stores.map((store) => store.update(value)));
