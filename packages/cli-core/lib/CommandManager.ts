@@ -46,9 +46,12 @@ export class CommandManager {
   }
   start(action: Action) {
     if (this.argsCommand) {
-      this.argsCommand.program!.command('question').action(() => {
-        this.promptsCommand?.start(action);
-      });
+      // 又有 args 又有 prompts
+      if (this.promptsCommand) {
+        this.argsCommand.program!.command('question').action(() => {
+          this.promptsCommand?.start(action);
+        });
+      }
       this.argsCommand.start(action);
     } else {
       this.promptsCommand?.start(action);

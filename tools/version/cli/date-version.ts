@@ -31,6 +31,7 @@ program
     });
     const result = await versionManager.update();
     if (result) {
+      // TODO 这里需要打印结果（new version old version)
       Logger.debug!('package json 的版本更新成功');
     }
   });
