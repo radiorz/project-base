@@ -36,7 +36,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/logger": "^1.0.7",
+    "@tikkhun/logger": "workspace:^",
     "commander": "^12.1.0",
     "dayjs": "^1.11.11",
     "fs-extra": "^11.2.0"

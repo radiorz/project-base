@@ -13,6 +13,7 @@
  */
 import { Getter, DateVersionGetter } from './getter';
 import { JsonStore, Store } from './store';
+import { Logger } from '@tikkhun/logger';
 export interface VersionManagerOptions {
   getter: Getter;
   store: Store[] | Store;
@@ -23,6 +24,7 @@ export const DEFAULT_VERSION_MANAGER_OPTIONS: VersionManagerOptions = {
 };
 export class VersionManager {
   opts: VersionManagerOptions;
+  logger = new Logger('VersionManager');
   constructor(options?: Partial<VersionManagerOptions>) {
     this.opts = Object.assign({}, DEFAULT_VERSION_MANAGER_OPTIONS, options);
   }
@@ -31,6 +33,7 @@ export class VersionManager {
   }
   async update() {
     const value = await this.get();
+    this.logger.log('new version: ' + value);
     const stores = Array.isArray(this.opts.store) ? this.opts.store : [this.opts.store];
     try {
       const results = await Promise.all(stores.map((store) => store.update(value)));
