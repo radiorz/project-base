@@ -29,8 +29,8 @@ export class CommandManager {
   }
   welcome() {
     this.logger.log('Welcome!');
-    this.logger.log("version: "+this.options.version);
-    this.logger.log("description: ",this.options.description);
+    this.logger.log('version: ' + this.options.version);
+    this.logger.log('description: ' + this.options.description);
   }
   init() {
     const { types, ...options } = this.options;
