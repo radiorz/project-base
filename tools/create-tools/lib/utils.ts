@@ -1,6 +1,6 @@
 // utils/paths.js
 
-import fs from 'fs';
+import { existsSync } from 'fs';
 
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 export function findRootDir(startDir: string) {
   // 我们假设项目根目录下有一个 package.json 文件
   let dir = startDir;
-  while (!fs.existsSync(join(dir, 'package.json'))) {
+  while (!existsSync(join(dir, 'package.json'))) {
     dir = dirname(dir);
     if (dir === dirname(dir)) {
       // 已经到达文件系统的根目录
