@@ -2,7 +2,7 @@
 
 import { input, select } from '@inquirer/prompts';
 import { join } from 'path';
-import { checkNodeVersion, Creator, echoPackage, libDir } from '../lib';
+import { checkNodeVersion, Creator, echoPackage, templatesDir } from '../lib';
 checkNodeVersion(12);
 echoPackage();
 
@@ -21,7 +21,7 @@ async function bootstrap() {
       },
     ],
   });
-  const creator = new Creator({ projectName, template: join(libDir, 'templates', template) });
+  const creator = new Creator({ projectName, template: join(templatesDir, template) });
   await creator.start();
 }
 

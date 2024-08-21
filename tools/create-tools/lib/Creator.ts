@@ -17,6 +17,7 @@ import fsExtra from 'fs-extra';
 import _ from 'lodash';
 import { minimatch } from 'minimatch';
 import { join } from 'path';
+import { templatesDir } from './utils';
 const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
@@ -42,22 +43,11 @@ export interface CreatorOptions {
   projectDirOptions: ProjectDirOptions;
 }
 let libDir: string;
-import { dirname } from 'path';
-import { fileURLToPath } from 'url';
-if (typeof __dirname !== 'undefined') {
-  // CommonJS 环境
-  libDir = join(__dirname, '../..');
-} else {
-  // ES 模块环境
-  const __dirname = dirname(fileURLToPath(import.meta.url)); // esmodule 这么用
-  libDir = join(__dirname, '../..');
-}
-export { libDir };
 export class Creator {
   static DEFAULT_OPTIONS: CreatorOptions = {
     workspace: process.cwd(), // template 复制到的位置
     clean: true,
-    template: join(libDir, 'templates/default'), // template 的位置
+    template: join(templatesDir, 'default'), // template 的位置
     templateExclude: ['.git', 'node_modules', 'dist'], // 排除不复制的内容
     projectName: 'project-name', // 项目名称
     templateFiles: ['package.json', 'README.md'], // 根据文件路径定位
