@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/config-core",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -37,7 +37,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "@tikkhun/utils-core": "workspace:^"
   },
   "devDependencies": {
     "@tikkhun/version": "latest",

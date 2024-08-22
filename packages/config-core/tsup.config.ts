@@ -1,8 +1,9 @@
-import { defineConfig } from "tsup";
-
+import { defineConfig } from 'tsup';
+import packageJson from './package.json';
+const { name, version } = packageJson;
 export default defineConfig({
-  entry: ["lib/index.ts"],
-  format: ["cjs", "esm"],
+  entry: ['lib/index.ts'],
+  format: ['cjs', 'esm'],
   dts: true,
   splitting: true,
   // sourcemap: true,
@@ -10,7 +11,8 @@ export default defineConfig({
   treeshake: true,
   banner: {
     js: `/**
-  @tikkhun/env-config
+  ${name}
+  ${version}
 */`,
   },
 });
