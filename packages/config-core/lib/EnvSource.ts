@@ -20,6 +20,7 @@ export abstract class EnvSource implements ConfigSource {
   constructor(options?: Partial<EnvSourceOptions>) {
     this.options = Object.assign({}, EnvSource.defaultOptions, options);
   }
+  // 是否做到options中比较合适
   abstract initEnv(): boolean;
   abstract getEnv(): Record<string, any>;
   init() {

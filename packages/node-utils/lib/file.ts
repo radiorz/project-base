@@ -1,5 +1,5 @@
-import fs from 'node:fs';
-
+import { stat, createReadStream, createWriteStream, unlink, existsSync } from 'node:fs';
+import fsExtra from 'fs-extra';
 /**
  * 说明: 检查文件是否存在
  * @param path 文件路径
@@ -9,7 +9,7 @@ import fs from 'node:fs';
  */
 export async function checkPathExists(path: string): Promise<boolean> {
   return new Promise((resolve) => {
-    fs.stat(path, (err: any) => {
+    stat(path, (err: any) => {
       if (err) {
         resolve(false);
       } else {
@@ -28,7 +28,7 @@ export async function checkPathExists(path: string): Promise<boolean> {
  * copy("./a.txt","./b.txt") // ->
  */
 export function copy(src: string, dist: string) {
-  return fs.createReadStream(src).pipe(fs.createWriteStream(dist));
+  return createReadStream(src).pipe(createWriteStream(dist));
 }
 
 /**
@@ -40,7 +40,7 @@ export function copy(src: string, dist: string) {
  */
 export function deleteFile(filePath: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    fs.unlink(filePath, (error) => {
+    unlink(filePath, (error) => {
       if (error) {
         reject(error);
       } else {
@@ -51,11 +51,11 @@ export function deleteFile(filePath: string): Promise<void> {
 }
 /**
  * 确保某个目录存在
- * @param dir 
+ * @param dir
  */
 export async function ensureDir(dir: string) {
   // 文件夹不存在,就添加文件夹
-  if (!fs.existsSync(dir)) {
-    await fs.mkdir(dir, { recursive: true });
+  if (!existsSync(dir)) {
+    await fsExtra.mkdir(dir, { recursive: true });
   }
 }

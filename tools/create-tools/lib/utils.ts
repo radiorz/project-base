@@ -26,4 +26,3 @@ if (typeof __dirname === 'undefined') {
 }
 export const rootDir = findRootDir(currentDirname);
 export const templatesDir = join(rootDir, 'templates');
-console.log(`rootDir`, rootDir);
