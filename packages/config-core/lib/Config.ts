@@ -2,26 +2,35 @@ import { get, merge, set } from 'lodash';
 import { ConfigSource } from './ConfigSource';
 import { Emitter } from './Emitter';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
+import { ConfigStorage, MemoryStorage } from './ConfigStorage';
 export interface ConfigOptions {
+  /**
+   * 获取来源
+   */
   sources: ConfigSource[];
+  /**
+   * 全局变量名称
+   */
   global?: string;
+  store?: ConfigStorage;
 }
 
 export class Config extends Emitter implements Api {
-  _config: Record<string, any> = {};
   options: ConfigOptions;
   sources: ConfigSource[] = [];
+  store: ConfigStorage;
   get config() {
-    return this._config;
+    return this.store.get();
   }
   set config(value) {
-    this._config = value;
-    this.emit('change', this._config);
+    this.store.set(value);
+    this.emit('change', this.config);
   }
   constructor(options: ConfigOptions) {
     super();
     this.options = options;
     this.sources = this.options.sources;
+    this.store = this.options.store || new MemoryStorage();
     this.on('change', (config) => {
       // 同步到源上
       this.sources.forEach((source) => {
@@ -52,7 +61,7 @@ export class Config extends Emitter implements Api {
   addSource(source: ConfigSource) {
     this.sources.push(source);
     if (source.init) source.init();
-    this.config = merge({},this.config, source?.load());
+    this.config = merge({}, this.config, source?.load());
     return this;
   }
   get(path: string): any;
