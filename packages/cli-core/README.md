@@ -46,8 +46,11 @@ cli.start((option) => {
 });
 ```
 
-## 1.0
+## 不同形式
 
-除了命令行传参 args 的方式 可能有的同志更喜欢 问答式（prompts） 的方式
+获取参数的形式有多种形式
 
-所以我们提供两种cli类型的构建 你可以通过types 去设置他
+- 命令行传参（args）
+- 问答式（prompts）
+- 配置文件（config）
+  你可以通过new Cli的 option 中的types 去决定是否启用这种功能形式
