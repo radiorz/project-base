@@ -3,7 +3,7 @@ const cli = new Cli({
   name: 'adfad ',
   version: '1.1.1',
   description: 'hahaha',
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.args, CommandTypes.prompts, CommandTypes.config],
   defaultOptions: {
     n: 1,
     s: '123',

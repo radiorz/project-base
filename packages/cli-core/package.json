@@ -36,9 +36,11 @@
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "commander": "^12.1.0",
+    "fs-extra": "^11.2.0",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.7",
     "@types/node": "^20.3.1",
     "ts-node": "^10.9.2",

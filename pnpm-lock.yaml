@@ -105,10 +105,16 @@ importers:
       commander:
         specifier: ^12.1.0
         version: 12.1.0
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
       '@types/lodash':
         specifier: ^4.17.7
         version: 4.17.7
@@ -136,7 +142,7 @@ importers:
     devDependencies:
       '@tikkhun/version':
         specifier: latest
-        version: 2024.7.7
+        version: 2024.8.16
       '@types/lodash':
         specifier: ^4.17.6
         version: 4.17.6
@@ -257,7 +263,7 @@ importers:
     devDependencies:
       '@tikkhun/version':
         specifier: latest
-        version: 2024.7.7
+        version: 2024.8.16
       '@types/dotenv-safe':
         specifier: ^8.1.6
         version: 8.1.6
@@ -2248,14 +2254,17 @@ packages:
   '@tikkhun/logger@1.0.7':
     resolution: {integrity: sha512-z1o67jXp7X3V1yoBFTPuPsSjBeqPBbPwTlUVdTmev4NDjV6mlP3/+oCZhVQweyyv8xe3PkBHz2K5wIqIRcnurw==}
 
+  '@tikkhun/logger@1.0.8':
+    resolution: {integrity: sha512-+0VYEXwJiX+O192ztqrGJARgaAfwlZLsXGwQx9FY1C4iz7S/2XOkf25A1VrhnLCwejdWJLm3UfMHeF1aZ7VtXw==}
+
   '@tikkhun/requestable@0.0.5':
     resolution: {integrity: sha512-H+vurLGR5byTuHV3JaZFnS6DrkXkyksLVKqgUoNiVAJajhs8oKbBf8u10rHhiIGxuZTyembJvL44p0gCbJbTpw==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
 
-  '@tikkhun/version@2024.7.7':
-    resolution: {integrity: sha512-Brrxk5qQHYNWZcIeuMerioHongag8u/3TVOW4tNwG19ws3amU7DzMEy+gNIP3IUWSxJsHnzXYJW9WpvWQGgDLQ==}
+  '@tikkhun/version@2024.8.16':
+    resolution: {integrity: sha512-TCJrZ+gJUyqKsJ63hWheittCU1OAqxcYgL82E6Vva72Wj1/1gOFzN7uSgXZFRQqDqfD7DN3w7QbhDLdQ5RtEWQ==}
     hasBin: true
 
   '@trpc/client@11.0.0-rc.403':
@@ -7965,15 +7974,21 @@ snapshots:
       js-yaml: 4.1.0
       lodash: 4.17.21
 
+  '@tikkhun/logger@1.0.8':
+    dependencies:
+      fs-extra: 11.2.0
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+
   '@tikkhun/requestable@0.0.5': {}
 
   '@tikkhun/utils-core@0.0.3':
     dependencies:
       lodash: 4.17.21
 
-  '@tikkhun/version@2024.7.7':
+  '@tikkhun/version@2024.8.16':
     dependencies:
-      '@tikkhun/logger': 1.0.7
+      '@tikkhun/logger': 1.0.8
       commander: 12.1.0
       dayjs: 1.11.11
       fs-extra: 11.2.0

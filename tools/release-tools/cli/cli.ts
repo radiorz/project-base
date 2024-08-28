@@ -3,10 +3,12 @@ import { Cli } from '@tikkhun/cli-core';
 import { Release } from '../lib';
 import packageJson from '../package.json';
 import { Logger } from '@tikkhun/logger';
+import { program } from 'commander';
 Logger.debug!(`[欢迎使用] ${packageJson.name} ${packageJson.version}`);
 const cli = new Cli({
   version: packageJson.version,
   description: packageJson.description,
+  // 这里可以用config进行配置
   defaultOptions: Release.defaultOptions,
   excludeOptions: [
     //

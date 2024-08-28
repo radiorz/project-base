@@ -1,9 +1,11 @@
+import { Command } from 'commander';
 import _ from 'lodash';
 const { merge } = _;
 export interface Action {
   (options: any): void;
 }
 export interface CommandOptions {
+  program?: Command;
   version: string;
   description: string;
   defaultOptions: Record<string, any>;
@@ -14,6 +16,7 @@ export interface CommandOptions {
 
 export abstract class AbstractCommand {
   static readonly DEFAULT_OPTIONS: CommandOptions = {
+    program: undefined,
     version: '',
     description: '',
     defaultOptions: {},
@@ -24,6 +27,7 @@ export abstract class AbstractCommand {
 
   options: CommandOptions;
   constructor(options?: Partial<CommandOptions>) {
+    // console.log(`options`, options);
     this.options = merge({}, AbstractCommand.DEFAULT_OPTIONS, options);
     this.init();
   }

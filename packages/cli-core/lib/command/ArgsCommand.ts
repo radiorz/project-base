@@ -1,13 +1,13 @@
 import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
 import { OptionHandler } from '../OptionHandler';
 import { AbstractCommand, Action } from './command.interface';
-import { Command, createCommand } from 'commander';
+import { Command, createCommand, program } from 'commander';
 import _ from 'lodash';
 const { get } = _;
 export class ArgsCommand extends AbstractCommand {
   program: Command | undefined;
   init(): void {
-    this.program = createCommand();
+    this.program = this.options.program || createCommand();
     this.addOptions();
   }
   private addOptions() {
@@ -22,14 +22,22 @@ export class ArgsCommand extends AbstractCommand {
       this.program!.option(`--${key} <${type}>`, get(this.options.optionTitles, key), value);
     });
   }
-  start(action: Action) {
+  private addAction(action: Action) {
     this.program!.action((stringOptions) => {
+      // 转换一下传入参数
       const jsonOptions = unflatJson({
         delimiter: '.',
         data: stringOptions,
       });
       const typedOptions = OptionHandler.toType(jsonOptions, this.options.optionTypes);
       action(typedOptions);
-    }).parse(process.argv);
+    });
+  }
+  start(action: Action) {
+    this.addAction(action);
+    // 如果传入program 则让外部控制
+    if (!this.options.program) {
+      this.program!.parse(process.argv);
+    }
   }
 }

@@ -15,6 +15,7 @@ import { input } from '@inquirer/prompts';
 import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
 import { OptionHandler, TYPES } from '../OptionHandler';
 import { AbstractCommand, Action } from './command.interface';
+import { program } from 'commander';
 // const actionMap = {
 //   [TYPES.array]: input,
 //   [TYPES.keyValueArray]: input,
@@ -23,7 +24,8 @@ import { AbstractCommand, Action } from './command.interface';
 //   [TYPES.select]: select,
 // };
 export class PromptsCommand extends AbstractCommand {
-  program: any;
+  command: any;
+  optionHandler: any;
   init() {
     const defaultOptionList = jsonToList({ delimiter: '.', json: this.options.defaultOptions });
     const flattedOptionType = flatJson({
@@ -34,7 +36,7 @@ export class PromptsCommand extends AbstractCommand {
       delimiter: '.',
       data: this.options.optionTitles,
     });
-    this.program = async () => {
+    this.optionHandler = async () => {
       const result: Record<string, any> = {};
       for (const { key, value: defaultValue } of defaultOptionList) {
         const type = flattedOptionType[key];
@@ -49,16 +51,27 @@ export class PromptsCommand extends AbstractCommand {
       }
       return result;
     };
+    // 又有 args 又有 prompts
+    if (this.options.program) {
+      this.command = this.options.program.command('prompts');
+    }
   }
   private async getActionResult(options: GetActionResultOptions) {
     const { type, ...opts } = options;
     return await input(opts);
   }
-  async start(action: Action) {
-    const options = await this.program();
+  private async actionHandler(action: Action) {
+    const options = await this.optionHandler();
     const unflattedOptions = unflatJson({ delimiter: '.', data: options });
     const typedResults = OptionHandler.toType(unflattedOptions, this.options.optionTypes);
     action(typedResults);
+  }
+  async start(action: Action) {
+    if (this.command) {
+      this.command.action(() => this.actionHandler(action));
+      return;
+    }
+    this.actionHandler(action);
   }
 }
 

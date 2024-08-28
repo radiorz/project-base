@@ -3,9 +3,12 @@ import { AbstractCommand, Action, CommandOptions } from './command/command.inter
 import { ArgsCommand } from './command/ArgsCommand';
 import { PromptsCommand } from './command/PromptsCommand';
 import { Logger } from '@tikkhun/logger';
+import { ConfigCommand } from './command/ConfigCommand';
+import { Command, createCommand } from 'commander';
 export enum CommandTypes {
   'prompts' = 'prompts',
   'args' = 'args',
+  'config' = 'config',
 }
 export interface CommandManagerOptions extends CommandOptions {
   name: string;
@@ -21,6 +24,7 @@ export class CommandManager {
   options: CommandManagerOptions;
   argsCommand?: ArgsCommand;
   promptsCommand?: PromptsCommand;
+  configCommand?: ConfigCommand;
   constructor(options: Partial<CommandManagerOptions>) {
     this.options = merge({}, CommandManager.DEFAULT_OPTIONS, options);
     this.logger = new Logger(this.options.name);
@@ -32,30 +36,33 @@ export class CommandManager {
     this.logger.log('version: ' + this.options.version);
     this.logger.log('description: ' + this.options.description);
   }
+  program: Command | undefined;
   init() {
     const { types, ...options } = this.options;
     if (!types || !types.length) {
       throw new Error('types is undefined');
     }
+    // 特殊处理
+    if (types.length === 1 && types[0] === CommandTypes.prompts) {
+      return;
+    }
+    this.program = createCommand();
     if (types.includes(CommandTypes.args)) {
-      this.argsCommand = new ArgsCommand(options);
+      this.argsCommand = new ArgsCommand({ ...options, program: this.program });
+    }
+    if (types.includes(CommandTypes.config)) {
+      this.configCommand = new ConfigCommand({ ...options, program: this.program });
     }
     if (types.includes(CommandTypes.prompts)) {
-      this.promptsCommand = new PromptsCommand(options);
+      this.promptsCommand = new PromptsCommand({ ...options, program: this.program });
     }
   }
   start(action: Action) {
-    if (this.argsCommand) {
-      // 又有 args 又有 prompts
-      if (this.promptsCommand) {
-        this.argsCommand.program!.command('question').action(() => {
-          this.promptsCommand?.start(action);
-        });
-      }
-      this.argsCommand.start(action);
-    } else {
-      this.promptsCommand?.start(action);
-    }
+    this.promptsCommand?.start(action);
+    this.configCommand?.start(action);
+    this.argsCommand?.start(action);
+    // 当没有的时候就不会parse了
+    this.program?.parse(process.argv);
   }
 }
 // alias

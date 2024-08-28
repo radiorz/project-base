@@ -1,4 +1,4 @@
-import { stat, createReadStream, createWriteStream, unlink, existsSync } from 'node:fs';
+import { stat, unlink, existsSync } from 'node:fs';
 import fsExtra from 'fs-extra';
 /**
  * 说明: 检查文件是否存在
@@ -17,18 +17,6 @@ export async function checkPathExists(path: string): Promise<boolean> {
       }
     });
   });
-}
-
-/**
- * 说明: 拷贝文件
- * @param src 源地址
- * @param dist 目的地地址
- * @returns
- * @example
- * copy("./a.txt","./b.txt") // ->
- */
-export function copy(src: string, dist: string) {
-  return createReadStream(src).pipe(createWriteStream(dist));
 }
 
 /**
