@@ -1,12 +1,11 @@
 #!/usr/bin/env node
-import { Cli } from '@tikkhun/cli-core';
+import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import { Release } from '../lib';
 import packageJson from '../package.json';
-import { Logger } from '@tikkhun/logger';
-import { program } from 'commander';
-Logger.debug!(`[欢迎使用] ${packageJson.name} ${packageJson.version}`);
 const cli = new Cli({
+  types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
   version: packageJson.version,
+  name: packageJson.name,
   description: packageJson.description,
   // 这里可以用config进行配置
   defaultOptions: Release.defaultOptions,

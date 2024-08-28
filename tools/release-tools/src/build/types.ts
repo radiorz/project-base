@@ -1,4 +1,0 @@
-export enum STRATEGY {
-  OBFUSCATE = "OBFUSCATE",
-  BYTENODE = "BYTENODE",
-}
