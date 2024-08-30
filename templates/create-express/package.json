@@ -1,0 +1,25 @@
+{
+  "name": "@tikkhun/create-tsup",
+  "version": "1.1.5",
+  "description": "",
+  "type": "module",
+  "main": "./bin/main.js",
+  "bin": {
+    "tikkhun-create-express": "./bin/main.js"
+  },
+  "scripts": {
+    "dev": "node ./bin/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {
+    "@tikkhun/create": "latest"
+  },
+  "dependencies": {
+    "@inquirer/prompts": "^5.3.8",
+    "@tikkhun/create": "workspace:^",
+    "glob": "^10.4.5"
+  }
+}
