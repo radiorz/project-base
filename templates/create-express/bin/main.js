@@ -4,14 +4,14 @@ import { Creator, checkNodeVersion, echoPackage, getTemplates } from '@tikkhun/c
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { input, select } from '@inquirer/prompts';
-const templateDir = join(dirname(fileURLToPath(import.meta.url)), '../templates');
+const templatesDir = join(dirname(fileURLToPath(import.meta.url)), '../templates');
 async function bootstrap() {
   checkNodeVersion(12);
   echoPackage();
   const projectName = await input({ message: '项目名称', default: Creator.DEFAULT_OPTIONS.projectName });
   const template = await select({
     message: '模块名称',
-    choices: (await getTemplates()).map((filePath) => {
+    choices: (await getTemplates(templatesDir)).map((filePath) => {
       return {
         value: filePath,
       };
@@ -19,7 +19,7 @@ async function bootstrap() {
   });
   const creator = new Creator({
     projectName,
-    template: join(templateDir, template),
+    template: join(templatesDir, template),
     templateFiles: ['package.json', 'README.md'],
   });
   await creator.start();

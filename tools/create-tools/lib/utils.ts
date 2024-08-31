@@ -29,7 +29,7 @@ export const rootDir = findRootDir(currentDirname);
 export const templatesDir = join(rootDir, 'templates');
 
 // 获取 templates
-export async function getTemplates() {
+export async function getTemplates(templatesDir: string) {
   // 读取本目录下的template清单
   const results = await glob('*', {
     cwd: templatesDir,
