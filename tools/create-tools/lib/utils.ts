@@ -2,6 +2,7 @@
 
 import { existsSync } from 'fs';
 
+import { glob } from 'glob';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -26,3 +27,13 @@ if (typeof __dirname === 'undefined') {
 }
 export const rootDir = findRootDir(currentDirname);
 export const templatesDir = join(rootDir, 'templates');
+
+// 获取 templates
+export async function getTemplates() {
+  // 读取本目录下的template清单
+  const results = await glob('*', {
+    cwd: templatesDir,
+  });
+  // console.log(`results`,results)
+  return results;
+}

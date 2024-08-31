@@ -890,6 +890,9 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
+      glob:
+        specifier: ^10.4.5
+        version: 10.4.5
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
