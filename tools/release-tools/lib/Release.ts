@@ -31,7 +31,7 @@ export class ReleaseFileName {
     projectName: 'project',
     withVersion: true,
     withTime: true,
-    timePattern: 'YYYY_MM_DD_hh_mm_ss',
+    timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
     environment: '',
     releaseFileNameBuilder: function (options: Partial<ReleaseFileNameBuilderOptions>): string {

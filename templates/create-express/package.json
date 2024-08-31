@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/create-tsup",
-  "version": "1.1.5",
+  "name": "@tikkhun/create-express",
+  "version": "0.0.1",
   "description": "",
   "type": "module",
   "main": "./bin/main.js",
