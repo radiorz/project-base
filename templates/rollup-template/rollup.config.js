@@ -1,9 +1,8 @@
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
-import packageJson from './package.json';
-
+// import packageJson from './package.json' 'j
 export default {
-  input: 'lib/**/*.ts',
+  input: 'lib/index.ts',
   output: [
     {
       dir: 'dist',
@@ -21,11 +20,7 @@ export default {
     },
   ],
   plugins: [
-    typescript({
-      tsconfig: './tsconfig.json', // 确保你的 tsconfig.json 配置正确
-      declaration: true, // 生成 .d.ts 文件
-      exclude: ['**/*.test.ts'],
-    }),
+    typescript(),
     terser({
       // 压缩代码，等同于 tsup 的 minify 选项
       format: {
