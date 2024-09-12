@@ -830,6 +830,12 @@ importers:
         specifier: ^5.5.3
         version: 5.5.3
 
+  templates/rollup-template:
+    devDependencies:
+      rollup:
+        specifier: ^4.18.1
+        version: 4.20.0
+
   tools/build-tools:
     dependencies:
       '@tikkhun/logger':
@@ -12658,7 +12664,7 @@ snapshots:
       joycon: 3.1.1
       postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@20.14.10)(typescript@5.5.3))
       resolve-from: 5.0.0
-      rollup: 4.18.1
+      rollup: 4.20.0
       source-map: 0.8.0-beta.0
       sucrase: 3.35.0
       tree-kill: 1.2.2
@@ -12681,7 +12687,7 @@ snapshots:
       joycon: 3.1.1
       postcss-load-config: 4.0.2(postcss@8.4.39)(ts-node@10.9.2(@types/node@22.5.0)(typescript@5.5.3))
       resolve-from: 5.0.0
-      rollup: 4.18.1
+      rollup: 4.20.0
       source-map: 0.8.0-beta.0
       sucrase: 3.35.0
       tree-kill: 1.2.2
@@ -13003,7 +13009,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
-      rollup: 4.18.1
+      rollup: 4.20.0
     optionalDependencies:
       '@types/node': 20.14.10
       fsevents: 2.3.3
@@ -13013,7 +13019,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
-      rollup: 4.18.1
+      rollup: 4.20.0
     optionalDependencies:
       '@types/node': 22.3.0
       fsevents: 2.3.3
@@ -13023,7 +13029,7 @@ snapshots:
     dependencies:
       esbuild: 0.21.5
       postcss: 8.4.39
-      rollup: 4.18.1
+      rollup: 4.20.0
     optionalDependencies:
       '@types/node': 22.5.0
       fsevents: 2.3.3

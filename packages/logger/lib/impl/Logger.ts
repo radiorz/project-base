@@ -46,7 +46,11 @@ export class Logger implements ILogger {
   fatal?(message: any, ...optionalParams: any[]) {
     this.instance.fatal?.(Logger.formatContext(this.context || '') + message);
   }
-  setLogLevels?(levels: LogLevel[]) {
+  setLogLevels(levels: LogLevel[]) {
+    if (!this.options) this.options = { timestamp: false, logLevels: levels };
+    this.options.logLevels = levels;
+  }
+  protected static setLogLevels?(levels: LogLevel[]) {
     Logger.logLevels = levels;
     this.instance.setLogLevels?.(levels);
   }
