@@ -98,7 +98,7 @@ export class Config extends Emitter implements Api {
   // 重置整个config
   reset() {
     // 清空所有，然后重新加载
-    // 清空所有
+    // 清空所有 正常是直接load就行，但有种情况就是又是store 又是source 如果不清空就白重新加载。
     this.remove();
     // 重新加载
     this.load();
