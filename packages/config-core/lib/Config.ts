@@ -88,6 +88,9 @@ export class Config extends Emitter implements Api {
     }
 
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
+    if (path === '') {
+      this.config = {}; // 清空配置
+    }
     if (!path && !data) return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
     this.config = set(this.config, path, data);
@@ -100,10 +103,13 @@ export class Config extends Emitter implements Api {
   remove(path: string): any;
   remove(options?: Partial<RemoveOptions>): any;
   remove(first?: string | Partial<RemoveOptions>) {
+    // 完全清空
+    if (!first) {
+      return this.set('', undefined);
+    }
     if (typeof first === 'string') {
       return this.set(first, undefined);
-    } else {
-      return this.set({ ...first, data: undefined });
     }
+    return this.set({ ...first, data: undefined });
   }
 }

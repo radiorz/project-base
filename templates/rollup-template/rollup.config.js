@@ -1,5 +1,7 @@
 import typescript from '@rollup/plugin-typescript';
 import { terser } from 'rollup-plugin-terser';
+import banner from 'rollup-plugin-banner';
+
 // import packageJson from './package.json' 'j
 export default {
   input: 'lib/index.ts',
@@ -29,6 +31,7 @@ export default {
         },
       },
     }),
+    banner('hahah'),
   ],
   external: ['fs', 'path'], // 根据需要列出外部依赖
   watch: {
