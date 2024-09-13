@@ -48,7 +48,7 @@ export abstract class EnvSource implements ConfigSource {
           value,
         };
       });
-    console.log(`list`, list);
+    // console.log(`list`, list);
     // 转换成对象
     return listToJson({
       delimiter,
