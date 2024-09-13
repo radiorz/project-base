@@ -1,6 +1,6 @@
 # TODO
 
-- 软同步与硬同步
+- 软同步与硬同步?
 - async init 和 load
 
 # DONE
