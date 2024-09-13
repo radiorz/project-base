@@ -98,14 +98,7 @@ export class Config extends Emitter implements Api {
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
     this.config = set(this.config, path, data);
   }
-  // 重置整个config
-  reset() {
-    // 清空所有，然后重新加载
-    // 清空所有 正常是直接load就行，但有种情况就是又是store 又是source 如果不清空就白重新加载。
-    this.remove();
-    // 重新加载
-    this.load();
-  }
+  // 删除某部分
   remove(path: string): any;
   remove(options?: Partial<RemoveOptions>): any;
   remove(first?: string | Partial<RemoveOptions>) {
@@ -117,5 +110,13 @@ export class Config extends Emitter implements Api {
       return this.set(first, null);
     }
     return this.set({ ...first, data: null });
+  }
+  // 重置整个config
+  reset() {
+    // 清空所有，然后重新加载
+    // 清空所有 正常是直接load就行，但有种情况就是又是store 又是source 如果不清空就白重新加载。
+    this.remove();
+    // 重新加载
+    this.load();
   }
 }

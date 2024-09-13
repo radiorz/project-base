@@ -17,4 +17,6 @@ export interface Api {
 
   remove(path: string): any;
   remove(options?: Partial<RemoveOptions>): any;
+
+  reset(): any;
 }
