@@ -10,7 +10,7 @@ config 其实就是将分布式的配置源合并起来, 最终将他转化成�
   - onLoad
   - onChange set reset remove都会触发
 
-## source 配置源
+## ConfigSource 配置源
 
 实现 load 方法让 config 可以从source处加载到配置对象.
 
@@ -29,6 +29,7 @@ config 其实就是将分布式的配置源合并起来, 最终将他转化成�
 ## 使用
 
 详见example
+如果是nodejs推荐直接使用 @tikkhun/config
 
 ```javascript
 import { DEFAULT_ENV_MANAGER } from '@tikkhun/config';
