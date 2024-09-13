@@ -89,7 +89,7 @@ export class Config extends Emitter implements Api {
 
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (path === '') {
-      this.config = {}; // 清空配置
+      return this.config = {}; // 清空配置
     }
     if (!path && !data) return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
