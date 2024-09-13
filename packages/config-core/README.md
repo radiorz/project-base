@@ -1,24 +1,30 @@
 # config
 
-config 其实就是将分布式的配置源合并起来, 最终将他转化成集中式管理的一个配置文件.
+config 其实就是将分布式的配置源合并起来, 最终将他转化成集中式管理的一个配置对象
 
-并且实现get set reset remove 的api操作.
+- 实现源的合并
+- 实现配置对象的获取与存储
+- 实现对这个配置对象的 get set reset remove 的api操作.
+- 实现对合并的生命周期以及api操作的监听
+  - onInit
+  - onLoad
+  - onChange set reset remove都会触发
 
 ## source 配置源
 
 实现 load 方法让 config 可以从source处加载到配置对象.
 
-### EnvSource
+### EnvSource 获取 .env的数据
 
 经常使用.env进行配置，但经常需要转换成对象使用
 默认分隔符为\_\_ 一般不会冲突
 
-## store 存储器
+## Storage 存储器
 
 存储所有加载的配置
 并且可以获取这些配置
-默认使用memorystore.
-你可以编写自己的store
+默认使用memoryStorage.
+你可以编写自己的Storage
 
 ## 使用
 
