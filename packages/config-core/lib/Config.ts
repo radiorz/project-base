@@ -1,4 +1,4 @@
-import { get, merge, set } from 'lodash';
+import { clone, get, merge, set } from 'lodash';
 import { ConfigSource } from './ConfigSource';
 import { Emitter } from './Emitter';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
@@ -23,8 +23,10 @@ export class Config extends Emitter implements Api {
     return this.store.get();
   }
   set config(value) {
+    // 目前总是整份保存
     this.store.set(value);
-    this.emit('change', this.config);
+    // 更新也总是整份更新触发
+    this.emit('change', clone(this.config));
   }
   constructor(options: ConfigOptions) {
     super();
@@ -89,7 +91,8 @@ export class Config extends Emitter implements Api {
 
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (path === '') {
-      return (this.config = {}); // 清空配置
+      this.config = data || {}; // 清空配置
+      return;
     }
     if (typeof data === 'undefined') return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
