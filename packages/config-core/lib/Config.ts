@@ -91,7 +91,7 @@ export class Config extends Emitter implements Api {
     if (path === '') {
       return (this.config = {}); // 清空配置
     }
-    if (!path && !data) return;
+    if (typeof data === 'undefined') return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
     this.config = set(this.config, path, data);
   }
@@ -105,11 +105,11 @@ export class Config extends Emitter implements Api {
   remove(first?: string | Partial<RemoveOptions>) {
     // 完全清空
     if (!first) {
-      return this.set('', undefined);
+      return this.set('', null);
     }
     if (typeof first === 'string') {
-      return this.set(first, undefined);
+      return this.set(first, null);
     }
-    return this.set({ ...first, data: undefined });
+    return this.set({ ...first, data: null });
   }
 }
