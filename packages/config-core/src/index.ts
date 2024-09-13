@@ -1,3 +1,4 @@
+import { EnvSource } from '../dist';
 import { Config } from '../lib';
 
 const m = Config.create({
