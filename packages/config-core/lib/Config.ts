@@ -97,7 +97,10 @@ export class Config extends Emitter implements Api {
   }
   // 重置整个config
   reset() {
-    // 重新加载即可
+    // 清空所有，然后重新加载
+    // 清空所有
+    this.remove();
+    // 重新加载
     this.load();
   }
   remove(path: string): any;
