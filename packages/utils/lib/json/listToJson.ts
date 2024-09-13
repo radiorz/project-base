@@ -24,7 +24,9 @@ export function listToJson(options?: Partial<ListToJsonOptions>): Record<string,
   const json = {};
   list.forEach(({ key, value }) => {
     if (!isKeyInclude(key)) return;
-    set(json, key.split(delimiter).map(keyItemTransformer).join('.'), value);
+    const keys = key.split(delimiter).map(keyItemTransformer);
+    // set 会将数字设置为数组,这个权当特性了. 比如 "a.1"="aaa" {a: ["aaa"]}
+    set(json, keys.join('.'), value);
   });
   return json;
 }

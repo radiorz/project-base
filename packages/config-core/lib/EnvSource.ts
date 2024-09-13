@@ -35,22 +35,28 @@ export abstract class EnvSource implements ConfigSource {
 
   load() {
     const { delimiter, includePrefix, excludePrefix, shouldRemovedPrefix, camelCase: camelCaseOption } = this.options;
+    // 获取原始数据
     const env = this.getEnv();
-    return listToJson({
-      delimiter,
-      isKeyInclude(key: string) {
+
+    const list = Object.entries(env)
+      .filter(([key]) => {
         return isIncludePrefix(key, includePrefix) && !isExcludeByPrefix(key, excludePrefix);
-      },
-      keyItemTransformer(item: string) {
-        if (camelCaseOption) return camelCase(item);
-        return item;
-      },
-      list: Object.entries(env).map(([key, value]) => {
+      })
+      .map(([key, value]) => {
         return {
           key: removePrefix(key, shouldRemovedPrefix),
           value,
         };
-      }),
+      });
+    console.log(`list`, list);
+    // 转换成对象
+    return listToJson({
+      delimiter,
+      keyItemTransformer(item: string) {
+        if (camelCaseOption) return camelCase(item);
+        return item;
+      },
+      list,
     });
   }
 }
