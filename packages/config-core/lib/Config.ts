@@ -51,6 +51,7 @@ export class Config extends Emitter implements Api {
     return configManager;
   }
   init() {
+    // 目前都是同步.
     this.sources.forEach((source) => {
       if (source.init) source.init();
     });
