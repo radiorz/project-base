@@ -114,7 +114,7 @@ export class Release {
       archive
         .pipe(outputStream)
         .on('progress', () => {
-          this.log.debug!('[progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()));
+          this.log.log('[progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()));
         })
         .on('warning', (err) => {
           if (err.code === 'ENOENT') {
