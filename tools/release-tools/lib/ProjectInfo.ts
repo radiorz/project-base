@@ -51,7 +51,7 @@ export class ProjectInfoImpl implements ProjectInfo {
       : this.workspacePackageJson?.name;
     if (name) return name;
     // 一个是从文件夹命名
-    return getLastSegment(this.options.workspace) || 'projectUnknown';
+    return getLastSegment(this.options.workspace) || 'unknown-project';
   }
   getVersion() {
     return this.workspacePackageJson?.version ?? 'unknown';
