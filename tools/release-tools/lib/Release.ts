@@ -82,6 +82,7 @@ export class Release {
     this.log.log(`[开始] 删除可能的重名文件: ` + this.releaseFilePath);
     // 如果有同名应该先删除
     await fs.remove(this.releaseFilePath);
+    this.log.log(`[结束] 删除可能的重名文件: ` + this.releaseFilePath);
   }
   // 这个打包选项就不让用户去关心了，直接写死
   private static getArchiveOptions(archiveType: ArchiveType): archiver.ArchiverOptions {
