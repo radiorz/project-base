@@ -11,8 +11,7 @@ const cli = new Cli({
   defaultOptions: Release.defaultOptions,
   excludeOptions: [
     //
-    'releaseFileNameOptions.releaseFileNameBuilder',
-    'releaseFileNameOptions.workspace',
+    'projectInfoOptions.workspace',
   ],
   optionTypes: {
     workspace: 'string',
@@ -21,7 +20,7 @@ const cli = new Cli({
     archiveType: 'string',
     releasePath: 'string',
     clean: 'boolean',
-    releaseFileNameOptions: {
+    projectInfoOptions: {
       projectName: 'string',
       withVersion: 'boolean',
       withTime: 'boolean',
@@ -38,7 +37,7 @@ const cli = new Cli({
     archiveOptions: '打包选项',
     clean: '清空旧记录',
     releasePath: '释放文件夹',
-    releaseFileNameOptions: {
+    projectInfoOptions: {
       projectName: '项目名称',
       withVersion: '带有版本',
       versionTag: '版本标志',

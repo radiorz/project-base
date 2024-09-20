@@ -1,88 +1,11 @@
 import { Logger } from '@tikkhun/logger';
 import archiver from 'archiver';
-import dayjs from 'dayjs';
-import fs, { readJsonSync } from 'fs-extra';
-import { join } from 'path';
-// import ora from 'ora';
-// const spinner = ora('Loading...');
-const logger = new Logger('Release');
+import fs from 'fs-extra';
 import { merge } from 'lodash';
-import { UnderlineDelimiter } from '@tikkhun/utils-core';
-export interface ReleaseFileNameOptions {
-  workspace: string; // 项目根目录
-  projectName: string; // 项目名称
-  withVersion: boolean; // 带版本号
-  withTime: boolean; // 带打包时间
-  timePattern: string; // 时间的具体格式
-  versionTag: string; // 比如beta1 这种标签
-  environment: string; // 其他环境参数
-  releaseFileNameBuilder: (options: Partial<ReleaseFileNameBuilderOptions>) => string;
-}
-export interface ReleaseFileNameBuilderOptions {
-  projectName: string;
-  version: string;
-  releaseTime: string;
-  versionTag: string; // 版本标志
-  environment: string; // 环境参数
-}
-export class ReleaseFileName {
-  static options: ReleaseFileNameOptions = {
-    workspace: process.cwd(),
-    projectName: 'project',
-    withVersion: true,
-    withTime: true,
-    timePattern: 'YYYY_MM_DD_HH_mm_ss',
-    versionTag: '',
-    environment: '',
-    releaseFileNameBuilder: function (options: Partial<ReleaseFileNameBuilderOptions>): string {
-      return [options.projectName, options.version, options.versionTag, options.releaseTime, options.environment]
-        .filter((a) => a)
-        .join(UnderlineDelimiter);
-    },
-  };
-  static getVersionFromPackageJson(workspace = ''): string {
-    try {
-      const json = readJsonSync(join(workspace, 'package.json'));
-      return json.version;
-    } catch (error: any) {
-      logger.warn('从package.json获取版本错误: ' + error.message);
-      return 'unknown';
-    }
-  }
-  static getTimeByPattern(pattern: string) {
-    return dayjs().format(pattern);
-  }
-  static get(options: Partial<ReleaseFileNameOptions>) {
-    const { releaseFileNameBuilder, withVersion, withTime, ...opts } = Object.assign(
-      {},
-      ReleaseFileName.options,
-      options,
-    );
-    let version = withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
-    let releaseTime = withTime ? ReleaseFileName.getTimeByPattern(opts.timePattern) : '';
-    return releaseFileNameBuilder({
-      ...opts,
-      version,
-      releaseTime,
-    });
-  }
-
-  releaseTime: string = '';
-  version: string;
-  options: ReleaseFileNameOptions;
-  constructor(options: Partial<ReleaseFileNameOptions>) {
-    this.options = merge({}, ReleaseFileName.options, options);
-    this.version = this.options.withVersion ? ReleaseFileName.getVersionFromPackageJson() : '';
-    this.releaseTime = this.options.withTime ? ReleaseFileName.getTimeByPattern(this.options.timePattern) : '';
-  }
-  get() {
-    return this.options.releaseFileNameBuilder({
-      ...this.options,
-      releaseTime: this.releaseTime,
-      version: this.version,
-    });
-  }
-}
+import { join } from 'path';
+import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
+import { ensureDir } from './utils';
+const logger = new Logger('Release');
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -99,7 +22,7 @@ export interface ReleaseOptions {
   /* # 存放相关 */
   /* ## 文件名称 */
   releasePath: string; // 释放的路径
-  releaseFileNameOptions: Partial<ReleaseFileNameOptions>;
+  projectInfoOptions: Partial<ProjectInfoOptions>;
   /* ## 是否清空 */
   clean: boolean;
 }
@@ -117,13 +40,13 @@ export class Release {
     archiveType: ArchiveType.zip,
     clean: true,
     releasePath: 'release',
-    releaseFileNameOptions: ReleaseFileName.options,
+    projectInfoOptions: ProjectInfoImpl.options,
   };
   options: ReleaseOptions;
-  releaseFileName: ReleaseFileName;
+  projectInfo: ProjectInfoImpl;
   log = logger;
   get releaseFile() {
-    return this.releaseFileName.get() + ExtensionMap[this.options.archiveType];
+    return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
@@ -134,9 +57,9 @@ export class Release {
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = merge({}, Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
-    // 名称
-    this.releaseFileName = new ReleaseFileName({
-      ...this.options.releaseFileNameOptions,
+    // 项目信息
+    this.projectInfo = new ProjectInfoImpl({
+      ...this.options.projectInfoOptions,
       workspace: this.options.workspace,
     });
     this.watchError();
@@ -153,7 +76,7 @@ export class Release {
   }
   private async ensureReleasePath() {
     this.log.log(`[开始] 确认释放文件夹: ` + this.releasePath);
-    await Release.ensureDir(this.releasePath);
+    await ensureDir(this.releasePath);
   }
   private async cleanReleaseFilePath() {
     if (!this.options.clean) {
@@ -227,8 +150,11 @@ export class Release {
   }
   async start() {
     try {
+      // 确保保存释放文件的文件夹存在
       await this.ensureReleasePath();
+      // 如果已经有同名文件就清除
       await this.cleanReleaseFilePath();
+      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.projectInfo.toJson()));
       this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
       const result = await this.save();
       this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
@@ -236,14 +162,6 @@ export class Release {
     } catch (error: any) {
       this.log.error('[错误] 打包，但失败，原因为：' + error.message);
       throw error;
-    }
-  }
-
-  // 确保文件夹
-  static async ensureDir(dir: string) {
-    // 文件夹不存在,就添加文件夹
-    if (!fs.existsSync(dir)) {
-      await fs.mkdir(dir, { recursive: true });
     }
   }
 }
