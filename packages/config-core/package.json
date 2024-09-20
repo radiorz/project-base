@@ -44,6 +44,6 @@
     "@tikkhun/version": "latest",
     "@types/lodash": "^4.17.6",
     "ts-node": "^10.9.2",
-    "tsup": "^8.1.0"
+    "tsup": "^8.3.0"
   }
 }
