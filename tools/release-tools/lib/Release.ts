@@ -58,10 +58,7 @@ export class Release {
     this.options = merge({}, Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
-    this.projectInfo = new ProjectInfoImpl({
-      ...this.options.projectInfoOptions,
-      workspace: this.options.workspace,
-    });
+    this.projectInfo = new ProjectInfoImpl(this.options.projectInfoOptions);
     this.watchError();
   }
 

@@ -9,10 +9,7 @@ const cli = new Cli({
   description: packageJson.description,
   // 这里可以用config进行配置
   defaultOptions: Release.defaultOptions,
-  excludeOptions: [
-    //
-    'projectInfoOptions.workspace',
-  ],
+  excludeOptions: [],
   optionTypes: {
     workspace: 'string',
     include: 'array',
@@ -21,6 +18,7 @@ const cli = new Cli({
     releasePath: 'string',
     clean: 'boolean',
     projectInfoOptions: {
+      workspace: 'string',
       projectName: 'string',
       withVersion: 'boolean',
       withTime: 'boolean',
@@ -30,7 +28,7 @@ const cli = new Cli({
     },
   },
   optionTitles: {
-    workspace: '项目根目录',
+    workspace: '项目打包根目录',
     include: '包含问界',
     exclude: '排除文件',
     archiveType: '打包类型',
@@ -38,6 +36,7 @@ const cli = new Cli({
     clean: '清空旧记录',
     releasePath: '释放文件夹',
     projectInfoOptions: {
+      workspace: '项目根目录',
       projectName: '项目名称',
       withVersion: '带有版本',
       versionTag: '版本标志',
