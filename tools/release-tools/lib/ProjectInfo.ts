@@ -1,11 +1,11 @@
-import { merge } from 'lodash';
 import { UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
-import { ProjectInfoParsed, type ProjectInfo } from './ProjectInfo.interface';
-import { getVersionFromPackageJson } from './utils';
+import { merge } from 'lodash';
+import { type ProjectInfoParsed, type ProjectInfo } from './ProjectInfo.interface';
+import { getLastSegment, getPackageJson } from './utils';
 
 export interface ProjectInfoOptions {
-  projectName: string; // 项目名称
+  projectName?: string; // 项目名称
 
   withVersion: boolean; // 带版本号
   workspace: string; // 工作空间
@@ -20,7 +20,7 @@ export interface ProjectInfoOptions {
 
 export class ProjectInfoImpl implements ProjectInfo {
   static options: ProjectInfoOptions = {
-    projectName: 'project',
+    // projectName: undefined,
     withVersion: true,
     workspace: process.cwd(),
     withReleasedAt: true,
@@ -31,21 +31,37 @@ export class ProjectInfoImpl implements ProjectInfo {
 
   releasedAt?: string;
   version?: string;
+  projectName?: string;
   options: ProjectInfoOptions;
+  workspacePackageJson: Record<string, any> | null;
   constructor(options: Partial<ProjectInfoOptions>) {
     this.options = merge({}, ProjectInfoImpl.options, options);
-    this.version = this.getVersion?.();
-    this.releasedAt = this.getReleasedAt?.();
+    this.workspacePackageJson = getPackageJson(this.options.workspace);
+    // console.log(`this.workspacePackageJson`, this.workspacePackageJson);
+    this.version = this.getVersion();
+    this.releasedAt = this.getReleasedAt();
+    this.projectName = this.getProjectName();
+  }
+  getProjectName() {
+    if (this.options.projectName) return this.options.projectName;
+    // 如果有输入就是用输入的值
+    // 一个是从package.json中读取
+    const name = this.workspacePackageJson?.name?.includes('/')
+      ? getLastSegment(this.workspacePackageJson?.name)
+      : this.workspacePackageJson?.name;
+    if (name) return name;
+    // 一个是从文件夹命名
+    return getLastSegment(this.options.workspace) || 'projectUnknown';
   }
   getVersion() {
-    return getVersionFromPackageJson(this.options.workspace);
+    return this.workspacePackageJson?.version ?? 'unknown';
   }
   getReleasedAt() {
     return dayjs().format(this.options.timePattern);
   }
   stringify(): string {
     return [
-      this.options.projectName,
+      this.projectName,
       this.options.withVersion && this.version,
       this.options.versionTag,
       this.options.withReleasedAt && this.releasedAt,
@@ -57,7 +73,7 @@ export class ProjectInfoImpl implements ProjectInfo {
   // 如果想要保存一份说明到json文件中
   toJson() {
     return {
-      projectName: this.options.projectName,
+      projectName: this.projectName,
       version: this.version,
       versionTag: this.options.versionTag,
       releasedAt: this.releasedAt,

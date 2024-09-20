@@ -1,4 +1,5 @@
 export interface ProjectInfo {
+  getProjectName: () => string;
   getVersion?: () => string;
   getReleasedAt?: () => string;
   stringify: () => string;
