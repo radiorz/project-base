@@ -112,28 +112,25 @@ export class Release {
         });
 
       archive
-        .pipe(outputStream)
-        .on('progress', () => {
-          // FIXME 米有显示啊
+        .on('progress', (progress) => {
+          // console.log(progress);
           this.log.log('[progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()));
-        })
-        .on('warning', (err) => {
-          if (err.code === 'ENOENT') {
-            this.log.warn(err.message);
-          }
-          this.log.error('[warning] 打包推流,但失败，原因为：' + err.message);
-          reject(err);
         })
         .on('error', (err) => {
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
-        .on('close', () => {
-          this.log.log('[close] 打包推流');
+        .on('warning', (err) => {
+          if (err.code === 'ENOENT') {
+            this.log.warn('[warning] 打包推流，但警告，原因为: ' + err.message);
+          }
+          this.log.error('[warning] 打包推流,但失败，原因为：' + err.message);
+          reject(err);
         })
-        .on('finish', () => {
-          this.log.log('[finish] 打包推流');
-        });
+        .on('close', () => {
+          resolve(true);
+        })
+        .pipe(outputStream);
 
       // 添加文件
       archive.glob(this.options.include, {
