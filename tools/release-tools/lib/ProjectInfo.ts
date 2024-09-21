@@ -7,26 +7,39 @@ import { getLastSegment, getPackageJson } from './utils';
 export interface ProjectInfoOptions {
   projectName?: string; // 项目名称
 
-  withVersion: boolean; // 带版本号
   workspace: string; // 工作空间
 
   versionTag: string; // 比如beta1 这种标签
 
-  withReleasedAt: boolean; // 带打包时间
   timePattern: string; // 时间的具体格式
 
   environment: string; // 其他环境参数
+  // 基本用于打包后的文件名
+  stringifyOptions: {
+    withVersion: boolean; // 带版本号
+    withReleasedAt: boolean; // 带打包时间
+  };
+  fileOptions: {
+    filePath: string; // 写入文件名称
+    enabled: boolean; // 是否写入文件
+  };
 }
 
 export class ProjectInfoImpl implements ProjectInfo {
   static options: ProjectInfoOptions = {
     // projectName: undefined,
-    withVersion: true,
     workspace: process.cwd(),
-    withReleasedAt: true,
     timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
     environment: '',
+    stringifyOptions: {
+      withVersion: true,
+      withReleasedAt: true,
+    },
+    fileOptions: {
+      filePath: 'release.info.json',
+      enabled: true,
+    },
   };
 
   releasedAt?: string;
@@ -62,13 +75,19 @@ export class ProjectInfoImpl implements ProjectInfo {
   stringify(): string {
     return [
       this.projectName,
-      this.options.withVersion && this.version,
+      this.options.stringifyOptions.withVersion && this.version,
       this.options.versionTag,
-      this.options.withReleasedAt && this.releasedAt,
+      this.options.stringifyOptions.withReleasedAt && this.releasedAt,
       this.options.environment,
     ]
       .filter((a) => a)
       .join(UnderlineDelimiter);
+  }
+  saveToFile() {
+    if (this.options.fileOptions.enabled) {
+      const fs = require('fs');
+      fs.writeFileSync(this.options.fileOptions.filePath, this.stringify());
+    }
   }
   // 如果想要保存一份说明到json文件中
   toJson() {

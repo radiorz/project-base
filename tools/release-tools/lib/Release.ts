@@ -99,6 +99,7 @@ export class Release {
   private async save() {
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
+    // 这里是文件夹
     const outputStream = fs.createWriteStream(this.releaseFilePath);
 
     const result = await new Promise(async (resolve, reject) => {
