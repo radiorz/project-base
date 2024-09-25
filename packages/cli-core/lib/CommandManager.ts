@@ -1,4 +1,6 @@
-import { merge } from 'lodash';
+// import { merge } from 'lodash'; // 这个怎么解决
+import _ from 'lodash';
+const { merge } = _;
 import { AbstractCommand, Action, CommandOptions } from './command/command.interface';
 import { ArgsCommand } from './command/ArgsCommand';
 import { PromptsCommand } from './command/PromptsCommand';

@@ -1,13 +1,14 @@
 import { Logger } from '@tikkhun/logger';
-import fs, { readJsonSync } from 'fs-extra';
+import fsExtra from 'fs-extra';
+const { readJsonSync, existsSync, mkdir } = fsExtra;
 import { join } from 'path';
 
 const logger = new Logger('utils');
 // 确保文件夹
 export async function ensureDir(dir: string) {
   // 文件夹不存在,就添加文件夹
-  if (!fs.existsSync(dir)) {
-    await fs.mkdir(dir, { recursive: true });
+  if (!existsSync(dir)) {
+    await mkdir(dir, { recursive: true });
   }
 }
 export function getPackageJson(workspace = process.cwd()): Record<string, any> | null {

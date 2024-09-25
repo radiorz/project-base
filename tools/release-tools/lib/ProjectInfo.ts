@@ -1,13 +1,14 @@
-/** 
+/**
  * # TODO
  * # DONE
  * ## 20240925 星期三
- * - 只干跟信息相关的事情 包括获取版本号 打包时间等，然后转换成 string 或者json 其他就不管了 
+ * - 只干跟信息相关的事情 包括获取版本号 打包时间等，然后转换成 string 或者json 其他就不管了
  * # FUTURE
  */
 import { UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
-import { merge } from 'lodash';
+import _ from 'lodash';
+const { merge } = _;
 import { type ProjectInfo, type ProjectInfoParsed } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
 

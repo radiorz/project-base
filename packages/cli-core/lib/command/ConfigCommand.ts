@@ -1,5 +1,6 @@
 import { Command, createCommand } from 'commander';
-import { readJson, writeJson } from 'fs-extra';
+import fsExtra from 'fs-extra';
+const { readJson, writeJson } = fsExtra;
 import { join } from 'path';
 import { AbstractCommand, Action } from './command.interface';
 import { Logger } from '@tikkhun/logger';

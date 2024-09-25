@@ -1,11 +1,13 @@
 import { Logger } from '@tikkhun/logger';
 import archiver from 'archiver';
-import fs from 'fs-extra';
-import { merge } from 'lodash';
+import fsExtra from 'fs-extra';
+const { removeSync, remove, createWriteStream } = fsExtra;
+import _ from 'lodash';
 import { join } from 'path';
 import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
 import { ensureDir } from './utils';
 const logger = new Logger('Release');
+const { merge } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -90,7 +92,7 @@ export class Release {
     });
   }
   clean() {
-    fs.removeSync(this.releaseFilePath);
+    removeSync(this.releaseFilePath);
   }
   private async ensureReleasePath() {
     this.log.log(`[开始] 确认释放文件夹: ` + this.releasePath);
@@ -102,7 +104,7 @@ export class Release {
     }
     this.log.log(`[开始] 删除可能的重名文件: ` + this.releaseFilePath);
     // 如果有同名应该先删除
-    await fs.remove(this.releaseFilePath);
+    await remove(this.releaseFilePath);
     this.log.log(`[结束] 删除可能的重名文件: ` + this.releaseFilePath);
   }
   // 这个打包选项就不让用户去关心了，直接写死
@@ -121,7 +123,7 @@ export class Release {
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
     // 这里是文件夹
-    const outputStream = fs.createWriteStream(this.releaseFilePath);
+    const outputStream = createWriteStream(this.releaseFilePath);
 
     const result = await new Promise(async (resolve, reject) => {
       outputStream
