@@ -57,6 +57,10 @@ export class OptionHandler {
   toType(obj: Record<string, any>) {
     return OptionHandler.toType(obj, this.schema);
   }
+  // 单纯就是扁平化
+  static toFlatList(obj: Record<string, any>) {
+    
+  }
   static toString(obj: Record<string, any>) {
     const _obj: Record<string, any> = {};
     Object.entries(obj).forEach(([key, value]) => {

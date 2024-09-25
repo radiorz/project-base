@@ -21,7 +21,7 @@ const cli = new Cli({
       workspace: 'string',
       projectName: 'string',
       withVersion: 'boolean',
-      withTime: 'boolean',
+      withReleasedAt: 'boolean',
       timePattern: 'string',
       versionTag: 'string',
       environment: 'string',
@@ -36,8 +36,8 @@ const cli = new Cli({
   },
   optionTitles: {
     workspace: '项目打包根目录',
-    include: '包含问界',
-    exclude: '排除文件',
+    include: '包含文件(glob)',
+    exclude: '排除文件(glob)',
     archiveType: '打包类型',
     archiveOptions: '打包选项',
     clean: '清空旧记录',
@@ -47,7 +47,7 @@ const cli = new Cli({
       projectName: '项目名称',
       withVersion: '带有版本',
       versionTag: '版本标志',
-      withTime: '带有时间',
+      withReleasedAt: '带有释放时间点',
       timePattern: '时间格式',
       environment: '环境参数',
       file: {
@@ -60,7 +60,7 @@ const cli = new Cli({
     },
   },
 });
-cli.start(async (option) => {
+cli.start(async (option: any) => {
   const release = new Release(option);
   await release.start();
 });

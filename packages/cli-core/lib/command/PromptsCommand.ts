@@ -15,7 +15,8 @@ import { input } from '@inquirer/prompts';
 import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
 import { OptionHandler, TYPES } from '../OptionHandler';
 import { AbstractCommand, Action } from './command.interface';
-import { program } from 'commander';
+import _ from 'lodash';
+const { get } = _;
 // const actionMap = {
 //   [TYPES.array]: input,
 //   [TYPES.keyValueArray]: input,
@@ -23,27 +24,44 @@ import { program } from 'commander';
 //   [TYPES.string]: input,
 //   [TYPES.select]: select,
 // };
+
 export class PromptsCommand extends AbstractCommand {
   command: any;
   optionHandler: any;
-  init() {
-    const defaultOptionList = jsonToList({ delimiter: '.', json: this.options.defaultOptions });
-    const flattedOptionType = flatJson({
+  getOptions() {
+    const stringifyDefaultOptions = OptionHandler.toString(this.options.defaultOptions);
+    // 默认选项
+    const flattedStringifyDefaultOptionList = jsonToList({
+      delimiter: '.',
+      json: stringifyDefaultOptions,
+    });
+    const flattedOptionTypeList = flatJson({
       delimiter: '.',
       data: this.options.optionTypes,
     });
-    const flattedOptionTitle = flatJson({
+    const flattedOptionTitleList = flatJson({
       delimiter: '.',
       data: this.options.optionTitles,
     });
+    return flattedStringifyDefaultOptionList.map(({ key, value }) => {
+      return {
+        key: key,
+        defaultValue: value,
+        type: flattedOptionTypeList[key],
+        title: flattedOptionTitleList[key],
+      };
+    });
+  }
+  init() {
+    const options = this.getOptions();
+    // console.log(`options`, options);
+    // console.log(`options`, options);
     this.optionHandler = async () => {
       const result: Record<string, any> = {};
-      for (const { key, value: defaultValue } of defaultOptionList) {
-        const type = flattedOptionType[key];
+      for (const { key, defaultValue, type, title } of options) {
         if (!type) {
           continue;
         }
-        const title = flattedOptionTitle[key];
         if (!title) {
           continue;
         }
