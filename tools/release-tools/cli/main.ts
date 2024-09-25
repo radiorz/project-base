@@ -25,6 +25,13 @@ const cli = new Cli({
       timePattern: 'string',
       versionTag: 'string',
       environment: 'string',
+      file: {
+        enabled: 'boolean',
+        path: 'string',
+      },
+      fileName: {
+        enabled: 'boolean',
+      },
     },
   },
   optionTitles: {
@@ -43,6 +50,13 @@ const cli = new Cli({
       withTime: '带有时间',
       timePattern: '时间格式',
       environment: '环境参数',
+      file: {
+        enabled: '保存到文件',
+        path: '保存文件的路径',
+      },
+      fileName: {
+        enabled: '保存到文件名',
+      },
     },
   },
 });

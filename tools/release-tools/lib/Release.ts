@@ -11,6 +11,15 @@ export enum ArchiveType {
   tar = 'tar',
 }
 // 目前想到的就是用  archive 进行打包。
+export interface ProjectInfoSaveOptions {
+  fileName: {
+    enabled: boolean;
+  };
+  file: {
+    enabled: boolean;
+    path: string;
+  };
+}
 export interface ReleaseOptions {
   /* # 打包源头 */
   workspace: string;
@@ -22,7 +31,7 @@ export interface ReleaseOptions {
   /* # 存放相关 */
   /* ## 文件名称 */
   releasePath: string; // 释放的路径
-  projectInfoOptions: Partial<ProjectInfoOptions>;
+  projectInfoOptions: Partial<ProjectInfoOptions> & Partial<ProjectInfoSaveOptions>;
   /* ## 是否清空 */
   clean: boolean;
 }
@@ -33,6 +42,15 @@ export const ExtensionMap = {
 };
 
 export class Release {
+  static defaultProjectInfoSaveOptions = {
+    fileName: {
+      enabled: true,
+    },
+    file: {
+      enabled: true,
+      path: 'release.json',
+    },
+  };
   static defaultOptions: ReleaseOptions = {
     workspace: process.cwd(),
     include: ['**/*'],
@@ -40,13 +58,16 @@ export class Release {
     archiveType: ArchiveType.zip,
     clean: true,
     releasePath: 'release',
-    projectInfoOptions: ProjectInfoImpl.options,
+    projectInfoOptions: { ...ProjectInfoImpl.options, ...Release.defaultProjectInfoSaveOptions },
   };
   options: ReleaseOptions;
   projectInfo: ProjectInfoImpl;
   log = logger;
   get releaseFile() {
-    return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
+    if (this.options.projectInfoOptions?.fileName?.enabled) {
+      return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
+    }
+    return 'release' + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
@@ -140,6 +161,11 @@ export class Release {
         dot: true,
         cwd: this.options.workspace,
       });
+      if (this.options.projectInfoOptions.file?.enabled) {
+        archive.append(JSON.stringify(this.projectInfo.toJson(), null, 2), {
+          name: this.options.projectInfoOptions.file?.path,
+        });
+      }
       // 执行
       this.log.log('[开始] 执行打包');
       // spinner.start();

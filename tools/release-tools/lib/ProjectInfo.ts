@@ -1,7 +1,14 @@
+/** 
+ * # TODO
+ * # DONE
+ * ## 20240925 星期三
+ * - 只干跟信息相关的事情 包括获取版本号 打包时间等，然后转换成 string 或者json 其他就不管了 
+ * # FUTURE
+ */
 import { UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { merge } from 'lodash';
-import { type ProjectInfoParsed, type ProjectInfo } from './ProjectInfo.interface';
+import { type ProjectInfo, type ProjectInfoParsed } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
 
 export interface ProjectInfoOptions {
@@ -15,14 +22,8 @@ export interface ProjectInfoOptions {
 
   environment: string; // 其他环境参数
   // 基本用于打包后的文件名
-  stringifyOptions: {
-    withVersion: boolean; // 带版本号
-    withReleasedAt: boolean; // 带打包时间
-  };
-  fileOptions: {
-    filePath: string; // 写入文件名称
-    enabled: boolean; // 是否写入文件
-  };
+  withVersion: boolean; // 带版本号
+  withReleasedAt: boolean; // 带打包时间
 }
 
 export class ProjectInfoImpl implements ProjectInfo {
@@ -32,14 +33,8 @@ export class ProjectInfoImpl implements ProjectInfo {
     timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
     environment: '',
-    stringifyOptions: {
-      withVersion: true,
-      withReleasedAt: true,
-    },
-    fileOptions: {
-      filePath: 'release.info.json',
-      enabled: true,
-    },
+    withVersion: true,
+    withReleasedAt: true,
   };
 
   releasedAt?: string;
@@ -75,20 +70,15 @@ export class ProjectInfoImpl implements ProjectInfo {
   stringify(): string {
     return [
       this.projectName,
-      this.options.stringifyOptions.withVersion && this.version,
+      this.options.withVersion && this.version,
       this.options.versionTag,
-      this.options.stringifyOptions.withReleasedAt && this.releasedAt,
+      this.options.withReleasedAt && this.releasedAt,
       this.options.environment,
     ]
       .filter((a) => a)
       .join(UnderlineDelimiter);
   }
-  saveToFile() {
-    if (this.options.fileOptions.enabled) {
-      const fs = require('fs');
-      fs.writeFileSync(this.options.fileOptions.filePath, this.stringify());
-    }
-  }
+
   // 如果想要保存一份说明到json文件中
   toJson() {
     return {
