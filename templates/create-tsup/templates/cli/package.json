@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "ts-node": "^10.9.1",
+   "tsx": "^4.19.1",
     "tsup": "^8.3.0",
     "vitest": "^2.1.1"
   }
