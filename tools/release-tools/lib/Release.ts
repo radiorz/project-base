@@ -50,7 +50,7 @@ export class Release {
     },
     file: {
       enabled: true,
-      path: 'release.json',
+      path: 'released_info.json',
     },
   };
   static defaultOptions: ReleaseOptions = {
