@@ -69,7 +69,8 @@ export class Release {
     if (this.options.projectInfoOptions?.fileName?.enabled) {
       return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
     }
-    return 'release' + ExtensionMap[this.options.archiveType];
+    // 不重复就好
+    return 'release' + Date.now() + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
