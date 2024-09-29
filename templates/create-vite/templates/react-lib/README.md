@@ -2,7 +2,13 @@
 
 ## 使用
 
-```javascript
+```bash
 pnpm run dev
 
+```
+
+### 打包
+
+```bash
+pnpm run build
 ```
