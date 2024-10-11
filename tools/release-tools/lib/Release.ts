@@ -93,6 +93,7 @@ export class Release {
     });
   }
   clean() {
+    if (this.progressInterval) clearInterval(this.progressInterval);
     removeSync(this.releaseFilePath);
   }
   private async ensureReleasePath() {
@@ -120,6 +121,7 @@ export class Release {
       zlib: { level: 9 }, // Sets the compression level.
     };
   }
+  progressInterval: any = null;
   private async save() {
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
@@ -135,26 +137,28 @@ export class Release {
           this.log.log('[finish] 写入文件完毕');
           resolve(true);
         });
-      let progressInterval: any = null;
+      this.progressInterval = null;
       archive
         .on('progress', (progress) => {
           // console.log(progress);
-          if (progressInterval) {
-            clearInterval(progressInterval);
+          if (this.progressInterval) {
+            clearInterval(this.progressInterval);
           }
-          process.stdout.write('\n[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ');
+          process.stdout.write(
+            '\n[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ',
+          );
           // 每一百毫秒打一次.让人知道我没死
-          progressInterval = setInterval(() => {
+          this.progressInterval = setInterval(() => {
             process.stdout.write('.');
-          }, 100);
+          }, 200);
         })
         .on('error', (err) => {
-          clearInterval(progressInterval);
+          if (this.progressInterval) clearInterval(this.progressInterval);
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
         .on('warning', (err) => {
-          clearInterval(progressInterval);
+          if (this.progressInterval) clearInterval(this.progressInterval);
           if (err.code === 'ENOENT') {
             this.log.warn('[warning] 打包推流，但警告，原因为: ' + err.message);
           }
@@ -162,7 +166,7 @@ export class Release {
           reject(err);
         })
         .on('close', () => {
-          clearInterval(progressInterval);
+          if (this.progressInterval) clearInterval(this.progressInterval);
           resolve(true);
         })
         .pipe(outputStream);
@@ -183,6 +187,7 @@ export class Release {
       this.log.log('[开始] 执行打包');
       // spinner.start();
       await archive.finalize();
+      if (this.progressInterval) clearInterval(this.progressInterval);
       this.log.log('[结束] 执行打包');
     });
     return result;
