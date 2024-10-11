@@ -25,8 +25,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "ts-node ./src/index.ts",
-    "version:update": "ts-node ./cli/date-version.ts update",
+    "dev": "tsx ./src/index.ts",
+    "version:update": "tsx ./cli/date-version.ts update",
     "test": "vitest"
   },
   "publishConfig": {

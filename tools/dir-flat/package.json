@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "ts-node ./src/index.ts",
+    "dev": "tsx ./src/index.ts",
     "test": "vitest",
     "build:exe": "pkg ."
   },

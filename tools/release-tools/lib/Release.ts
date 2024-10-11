@@ -135,11 +135,19 @@ export class Release {
           this.log.log('[finish] 写入文件完毕');
           resolve(true);
         });
-
+      let progressInterval: any = null;
       archive
         .on('progress', (progress) => {
           // console.log(progress);
+          if (progressInterval) {
+            clearInterval(progressInterval);
+            console.groupEnd();
+          }
+          console.group('progress日志');
           this.log.log('[progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()));
+          progressInterval = setInterval(() => {
+            this.log.log('.');
+          }, 1);
         })
         .on('error', (err) => {
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);

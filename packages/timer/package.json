@@ -22,9 +22,9 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "ts-node ./src/index.ts",
+    "dev": "tsx ./src/index.ts",
     "test": "vitest",
-    "test:cron": "ts-node ./lib/Cron.test.ts"
+    "test:cron": "tsx ./lib/Cron.test.ts"
   },
   "publishConfig": {
     "access": "public"

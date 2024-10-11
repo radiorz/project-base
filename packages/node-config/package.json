@@ -25,7 +25,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "ts-node ./src/index.ts",
+    "dev": "tsx ./src/index.ts",
     "test": "vitest",
     "version": "semantic-version update",
     "_publish": "npm version patch && pnpm run build && npm publish"
