@@ -140,20 +140,21 @@ export class Release {
         .on('progress', (progress) => {
           // console.log(progress);
           if (progressInterval) {
-            process.stdout.write('\n');
             clearInterval(progressInterval);
           }
-          process.stdout.write('[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ');
+          process.stdout.write('\n[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ');
           // 每一百毫秒打一次.让人知道我没死
           progressInterval = setInterval(() => {
             process.stdout.write('.');
           }, 100);
         })
         .on('error', (err) => {
+          clearInterval(progressInterval);
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
         .on('warning', (err) => {
+          clearInterval(progressInterval);
           if (err.code === 'ENOENT') {
             this.log.warn('[warning] 打包推流，但警告，原因为: ' + err.message);
           }
