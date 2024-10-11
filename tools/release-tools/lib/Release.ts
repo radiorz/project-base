@@ -143,7 +143,7 @@ export class Release {
             process.stdout.write('\n');
             clearInterval(progressInterval);
           }
-          process.stdout.write('[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()));
+          process.stdout.write('[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ');
           // 每一百毫秒打一次.让人知道我没死
           progressInterval = setInterval(() => {
             process.stdout.write('.');
