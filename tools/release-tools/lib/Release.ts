@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { join } from 'path';
 import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
 import { ensureDir } from './utils';
+import { ProgressPrinter } from './ProgressPrinter';
 const logger = new Logger('Release');
 const { merge, throttle } = _;
 export enum ArchiveType {
@@ -138,44 +139,25 @@ export class Release {
           this.log.log('[finish] 写入文件完毕');
           resolve(true);
         });
-      this.progressInterval = null;
-      let isProgressFirstPrint = true;
-      const snipperDot = getNextSpinnerDot();
-      const printProgress = () => {
-        // 第一次不清空
-        if (isProgressFirstPrint) {
-          isProgressFirstPrint = false;
-          // process.stdout.write('\n');
-        } else {
-          // 清空
-          clearLine(process.stdout, 0);
-          cursorTo(process.stdout, 0);
-        }
-        // 书写
-        process.stdout.write(
-          `[Release] ${snipperDot.next().value} 打包推流，当前进度为：` + JSON.stringify(archive.pointer()) + ' ',
-        );
-      };
+      const progressPrinter = new ProgressPrinter({
+        buildMessage({ currentFrame }: any) {
+          return `[Release] ${currentFrame} 打包推流中，此时进度为：${archive.pointer()}`;
+        },
+      });
       const onProgress = () => {
         // console.log(progress);
         if (this.progressInterval) {
           clearInterval(this.progressInterval);
         }
-        printProgress();
-        // 每一百毫秒打一次.让人知道我没死
-        this.progressInterval = setInterval(() => {
-          printProgress();
-        }, 200);
+        progressPrinter.print();
       };
       archive
         .on('progress', onProgress)
         .on('error', (err) => {
-          if (this.progressInterval) clearInterval(this.progressInterval);
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
           reject(err);
         })
         .on('warning', (err) => {
-          if (this.progressInterval) clearInterval(this.progressInterval);
           if (err.code === 'ENOENT') {
             this.log.warn('[warning] 打包推流，但警告，原因为: ' + err.message);
           }
@@ -183,7 +165,6 @@ export class Release {
           reject(err);
         })
         .on('close', () => {
-          if (this.progressInterval) clearInterval(this.progressInterval);
           resolve(true);
         })
         .pipe(outputStream);
@@ -204,7 +185,7 @@ export class Release {
       this.log.log('[开始] 执行打包');
       // spinner.start();
       await archive.finalize();
-      if (this.progressInterval) clearInterval(this.progressInterval);
+      progressPrinter.end();
       process.stdout.write('\n'); // 用于换行
       this.log.log('[结束] 执行打包');
     });
@@ -226,18 +207,4 @@ export class Release {
       throw error;
     }
   }
-}
-import cliSpinners from 'cli-spinners';
-const dotFrames = cliSpinners.dots.frames;
-function* getNextSpinnerDot() {
-  let index = 0;
-  while (true) {
-    yield dotFrames[index];
-    index = (index + 1) % dotFrames.length;
-  }
-}
-
-interface ProgressOptions {}
-class ProgressPrinter {
-  constructor(options: Partial<ProgressOptions>) {}
 }
