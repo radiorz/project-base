@@ -2,10 +2,13 @@ import cliSpinners from 'cli-spinners';
 import _ from 'lodash';
 import { clearLine, cursorTo } from 'readline';
 const { merge } = _;
+export interface ProgressBuildMessageOptions {
+  currentFrame: string;
+}
 export interface ProgressOptions {
   interval: number;
   frames: string[];
-  buildMessage: Function;
+  buildMessage: (options: ProgressBuildMessageOptions) => string;
 }
 export class ProgressPrinter {
   static defaultOptions: ProgressOptions = {
