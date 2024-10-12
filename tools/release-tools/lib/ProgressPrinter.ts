@@ -24,7 +24,7 @@ export class ProgressPrinter {
     this.snipperDot = getNextSpinnerDot(this.options.frames);
   }
 
-  //
+  // ticker 会一直进来调用这个print
   print() {
     // 第一次不清空
     if (!this.hasPrintOne) {
@@ -38,14 +38,10 @@ export class ProgressPrinter {
     const message = this.options.buildMessage({ currentFrame: this.snipperDot.next().value });
     process.stdout.write(message);
     this.intervalId && clearInterval(this.intervalId);
-    // 启动定时以防卡死太久
-    this.intervalId = setInterval(
-      () => {
-        this.print();
-      },
-
-      this.options.interval,
-    );
+    // 内部启动一个ticker,在外部ticker 很久没调用的时候我还可以调用，以防止外部很久调用一次看起来卡死
+    this.intervalId = setInterval(() => {
+      this.print();
+    }, this.options.interval);
   }
   end() {
     this.intervalId && clearInterval(this.intervalId);

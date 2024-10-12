@@ -80,6 +80,7 @@ export class Release {
   get releaseFilePath() {
     return join(this.releasePath, this.releaseFile);
   }
+  progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = merge({}, Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
@@ -95,7 +96,7 @@ export class Release {
     });
   }
   clean() {
-    if (this.progressInterval) clearInterval(this.progressInterval);
+    this.progressPrinter?.end?.();
     removeSync(this.releaseFilePath);
   }
   private async ensureReleasePath() {
@@ -123,7 +124,6 @@ export class Release {
       zlib: { level: 9 }, // Sets the compression level.
     };
   }
-  progressInterval: any = null;
   private async save() {
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
@@ -139,17 +139,13 @@ export class Release {
           this.log.log('[finish] 写入文件完毕');
           resolve(true);
         });
-      const progressPrinter = new ProgressPrinter({
+      this.progressPrinter = new ProgressPrinter({
         buildMessage({ currentFrame }: any) {
           return `[Release] ${currentFrame} 打包推流中，此时进度为：${archive.pointer()}`;
         },
       });
       const onProgress = () => {
-        // console.log(progress);
-        if (this.progressInterval) {
-          clearInterval(this.progressInterval);
-        }
-        progressPrinter.print();
+        this.progressPrinter?.print?.();
       };
       archive
         .on('progress', onProgress)
@@ -185,7 +181,7 @@ export class Release {
       this.log.log('[开始] 执行打包');
       // spinner.start();
       await archive.finalize();
-      progressPrinter.end();
+      this.progressPrinter.end();
       process.stdout.write('\n'); // 用于换行
       this.log.log('[结束] 执行打包');
     });
