@@ -188,6 +188,7 @@ export class Release {
       // spinner.start();
       await archive.finalize();
       if (this.progressInterval) clearInterval(this.progressInterval);
+      process.stdout.write('\n'); // 用于换行
       this.log.log('[结束] 执行打包');
     });
     return result;
