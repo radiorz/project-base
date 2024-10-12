@@ -1,4 +1,4 @@
-import cliSpinners from 'cli-spinners';
+// import cliSpinners from 'cli-spinners';
 import _ from 'lodash';
 import { clearLine, cursorTo } from 'readline';
 const { merge } = _;
@@ -13,7 +13,7 @@ export interface ProgressOptions {
 export class ProgressPrinter {
   static defaultOptions: ProgressOptions = {
     interval: 200,
-    frames: cliSpinners.dots.frames,
+    frames: ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏'], // 这里本来用cliSpinners可以，但他是esm的，暂时没有找到打包的方法。。。
     buildMessage: ({ currentFrame }: any) => {
       return `${currentFrame}`;
     },
