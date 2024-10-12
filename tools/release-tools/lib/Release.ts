@@ -1,13 +1,14 @@
 import { Logger } from '@tikkhun/logger';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
+import { clearLine, cursorTo } from 'readline';
 const { removeSync, remove, createWriteStream } = fsExtra;
 import _ from 'lodash';
 import { join } from 'path';
 import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
 import { ensureDir } from './utils';
 const logger = new Logger('Release');
-const { merge } = _;
+const { merge, throttle } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -138,20 +139,34 @@ export class Release {
           resolve(true);
         });
       this.progressInterval = null;
+      let isProgressFirstPrint = true;
+      const snipperDot = getNextSpinnerDot();
+      const printProgress = () => {
+        // console.log(progress);
+        if (this.progressInterval) {
+          clearInterval(this.progressInterval);
+        }
+        if (isProgressFirstPrint) {
+          isProgressFirstPrint = false;
+          // process.stdout.write('\n');
+        } else {
+          // 清空
+          clearLine(process.stdout, 0);
+          cursorTo(process.stdout, 0);
+        }
+        // 书写
+        process.stdout.write(
+          `[Release] ${snipperDot.next().value} 打包推流，当前进度为：` +
+            JSON.stringify(archive.pointer()) +
+            ' ',
+        );
+        // 每一百毫秒打一次.让人知道我没死
+        this.progressInterval = setInterval(() => {
+          process.stdout.write('.');
+        }, 200);
+      };
       archive
-        .on('progress', (progress) => {
-          // console.log(progress);
-          if (this.progressInterval) {
-            clearInterval(this.progressInterval);
-          }
-          process.stdout.write(
-            '\n[Release] [progress] 打包推流，当前进度为：' + JSON.stringify(archive.pointer()) + ' ',
-          );
-          // 每一百毫秒打一次.让人知道我没死
-          this.progressInterval = setInterval(() => {
-            process.stdout.write('.');
-          }, 200);
-        })
+        .on('progress', printProgress)
         .on('error', (err) => {
           if (this.progressInterval) clearInterval(this.progressInterval);
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
@@ -209,4 +224,18 @@ export class Release {
       throw error;
     }
   }
+}
+import cliSpinners from 'cli-spinners';
+const dotFrames = cliSpinners.dots.frames;
+function* getNextSpinnerDot() {
+  let index = 0;
+  while (true) {
+    yield dotFrames[index];
+    index = (index + 1) % dotFrames.length;
+  }
+}
+
+interface ProgressOptions {}
+class ProgressPrinter {
+  constructor(options: Partial<ProgressOptions>) {}
 }
