@@ -142,10 +142,7 @@ export class Release {
       let isProgressFirstPrint = true;
       const snipperDot = getNextSpinnerDot();
       const printProgress = () => {
-        // console.log(progress);
-        if (this.progressInterval) {
-          clearInterval(this.progressInterval);
-        }
+        // 第一次不清空
         if (isProgressFirstPrint) {
           isProgressFirstPrint = false;
           // process.stdout.write('\n');
@@ -156,17 +153,22 @@ export class Release {
         }
         // 书写
         process.stdout.write(
-          `[Release] ${snipperDot.next().value} 打包推流，当前进度为：` +
-            JSON.stringify(archive.pointer()) +
-            ' ',
+          `[Release] ${snipperDot.next().value} 打包推流，当前进度为：` + JSON.stringify(archive.pointer()) + ' ',
         );
+      };
+      const onProgress = () => {
+        // console.log(progress);
+        if (this.progressInterval) {
+          clearInterval(this.progressInterval);
+        }
+        printProgress();
         // 每一百毫秒打一次.让人知道我没死
         this.progressInterval = setInterval(() => {
-          process.stdout.write('.');
+          printProgress();
         }, 200);
       };
       archive
-        .on('progress', printProgress)
+        .on('progress', onProgress)
         .on('error', (err) => {
           if (this.progressInterval) clearInterval(this.progressInterval);
           this.log.error('[error] 打包推流,但失败，原因为：' + err.message);
