@@ -20,11 +20,11 @@ const cli = new Cli({
     projectInfoOptions: {
       workspace: 'string',
       projectName: 'string',
-      withVersion: 'boolean',
-      withReleasedAt: 'boolean',
       timePattern: 'string',
       versionTag: 'string',
       environment: 'string',
+      stringifyDelimiter: 'string',
+      stringifyParams: 'array',
       file: {
         enabled: 'boolean',
         path: 'string',
@@ -45,9 +45,9 @@ const cli = new Cli({
     projectInfoOptions: {
       workspace: '项目根目录',
       projectName: '项目名称',
-      withVersion: '带有版本',
       versionTag: '版本标志',
-      withReleasedAt: '带有释放时间点',
+      stringifyDelimiter: '序列化分隔符',
+      stringifyParams: '文件名序列化参数',
       timePattern: '时间格式',
       environment: '环境参数',
       file: {
@@ -61,6 +61,7 @@ const cli = new Cli({
   },
 });
 cli.start(async (option: any) => {
+  // console.log(`option!!!!`,option)
   const release = new Release(option);
   await release.start();
 });

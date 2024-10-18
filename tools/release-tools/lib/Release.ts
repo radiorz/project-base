@@ -9,7 +9,7 @@ import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
 import { ensureDir } from './utils';
 import { ProgressPrinter } from './ProgressPrinter';
 const logger = new Logger('Release');
-const { merge, throttle } = _;
+const { mergeWith, throttle } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -82,7 +82,7 @@ export class Release {
   }
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
-    this.options = merge({}, Release.defaultOptions, options);
+    this.options = mergeWith({}, Release.defaultOptions, options, customizer);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.projectInfo = new ProjectInfoImpl(this.options.projectInfoOptions);
@@ -202,5 +202,11 @@ export class Release {
       this.log.error('[错误] 打包，但失败，原因为：' + error.message);
       throw error;
     }
+  }
+}
+
+function customizer(objValue: any, srcValue: any) {
+  if (Array.isArray(srcValue)) {
+    return srcValue;
   }
 }
