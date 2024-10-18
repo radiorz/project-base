@@ -47,8 +47,8 @@ importers:
   examples/minimatch-example:
     dependencies:
       minimatch:
-        specifier: ^9.0.5
-        version: 9.0.5
+        specifier: ^10
+        version: 10.0.1
 
   examples/rollup_example:
     devDependencies:
@@ -869,6 +869,9 @@ importers:
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
+      '@tikkhun/utils-core':
+        specifier: ^0.0.8
+        version: 0.0.8
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -2281,6 +2284,9 @@ packages:
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
+
+  '@tikkhun/utils-core@0.0.8':
+    resolution: {integrity: sha512-KMReoei3hXS8/y9GS+p28xmu++o+WBT6NYfOSFS4lxN3rdvPgGxQCi1j/zm7PoRpCXo8z6/CYGR6Suf31rJ37A==}
 
   '@tikkhun/version@2024.8.16':
     resolution: {integrity: sha512-TCJrZ+gJUyqKsJ63hWheittCU1OAqxcYgL82E6Vva72Wj1/1gOFzN7uSgXZFRQqDqfD7DN3w7QbhDLdQ5RtEWQ==}
@@ -7927,6 +7933,10 @@ snapshots:
   '@tikkhun/requestable@0.0.5': {}
 
   '@tikkhun/utils-core@0.0.3':
+    dependencies:
+      lodash: 4.17.21
+
+  '@tikkhun/utils-core@0.0.8':
     dependencies:
       lodash: 4.17.21
 

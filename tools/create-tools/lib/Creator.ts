@@ -14,11 +14,10 @@
 import { Logger } from '@tikkhun/logger';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
-import _ from 'lodash';
+import { optionsMerge } from '@tikkhun/utils-core';
 import { minimatch } from 'minimatch';
 import { join } from 'path';
 import { templatesDir } from './utils';
-const { merge } = _; // 这样写是因为 在esm 的时候会出错，暂时没找到方法
 const { copy, readFile, writeFile, remove, move, pathExists } = fsExtra;
 const logger = new Logger('Creator');
 
@@ -67,7 +66,7 @@ export class Creator {
     );
   }
   constructor(options?: Partial<CreatorOptions>) {
-    this.options = merge({}, Creator.DEFAULT_OPTIONS, options);
+    this.options = optionsMerge(Creator.DEFAULT_OPTIONS, options);
   }
   async start() {
     try {
