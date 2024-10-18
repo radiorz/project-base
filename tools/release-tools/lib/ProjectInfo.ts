@@ -5,7 +5,7 @@
  * - 只干跟信息相关的事情 包括获取版本号 打包时间等，然后转换成 string 或者json 其他就不管了
  * # FUTURE
  */
-import { UnderlineDelimiter } from '@tikkhun/utils-core';
+import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import _, { isNil } from 'lodash';
 const { merge } = _;
@@ -46,7 +46,7 @@ export class ProjectInfoImpl implements ProjectInfo {
   options: ProjectInfoOptions;
   workspacePackageJson: Record<string, any> | null;
   constructor(options: Partial<ProjectInfoOptions>) {
-    this.options = merge({}, ProjectInfoImpl.options, options);
+    this.options = optionsMerge(ProjectInfoImpl.options, options);
     this.workspacePackageJson = getPackageJson(this.options.workspace);
     // console.log(`this.workspacePackageJson`, this.workspacePackageJson);
     this.version = this.getVersion();

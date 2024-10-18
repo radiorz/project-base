@@ -2,6 +2,7 @@ import { Logger } from '@tikkhun/logger';
 import fsExtra from 'fs-extra';
 const { readJsonSync, existsSync, mkdir } = fsExtra;
 import { join } from 'path';
+import _ from 'lodash';
 
 const logger = new Logger('utils');
 // 确保文件夹
@@ -46,3 +47,4 @@ export function getLastSegment(mixedPath: string) {
   // 返回匹配到的最后一个路径组件
   return match ? match[1] : null;
 }
+

@@ -1,15 +1,15 @@
 import { Logger } from '@tikkhun/logger';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
-import { clearLine, cursorTo } from 'readline';
-const { removeSync, remove, createWriteStream } = fsExtra;
 import _ from 'lodash';
 import { join } from 'path';
+import { ProgressPrinter } from './ProgressPrinter';
 import { ProjectInfoImpl, ProjectInfoOptions } from './ProjectInfo';
 import { ensureDir } from './utils';
-import { ProgressPrinter } from './ProgressPrinter';
+import { optionsMerge } from '@tikkhun/utils-core';
+const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
-const { mergeWith, throttle } = _;
+const { mergeWith } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -82,7 +82,7 @@ export class Release {
   }
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
-    this.options = mergeWith({}, Release.defaultOptions, options, customizer);
+    this.options = optionsMerge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.projectInfo = new ProjectInfoImpl(this.options.projectInfoOptions);
@@ -202,11 +202,5 @@ export class Release {
       this.log.error('[错误] 打包，但失败，原因为：' + error.message);
       throw error;
     }
-  }
-}
-
-function customizer(objValue: any, srcValue: any) {
-  if (Array.isArray(srcValue)) {
-    return srcValue;
   }
 }
