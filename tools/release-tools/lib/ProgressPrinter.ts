@@ -1,4 +1,5 @@
 // import cliSpinners from 'cli-spinners';
+import { optionsMerge } from '@tikkhun/utils-core';
 import _ from 'lodash';
 import { clearLine, cursorTo } from 'readline';
 const { merge } = _;
@@ -23,7 +24,7 @@ export class ProgressPrinter {
   hasPrintOne = false; // 已经打印了一个了
   snipperDot: Generator;
   constructor(options: Partial<ProgressOptions>) {
-    this.options = merge({}, ProgressPrinter.defaultOptions, options);
+    this.options = optionsMerge( ProgressPrinter.defaultOptions, options);
     this.snipperDot = getNextSpinnerDot(this.options.frames);
   }
 
