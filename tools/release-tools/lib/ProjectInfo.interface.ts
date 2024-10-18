@@ -8,7 +8,7 @@ export interface ProjectInfo {
 }
 
 export interface ProjectInfoParsed {
-  projectName: string;
+  projectName?: string;
   version?: string;
   versionTag?: string;
   releasedAt?: string;

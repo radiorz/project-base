@@ -12,6 +12,8 @@
  * @example
  */
 
+import { isNil } from './is';
+
 /**
  * @function capitalize 大写首字母
  * @description 函数用于将字符串的首字母大写
@@ -70,4 +72,18 @@ export function toBigCamelCase(str: string) {
 export function toCamelCase(str: string) {
   str = str.replace(/[-_](\w)/g, (_, c) => c.toUpperCase()); // 将连字符和下划线后的字符转换为大写
   return str.charAt(0).toLowerCase() + str.slice(1); // 将首字母转换为小写
+}
+/**
+ * 替代params
+ * @param {String} pattern
+ * @param {Object} variables
+ * @param {Object} options
+ * @returns
+ * @example
+ * replaceParams("{app}",{app: "hahah"}) => "hahah"
+ */
+export function replaceParams(pattern: string, variables: Record<string, any>, options = { keepMatch: false }): string {
+  return pattern.replace(/\{([^}]+)\}/g, (match, key) => {
+    return variables.hasOwnProperty(key) && !isNil(variables[key]) ? variables[key] : options.keepMatch ? match : '';
+  });
 }

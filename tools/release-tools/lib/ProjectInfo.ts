@@ -7,11 +7,11 @@
  */
 import { UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 const { merge } = _;
 import { type ProjectInfo, type ProjectInfoParsed } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
-
+type stringifyParam = 'projectName' | 'version' | 'versionTag' | 'releasedAt' | 'environment';
 export interface ProjectInfoOptions {
   projectName?: string; // 项目名称
 
@@ -23,8 +23,10 @@ export interface ProjectInfoOptions {
 
   environment: string; // 其他环境参数
   // 基本用于打包后的文件名
-  withVersion: boolean; // 带版本号
-  withReleasedAt: boolean; // 带打包时间
+  // stringify分隔符
+  stringifyDelimiter: string;
+  // stringify参数
+  stringifyParams: stringifyParam[];
 }
 
 export class ProjectInfoImpl implements ProjectInfo {
@@ -34,8 +36,8 @@ export class ProjectInfoImpl implements ProjectInfo {
     timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
     environment: '',
-    withVersion: true,
-    withReleasedAt: true,
+    stringifyDelimiter: UnderlineDelimiter,
+    stringifyParams: ['projectName', 'version', 'versionTag', 'releasedAt', 'environment'],
   };
 
   releasedAt?: string;
@@ -68,18 +70,23 @@ export class ProjectInfoImpl implements ProjectInfo {
   getReleasedAt() {
     return dayjs().format(this.options.timePattern);
   }
+  // 字符串化有几种方案：
+  // - 采用pattern的定义形式 "{app}{yyy}" 但这个有个不好的就是不能parse成原本的配置对象 好处是最灵活
+  // - 采用数组排列形式，这个只规定了值的顺序，分隔符，所以可以parse成原本参数， 好处是可以parse， 坏处是不够灵活,但是其实大部分情况我们不需要那么灵活 所以直接这样限制一下吧。
+  // 目前采用第二种
   stringify(): string {
-    return [
-      this.projectName,
-      this.options.withVersion && this.version,
-      this.options.versionTag,
-      this.options.withReleasedAt && this.releasedAt,
-      this.options.environment,
-    ]
-      .filter((a) => a)
-      .join(UnderlineDelimiter);
+    const options = this.toJson();
+    return this.options.stringifyParams.map((param) => options[param]).join(this.options.stringifyDelimiter);
   }
-
+  parse(str: string): Record<string, any> {
+    const paramObj: Record<string, string> = {};
+    const values = str.split(this.options.stringifyDelimiter);
+    this.options.stringifyParams.forEach((param, index) => {
+      // 根据params规定的位置取出字符串中的值,赋值给变量对象
+      paramObj[param] = values[index];
+    });
+    return paramObj;
+  }
   // 如果想要保存一份说明到json文件中
   toJson() {
     return {
@@ -88,31 +95,6 @@ export class ProjectInfoImpl implements ProjectInfo {
       versionTag: this.options.versionTag,
       releasedAt: this.releasedAt,
       environment: this.options.environment,
-    };
-  }
-  parse(string: string): ProjectInfoParsed {
-    const infos = string.split(UnderlineDelimiter);
-    if (this.options.withVersion && this.options.withReleasedAt) {
-      return {
-        projectName: infos[0],
-        version: infos[1],
-        versionTag: infos[2],
-        releasedAt: infos[3],
-        environment: infos[4],
-      };
-    }
-    if (this.options.withVersion && !this.options.withReleasedAt) {
-      return {
-        projectName: infos[0],
-        version: infos[1],
-        versionTag: infos[2],
-        environment: infos[3],
-      };
-    }
-    return {
-      projectName: infos[0],
-      versionTag: infos[1],
-      environment: infos[2],
     };
   }
 }

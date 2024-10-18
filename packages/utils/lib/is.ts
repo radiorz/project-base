@@ -1,4 +1,4 @@
-import { nativeNumber } from "./regex";
+import { nativeNumber } from './regex';
 
 export function isInt(n: any) {
   return Number.isInteger(n);
@@ -11,4 +11,7 @@ export function isBiggerThanMinusOne(n: any) {
 }
 export function isNativeNumber(n: any) {
   return nativeNumber.test(n);
+}
+export function isNil(v: any) {
+  return typeof v === 'undefined' || v === null;
 }
