@@ -29,7 +29,7 @@ export interface ProjectInfoOptions {
   filePath?: string; // 文件
   versionTag: string; // 比如beta1 这种标签
 
-  timePattern: string; // 时间的具体格式
+  releasedAtPattern: string; // 时间的具体格式
   system: string; // 系统
 
   hardware: string; // 硬件

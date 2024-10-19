@@ -18,11 +18,11 @@ export class ProjectInfoImpl implements ProjectInfo {
     workspace: process.cwd(),
     // 有的时候只需打包一个文件就用以下情况
     filePath: undefined,
-    // released at pattern
-    timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
     system: '',
     hardware: '',
+    // 释放时间的格式化用的pattern
+    releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
     stringifyDelimiter: UnderlineDelimiter,
     stringifyParams: ['projectName', 'version', 'versionTag', 'releasedAt', 'system', 'hardware'],
     jsonMap: undefined,
@@ -56,7 +56,7 @@ export class ProjectInfoImpl implements ProjectInfo {
     return this.workspacePackageJson?.version ?? 'unknown';
   }
   getReleasedAt() {
-    return dayjs().format(this.options.timePattern);
+    return dayjs().format(this.options.releasedAtPattern);
   }
   getFileSize() {
     if (!this.options.filePath) {
