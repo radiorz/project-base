@@ -7,11 +7,10 @@
  */
 import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
-import _ from 'lodash';
 import { calculateMD5Sync, getFileSizeSync } from './file.utils';
-import type { ProjectInfoOptions, ProjectInfo, ToJsonOptions } from './ProjectInfo.interface';
+import type { ProjectInfo, ProjectInfoOptions, ToJsonOptions } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
-const { get } = _;
+import { transObjByOptionsMap } from './object.utils';
 
 export class ProjectInfoImpl implements ProjectInfo {
   static defaultOptions: ProjectInfoOptions = {
@@ -109,11 +108,4 @@ export class ProjectInfoImpl implements ProjectInfo {
     }
     return obj;
   }
-}
-function transObjByOptionsMap(obj: Record<string, any>, map: Record<string, string>) {
-  const _tranedObj: Record<string, any> = {};
-  Object.entries(map).forEach(([key, value]) => {
-    _tranedObj[key] = get(obj, value);
-  });
-  return _tranedObj;
 }

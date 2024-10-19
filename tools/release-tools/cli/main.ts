@@ -19,17 +19,20 @@ const cli = new Cli({
     clean: 'boolean',
     projectInfoOptions: {
       workspace: 'string',
+      file: 'string',
       projectName: 'string',
       timePattern: 'string',
       versionTag: 'string',
-      environment: 'string',
+      system: 'string',
+      hardware: 'string',
       stringifyDelimiter: 'string',
       stringifyParams: 'array',
-      file: {
+      // optionsMap: 'object',
+      infoFile: {
         enabled: 'boolean',
         path: 'string',
       },
-      fileName: {
+      infoName: {
         enabled: 'boolean',
       },
     },
@@ -49,13 +52,14 @@ const cli = new Cli({
       stringifyDelimiter: '序列化分隔符',
       stringifyParams: '文件名序列化参数',
       timePattern: '时间格式',
-      environment: '环境参数',
-      file: {
-        enabled: '保存到文件',
-        path: '保存文件的路径',
+      system: '系统参数',
+      hardware: '硬件参数',
+      infoFile: {
+        enabled: '保存项目信息到文件',
+        path: '保存项目信息的文件的路径',
       },
-      fileName: {
-        enabled: '保存到文件名',
+      infoName: {
+        enabled: '保存项目信息到文件名',
       },
     },
   },

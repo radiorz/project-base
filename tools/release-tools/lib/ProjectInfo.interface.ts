@@ -20,6 +20,7 @@ export interface ProjectInfoParsed {
   fileMD5?: string | null;
 }
 export type stringifyParam = 'projectName' | 'version' | 'versionTag' | 'releasedAt' | 'system' | 'hardware';
+
 export interface ProjectInfoOptions {
   projectName?: string; // 项目名称
 
