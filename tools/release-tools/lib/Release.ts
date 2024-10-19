@@ -16,10 +16,10 @@ export enum ArchiveType {
 }
 // 目前想到的就是用  archive 进行打包。
 export interface ProjectInfoSaveOptions {
-  fileName: {
+  infoName: {
     enabled: boolean;
   };
-  file: {
+  infoFile: {
     enabled: boolean;
     path: string;
   };
@@ -47,10 +47,10 @@ export const ExtensionMap = {
 
 export class Release {
   static defaultProjectInfoSaveOptions = {
-    fileName: {
+    infoName: {
       enabled: true,
     },
-    file: {
+    infoFile: {
       enabled: true,
       path: 'released_info.json',
     },
@@ -62,13 +62,13 @@ export class Release {
     archiveType: ArchiveType.zip,
     clean: true,
     releasePath: 'release',
-    projectInfoOptions: { ...ProjectInfoImpl.options, ...Release.defaultProjectInfoSaveOptions },
+    projectInfoOptions: { ...ProjectInfoImpl.defaultOptions, ...Release.defaultProjectInfoSaveOptions },
   };
   options: ReleaseOptions;
   projectInfo: ProjectInfoImpl;
   log = logger;
   get releaseFile() {
-    if (this.options.projectInfoOptions?.fileName?.enabled) {
+    if (this.options.projectInfoOptions?.infoName?.enabled) {
       return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
     }
     // 不重复就好
@@ -172,9 +172,9 @@ export class Release {
         dot: true,
         cwd: this.options.workspace,
       });
-      if (this.options.projectInfoOptions.file?.enabled) {
+      if (this.options.projectInfoOptions.infoFile?.enabled) {
         archive.append(JSON.stringify(this.projectInfo.toJson(), null, 2), {
-          name: this.options.projectInfoOptions.file?.path,
+          name: this.options.projectInfoOptions.infoFile?.path,
         });
       }
       // 执行

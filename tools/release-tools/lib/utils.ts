@@ -47,4 +47,3 @@ export function getLastSegment(mixedPath: string) {
   // 返回匹配到的最后一个路径组件
   return match ? match[1] : null;
 }
-

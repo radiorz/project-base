@@ -7,52 +7,40 @@
  */
 import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
-import _, { isNil } from 'lodash';
-const { merge } = _;
-import { type ProjectInfo, type ProjectInfoParsed } from './ProjectInfo.interface';
+import _ from 'lodash';
+import { calculateMD5Sync, getFileSizeSync } from './file.utils';
+import type { ProjectInfoOptions, ProjectInfo, ToJsonOptions } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
-type stringifyParam = 'projectName' | 'version' | 'versionTag' | 'releasedAt' | 'environment';
-export interface ProjectInfoOptions {
-  projectName?: string; // 项目名称
-
-  workspace: string; // 工作空间
-
-  versionTag: string; // 比如beta1 这种标签
-
-  timePattern: string; // 时间的具体格式
-
-  environment: string; // 其他环境参数
-  // 基本用于打包后的文件名
-  // stringify分隔符
-  stringifyDelimiter: string;
-  // stringify参数
-  stringifyParams: stringifyParam[];
-}
+const { get } = _;
 
 export class ProjectInfoImpl implements ProjectInfo {
-  static options: ProjectInfoOptions = {
+  static defaultOptions: ProjectInfoOptions = {
     // projectName: undefined,
     workspace: process.cwd(),
+    // 有的时候只需打包一个文件就用以下情况
+    filePath: undefined,
+    // released at pattern
     timePattern: 'YYYY_MM_DD_HH_mm_ss',
     versionTag: '',
-    environment: '',
+    system: '',
+    hardware: '',
     stringifyDelimiter: UnderlineDelimiter,
-    stringifyParams: ['projectName', 'version', 'versionTag', 'releasedAt', 'environment'],
+    stringifyParams: ['projectName', 'version', 'versionTag', 'releasedAt', 'system', 'hardware'],
   };
-
-  releasedAt?: string;
-  version?: string;
-  projectName?: string;
   options: ProjectInfoOptions;
   workspacePackageJson: Record<string, any> | null;
   constructor(options: Partial<ProjectInfoOptions>) {
-    this.options = optionsMerge(ProjectInfoImpl.options, options);
+    this.options = optionsMerge(ProjectInfoImpl.defaultOptions, options);
     this.workspacePackageJson = getPackageJson(this.options.workspace);
-    // console.log(`this.workspacePackageJson`, this.workspacePackageJson);
+    this.projectName = this.getProjectName();
     this.version = this.getVersion();
     this.releasedAt = this.getReleasedAt();
-    this.projectName = this.getProjectName();
   }
+  projectName?: string;
+  version?: string;
+  releasedAt?: string;
+  fileMd5?: string;
+  fileSize?: string;
   getProjectName() {
     if (this.options.projectName) return this.options.projectName;
     // 如果有输入就是用输入的值
@@ -70,13 +58,25 @@ export class ProjectInfoImpl implements ProjectInfo {
   getReleasedAt() {
     return dayjs().format(this.options.timePattern);
   }
+  getFileSize() {
+    if (!this.options.filePath) {
+      return null;
+    }
+    return getFileSizeSync(this.options.filePath);
+  }
+  getFileMD5() {
+    if (!this.options.filePath) {
+      return null;
+    }
+    return calculateMD5Sync(this.options.filePath);
+  }
   // 字符串化有几种方案：
   // - 采用pattern的定义形式 "{app}{yyy}" 但这个有个不好的就是不能parse成原本的配置对象 好处是最灵活
   // - 采用数组排列形式，这个只规定了值的顺序，分隔符，所以可以parse成原本参数， 好处是可以parse， 坏处是不够灵活,但是其实大部分情况我们不需要那么灵活 所以直接这样限制一下吧。
   // 目前采用第二种
   stringify(): string {
     const options = this.toJson();
-    return this.options.stringifyParams.map((param) => options[param]).join(this.options.stringifyDelimiter);
+    return this.options.stringifyParams.map((param) => options?.[param]).join(this.options.stringifyDelimiter);
   }
   parse(str: string): Record<string, any> {
     const paramObj: Record<string, string> = {};
@@ -88,13 +88,32 @@ export class ProjectInfoImpl implements ProjectInfo {
     return paramObj;
   }
   // 如果想要保存一份说明到json文件中
-  toJson() {
-    return {
+  toJson(options?: ToJsonOptions) {
+    const obj: Record<string, any> = {
       projectName: this.projectName,
       version: this.version,
       versionTag: this.options.versionTag,
       releasedAt: this.releasedAt,
-      environment: this.options.environment,
+      hardware: this.options.hardware,
+      system: this.options.system,
+      file: this.options.filePath,
     };
+    if (this.options.filePath) {
+      const fileMd5 = this.getFileMD5();
+      const fileSize = this.getFileSize();
+      obj['fileMd5'] = fileMd5;
+      obj['fileSize'] = fileSize;
+    }
+    if (options?.optionsMap) {
+      return transObjByOptionsMap(obj, options?.optionsMap);
+    }
+    return obj;
   }
+}
+function transObjByOptionsMap(obj: Record<string, any>, map: Record<string, string>) {
+  const _tranedObj: Record<string, any> = {};
+  Object.entries(map).forEach(([key, value]) => {
+    _tranedObj[key] = get(obj, value);
+  });
+  return _tranedObj;
 }
