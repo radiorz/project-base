@@ -96,7 +96,7 @@ export class ProjectInfoImpl implements ProjectInfo {
       releasedAt: this.releasedAt,
       hardware: this.options.hardware,
       system: this.options.system,
-      file: this.options.filePath,
+      filePath: this.options.filePath,
     };
     if (this.options.filePath) {
       const fileMd5 = this.getFileMD5();
