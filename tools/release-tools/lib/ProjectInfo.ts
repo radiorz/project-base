@@ -8,9 +8,9 @@
 import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { calculateMD5Sync, getFileSizeSync } from './file.utils';
-import type { ProjectInfo, ProjectInfoOptions, ToJsonOptions } from './ProjectInfo.interface';
+import { transformObjectByOptionsMap } from './object.utils';
+import type { ProjectInfo, ProjectInfoOptions } from './ProjectInfo.interface';
 import { getLastSegment, getPackageJson } from './utils';
-import { transObjByOptionsMap } from './object.utils';
 
 export class ProjectInfoImpl implements ProjectInfo {
   static defaultOptions: ProjectInfoOptions = {
@@ -105,7 +105,7 @@ export class ProjectInfoImpl implements ProjectInfo {
       obj['fileSize'] = fileSize;
     }
     if (this.options?.jsonMap) {
-      return transObjByOptionsMap(obj, this.options?.jsonMap);
+      return transformObjectByOptionsMap(obj, this.options?.jsonMap);
     }
     return obj;
   }
