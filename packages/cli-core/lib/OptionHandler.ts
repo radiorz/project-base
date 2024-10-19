@@ -16,13 +16,13 @@ export class OptionHandler {
     this.schema = schema;
   }
   static getTypeValue(value: string, type: string) {
+    if (value === 'undefined') {
+      return;
+    }
     if (type === TYPES.array) {
       return value.split(',');
     }
     if (type === TYPES.object) {
-      if (value === 'undefined') {
-        return;
-      }
       return value && JSON.parse(value);
     }
     if (type === TYPES.keyValueArray) {
