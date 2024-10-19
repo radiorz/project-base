@@ -20,7 +20,10 @@ export class OptionHandler {
       return value.split(',');
     }
     if (type === TYPES.object) {
-      return JSON.parse(value);
+      if (value === 'undefined') {
+        return;
+      }
+      return value && JSON.parse(value);
     }
     if (type === TYPES.keyValueArray) {
       if (!value) return [];
@@ -58,9 +61,7 @@ export class OptionHandler {
     return OptionHandler.toType(obj, this.schema);
   }
   // 单纯就是扁平化
-  static toFlatList(obj: Record<string, any>) {
-    
-  }
+  static toFlatList(obj: Record<string, any>) {}
   static toString(obj: Record<string, any>) {
     const _obj: Record<string, any> = {};
     Object.entries(obj).forEach(([key, value]) => {

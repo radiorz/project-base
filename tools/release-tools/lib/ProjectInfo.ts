@@ -14,7 +14,7 @@ import { transObjByOptionsMap } from './object.utils';
 
 export class ProjectInfoImpl implements ProjectInfo {
   static defaultOptions: ProjectInfoOptions = {
-    // projectName: undefined,
+    projectName: undefined,
     workspace: process.cwd(),
     // 有的时候只需打包一个文件就用以下情况
     filePath: undefined,
@@ -25,6 +25,7 @@ export class ProjectInfoImpl implements ProjectInfo {
     hardware: '',
     stringifyDelimiter: UnderlineDelimiter,
     stringifyParams: ['projectName', 'version', 'versionTag', 'releasedAt', 'system', 'hardware'],
+    jsonMap: undefined,
   };
   options: ProjectInfoOptions;
   workspacePackageJson: Record<string, any> | null;
@@ -87,7 +88,7 @@ export class ProjectInfoImpl implements ProjectInfo {
     return paramObj;
   }
   // 如果想要保存一份说明到json文件中
-  toJson(options?: ToJsonOptions) {
+  toJson() {
     const obj: Record<string, any> = {
       projectName: this.projectName,
       version: this.version,
@@ -103,8 +104,8 @@ export class ProjectInfoImpl implements ProjectInfo {
       obj['fileMd5'] = fileMd5;
       obj['fileSize'] = fileSize;
     }
-    if (options?.optionsMap) {
-      return transObjByOptionsMap(obj, options?.optionsMap);
+    if (this.options?.jsonMap) {
+      return transObjByOptionsMap(obj, this.options?.jsonMap);
     }
     return obj;
   }

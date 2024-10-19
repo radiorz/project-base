@@ -1,5 +1,5 @@
 export interface ToJsonOptions {
-  optionsMap?: null | Record<string, string>;
+  jsonMap?: null | Record<string, string>;
 }
 export interface ProjectInfo {
   projectName?: string;
@@ -7,7 +7,7 @@ export interface ProjectInfo {
   releasedAt?: string;
   stringify: () => string;
   parse?: (str: string) => ProjectInfoParsed;
-  toJson: (options?: ToJsonOptions) => Record<string, any> | Promise<Record<string, any>>;
+  toJson: () => Record<string, any> | Promise<Record<string, any>>;
 }
 
 export interface ProjectInfoParsed {
@@ -30,7 +30,6 @@ export interface ProjectInfoOptions {
   versionTag: string; // 比如beta1 这种标签
 
   timePattern: string; // 时间的具体格式
-
   system: string; // 系统
 
   hardware: string; // 硬件
@@ -39,4 +38,6 @@ export interface ProjectInfoOptions {
   stringifyDelimiter: string;
   // stringify参数
   stringifyParams: stringifyParam[];
+  // json到处的映射
+  jsonMap?: null | Record<string, string>;
 }
