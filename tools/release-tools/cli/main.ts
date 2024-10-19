@@ -2,6 +2,8 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import { Release } from '../lib';
 import packageJson from '../package.json';
+import { workspace } from '../../version/lib/utils';
+import { packageJsonPath } from '../../../packages/node-utils/lib/path';
 const cli = new Cli({
   types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
   version: packageJson.version,
@@ -17,24 +19,29 @@ const cli = new Cli({
     archiveType: 'string',
     releasePath: 'string',
     clean: 'boolean',
-    projectInfoOptions: {
+    infoManagerOptions: {
       workspace: 'string',
+      packageJsonPath: 'string',
       filePath: 'string',
-      projectName: 'string',
-      timePattern: 'string',
-      versionTag: 'string',
-      system: 'string',
-      hardware: 'string',
-      stringifyDelimiter: 'string',
-      stringifyParams: 'array',
-      jsonMap: 'object',
-      infoFile: {
-        enabled: 'boolean',
-        path: 'string',
+      input: {
+        name: 'string',
+        title: 'string',
+        version: 'string',
+        description: 'string',
+        tag: 'string',
+        system: 'string',
+        hardware: 'string',
       },
-      infoName: {
-        enabled: 'boolean',
-      },
+    },
+    infoFileOptions: {
+      enabled: 'boolean',
+      path: 'string',
+      transformMap: 'Object',
+    },
+    releaseNameOptions: {
+      params: 'array',
+      paramDelimiter: 'string',
+      releasedAtPattern: 'string',
     },
   },
   optionTitles: {
@@ -45,27 +52,29 @@ const cli = new Cli({
     archiveOptions: '[打包发布]压缩选项',
     clean: '[打包发布]清空旧记录',
     releasePath: '[打包发布]存储文件夹路径',
-    projectInfoOptions: {
-      workspace: '[项目信息]项目根目录',
-      filePath: '[项目信息]文件路径(需要hash的文件)',
-      projectName: '[项目信息]项目名称',
-      versionTag: '[项目信息]版本标志',
-      timePattern: '[项目信息]时间格式',
-      system: '[项目信息]系统参数',
-      hardware: '[项目信息]硬件参数',
-
-      stringifyDelimiter: '[项目信息]序列化分隔符',
-      stringifyParams: '[项目信息]文件名序列化参数',
-
-      jsonMap: '[项目信息]json存储对应表',
-
-      infoFile: {
-        enabled: '[项目信息|项目信息文件]开启',
-        path: '[项目信息|项目信息文件]保存路径',
+    infoManagerOptions: {
+      workspace: '[信息管理]项目根目录',
+      packageJsonPath: '[信息管理]package.json路径',
+      filePath: '[信息管理]文件路径(需要hash的文件)',
+      input: {
+        name: '[信息管理]项目名称',
+        title: '[信息管理]项目中文名称',
+        version: '[信息管理]项目版本',
+        tag: '[信息管理]标志',
+        description: '[信息管理]描述',
+        system: '[信息管理]系统参数',
+        hardware: '[信息管理]硬件参数',
       },
-      infoName: {
-        enabled: '[项目信息|项目信息文件名]开启',
-      },
+    },
+    infoFileOptions: {
+      enabled: '[信息文件]开启',
+      path: '[信息文件]路径',
+      transformMap: '[信息文件]转换映射规则',
+    },
+    releaseNameOptions: {
+      params: '[释放文件名]参数列表',
+      paramDelimiter: '[释放文件名]参数分隔符',
+      releasedAtPattern: '[释放文件名]时间格式',
     },
   },
 });

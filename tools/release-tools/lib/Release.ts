@@ -4,10 +4,12 @@ import fsExtra from 'fs-extra';
 import _ from 'lodash';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
-import { ProjectInfoImpl } from './ProjectInfo';
-import type { ProjectInfoOptions } from './ProjectInfo.interface';
+import { InfoManager, type InfoManagerOptions } from './InfoManager';
+import { ReleaseInfoTransformer } from './ReleaseInfoTransformer';
 import { ensureDir } from './utils';
 import { optionsMerge } from '@tikkhun/utils-core';
+import { TransformMap } from './ReleaseInfoTransformer';
+import { ReleaseName, type ReleaseNameOptions } from './ReleaseName';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
 const { mergeWith } = _;
@@ -16,14 +18,10 @@ export enum ArchiveType {
   tar = 'tar',
 }
 // 目前想到的就是用  archive 进行打包。
-export interface ProjectInfoSaveOptions {
-  infoName: {
-    enabled: boolean;
-  };
-  infoFile: {
-    enabled: boolean;
-    path: string;
-  };
+export interface ReleaseInfoFileOptions {
+  enabled: boolean; // 是否开启
+  transformMap: TransformMap; // 转换标准
+  path: string; // 保存路径
 }
 export interface ReleaseOptions {
   /* # 打包源头 */
@@ -36,7 +34,13 @@ export interface ReleaseOptions {
   /* # 存放相关 */
   /* ## 文件名称 */
   releasePath: string; // 释放的路径
-  projectInfoOptions: Partial<ProjectInfoOptions> & Partial<ProjectInfoSaveOptions>;
+  // 这个主要集中在info的输入与获取方式
+  infoManagerOptions: Partial<InfoManagerOptions>;
+  // 存储info的文件
+  infoFileOptions: Partial<ReleaseInfoFileOptions>;
+  // 释放文件的名称
+  releaseNameOptions: Partial<ReleaseNameOptions>;
+
   /* ## 是否清空 */
   clean: boolean;
 }
@@ -47,15 +51,6 @@ export const ExtensionMap = {
 };
 
 export class Release {
-  static defaultProjectInfoSaveOptions = {
-    infoName: {
-      enabled: true,
-    },
-    infoFile: {
-      enabled: true,
-      path: 'released_info.json',
-    },
-  };
   static defaultOptions: ReleaseOptions = {
     workspace: process.cwd(),
     include: ['**/*'],
@@ -63,17 +58,18 @@ export class Release {
     archiveType: ArchiveType.zip,
     clean: true,
     releasePath: 'release',
-    projectInfoOptions: { ...ProjectInfoImpl.defaultOptions, ...Release.defaultProjectInfoSaveOptions },
+    infoManagerOptions: InfoManager.defaultOptions,
+    infoFileOptions: {
+      enabled: true, // 是否开启
+      path: 'release_info.json', // 保存路径
+      transformMap: undefined, // 转换标准
+    },
+    releaseNameOptions: ReleaseName.defaultOptions,
   };
   options: ReleaseOptions;
-  projectInfo: ProjectInfoImpl;
   log = logger;
   get releaseFile() {
-    if (this.options.projectInfoOptions?.infoName?.enabled) {
-      return this.projectInfo.stringify() + ExtensionMap[this.options.archiveType];
-    }
-    // 不重复就好
-    return 'release' + Date.now() + ExtensionMap[this.options.archiveType];
+    return this.releaseName.stringify() + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(this.options.workspace, this.options.releasePath);
@@ -82,11 +78,14 @@ export class Release {
     return join(this.releasePath, this.releaseFile);
   }
   progressPrinter: ProgressPrinter | null = null;
+  releaseName: ReleaseName;
+  infoManager: InfoManager;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
-    this.projectInfo = new ProjectInfoImpl(this.options.projectInfoOptions);
+    this.infoManager = new InfoManager(this.options.infoManagerOptions);
+    this.releaseName = new ReleaseName(this.options.releaseNameOptions);
     this.watchError();
   }
 
@@ -173,9 +172,14 @@ export class Release {
         dot: true,
         cwd: this.options.workspace,
       });
-      if (this.options.projectInfoOptions.infoFile?.enabled) {
-        archive.append(JSON.stringify(this.projectInfo.toJson(), null, 2), {
-          name: this.options.projectInfoOptions.infoFile?.path,
+      // 保存信息文件
+      if (this.options.infoFileOptions?.enabled) {
+        const forSaveInfo = ReleaseInfoTransformer.transform({
+          originItems: this.infoManager.getInfo(),
+          transformMap: this.options.infoFileOptions?.transformMap,
+        });
+        archive.append(JSON.stringify(forSaveInfo, null, 2), {
+          name: this.options.infoFileOptions.path || 'release_info.json',
         });
       }
       // 执行
@@ -194,7 +198,7 @@ export class Release {
       await this.ensureReleasePath();
       // 如果已经有同名文件就清除
       await this.cleanReleaseFilePath();
-      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.projectInfo.toJson()));
+      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.infoManager.getInfo()));
       this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
       const result = await this.save();
       this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
