@@ -9,8 +9,9 @@
  */
 // 为何将name从info拆除，是因为可能要同时修改多个filename, 比如apk本身的名字，我这个只是releaseName.
 
-import { UnderlineDelimiter } from '@tikkhun/utils-core';
+import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from './InfoManager';
+import dayjs from 'dayjs';
 export type Param = keyof Info;
 
 export interface ReleaseNameOptions {
@@ -24,20 +25,31 @@ export interface ReleaseNameOptions {
 export class ReleaseName {
   static defaultOptions: ReleaseNameOptions = {
     info: {},
-    params: ['name', 'version', 'tag', 'releasedAt', 'system', 'hardware'],
+    params: ['name', 'version', 'releasedAt'],
     paramDelimiter: UnderlineDelimiter,
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
   };
   options: ReleaseNameOptions;
   constructor(options?: Partial<ReleaseNameOptions>) {
-    this.options = Object.assign({}, ReleaseName.defaultOptions, options);
+    this.options = optionsMerge(ReleaseName.defaultOptions, options);
   }
   // 字符串化有几种方案：
   // - 采用pattern的定义形式 "{app}{yyy}" 但这个有个不好的就是不能parse成原本的配置对象 好处是最灵活
   // - 采用数组排列形式，这个只规定了值的顺序，分隔符，所以可以parse成原本参数， 好处是可以parse， 坏处是不够灵活,但是其实大部分情况我们不需要那么灵活 所以直接这样限制一下吧。
   // 目前采用第二种
   stringify(): string {
-    return this.options.params.map((param) => this.options.info?.[param]).join(this.options.paramDelimiter);
+    return this.options.params
+      .map((param) => {
+        return this.paramTransformer(param, this.options.info?.[param]);
+      })
+      .join(this.options.paramDelimiter);
+  }
+  // 转换最终值
+  paramTransformer(key: string, value: any) {
+    if (key === 'releasedAt') {
+      return dayjs(value).format(this.options.releasedAtPattern);
+    }
+    return value;
   }
   parse(str: string): Record<string, any> {
     const paramObj: Record<string, string> = {};

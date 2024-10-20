@@ -1,5 +1,6 @@
+import { join } from 'path';
 import { calculateMD5Sync, getFileSizeSync } from './file.utils';
-import { getLastSegment } from './utils';
+import { getLastSegment, getPackageJson, getVersionFromPackageJson } from './utils';
 
 /**
  * @author
@@ -46,10 +47,10 @@ export class InfoManager {
     },
   };
   options: InfoManagerOptions;
-  packageJson: Record<string, any>;
+  packageJson: Record<string, any> | null;
   constructor(options?: Partial<InfoManagerOptions>) {
     this.options = Object.assign({}, InfoManager.defaultOptions, options);
-    this.packageJson = this.options;
+    this.packageJson = getPackageJson(join(this.options.workspace));
   }
   // 最终目的
   getInfo(): Info {
@@ -57,6 +58,7 @@ export class InfoManager {
       name: this.getName(),
       title: this.getTitle(),
       description: this.getDescription(),
+      version: this.getVersion(),
       tag: this.options.input?.tag,
       system: this.options.input?.system,
       hardware: this.options.input?.hardware,
@@ -64,6 +66,12 @@ export class InfoManager {
       fileMd5: this.getFileMd5(),
       fileSize: this.getFileSize(),
     };
+  }
+  private getVersion() {
+    return this.getVersionFromPackageJson();
+  }
+  private getVersionFromPackageJson() {
+    return this.packageJson?.version;
   }
   private getFileMd5() {
     if (!this.options.filePath) {
@@ -78,7 +86,7 @@ export class InfoManager {
     return getFileSizeSync(this.options.filePath);
   }
   private getDescription() {
-    return this.getDescriptionFromInput() ?? this.getDescriptionFromPackageJson();
+    return this.getDescriptionFromInput() || this.getDescriptionFromPackageJson();
   }
   private getDescriptionFromInput() {
     return this.options.input?.description;
@@ -91,7 +99,7 @@ export class InfoManager {
     return Date.now();
   }
   private getTitle() {
-    return this.getTitleFromInput() ?? this.getTitleFromPackageJson();
+    return this.getTitleFromInput() || this.getTitleFromPackageJson();
   }
   private getTitleFromInput() {
     return this.options.input?.title;
@@ -101,7 +109,7 @@ export class InfoManager {
   }
 
   private getName() {
-    return this.getNameFromInput() ?? this.getNameFromPackageJson() ?? this.getNameFromWorkspaceFolderName();
+    return this.getNameFromInput() || this.getNameFromPackageJson() || this.getNameFromWorkspaceFolderName();
   }
   private getNameFromInput() {
     return this.options.input?.name;
@@ -118,7 +126,7 @@ export class InfoManager {
     return getLastSegment(this.packageJson.name);
   }
   private getNameFromWorkspaceFolderName() {
-    // resolve???
+    // resolve||?
     return getLastSegment(this.options.workspace);
   }
 }

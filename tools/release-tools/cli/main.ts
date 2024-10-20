@@ -33,10 +33,11 @@ const cli = new Cli({
         hardware: 'string',
       },
     },
-    infoFileOptions: {
+    infoStoreOptions: {
       enabled: 'boolean',
       path: 'string',
       transformMap: 'Object',
+      releasedAtPattern: 'string',
     },
     releaseNameOptions: {
       params: 'array',
@@ -66,15 +67,16 @@ const cli = new Cli({
         hardware: '[信息管理]硬件参数',
       },
     },
-    infoFileOptions: {
-      enabled: '[信息文件]开启',
-      path: '[信息文件]路径',
-      transformMap: '[信息文件]转换映射规则',
+    infoStoreOptions: {
+      enabled: '[信息存储]开启',
+      path: '[信息存储]路径',
+      transformMap: '[信息存储]转换映射规则',
+      releasedAtPattern: '[信息存储]时间格式(pattern)',
     },
     releaseNameOptions: {
       params: '[释放文件名]参数列表',
       paramDelimiter: '[释放文件名]参数分隔符',
-      releasedAtPattern: '[释放文件名]时间格式',
+      releasedAtPattern: '[释放文件名]时间格式(pattern)',
     },
   },
 });

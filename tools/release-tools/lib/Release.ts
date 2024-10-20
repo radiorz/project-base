@@ -4,11 +4,11 @@ import fsExtra from 'fs-extra';
 import _ from 'lodash';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
-import { InfoManager, type InfoManagerOptions } from './InfoManager';
-import { ReleaseInfoTransformer } from './ReleaseInfoTransformer';
+import { Info, InfoManager, type InfoManagerOptions } from './InfoManager';
+import { ReleaseStoreInfo, ReleaseStoreInfoOptions } from './ReleaseStoreInfo';
 import { ensureDir } from './utils';
 import { optionsMerge } from '@tikkhun/utils-core';
-import { TransformMap } from './ReleaseInfoTransformer';
+import { TransformMap } from './ReleaseStoreInfo';
 import { ReleaseName, type ReleaseNameOptions } from './ReleaseName';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
@@ -16,12 +16,6 @@ const { mergeWith } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
-}
-// 目前想到的就是用  archive 进行打包。
-export interface ReleaseInfoFileOptions {
-  enabled: boolean; // 是否开启
-  transformMap: TransformMap; // 转换标准
-  path: string; // 保存路径
 }
 export interface ReleaseOptions {
   /* # 打包源头 */
@@ -37,7 +31,7 @@ export interface ReleaseOptions {
   // 这个主要集中在info的输入与获取方式
   infoManagerOptions: Partial<InfoManagerOptions>;
   // 存储info的文件
-  infoFileOptions: Partial<ReleaseInfoFileOptions>;
+  infoStoreOptions: Partial<{ enabled: boolean; path: string } & ReleaseStoreInfoOptions>;
   // 释放文件的名称
   releaseNameOptions: Partial<ReleaseNameOptions>;
 
@@ -59,10 +53,11 @@ export class Release {
     clean: true,
     releasePath: 'release',
     infoManagerOptions: InfoManager.defaultOptions,
-    infoFileOptions: {
+    infoStoreOptions: {
       enabled: true, // 是否开启
-      path: 'release_info.json', // 保存路径
-      transformMap: undefined, // 转换标准
+      path: 'release_info.json',
+      transformMap: {},
+      releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
     },
     releaseNameOptions: ReleaseName.defaultOptions,
   };
@@ -80,12 +75,14 @@ export class Release {
   progressPrinter: ProgressPrinter | null = null;
   releaseName: ReleaseName;
   infoManager: InfoManager;
+  info: Info;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.infoManager = new InfoManager(this.options.infoManagerOptions);
-    this.releaseName = new ReleaseName(this.options.releaseNameOptions);
+    this.info = this.infoManager.getInfo();
+    this.releaseName = new ReleaseName({ ...this.options.releaseNameOptions, info: this.info });
     this.watchError();
   }
 
@@ -173,13 +170,15 @@ export class Release {
         cwd: this.options.workspace,
       });
       // 保存信息文件
-      if (this.options.infoFileOptions?.enabled) {
-        const forSaveInfo = ReleaseInfoTransformer.transform({
-          originItems: this.infoManager.getInfo(),
-          transformMap: this.options.infoFileOptions?.transformMap,
+      if (this.options.infoStoreOptions?.enabled) {
+        const releaseInfoFile = new ReleaseStoreInfo({
+          info: this.info,
+          transformMap: this.options.infoStoreOptions?.transformMap,
+          releasedAtPattern: this.options.infoStoreOptions?.releasedAtPattern,
         });
-        archive.append(JSON.stringify(forSaveInfo, null, 2), {
-          name: this.options.infoFileOptions.path || 'release_info.json',
+        const releaseInfo = releaseInfoFile.getInfo();
+        archive.append(JSON.stringify(releaseInfo, null, 2), {
+          name: this.options.infoStoreOptions.path || 'release_info.json',
         });
       }
       // 执行
@@ -198,7 +197,7 @@ export class Release {
       await this.ensureReleasePath();
       // 如果已经有同名文件就清除
       await this.cleanReleaseFilePath();
-      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.infoManager.getInfo()));
+      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.info));
       this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
       const result = await this.save();
       this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
