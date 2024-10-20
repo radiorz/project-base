@@ -6,6 +6,9 @@
       "outputs": ["dist/**", "types/**", ".next/**", "!.next/cache/**"],
       "dependsOn": ["^build", "^docs:build"]
     },
+    "deps:update": {
+      "dependsOn": ["^deps:update"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

@@ -33,14 +33,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/logger": "^1.0.7"
+    "@tikkhun/logger": "^1.0.8"
   },
   "devDependencies": {
     "@tikkhun/utils-core": "workspace:^",
     "@types/dotenv-safe": "^8.1.6",
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.7.7",
    "tsx": "^4.19.1",
     "tsup": "^8.3.0",
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.3"
   }
 }

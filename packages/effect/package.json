@@ -32,12 +32,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/requestable": "^0.0.5"
+    "@tikkhun/requestable": "^0.0.6"
   },
   "devDependencies": {
-    "@types/node": "^20.3.1",
-   "tsx": "^4.19.1",
+    "@types/node": "^22.7.7",
+    "tsx": "^4.19.1",
     "tsup": "^8.3.0",
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.3"
   }
 }

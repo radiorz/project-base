@@ -32,13 +32,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@types/lodash": "^4.17.6",
+    "@types/lodash": "^4.17.12",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/node": "^20.14.10",
+    "@types/node": "^22.7.7",
    "tsx": "^4.19.1",
     "tsup": "^8.3.0",
-    "vitest": "^2.1.1"
+    "vitest": "^2.1.3"
   }
 }
