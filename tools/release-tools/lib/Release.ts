@@ -5,14 +5,14 @@ import _ from 'lodash';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
 import { Info, InfoManager, type InfoManagerOptions } from './InfoManager';
-import { ReleaseStoreInfo, ReleaseStoreInfoOptions } from './ReleaseStoreInfo';
+import { ReleaseInfoStore as ReleaseInfoStore, ReleaseStoreInfoOptions } from './ReleaseInfo';
 import { ensureDir } from './utils';
 import { optionsMerge } from '@tikkhun/utils-core';
-import { TransformMap } from './ReleaseStoreInfo';
+import { TransformMap } from './ReleaseInfo';
 import { ReleaseName, type ReleaseNameOptions } from './ReleaseName';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
-const { mergeWith } = _;
+const { omit } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -54,12 +54,10 @@ export class Release {
     releasePath: 'release',
     infoManagerOptions: InfoManager.defaultOptions,
     infoStoreOptions: {
+      ...omit(ReleaseInfoStore.defaultOptions, ['info']),
       enabled: true, // 是否开启
-      path: 'release_info.json',
-      transformMap: {},
-      releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
     },
-    releaseNameOptions: ReleaseName.defaultOptions,
+    releaseNameOptions: omit(ReleaseName.defaultOptions, ['info']),
   };
   options: ReleaseOptions;
   log = logger;
@@ -171,15 +169,8 @@ export class Release {
       });
       // 保存信息文件
       if (this.options.infoStoreOptions?.enabled) {
-        const releaseInfoFile = new ReleaseStoreInfo({
-          info: this.info,
-          transformMap: this.options.infoStoreOptions?.transformMap,
-          releasedAtPattern: this.options.infoStoreOptions?.releasedAtPattern,
-        });
-        const releaseInfo = releaseInfoFile.getInfo();
-        archive.append(JSON.stringify(releaseInfo, null, 2), {
-          name: this.options.infoStoreOptions.path || 'release_info.json',
-        });
+        const releaseInfoStore = new ReleaseInfoStore(this.options.infoStoreOptions);
+        releaseInfoStore.save(archive);
       }
       // 执行
       this.log.log('[开始] 执行打包');
