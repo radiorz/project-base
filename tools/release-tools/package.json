@@ -34,9 +34,14 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["release","zip","tar","package.json","pack"],
+  "author": "tikkhun",
+  "license": "MIT",
+  "homepage": "https://github.com/radiorz/project-base/tree/main/tools/release-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radiorz/project-base"
+  },
   "dependencies": {
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
