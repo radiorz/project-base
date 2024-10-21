@@ -13,10 +13,11 @@ import { Info } from './InfoBuilder/InfoBuilder';
 import { transformObjectByOptionsMap } from './object.utils';
 import { optionsMerge } from '@tikkhun/utils-core';
 import _ from 'lodash';
+import { XMLBuilder } from 'fast-xml-parser';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。
-export interface ReleaseStoreInfoOptions {
+export interface ReleaseInfoStoreOptions {
   info: Info;
   transformMap?: TransformMap; // 转换标准
   releasedAtPattern: string;
@@ -30,15 +31,15 @@ export interface InfoTransformOptions {
 }
 
 export class ReleaseInfoStore {
-  static defaultOptions: ReleaseStoreInfoOptions = Object.freeze({
+  static defaultOptions: ReleaseInfoStoreOptions = Object.freeze({
     info: {},
     transformMap: {},
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
 
     path: 'released_info.json',
   });
-  options: ReleaseStoreInfoOptions;
-  constructor(options?: Partial<ReleaseStoreInfoOptions>) {
+  options: ReleaseInfoStoreOptions;
+  constructor(options?: Partial<ReleaseInfoStoreOptions>) {
     this.options = optionsMerge(ReleaseInfoStore.defaultOptions, options);
   }
   // 由于过于简单，所以不再封装
@@ -65,8 +66,18 @@ export class ReleaseInfoStore {
   }
   save(archive: any) {
     const info = this.getInfo();
-    archive.append(JSON.stringify(info, null, 2), {
-      name: this.options.path,
-    });
+    if (this.options.path.endsWith('json')) {
+      return archive.append(JSON.stringify(info, null, 2), {
+        name: this.options.path,
+      });
+    }
+    if (this.options.path.endsWith('xml')) {
+      const xmlBuilder = new XMLBuilder();
+      const content = xmlBuilder.build(info);
+      return archive.append(content, {
+        name: this.options.path,
+      });
+    }
+    throw new Error('[释放信息文件]暂未实现保存此种文件' + this.options.path);
   }
 }

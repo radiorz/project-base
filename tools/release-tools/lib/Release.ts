@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
 import { Info, InfoBuilder, type InfoBuilderOptions } from './InfoBuilder/InfoBuilder';
-import { ReleaseInfoStore as ReleaseInfoStore, ReleaseStoreInfoOptions } from './ReleaseInfo';
+import { ReleaseInfoStore as ReleaseInfoStore, ReleaseInfoStoreOptions } from './ReleaseInfo';
 import { ensureDir } from './utils';
 import { optionsMerge } from '@tikkhun/utils-core';
 import { TransformMap } from './ReleaseInfo';
@@ -31,7 +31,7 @@ export interface ReleaseOptions {
   // 这个主要集中在info的输入与获取方式
   infoBuilderOptions: Partial<InfoBuilderOptions>;
   // 存储info的文件
-  infoStoreOptions: Partial<{ enabled: boolean; path: string } & ReleaseStoreInfoOptions>;
+  infoStoreOptions: Partial<{ enabled: boolean } & ReleaseInfoStoreOptions>;
   // 释放文件的名称
   releaseNameOptions: Partial<ReleaseNameOptions>;
 
@@ -169,7 +169,7 @@ export class Release {
       });
       // 保存信息文件
       if (this.options.infoStoreOptions?.enabled) {
-        const releaseInfoStore = new ReleaseInfoStore(this.options.infoStoreOptions);
+        const releaseInfoStore = new ReleaseInfoStore({ ...this.options.infoStoreOptions, info: this.info });
         releaseInfoStore.save(archive);
       }
       // 执行
