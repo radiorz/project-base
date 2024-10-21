@@ -35,11 +35,11 @@ export class ConfigReader {
   config?: Record<string, any>;
   type?: ConfigType;
   constructor(options?: Partial<ConfigReaderOptions>) {
-    console.log(options);
+    // console.log(options);
     this.options = optionsMerge(ConfigReader.defaultOptions, options);
     this.type = this.getType();
     this.config = this.getConfig();
-    console.log(`this.config`, this.config);
+    // console.log(`this.config`, this.config);
   }
 
   private getType(): ConfigType {

@@ -2,6 +2,8 @@
 
 - read info from yaml
 - info store as yaml
+- infoOptions input 可增加字段
+
 # DONE
 
 ## 20241021 星期一
