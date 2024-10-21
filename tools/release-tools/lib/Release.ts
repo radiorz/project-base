@@ -4,7 +4,7 @@ import fsExtra from 'fs-extra';
 import _ from 'lodash';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
-import { Info, InfoManager, type InfoManagerOptions } from './InfoManager';
+import { Info, InfoBuilder, type InfoBuilderOptions } from './InfoBuilder/InfoBuilder';
 import { ReleaseInfoStore as ReleaseInfoStore, ReleaseStoreInfoOptions } from './ReleaseInfo';
 import { ensureDir } from './utils';
 import { optionsMerge } from '@tikkhun/utils-core';
@@ -29,7 +29,7 @@ export interface ReleaseOptions {
   /* ## 文件名称 */
   releasePath: string; // 释放的路径
   // 这个主要集中在info的输入与获取方式
-  infoManagerOptions: Partial<InfoManagerOptions>;
+  infoBuilderOptions: Partial<InfoBuilderOptions>;
   // 存储info的文件
   infoStoreOptions: Partial<{ enabled: boolean; path: string } & ReleaseStoreInfoOptions>;
   // 释放文件的名称
@@ -52,7 +52,7 @@ export class Release {
     archiveType: ArchiveType.zip,
     clean: true,
     releasePath: 'release',
-    infoManagerOptions: InfoManager.defaultOptions,
+    infoBuilderOptions: InfoBuilder.defaultOptions,
     infoStoreOptions: {
       ...omit(ReleaseInfoStore.defaultOptions, ['info']),
       enabled: true, // 是否开启
@@ -72,14 +72,14 @@ export class Release {
   }
   progressPrinter: ProgressPrinter | null = null;
   releaseName: ReleaseName;
-  infoManager: InfoManager;
+  infoBuilder: InfoBuilder;
   info: Info;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
-    this.infoManager = new InfoManager(this.options.infoManagerOptions);
-    this.info = this.infoManager.getInfo();
+    this.infoBuilder = new InfoBuilder(this.options.infoBuilderOptions);
+    this.info = this.infoBuilder.get();
     this.releaseName = new ReleaseName({ ...this.options.releaseNameOptions, info: this.info });
     this.watchError();
   }

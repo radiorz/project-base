@@ -43,7 +43,7 @@
   "devDependencies": {
     "@tikkhun/version": "latest",
     "@types/lodash": "^4.17.12",
-   "tsx": "^4.19.1",
+    "tsx": "^4.19.1",
     "tsup": "^8.3.0"
   }
 }

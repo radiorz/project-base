@@ -9,7 +9,7 @@
  */
 
 import dayjs from 'dayjs';
-import { Info } from './InfoManager';
+import { Info } from './InfoBuilder/InfoBuilder';
 import { transformObjectByOptionsMap } from './object.utils';
 import { optionsMerge } from '@tikkhun/utils-core';
 import _ from 'lodash';

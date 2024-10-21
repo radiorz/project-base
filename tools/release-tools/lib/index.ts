@@ -1,5 +1,5 @@
 export * from './Release';
-export * from './InfoManager';
+export * from './InfoBuilder/InfoBuilder';
 export * from './file.utils';
 export * from './object.utils';
 export * from './ProgressPrinter';

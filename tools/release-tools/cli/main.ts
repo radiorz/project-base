@@ -19,10 +19,10 @@ const cli = new Cli({
     archiveType: 'string',
     releasePath: 'string',
     clean: 'boolean',
-    infoManagerOptions: {
+    infoBuilderOptions: {
       workspace: 'string',
-      packageJsonPath: 'string',
-      filePath: 'string',
+      configType: 'string',
+      mainFilePath: 'string',
       input: {
         name: 'string',
         title: 'string',
@@ -53,10 +53,10 @@ const cli = new Cli({
     archiveOptions: '[打包发布]压缩选项',
     clean: '[打包发布]清空旧记录',
     releasePath: '[打包发布]存储文件夹路径',
-    infoManagerOptions: {
-      workspace: '[信息管理]项目根目录',
-      packageJsonPath: '[信息管理]package.json路径',
-      filePath: '[信息管理]文件路径(需要hash的文件)',
+    infoBuilderOptions: {
+      workspace: '[信息管理]项目信息根目录',
+      configType: '[信息管理]配置文件类型("packageJson"|"androidXml")',
+      mainFilePath: '[信息管理]文件路径(需要hash的文件)',
       input: {
         name: '[信息管理]项目名称',
         title: '[信息管理]项目中文名称',
