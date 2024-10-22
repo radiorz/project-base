@@ -6,34 +6,35 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
-import { Info } from './InfoBuilder/InfoBuilder';
 import { ProgressPrinter } from './ProgressPrinter';
-import { ReleaseInfoStore } from './ReleaseInfo';
 import { ensureDir } from './utils';
+import { AfterInputGot } from './ReleasePlugin';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
 }
-
-export interface ReleaseOptions {
+export interface ReleaseInputOptions {
   /* # 打包源头 */
   workspace: string;
   include: string[];
   exclude: string[];
+}
+export interface ReleaseOutputOptions {
+  /* ## 是否清空旧文件 */
+  clean: boolean;
   /* ## 打包的压缩类型 */
   archiveType: ArchiveType;
-  // archiveOptions: Record<string, any>;
-  /* ## 是否清空 */
-  clean: boolean;
   /* # 存放相关 */
   releasePathRelative: 'cwd' | 'workspace';
   /* ## 释放文件夹名称 */
   releasePath: string; // 释放的文件夹路径
   releaseName: string; // 文件夹名称
-  info: Info;
-  infoStore?: ReleaseInfoStore | null;
+}
+export interface ReleaseOptions extends ReleaseInputOptions, ReleaseOutputOptions {
+  // archiveOptions: Record<string, any>;
+  plugins?: any[];
 }
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
@@ -51,8 +52,6 @@ export class Release {
     releasePathRelative: 'cwd', // 默认直接保存到当前执行的文件夹比较可能
     releasePath: 'release',
     releaseName: 'release' + Date.now(),
-    info: {},
-    infoStore: undefined,
   };
   options: ReleaseOptions;
   log = logger;
@@ -71,7 +70,6 @@ export class Release {
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
-    this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.watchError();
   }
@@ -111,6 +109,7 @@ export class Release {
       zlib: { level: 9 }, // Sets the compression level.
     };
   }
+
   private async save() {
     // 打包
     const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
@@ -160,8 +159,10 @@ export class Release {
         cwd: this.options.workspace,
       });
       // 保存信息文件
-      if (this.options.infoStore) {
-        this.options.infoStore.save(archive);
+      if (this.options.plugins?.length) {
+        this.options.plugins.forEach((plugin) => {
+          plugin?.afterInputGot?.(archive);
+        });
       }
       // 执行
       this.log.log('[开始] 执行打包');

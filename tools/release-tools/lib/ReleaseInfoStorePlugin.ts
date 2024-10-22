@@ -8,12 +8,13 @@
  * @example
  */
 
+import { optionsMerge } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
+import { XMLBuilder } from 'fast-xml-parser';
+import _ from 'lodash';
 import { Info } from './InfoBuilder/InfoBuilder';
 import { transformObjectByOptionsMap } from './object.utils';
-import { optionsMerge } from '@tikkhun/utils-core';
-import _ from 'lodash';
-import { XMLBuilder } from 'fast-xml-parser';
+import { AfterInputGot } from './ReleasePlugin';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。
@@ -30,17 +31,16 @@ export interface InfoTransformOptions {
   transformMap?: TransformMap;
 }
 
-export class ReleaseInfoStore {
+export class ReleaseInfoStorePlugin implements AfterInputGot {
   static defaultOptions: ReleaseInfoStoreOptions = Object.freeze({
     info: {},
     transformMap: {},
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
-
     path: 'released_info.json',
   });
   options: ReleaseInfoStoreOptions;
   constructor(options?: Partial<ReleaseInfoStoreOptions>) {
-    this.options = optionsMerge(ReleaseInfoStore.defaultOptions, options);
+    this.options = optionsMerge(ReleaseInfoStorePlugin.defaultOptions, options);
   }
   // 由于过于简单，所以不再封装
   static transformKeys(options: InfoTransformOptions) {
@@ -58,13 +58,13 @@ export class ReleaseInfoStore {
   }
   private getInfo() {
     const originItems = this.transformValues();
-    const transformedInfo = ReleaseInfoStore.transformKeys({
+    const transformedInfo = ReleaseInfoStorePlugin.transformKeys({
       originItems,
       transformMap: this.options.transformMap,
     });
     return transformedInfo;
   }
-  save(archive: any) {
+  afterInputGot(archive: any) {
     const info = this.getInfo();
     if (this.options.path.endsWith('json')) {
       return archive.append(JSON.stringify(info, null, 2), {

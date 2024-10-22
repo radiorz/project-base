@@ -1,7 +1,7 @@
 import { optionsMerge } from '@tikkhun/utils-core';
 import { InfoBuilder, InfoBuilderOptions } from './InfoBuilder';
 import { Release, ReleaseOptions } from './Release';
-import { ReleaseInfoStore, ReleaseInfoStoreOptions } from './ReleaseInfo';
+import { ReleaseInfoStore, ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './ReleaseInfoStorePlugin';
 import { ReleaseName, ReleaseNameOptions } from './ReleaseName';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
@@ -27,18 +27,24 @@ const logger = new Logger('TikkhunRelease');
 
 export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
   const opts: TikkhunReleaseDefaultOptions = optionsMerge(TikkhunReleaseDefaultOptions, options);
+  logger.debug!('[说明] 配置参数: ' + JSON.stringify(options, null, 2));
   const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, ...releaseOptions } = opts;
   const infoBuilder = new InfoBuilder(infoBuilderOptions);
   const info = infoBuilder.get();
   logger.log('[说明] 项目信息: ' + JSON.stringify(info));
-  const releaseNameBuilder = new ReleaseName(releaseNameOptions);
+  const releaseNameBuilder = new ReleaseName({ ...releaseNameOptions, info });
   const releaseName = releaseNameBuilder.stringify();
   logger.log('[说明] 项目打包名称: ' + releaseName);
-  const releaseInfoStore = infoStoreOptions?.enabled ? new ReleaseInfoStore({ ...infoStoreOptions, info }) : null;
+  // release 的额外功能通过插件方式实现
+  const plugins: any[] = [];
+  if (infoStoreOptions?.enabled) {
+    const releaseInfoStorePlugin = new ReleaseInfoStore({ ...infoStoreOptions, info });
+    plugins.push(releaseInfoStorePlugin);
+  }
   const release = new Release({
     ...releaseOptions,
     releaseName,
-    infoStore: releaseInfoStore,
+    plugins,
   });
   await release.start();
 }

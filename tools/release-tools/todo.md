@@ -3,6 +3,8 @@
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
+- releaseInfoStore 和 releaseStoreInfo(transformer)
+- 
 # DONE
 ## 20241022 星期二
 - release path 根据 cwd 而不是 workspace 定位
