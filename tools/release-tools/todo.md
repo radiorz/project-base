@@ -3,10 +3,9 @@
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
-- releaseInfoStore 和 releaseStoreInfo(transformer)
-- 
 # DONE
 ## 20241022 星期二
+- plugin化 各种特色打包都通过插件实现
 - release path 根据 cwd 而不是 workspace 定位
 ## 20241021 星期一
 
