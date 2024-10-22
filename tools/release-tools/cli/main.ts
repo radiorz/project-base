@@ -1,22 +1,21 @@
 #!/usr/bin/env node
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
-import { Release } from '../lib';
+import { TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
 import packageJson from '../package.json';
-import { workspace } from '../../version/lib/utils';
-import { packageJsonPath } from '../../../packages/node-utils/lib/path';
 const cli = new Cli({
   types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
   version: packageJson.version,
   name: packageJson.name,
   description: packageJson.description,
   // 这里可以用config进行配置
-  defaultOptions: Release.defaultOptions,
+  defaultOptions: TikkhunReleaseDefaultOptions,
   excludeOptions: [],
   optionTypes: {
     workspace: 'string',
     include: 'array',
     exclude: 'array',
     archiveType: 'string',
+    releasePathRelative: 'string',
     releasePath: 'string',
     clean: 'boolean',
     infoBuilderOptions: {
@@ -52,6 +51,7 @@ const cli = new Cli({
     archiveType: '[打包发布]压缩类型',
     archiveOptions: '[打包发布]压缩选项',
     clean: '[打包发布]清空旧记录',
+    releasePathRelative: '[打包发布]存储文件夹路径的相对位置',
     releasePath: '[打包发布]存储文件夹路径',
     infoBuilderOptions: {
       workspace: '[信息管理]项目信息根目录',
@@ -82,6 +82,5 @@ const cli = new Cli({
 });
 cli.start(async (option: any) => {
   // console.log(`option!!!!`,option)
-  const release = new Release(option);
-  await release.start();
+  await TikkhunRelease(option);
 });

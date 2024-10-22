@@ -6,3 +6,4 @@ export * from './ProgressPrinter';
 export * from './ReleaseInfo';
 export * from './ReleaseName';
 export * from './utils';
+export * from './TikkhunRelease';

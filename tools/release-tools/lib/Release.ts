@@ -1,21 +1,22 @@
+/**
+ * 实际上就是实现核心的打包功能
+ */
 import { Logger } from '@tikkhun/logger';
 import { optionsMerge } from '@tikkhun/utils-core';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
-import _ from 'lodash';
 import { join } from 'path';
-import { Info, InfoBuilder, type InfoBuilderOptions } from './InfoBuilder/InfoBuilder';
+import { Info } from './InfoBuilder/InfoBuilder';
 import { ProgressPrinter } from './ProgressPrinter';
-import { ReleaseInfoStore, ReleaseInfoStoreOptions } from './ReleaseInfo';
-import { ReleaseName, type ReleaseNameOptions } from './ReleaseName';
+import { ReleaseInfoStore } from './ReleaseInfo';
 import { ensureDir } from './utils';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
-const { omit } = _;
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
 }
+
 export interface ReleaseOptions {
   /* # 打包源头 */
   workspace: string;
@@ -24,19 +25,15 @@ export interface ReleaseOptions {
   /* ## 打包的压缩类型 */
   archiveType: ArchiveType;
   // archiveOptions: Record<string, any>;
+  /* ## 是否清空 */
+  clean: boolean;
   /* # 存放相关 */
   releasePathRelative: 'cwd' | 'workspace';
   /* ## 释放文件夹名称 */
-  releasePath: string; // 释放的路径
-  // 这个主要集中在info的输入与获取方式
-  infoBuilderOptions: Partial<InfoBuilderOptions>;
-  // 存储info的文件
-  infoStoreOptions: Partial<{ enabled: boolean } & ReleaseInfoStoreOptions>;
-  // 释放文件的名称
-  releaseNameOptions: Partial<ReleaseNameOptions>;
-
-  /* ## 是否清空 */
-  clean: boolean;
+  releasePath: string; // 释放的文件夹路径
+  releaseName: string; // 文件夹名称
+  info: Info;
+  infoStore?: ReleaseInfoStore | null;
 }
 export const ExtensionMap = {
   [ArchiveType.zip]: '.zip',
@@ -51,19 +48,16 @@ export class Release {
     exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
     archiveType: ArchiveType.zip,
     clean: true,
-    releasePathRelative: 'workspace',
+    releasePathRelative: 'cwd', // 默认直接保存到当前执行的文件夹比较可能
     releasePath: 'release',
-    infoBuilderOptions: InfoBuilder.defaultOptions,
-    infoStoreOptions: {
-      ...omit(ReleaseInfoStore.defaultOptions, ['info']),
-      enabled: true, // 是否开启
-    },
-    releaseNameOptions: omit(ReleaseName.defaultOptions, ['info']),
+    releaseName: 'release' + Date.now(),
+    info: {},
+    infoStore: undefined,
   };
   options: ReleaseOptions;
   log = logger;
   get releaseFile() {
-    return this.releaseName.stringify() + ExtensionMap[this.options.archiveType];
+    return this.options.releaseName + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
     return join(
@@ -75,16 +69,10 @@ export class Release {
     return join(this.releasePath, this.releaseFile);
   }
   progressPrinter: ProgressPrinter | null = null;
-  releaseName: ReleaseName;
-  infoBuilder: InfoBuilder;
-  info: Info;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
     this.log.debug!('初始化release tools,配置为: ' + JSON.stringify(this.options, null, 2));
     // 项目信息
-    this.infoBuilder = new InfoBuilder(this.options.infoBuilderOptions);
-    this.info = this.infoBuilder.get();
-    this.releaseName = new ReleaseName({ ...this.options.releaseNameOptions, info: this.info });
     this.watchError();
   }
 
@@ -172,9 +160,8 @@ export class Release {
         cwd: this.options.workspace,
       });
       // 保存信息文件
-      if (this.options.infoStoreOptions?.enabled) {
-        const releaseInfoStore = new ReleaseInfoStore({ ...this.options.infoStoreOptions, info: this.info });
-        releaseInfoStore.save(archive);
+      if (this.options.infoStore) {
+        this.options.infoStore.save(archive);
       }
       // 执行
       this.log.log('[开始] 执行打包');
@@ -192,7 +179,6 @@ export class Release {
       await this.ensureReleasePath();
       // 如果已经有同名文件就清除
       await this.cleanReleaseFilePath();
-      this.log.log('[说明] 项目信息: ' + JSON.stringify(this.info));
       this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
       const result = await this.save();
       this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
