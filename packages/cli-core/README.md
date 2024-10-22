@@ -65,14 +65,27 @@ cli.start((option) => {
 你可以通过new Cli的 option 中的types 去决定启用哪几种功能形式
 
 ### 命令行传参形式
+
 ```bash
 xxx-cli  --help # 可查看全部命令行参数
 ```
+
 ### 问答式
+
 ```bash
 xxx-cli prompts # 即可进入问答列表
 ```
+
 ### 外部配置文件
+
+#### 初始化配置文件
+
+```bash
+xxx-cli config init -p xxx.config.json # 生成配置文件到本地
+```
+
+#### 使用配置文件来执行
+
 ```bash
 xxx-cli config -c xxx.config.json # 将  xxx.config.json 作为配置文件将配置导入
 ```

@@ -158,11 +158,12 @@ export class Release {
         dot: true,
         cwd: this.options.workspace,
       });
-      // 保存信息文件
       if (this.options.plugins?.length) {
-        this.options.plugins.forEach((plugin) => {
-          plugin?.afterInputGot?.(archive);
-        });
+        await Promise.all(
+          this.options.plugins.map((plugin) => {
+            return plugin?.afterInputGot?.(archive);
+          }),
+        );
       }
       // 执行
       this.log.log('[开始] 执行打包');
@@ -170,6 +171,13 @@ export class Release {
       await archive.finalize();
       this.progressPrinter.end();
       process.stdout.write('\n'); // 用于换行
+      if (this.options.plugins?.length) {
+        await Promise.all(
+          this.options.plugins.map((plugin) => {
+            return plugin?.onEnd?.(archive);
+          }),
+        );
+      }
       this.log.log('[结束] 执行打包');
     });
     return result;
