@@ -1,11 +1,11 @@
 # TODO
 
 - read info from yaml
-- info store as yaml
+- info  save as yaml
 - infoOptions input 可增加字段
-
 # DONE
-
+## 20241022 星期二
+- release path 根据 cwd 而不是 workspace 定位
 ## 20241021 星期一
 
 - infoStore 可以存储在 xml json 等多种形式

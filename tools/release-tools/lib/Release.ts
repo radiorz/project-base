@@ -25,7 +25,8 @@ export interface ReleaseOptions {
   archiveType: ArchiveType;
   // archiveOptions: Record<string, any>;
   /* # 存放相关 */
-  /* ## 文件名称 */
+  releasePathRelative: 'cwd' | 'workspace';
+  /* ## 释放文件夹名称 */
   releasePath: string; // 释放的路径
   // 这个主要集中在info的输入与获取方式
   infoBuilderOptions: Partial<InfoBuilderOptions>;
@@ -50,6 +51,7 @@ export class Release {
     exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
     archiveType: ArchiveType.zip,
     clean: true,
+    releasePathRelative: 'workspace',
     releasePath: 'release',
     infoBuilderOptions: InfoBuilder.defaultOptions,
     infoStoreOptions: {
@@ -64,7 +66,10 @@ export class Release {
     return this.releaseName.stringify() + ExtensionMap[this.options.archiveType];
   }
   get releasePath() {
-    return join(this.options.workspace, this.options.releasePath);
+    return join(
+      this.options.releasePathRelative === 'cwd' ? process.cwd() : this.options.workspace,
+      this.options.releasePath,
+    );
   }
   get releaseFilePath() {
     return join(this.releasePath, this.releaseFile);
