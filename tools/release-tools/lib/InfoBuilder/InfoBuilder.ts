@@ -2,6 +2,7 @@ import { join } from 'path';
 import { calculateMD5Sync, getFileSizeSync } from '../file.utils';
 import { getLastSegment, getPackageJson } from '../utils';
 import { ConfigReader } from './ConfigReader';
+import { getFileNameByPath } from './info-builder.utils';
 /**
  * @author
  * @file InfoBuilder.ts
@@ -22,6 +23,8 @@ export interface Info {
   releasedAt?: number | null; // Date.now返回的时间戳
   fileSize?: number | null;
   fileMd5?: string | null;
+  mainFilePath?: string;
+  mainFileName?: string;
 }
 export interface InfoBuilderOptions {
   workspace: string;
@@ -81,6 +84,8 @@ export class InfoBuilder {
       releasedAt: this.getReleasedAt(),
       fileMd5: this.getFileMd5(),
       fileSize: this.getFileSize(),
+      mainFilePath: this.options.mainFilePath,
+      mainFileName: this.options.mainFilePath && getFileNameByPath(this.options.mainFilePath),
     };
   }
   private getVersion() {

@@ -1,0 +1,14 @@
+{
+  "infoStoreOptions": {
+    "transformMap": {
+      "type": "name",
+      "version": "version",
+      "hardware": "hardware",
+      "description": "description",
+      "fileSize": "fileSize",
+      "md5": "fileMd5",
+      "date": "releasedAt",
+      "fileName": "mainFileName"
+    }
+  }
+}
