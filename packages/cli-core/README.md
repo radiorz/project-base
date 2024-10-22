@@ -54,14 +54,15 @@ cli.start((option) => {
 });
 ```
 
-## 不同形式
+## 不同的形式
 
 获取参数的形式有多种形式
 
 - 命令行传参（args）
 - 问答式（prompts）
 - 配置文件（config）
-  你可以通过new Cli的 option 中的types 去决定是否启用这种功能形式
+
+你可以通过new Cli的 option 中的types 去决定启用哪几种功能形式
 
 ### 命令行传参形式
 ```bash
