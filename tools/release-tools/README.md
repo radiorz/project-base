@@ -24,8 +24,11 @@ npm install @tikkhun/release
 ```
 tikkhun-release
 ```
-
-## 参数详见命令行工具
+### cli-core
+tikkhun-release 基于 @tikkhun/cli-core 进行命令管理
+他支持 --args 的形式，支持 prompts 的形式 ，支持外置文件做config 的形式。
+详情可查看 [@tikkhun/cli-core](https://www.npmjs.com/package/@tikkhun/cli-core)
+### 参数详见命令行工具
 
 ```
 tikkhun-release --help
