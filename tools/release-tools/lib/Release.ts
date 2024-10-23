@@ -8,6 +8,7 @@ import fsExtra from 'fs-extra';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
 import { ensureDir } from './utils';
+import { BeforeInputGot } from './plugins/plugin.interface';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
 export enum ArchiveType {
@@ -149,7 +150,13 @@ export class Release {
           resolve(true);
         })
         .pipe(outputStream);
-
+      if (this.options.plugins?.length) {
+        await Promise.all(
+          this.options.plugins.map((plugin) => {
+            return plugin?.beforeInputGot?.(this);
+          }),
+        );
+      }
       // 添加文件
       archive.glob(this.options.include, {
         ignore: this.options.exclude,
@@ -160,7 +167,7 @@ export class Release {
       if (this.options.plugins?.length) {
         await Promise.all(
           this.options.plugins.map((plugin) => {
-            return plugin?.afterInputGot?.(archive);
+            return plugin?.afterInputGot?.(this, archive);
           }),
         );
       }

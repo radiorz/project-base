@@ -10,5 +10,8 @@
       "date": "releasedAt",
       "fileName": "mainFileName"
     }
+  },
+  "fileRenameOptions": {
+    "files": [{ "source": "README.md", "target": "RRRRRRRRRRRRRRRRRRRRRRRRRR.md" }]
   }
 }

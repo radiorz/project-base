@@ -12,9 +12,11 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
-import { Info } from './InfoBuilder/InfoBuilder';
-import { transformObjectByOptionsMap } from './object.utils';
-import { AfterInputGot } from './ReleasePlugin';
+import { Info } from '../InfoBuilder/InfoBuilder';
+import { transformObjectByOptionsMap } from '../object.utils';
+import { AfterInputGot } from './plugin.interface';
+import { Archiver } from 'archiver';
+import { Release } from '../Release';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。
@@ -64,7 +66,7 @@ export class ReleaseInfoStorePlugin implements AfterInputGot {
     });
     return transformedInfo;
   }
-  afterInputGot(archive: any) {
+  afterInputGot(release: Release, archive: Archiver) {
     const info = this.getInfo();
     if (this.options.path.endsWith('json')) {
       return archive.append(JSON.stringify(info, null, 2), {
