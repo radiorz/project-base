@@ -1,5 +1,5 @@
 import { Archiver } from 'archiver';
-import { Release } from '../Release';
+import { Release } from '../release';
 
 // 刚创建好
 export interface OnCreated {

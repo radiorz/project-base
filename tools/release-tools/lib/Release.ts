@@ -6,7 +6,7 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
-import { ProgressPrinter } from './ProgressPrinter';
+import { ProgressPrinter } from './progress-printer';
 import { ensureDir } from './utils';
 import { BeforeInputGot } from './plugins/plugin.interface';
 const { removeSync, remove, createWriteStream } = fsExtra;

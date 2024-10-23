@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { calculateMD5Sync, getFileSizeSync } from '../file.utils';
 import { getLastSegment, getPackageJson } from '../utils';
-import { ConfigReader } from './ConfigReader';
+import { ConfigReader } from './config-reader';
 import { getFileNameByPath } from './info-builder.utils';
 /**
  * @author

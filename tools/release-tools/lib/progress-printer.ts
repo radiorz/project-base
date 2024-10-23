@@ -20,7 +20,7 @@ export class ProgressPrinter {
   options: ProgressOptions;
   intervalId: any = null; // 自动打印
   hasPrintOne = false; // 已经打印了一个了
-  snipperDot: Generator;
+  snipperDot: Generator; // 生成下一个打印的图像信息的一个生成器函数
   constructor(options: Partial<ProgressOptions>) {
     this.options = optionsMerge(ProgressPrinter.defaultOptions, options);
     this.snipperDot = getNextSpinnerDot(this.options.frames);

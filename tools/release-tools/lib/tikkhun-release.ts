@@ -1,8 +1,8 @@
 import { optionsMerge } from '@tikkhun/utils-core';
-import { InfoBuilder, InfoBuilderOptions } from './InfoBuilder';
-import { Release, ReleaseOptions } from './Release';
+import { InfoBuilder, InfoBuilderOptions } from './info-builder';
+import { Release, ReleaseOptions } from './release';
 import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-store.plugin';
-import { ReleaseName, ReleaseNameOptions } from './ReleaseName';
+import { ReleaseName, ReleaseNameOptions } from './release-name';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
 import { InputRenamePlugin, InputRenamePluginOptions } from './plugins';

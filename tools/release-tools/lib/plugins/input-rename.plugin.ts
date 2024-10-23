@@ -1,6 +1,6 @@
 import { optionsMerge } from '@tikkhun/utils-core';
 import { AfterInputGot, BeforeInputGot } from './plugin.interface';
-import { Release } from '../Release';
+import { Release } from '../release';
 import { Archiver } from 'archiver';
 import { join } from 'path';
 export interface InputRenameOption {

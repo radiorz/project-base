@@ -1,7 +1,7 @@
 import { optionsMerge } from '@tikkhun/utils-core';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
-import { readXmlSync } from './ConfigReader.utils';
+import { readXmlSync } from './config-reader.utils';
 import _ from 'lodash';
 const { get } = _;
 const { readJsonSync } = fsExtra;

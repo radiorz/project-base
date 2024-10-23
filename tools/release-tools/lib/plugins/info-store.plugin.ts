@@ -12,11 +12,11 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
-import { Info } from '../InfoBuilder/InfoBuilder';
+import { Info } from '../info-builder/info-builder';
 import { transformObjectByOptionsMap } from '../object.utils';
 import { AfterInputGot } from './plugin.interface';
 import { Archiver } from 'archiver';
-import { Release } from '../Release';
+import { Release } from '../release';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。
@@ -67,19 +67,25 @@ export class ReleaseInfoStorePlugin implements AfterInputGot {
     return transformedInfo;
   }
   afterInputGot(release: Release, archive: Archiver) {
-    const info = this.getInfo();
-    if (this.options.path.endsWith('json')) {
-      return archive.append(JSON.stringify(info, null, 2), {
-        name: this.options.path,
-      });
+    try {
+      const info = this.getInfo();
+      if (this.options.path.endsWith('json')) {
+        return archive.append(JSON.stringify(info, null, 2), {
+          name: this.options.path,
+        });
+      }
+      if (this.options.path.endsWith('xml')) {
+        const xmlBuilder = new XMLBuilder();
+        const content = xmlBuilder.build(info);
+        return archive.append(content, {
+          name: this.options.path,
+        });
+      }
+      throw new Error('[plugin/信息存储] 暂未实现保存此种文件' + this.options.path);
+    } catch (error) {
+      throw error;
+    } finally {
+      release.log.log('[plugin/信息存储] 执行完毕.'+ this.options.path);
     }
-    if (this.options.path.endsWith('xml')) {
-      const xmlBuilder = new XMLBuilder();
-      const content = xmlBuilder.build(info);
-      return archive.append(content, {
-        name: this.options.path,
-      });
-    }
-    throw new Error('[plugin/释放信息文件]暂未实现保存此种文件' + this.options.path);
   }
 }
