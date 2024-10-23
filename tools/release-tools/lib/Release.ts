@@ -8,7 +8,6 @@ import fsExtra from 'fs-extra';
 import { join } from 'path';
 import { ProgressPrinter } from './ProgressPrinter';
 import { ensureDir } from './utils';
-import { AfterInputGot } from './ReleasePlugin';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
 export enum ArchiveType {

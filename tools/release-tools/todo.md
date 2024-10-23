@@ -3,6 +3,7 @@
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
+- 文件可替换 mvFiles:
 # DONE
 ## 20241022 星期二
 - plugin化 各种特色打包都通过插件实现
