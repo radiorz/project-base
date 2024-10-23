@@ -22,7 +22,7 @@ export class InputRenamePlugin implements AfterInputGot, BeforeInputGot {
   beforeInputGot(release: Release): void {
     const excludeGlobFiles = this.options.files.map((option) => option.source);
     release.options.exclude = [...release.options.exclude, ...excludeGlobFiles];
-    release.log.log(`[plugin] [重命名文件]将原本的文件排除 ${JSON.stringify(excludeGlobFiles)}`);
+    release.log.log(`[plugin/重命名] 将原本的文件排除 ${JSON.stringify(excludeGlobFiles)}`);
   }
   afterInputGot(release: Release, archive: Archiver): void {
     if (!this.options.files?.length) {
@@ -31,7 +31,7 @@ export class InputRenamePlugin implements AfterInputGot, BeforeInputGot {
     // TODO 这个source 应该在exclude中被排除
     this.options.files.forEach((option) => {
       release.log.log(
-        `[plugin] [重命名文件]将文件加入压缩包中，源文件为: ${join(release.options.workspace, option.source)},重命名为: ${option.target}`,
+        `[plugin/重命名] 将文件加入压缩包中，源文件为: ${join(release.options.workspace, option.source)},重命名为: ${option.target}`,
       );
       // TODO file 支持glob
       // TODO 支持directory

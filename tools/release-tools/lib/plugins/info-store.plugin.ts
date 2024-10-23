@@ -80,6 +80,6 @@ export class ReleaseInfoStorePlugin implements AfterInputGot {
         name: this.options.path,
       });
     }
-    throw new Error('[释放信息文件]暂未实现保存此种文件' + this.options.path);
+    throw new Error('[plugin/释放信息文件]暂未实现保存此种文件' + this.options.path);
   }
 }
