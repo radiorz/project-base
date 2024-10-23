@@ -9,6 +9,7 @@ export interface InputRenameOption {
 }
 export interface InputRenamePluginOptions {
   files: InputRenameOption[];
+  // directory
 }
 export class InputRenamePlugin implements AfterInputGot, BeforeInputGot {
   static defaultOptions: InputRenamePluginOptions = Object.freeze({
@@ -32,6 +33,8 @@ export class InputRenamePlugin implements AfterInputGot, BeforeInputGot {
       release.log.log(
         `[plugin] [重命名文件]将文件加入压缩包中，源文件为: ${join(release.options.workspace, option.source)},重命名为: ${option.target}`,
       );
+      // TODO file 支持glob
+      // TODO 支持directory
       archive.file(join(release.options.workspace, option.source), { name: option.target });
     });
   }

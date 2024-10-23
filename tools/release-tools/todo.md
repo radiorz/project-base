@@ -3,6 +3,10 @@
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
+- fix directory rename需要重新glob。
+- TODO file 支持glob
+- TODO 支持directory
+
 # DONE
 ## 20241022 星期二
 - plugin化 各种特色打包都通过插件实现
