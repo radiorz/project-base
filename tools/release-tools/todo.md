@@ -3,11 +3,11 @@
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
-- 文件可替换 mvFiles:
 # DONE
 ## 20241022 星期二
 - plugin化 各种特色打包都通过插件实现
 - release path 根据 cwd 而不是 workspace 定位
+- 文件可重命名 renamePlugin
 ## 20241021 星期一
 
 - infoStore 可以存储在 xml json 等多种形式

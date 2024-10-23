@@ -5,8 +5,8 @@ import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-
 import { ReleaseName, ReleaseNameOptions } from './ReleaseName';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
-import { FileRenamePlugin, FileRenamePluginOptions } from './plugins';
-import { FileRenameOption } from './plugins/file-rename.plugin';
+import { InputRenamePlugin, InputRenamePluginOptions } from './plugins';
+import { InputRenameOption } from './plugins/input-rename.plugin';
 const { omit } = _;
 export interface TikkhunReleaseDefaultOptions
   extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
@@ -17,7 +17,7 @@ export interface TikkhunReleaseDefaultOptions
   // 释放文件的名称
   releaseNameOptions: Partial<ReleaseNameOptions>;
   // 重命名文件
-  fileRenameOptions: Partial<FileRenamePluginOptions>;
+  fileRenameOptions: Partial<InputRenamePluginOptions>;
 }
 export const TikkhunReleaseDefaultOptions = {
   ...omit(Release.defaultOptions, ['infoStore', 'info', 'releaseName']),
@@ -27,8 +27,8 @@ export const TikkhunReleaseDefaultOptions = {
     ...omit(ReleaseInfoStorePlugin.defaultOptions, ['info']),
   },
   releaseNameOptions: omit(ReleaseName.defaultOptions, ['info']),
-  // 重命名的文件
-  fileRenameOptions: FileRenamePlugin.defaultOptions,
+  // 重命名的文件列表
+  inputRenameOptions: InputRenamePlugin.defaultOptions,
 };
 const logger = new Logger('TikkhunRelease');
 
@@ -49,7 +49,7 @@ export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
     plugins.push(releaseInfoStorePlugin);
   }
   if (fileRenameOptions) {
-    const fileRenamePlugin = new FileRenamePlugin(fileRenameOptions);
+    const fileRenamePlugin = new InputRenamePlugin(fileRenameOptions);
     plugins.push(fileRenamePlugin);
   }
   const release = new Release({

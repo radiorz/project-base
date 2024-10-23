@@ -3,20 +3,20 @@ import { AfterInputGot, BeforeInputGot } from './plugin.interface';
 import { Release } from '../Release';
 import { Archiver } from 'archiver';
 import { join } from 'path';
-export interface FileRenameOption {
+export interface InputRenameOption {
   source: string; // 源文件
   target: string; // 目标文件
 }
-export interface FileRenamePluginOptions {
-  files: FileRenameOption[];
+export interface InputRenamePluginOptions {
+  files: InputRenameOption[];
 }
-export class FileRenamePlugin implements AfterInputGot, BeforeInputGot {
-  static defaultOptions: FileRenamePluginOptions = Object.freeze({
+export class InputRenamePlugin implements AfterInputGot, BeforeInputGot {
+  static defaultOptions: InputRenamePluginOptions = Object.freeze({
     files: [],
   });
-  options: FileRenamePluginOptions;
-  constructor(options: Partial<FileRenamePluginOptions>) {
-    this.options = optionsMerge(FileRenamePlugin.defaultOptions, options);
+  options: InputRenamePluginOptions;
+  constructor(options: Partial<InputRenamePluginOptions>) {
+    this.options = optionsMerge(InputRenamePlugin.defaultOptions, options);
   }
   beforeInputGot(release: Release): void {
     const excludeGlobFiles = this.options.files.map((option) => option.source);
