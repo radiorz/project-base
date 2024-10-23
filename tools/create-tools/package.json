@@ -48,6 +48,7 @@
     "@inquirer/prompts": "^7.0.0",
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
     "commander": "^12.1.0",
     "ejs": "^3.1.10",
     "fs-extra": "^11.2.0",

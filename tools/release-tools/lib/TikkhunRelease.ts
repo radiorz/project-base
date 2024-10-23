@@ -28,7 +28,7 @@ const logger = new Logger('TikkhunRelease');
 
 export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
   const opts: TikkhunReleaseDefaultOptions = optionsMerge(TikkhunReleaseDefaultOptions, options);
-  logger.debug!('[说明] 配置参数: ' + JSON.stringify(options, null, 2));
+  logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
   const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, ...releaseOptions } = opts;
   const infoBuilder = new InfoBuilder(infoBuilderOptions);
   const info = infoBuilder.get();

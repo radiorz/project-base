@@ -17,9 +17,9 @@ const cli = new Cli({
     templateFiles: '需ejs模板替换的文件', // 根据文件路径定位
     replaces: '需移动的一些文件',
     projectDirOptions: {
-      prefix: '前缀',
-      suffix: '后缀',
-      delimiter: '分隔符',
+      prefix: '[项目文件名]前缀',
+      suffix: '[项目文件名]后缀',
+      delimiter: '[项目文件名]分隔符',
     },
   },
   optionTypes: {
