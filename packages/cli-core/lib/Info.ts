@@ -1,3 +1,4 @@
+// 消息显示等
 import { Logger } from '@tikkhun/logger';
 
 export function echoPackage(packageJson: Record<string, any>) {

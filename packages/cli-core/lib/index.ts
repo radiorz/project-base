@@ -1,5 +1,5 @@
 export * from './command';
 export * from './CommandManager';
-export * from './OptionHandler';
-export * from './package';
+export * from './option-transformer';
+export * from './Info';
 
