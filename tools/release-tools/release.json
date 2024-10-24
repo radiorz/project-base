@@ -11,7 +11,13 @@
       "fileName": "mainFileName"
     }
   },
-  "fileRenameOptions": {
-    "files": [{ "source": "README.md", "target": "RRRRRRRRRRRRRRRRRRRRRRRRRR.md" }]
+  "inputMoveOptions": {
+    "items": [
+      { "source": "README.md", "target": "RRRRRRRRRRRRRRRRRRRRRRRRRR.md" },
+      {
+        "source": "lib/plugins",
+        "target": "llllllllllllllllllllllllllllllll"
+      }
+    ]
   }
 }

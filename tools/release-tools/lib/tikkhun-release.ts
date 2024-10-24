@@ -5,11 +5,10 @@ import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-
 import { ReleaseName, ReleaseNameOptions } from './release-name';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
-import { InputRenamePlugin, InputRenamePluginOptions } from './plugins';
-import { InputRenameOption } from './plugins/input-rename.plugin';
+import { InputMovePlugin, InputMovePluginOptions } from './plugins';
+import { InputMoveOption } from './plugins/input-move.plugin';
 const { omit } = _;
-export interface TikkhunReleaseDefaultOptions
-  extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
+export interface TikkhunReleaseDefaultOptions extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
   // 这个主要集中在info的输入与获取方式
   infoBuilderOptions: Partial<InfoBuilderOptions>;
   // 存储info的文件
@@ -17,7 +16,7 @@ export interface TikkhunReleaseDefaultOptions
   // 释放文件的名称
   releaseNameOptions: Partial<ReleaseNameOptions>;
   // 重命名文件
-  fileRenameOptions: Partial<InputRenamePluginOptions>;
+  inputMoveOptions: Partial<InputMovePluginOptions>;
 }
 export const TikkhunReleaseDefaultOptions = {
   ...omit(Release.defaultOptions, ['infoStore', 'info', 'releaseName']),
@@ -28,14 +27,14 @@ export const TikkhunReleaseDefaultOptions = {
   },
   releaseNameOptions: omit(ReleaseName.defaultOptions, ['info']),
   // 重命名的文件列表
-  inputRenameOptions: InputRenamePlugin.defaultOptions,
+  inputMoveOptions: InputMovePlugin.defaultOptions,
 };
 const logger = new Logger('TikkhunRelease');
 
 export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
   const opts: TikkhunReleaseDefaultOptions = optionsMerge(TikkhunReleaseDefaultOptions, options);
   logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
-  const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, fileRenameOptions, ...releaseOptions } = opts;
+  const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
   const infoBuilder = new InfoBuilder(infoBuilderOptions);
   const info = infoBuilder.get();
   logger.log('[说明] 项目信息: ' + JSON.stringify(info));
@@ -48,9 +47,9 @@ export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
     const releaseInfoStorePlugin = new ReleaseInfoStorePlugin({ ...infoStoreOptions, info });
     plugins.push(releaseInfoStorePlugin);
   }
-  if (fileRenameOptions) {
-    const fileRenamePlugin = new InputRenamePlugin(fileRenameOptions);
-    plugins.push(fileRenamePlugin);
+  if (inputMoveOptions) {
+    const inputMovePlugins = new InputMovePlugin(inputMoveOptions);
+    plugins.push(inputMovePlugins);
   }
   const release = new Release({
     ...releaseOptions,

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
-import { TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
+import { InputMovePlugin, TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
 import packageJson from '../package.json';
 const cli = new Cli({
   types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
@@ -32,6 +32,9 @@ const cli = new Cli({
         hardware: 'string',
       },
     },
+    inputMoveOptions: {
+      items: 'array',
+    },
     infoStoreOptions: {
       enabled: 'boolean',
       path: 'string',
@@ -53,6 +56,9 @@ const cli = new Cli({
     clean: '[打包发布]清空旧记录',
     releasePathRelative: '[打包发布]存储文件夹路径的相对位置',
     releasePath: '[打包发布]存储文件夹路径',
+    inputMoveOptions: {
+      items: '[移动文件文件夹]文件夹列表',
+    },
     infoBuilderOptions: {
       workspace: '[信息管理]项目信息根目录',
       configType: '[信息管理]配置文件类型("packageJson"|"androidXml")',

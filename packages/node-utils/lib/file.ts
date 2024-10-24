@@ -1,24 +1,7 @@
-import { stat, unlink, existsSync } from 'node:fs';
 import fsExtra from 'fs-extra';
-/**
- * 说明: 检查文件是否存在
- * @param path 文件路径
- * @returns
- * @example
- * const result = await getFileStat("./a.txt") // -> boolean
- */
-export async function checkPathExists(path: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    stat(path, (err: any) => {
-      if (err) {
-        resolve(false);
-      } else {
-        resolve(true);
-      }
-    });
-  });
-}
-
+import { existsSync, unlink } from 'node:fs';
+import { stat as statAsync } from 'node:fs/promises';
+// 检查文件是否存在： fs.existsSync
 /**
  * 说明: 函数用于删除文件
  * @param filePath {String}
@@ -45,5 +28,42 @@ export async function ensureDir(dir: string) {
   // 文件夹不存在,就添加文件夹
   if (!existsSync(dir)) {
     await fsExtra.mkdir(dir, { recursive: true });
+  }
+}
+
+/**
+ * @function isDirectory
+ * @description 函数用于
+ * @param {String} path 路径
+ * @returns {Boolean}
+ * @example
+ * isDirectory("src") // -> true
+ * isDirectory("index.js") // -> false
+ * isDirectory("asdf") // ->false
+ */
+export async function isDirectory(path: string) {
+  try {
+    const stat = await statAsync(path);
+    return stat.isDirectory();
+  } catch (error) {
+    return false;
+  }
+}
+/**
+ * @function isFile
+ * @description 函数用于
+ * @param
+ * @returns
+ * @example
+ * isFile("index.js") // -> true
+ * isFile("src") // -> false
+ * isFile("asdf") // -> false
+ */
+export async function isFile(path: string) {
+  try {
+    const stat = await statAsync(path);
+    return stat.isFile();
+  } catch (error) {
+    return false;
   }
 }

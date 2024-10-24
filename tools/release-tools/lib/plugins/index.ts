@@ -1,3 +1,3 @@
-export * from './input-rename.plugin';
+export * from './input-move.plugin';
 export * from './plugin.interface';
 export * from './info-store.plugin';

@@ -9,8 +9,13 @@ import { join } from 'path';
 import { ProgressPrinter } from './progress-printer';
 import { ensureDir } from './utils';
 import { BeforeInputGot } from './plugins/plugin.interface';
+import { glob } from 'glob';
 const { removeSync, remove, createWriteStream } = fsExtra;
 const logger = new Logger('Release');
+export interface InputOption {
+  source: string;
+  name: string;
+}
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
@@ -109,6 +114,22 @@ export class Release {
       zlib: { level: 9 }, // Sets the compression level.
     };
   }
+  private async getInputs() {
+    const filePaths = await glob(this.options.include, {
+      ignore: this.options.exclude,
+      // skip: this.options.exclude,
+      dot: true,
+      cwd: this.options.workspace,
+    });
+    // 搞成对象主要给inputmove
+    return filePaths.map((path) => {
+      const _path = path.replaceAll('\\', '/');
+      return {
+        source: _path,
+        name: _path,
+      };
+    });
+  }
 
   private async save() {
     // 打包
@@ -150,44 +171,34 @@ export class Release {
           resolve(true);
         })
         .pipe(outputStream);
-      if (this.options.plugins?.length) {
-        await Promise.all(
-          this.options.plugins.map((plugin) => {
-            return plugin?.beforeInputGot?.(this);
-          }),
-        );
-      }
       // 添加文件
-      archive.glob(this.options.include, {
-        ignore: this.options.exclude,
-        skip: this.options.exclude,
-        dot: true,
-        cwd: this.options.workspace,
+      this.inputs.forEach((input) => {
+        archive.file(input.source, { name: input.name });
       });
       if (this.options.plugins?.length) {
         await Promise.all(
           this.options.plugins.map((plugin) => {
-            return plugin?.afterInputGot?.(this, archive);
+            return plugin?.afterArchiveInit?.(this, archive);
           }),
         );
       }
       // 执行
       this.log.log('[开始] 执行打包');
-      // spinner.start();
-      await archive.finalize();
-      this.progressPrinter.end();
-      process.stdout.write('\n'); // 用于换行
-      if (this.options.plugins?.length) {
-        await Promise.all(
-          this.options.plugins.map((plugin) => {
-            return plugin?.onEnd?.(archive);
-          }),
-        );
-      }
-      this.log.log('[结束] 执行打包');
+      return await archive.finalize();
     });
+    this.progressPrinter?.end();
+    process.stdout.write('\n'); // 用于换行
+    if (this.options.plugins?.length) {
+      await Promise.all(
+        this.options.plugins.map((plugin) => {
+          return plugin?.onEnd?.();
+        }),
+      );
+    }
+    this.log.log('[结束] 执行打包');
     return result;
   }
+  inputs: InputOption[] = [];
   async start() {
     try {
       // 确保保存释放文件的文件夹存在
@@ -195,6 +206,21 @@ export class Release {
       // 如果已经有同名文件就清除
       await this.cleanReleaseFilePath();
       this.log.log(`[开始] 打包，文件为: ` + this.releaseFilePath);
+      if (this.options.plugins?.length) {
+        await Promise.all(
+          this.options.plugins.map((plugin) => {
+            return plugin?.beforeInputGot?.(this);
+          }),
+        );
+      }
+      this.inputs = await this.getInputs();
+      if (this.options.plugins?.length) {
+        await Promise.all(
+          this.options.plugins.map((plugin) => {
+            return plugin?.afterInputGot?.(this);
+          }),
+        );
+      }
       const result = await this.save();
       this.log.log(`[结束] 打包，文件为: ` + this.releaseFilePath);
       return result;

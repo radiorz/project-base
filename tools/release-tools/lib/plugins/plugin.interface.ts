@@ -10,7 +10,10 @@ export interface BeforeInputGot {
 }
 export interface AfterInputGot {
   // 收集了文件
-  afterInputGot(release: Release, archive: Archiver): void;
+  afterInputGot(release: Release): void;
+}
+export interface AfterArchiveInit {
+  afterArchiveInit(release: Release, archive: Archiver): void;
 }
 export interface BeforeOutput {
   // 开始存储

@@ -14,7 +14,7 @@ import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
 import { Info } from '../info-builder/info-builder';
 import { transformObjectByOptionsMap } from '../object.utils';
-import { AfterInputGot } from './plugin.interface';
+import { AfterArchiveInit, AfterInputGot } from './plugin.interface';
 import { Archiver } from 'archiver';
 import { Release } from '../release';
 const { isEmpty } = _;
@@ -33,7 +33,7 @@ export interface InfoTransformOptions {
   transformMap?: TransformMap;
 }
 
-export class ReleaseInfoStorePlugin implements AfterInputGot {
+export class ReleaseInfoStorePlugin implements AfterArchiveInit {
   static defaultOptions: ReleaseInfoStoreOptions = Object.freeze({
     info: {},
     transformMap: {},
@@ -66,7 +66,7 @@ export class ReleaseInfoStorePlugin implements AfterInputGot {
     });
     return transformedInfo;
   }
-  afterInputGot(release: Release, archive: Archiver) {
+  afterArchiveInit(release: Release, archive: Archiver) {
     try {
       const info = this.getInfo();
       if (this.options.path.endsWith('json')) {
@@ -85,7 +85,7 @@ export class ReleaseInfoStorePlugin implements AfterInputGot {
     } catch (error) {
       throw error;
     } finally {
-      release.log.log('[plugin/信息存储] 执行完毕.'+ this.options.path);
+      release.log.log('[plugin/信息存储] [结束] 执行 ' + this.options.path);
     }
   }
 }
