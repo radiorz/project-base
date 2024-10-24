@@ -33,7 +33,7 @@ const cli = new Cli({
       },
     },
     inputMoveOptions: {
-      items: 'array',
+      items: 'objectArray', // 实际上是 objectArray
     },
     infoStoreOptions: {
       enabled: 'boolean',

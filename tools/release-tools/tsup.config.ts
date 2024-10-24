@@ -8,6 +8,7 @@ export default defineConfig((options) => ({
   entry: ['lib/**/*.ts', 'cli/**/*.ts'],
   // 格式化
   format: ['cjs', 'esm'],
+  target: 'es6',
   // typescript 注释
   dts: true,
   // 拆分

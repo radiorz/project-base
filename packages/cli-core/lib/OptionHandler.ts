@@ -1,6 +1,7 @@
 export const TYPES = {
   array: 'array',
   keyValueArray: 'keyValueArray',
+  objectArray: 'objectArray',
   boolean: 'boolean',
   number: 'number',
   object: 'object',
@@ -19,13 +20,8 @@ export class OptionHandler {
     if (value === 'undefined') {
       return;
     }
-    if (type === TYPES.array) {
-      return value.split(',');
-    }
-    if (type === TYPES.object) {
-      return value && JSON.parse(value);
-    }
     if (type === TYPES.keyValueArray) {
+      // stringify 化是 这样  a=b,c=d , 转换回来就是 [{a:b},{c:d}]
       if (!value) return [];
       return value
         .split(',')
@@ -35,6 +31,19 @@ export class OptionHandler {
           return { key, value };
         })
         .filter((i) => i);
+    }
+    if (type === TYPES.objectArray) {
+      try {
+        return value ? JSON.parse(value) : [];
+      } catch (error) {
+        return [];
+      }
+    }
+    if (type === TYPES.array) {
+      return value.split(',');
+    }
+    if (type === TYPES.object) {
+      return typeof value === 'object' ? JSON.parse(value) : {};
     }
     if (type === TYPES.number) {
       return Number(value);
@@ -69,13 +78,23 @@ export class OptionHandler {
     });
     return _obj;
   }
+  static isKeyValueObject(obj: any) {
+    const keys = Object.keys(obj);
+    return keys[0] === 'key' && keys[1] === 'value';
+  }
   static toStringValue(value: any) {
     if (Array.isArray(value)) {
       const item1 = value[0];
       // 有点魔法 key value 的值让他们用=表示
-      if (typeof item1 === 'object' && item1.hasOwnProperty('key') && item1.hasOwnProperty('value')) {
-        return value.map((item) => `${item.key}=${item.value}`).toString();
+      if (typeof item1 === 'object') {
+        const isKeyValueArray = this.isKeyValueObject(item1);
+        if (isKeyValueArray) {
+          // [{key: 1,value:2},{key: "foo",value: "bar"}] => 1=2,foo=bar
+          return value.map((item) => `${item.key}=${item.value}`).toString();
+        }
+        return JSON.stringify(value);
       }
+      // [1,2,3]=> 1,2,3
       return value.toString();
     }
     if (typeof value === 'object') {

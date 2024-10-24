@@ -8,7 +8,8 @@ import { Logger } from '@tikkhun/logger';
 import { InputMovePlugin, InputMovePluginOptions } from './plugins';
 import { InputMoveOption } from './plugins/input-move.plugin';
 const { omit } = _;
-export interface TikkhunReleaseDefaultOptions extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
+export interface TikkhunReleaseDefaultOptions
+  extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
   // 这个主要集中在info的输入与获取方式
   infoBuilderOptions: Partial<InfoBuilderOptions>;
   // 存储info的文件

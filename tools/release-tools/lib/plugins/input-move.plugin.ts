@@ -27,28 +27,30 @@ export class InputMovePlugin implements AfterInputGot {
       return;
     }
     return await Promise.all(
-      this.options.items.map(async (option) => {
-        release.log.log(
-          `[plugin/移动文件文件夹] 将文件加入压缩包中，源路径为: ${join(release.options.workspace, option.source)}, 移动为: ${option.target}`,
-        );
-        const fileStat = await stat(option.source);
-        if (fileStat.isDirectory()) {
-          const inputs = release.inputs.filter((input) => input.source.startsWith(option.source));
-          if (!inputs) {
-            return;
+      this.options.items
+        .filter((option) => option?.source)
+        .map(async (option) => {
+          release.log.log(
+            `[plugin/移动文件文件夹] 将文件加入压缩包中，源路径为: ${join(release.options.workspace, option.source)}, 移动为: ${option.target}`,
+          );
+          const fileStat = await stat(option.source);
+          if (fileStat.isDirectory()) {
+            const inputs = release.inputs.filter((input) => input.source.startsWith(option.source));
+            if (!inputs) {
+              return;
+            }
+            inputs.forEach((input) => {
+              input.name = input.name.replace(new RegExp('^' + option.source), option.target);
+            });
+          } else if (fileStat.isFile()) {
+            const input = release.inputs.find((input) => input.source === option.source);
+            if (!input) {
+              return;
+            }
+            // 可变得修改
+            input.name = option.target;
           }
-          inputs.forEach((input) => {
-            input.name = input.name.replace(new RegExp('^' + option.source), option.target);
-          });
-        } else if (fileStat.isFile()) {
-          const input = release.inputs.find((input) => input.source === option.source);
-          if (!input) {
-            return;
-          }
-          // 可变得修改
-          input.name = option.target;
-        }
-      }),
+        }),
     );
   }
 }
