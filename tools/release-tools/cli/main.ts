@@ -38,7 +38,7 @@ const cli = new Cli({
     infoStoreOptions: {
       enabled: 'boolean',
       path: 'string',
-      transformMap: 'Object',
+      transformMap: 'object',
       releasedAtPattern: 'string',
     },
     releaseNameOptions: {

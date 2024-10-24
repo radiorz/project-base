@@ -111,6 +111,9 @@ importers:
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
+      qs:
+        specifier: ^6.13.0
+        version: 6.13.0
     devDependencies:
       '@types/fs-extra':
         specifier: ^11.0.4
@@ -5391,6 +5394,10 @@ packages:
 
   qs@6.12.3:
     resolution: {integrity: sha512-AWJm14H1vVaO/iNZ4/hO+HyaTehuy9nRqVdkTqlJt0HWvBiBIEXFmb4C0DGeYo3Xes9rrEW+TxHsaigCbN5ICQ==}
+    engines: {node: '>=0.6'}
+
+  qs@6.13.0:
+    resolution: {integrity: sha512-+38qI9SOr8tfZ4QmJNplMUxqjbe7LKvvZgWdExBOmd+egZTtjLB67Gu0HRX3u/XOq7UU2Nx6nsjvS16Z9uwfpg==}
     engines: {node: '>=0.6'}
 
   queue-microtask@1.2.3:
@@ -11663,6 +11670,10 @@ snapshots:
       side-channel: 1.0.6
 
   qs@6.12.3:
+    dependencies:
+      side-channel: 1.0.6
+
+  qs@6.13.0:
     dependencies:
       side-channel: 1.0.6
 
