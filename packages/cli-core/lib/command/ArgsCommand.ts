@@ -1,5 +1,5 @@
 import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
-import { OptionTransformer } from '../option-transformer';
+import { OptionsTransformer } from '../options-transformer/options-transformer';
 import { AbstractCommand, Action } from './command.interface';
 import { Command, createCommand, program } from 'commander';
 import _ from 'lodash';
@@ -12,7 +12,7 @@ interface ArgsOption {
 export class ArgsCommand extends AbstractCommand {
   program: Command | undefined;
   getOptions(): ArgsOption[] {
-    const stringOptions = OptionTransformer.stringify(this.options.defaultOptions);
+    const stringOptions = OptionsTransformer.stringify(this.options.defaultOptions);
     const optionList = jsonToList({ delimiter: '.', json: stringOptions });
     // console.log(`optionList`, optionList);
     const optionTypeMap = flatJson({ delimiter: '.', data: this.options.optionTypes });
@@ -45,7 +45,7 @@ export class ArgsCommand extends AbstractCommand {
         delimiter: '.',
         data: stringOptions,
       });
-      const typedOptions = OptionTransformer.parse(jsonOptions, this.options.optionTypes);
+      const typedOptions = OptionsTransformer.parse(jsonOptions, this.options.optionTypes);
       action(typedOptions);
     });
   }

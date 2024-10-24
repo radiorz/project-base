@@ -13,7 +13,7 @@
  */
 import { input } from '@inquirer/prompts';
 import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
-import { OptionTransformer, TYPES } from '../option-transformer';
+import { OptionsTransformer, TYPES } from '../options-transformer/options-transformer';
 import { AbstractCommand, Action } from './command.interface';
 import _ from 'lodash';
 const { get } = _;
@@ -29,7 +29,7 @@ export class PromptsCommand extends AbstractCommand {
   command: any;
   optionHandler: any;
   getOptions() {
-    const stringifyDefaultOptions = OptionTransformer.stringify(this.options.defaultOptions);
+    const stringifyDefaultOptions = OptionsTransformer.stringify(this.options.defaultOptions);
     // 默认选项
     const flattedStringifyDefaultOptionList = jsonToList({
       delimiter: '.',
@@ -81,7 +81,7 @@ export class PromptsCommand extends AbstractCommand {
   private async actionHandler(action: Action) {
     const options = await this.optionHandler();
     const unflattedOptions = unflatJson({ delimiter: '.', data: options });
-    const typedResults = OptionTransformer.parse(unflattedOptions, this.options.optionTypes);
+    const typedResults = OptionsTransformer.parse(unflattedOptions, this.options.optionTypes);
     action(typedResults);
   }
   async start(action: Action) {

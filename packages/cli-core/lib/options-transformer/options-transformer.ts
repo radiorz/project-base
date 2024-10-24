@@ -1,9 +1,4 @@
-import { arrayType } from './paramTypes/array.type';
-import { booleanType } from './paramTypes/boolean.type';
-import { keyValueArrayType } from './paramTypes/key-value-array.type';
-import { numberType } from './paramTypes/number.type';
-import { objectArrayType } from './paramTypes/object-array.type';
-import { objectType } from './paramTypes/object.type';
+import { arrayType, booleanType, keyValueArrayType, numberType, objectArrayType, objectType } from './paramTypes';
 
 export const TYPES = {
   array: 'array',
@@ -17,13 +12,13 @@ export const TYPES = {
 } as const;
 export type TYPES = keyof typeof TYPES;
 
-export class OptionTransformer {
+export class OptionsTransformer {
   schema: Record<string, any>;
   constructor(schema: Record<string, any>) {
     this.schema = schema;
   }
   parse(obj: Record<string, any>) {
-    return OptionTransformer.parse(obj, this.schema);
+    return OptionsTransformer.parse(obj, this.schema);
   }
 
   static parse(obj: Record<string, any>, schema: Record<string, any>) {
@@ -31,9 +26,9 @@ export class OptionTransformer {
     Object.entries(obj).forEach(([key, value]) => {
       const type = schema[key];
       if (typeof value === 'object') {
-        _obj[key] = OptionTransformer.parse(value, type);
+        _obj[key] = OptionsTransformer.parse(value, type);
       } else {
-        _obj[key] = OptionTransformer.parseValueByType(value as string, type);
+        _obj[key] = OptionsTransformer.parseValueByType(value as string, type);
       }
     });
     return _obj;
@@ -65,7 +60,7 @@ export class OptionTransformer {
   static stringify(obj: Record<string, any>) {
     const _obj: Record<string, any> = {};
     Object.entries(obj).forEach(([key, value]) => {
-      _obj[key] = OptionTransformer.stringifyValue(value);
+      _obj[key] = OptionsTransformer.stringifyValue(value);
     });
     return _obj;
   }
@@ -84,7 +79,7 @@ export class OptionTransformer {
       return arrayType.stringify(value);
     }
     if (typeof value === 'object') {
-      return OptionTransformer.stringify(value);
+      return OptionsTransformer.stringify(value);
     }
     return '' + value;
   }

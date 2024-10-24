@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { OptionTransformer } from './option-transformer';
+import { OptionsTransformer } from './options-transformer';
 it('option handler ', async () => {
   const originValue = {
     boolean: 'true',
@@ -27,8 +27,8 @@ it('option handler ', async () => {
       },
     },
   };
-  const typedObj = OptionTransformer.parse(originValue, types);
+  const typedObj = OptionsTransformer.parse(originValue, types);
   console.log(`typedObj`, typedObj);
-  const stringObj = OptionTransformer.stringify(typedObj);
+  const stringObj = OptionsTransformer.stringify(typedObj);
   console.log(`stringObj`, stringObj);
 });
