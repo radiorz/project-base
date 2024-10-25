@@ -49,21 +49,26 @@ export class Obfuscator {
         // if (!code) {
         //   return true;
         // }
-        const obfuscationResult = obfuscate(code, {
-          compact: true,
-          controlFlowFlattening: true,
-          controlFlowFlatteningThreshold: 0.7,
-          numbersToExpressions: true,
-          simplify: true,
-          stringArrayShuffle: true,
-          splitStrings: true,
-          stringArrayThreshold: 0.75,
-        });
-        const dist = join(this.options.outDir, src);
-        const dirPath = dirname(dist);
-        await mkdir(dirPath, { recursive: true });
-        // 写入
-        await writeFile(dist, obfuscationResult.getObfuscatedCode());
+        try {
+          const obfuscationResult = obfuscate(code, {
+            compact: true,
+            controlFlowFlattening: true,
+            controlFlowFlatteningThreshold: 0.7,
+            numbersToExpressions: true,
+            simplify: true,
+            stringArrayShuffle: true,
+            splitStrings: true,
+            stringArrayThreshold: 0.75,
+          });
+          const dist = join(this.options.outDir, src);
+          const dirPath = dirname(dist);
+          await mkdir(dirPath, { recursive: true });
+          // 写入
+          await writeFile(dist, obfuscationResult.getObfuscatedCode());
+        } catch (error: any) {
+          this.log.error(`[错误] 混淆,文件为 ${src},但错误，原因为: ${error.message}`);
+          throw error;
+        }
         //
       }),
     );
