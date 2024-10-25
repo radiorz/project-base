@@ -1,8 +1,10 @@
 {
   "name": "@tikkhun/build",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "",
-  "bin": "dist/cli/build.js",
+  "bin": {
+    "tikkhun-build": "dist/cli/main.js"
+  },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
   "types": "dist/lib/index.d.ts",
@@ -18,10 +20,6 @@
       }
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/radiorz/project-base"
-  },
   "files": [
     "dist"
   ],
@@ -35,9 +33,19 @@
   "publishConfig": {
     "access": "public"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "build",
+    "pack",
+    "dist",
+    "obfuscator"
+  ],
+  "author": "tikkhun",
+  "license": "MIT",
+  "homepage": "https://github.com/radiorz/project-base/tree/main/tools/build-tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/radiorz/project-base"
+  },
   "dependencies": {
     "@tikkhun/utils": "workspace:^",
     "@tikkhun/cli-core": "workspace:^",
