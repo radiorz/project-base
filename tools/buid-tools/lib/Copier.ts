@@ -3,6 +3,7 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import { glob } from 'glob';
 import { mkdir, copyFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import { Logger } from '@tikkhun/logger';
 /**
  * @author
  * @file Copyer.ts
@@ -20,6 +21,7 @@ export interface CopierOptions {
 }
 
 export class Copier {
+  log = new Logger('Copier');
   static defaultOptions: CopierOptions = {
     include: ['**/*'],
     exclude: ['**/node_modules', '**/release'],
@@ -30,12 +32,13 @@ export class Copier {
     this.options = optionsMerge(Copier.defaultOptions, options);
   }
   async start() {
+    this.log.log('[开始] 拷贝');
     const srcPaths = await glob(this.options.include, {
       ignore: [...this.options.exclude, this.options.outDir],
       dot: true,
     });
 
-    await Promise.all(
+    const results = await Promise.all(
       srcPaths.map(async (src) => {
         const isFileNotDirectory = await isFile(src);
         if (!isFileNotDirectory) {
@@ -48,5 +51,7 @@ export class Copier {
         return await copyFile(src, destFile);
       }),
     );
+    this.log.log('[完成] 拷贝');
+    return results;
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/build",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "",
   "bin": {
     "tikkhun-build": "dist/cli/main.js"

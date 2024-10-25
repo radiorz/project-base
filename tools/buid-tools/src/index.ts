@@ -1,6 +1,8 @@
 import { Build } from '../lib';
-const build = new Build({
-  outDir: 'test-dist',
-  obfuscate: true,
-});
-build.start();
+async function bootstrap() {
+  const build = new Build({
+    outDir: 'test-dist',
+  });
+  build.start();
+}
+bootstrap();

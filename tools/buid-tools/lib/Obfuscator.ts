@@ -1,3 +1,4 @@
+import { Logger } from '@tikkhun/logger';
 import { isFile } from '@tikkhun/utils';
 import { glob } from 'glob';
 import { obfuscate } from 'javascript-obfuscator';
@@ -22,6 +23,7 @@ export interface ObfuscatorOptions {
 }
 
 export class Obfuscator {
+  log = new Logger('Obfuscator');
   static defaultOptions: ObfuscatorOptions = {
     include: ['**/*.js'],
     exclude: [],
@@ -32,17 +34,21 @@ export class Obfuscator {
     this.options = Object.assign({}, Obfuscator.defaultOptions, options);
   }
   async start() {
+    this.log.log('[开始] 混淆');
     const srcPaths = await glob(this.options.include, {
       ignore: [...this.options.exclude, this.options.outDir],
       dot: true,
     });
-    await Promise.all(
+    const results = await Promise.all(
       srcPaths.map(async (src) => {
         const isFileNotDirectory = await isFile(src);
-        if (!isFile) {
+        if (!isFileNotDirectory) {
           return false;
         }
         const code = await readFile(src, 'utf8');
+        // if (!code) {
+        //   return true;
+        // }
         const obfuscationResult = obfuscate(code, {
           compact: true,
           controlFlowFlattening: true,
@@ -56,10 +62,12 @@ export class Obfuscator {
         const dist = join(this.options.outDir, src);
         const dirPath = dirname(dist);
         await mkdir(dirPath, { recursive: true });
+        // 写入
         await writeFile(dist, obfuscationResult.getObfuscatedCode());
+        //
       }),
-      // 写入
     );
+    this.log.log('[完成] 混淆');
+    return results;
   }
 }
-

@@ -46,7 +46,7 @@ export class Build {
   //   process.on()
   // }
   async start() {
-    this.log.log('start');
+    this.log.log('[开始] 构建');
     this.log.log('[说明] 最终选项配置:' + JSON.stringify(this.options, null, 2));
     await this.cleanOutDir();
     await this.ensureOutDir();
@@ -58,7 +58,7 @@ export class Build {
       const obfuscator = new Obfuscator({ ...this.options.obfuscateOptions, outDir: this.options.outDir });
       await obfuscator.start();
     }
-    this.log.log('end');
+    this.log.log('[结束] 构建');
   }
   async stop() {
     await this.cleanOutDir();
