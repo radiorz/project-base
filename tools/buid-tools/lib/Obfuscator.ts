@@ -1,5 +1,7 @@
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
 import { workspace } from '../../version/lib/utils';
+import { glob } from 'glob';
+import { isFile } from '@tikkhun/utils';
 export interface ObfuscateOptions {}
 
 /**
@@ -22,11 +24,42 @@ export class Obfuscator {
   static defaultOptions: ObfuscatorOptions = {
     include: ['**/*.js'],
     exclude: [],
-    outDir: join(process.cwd(), 'dist'),
+    outDir: 'dist',
   };
   options: ObfuscatorOptions;
   constructor(options?: Partial<ObfuscatorOptions>) {
     this.options = Object.assign({}, Obfuscator.defaultOptions, options);
   }
-  start() {}
+  async start() {
+    const srcPaths = await glob(this.options.include, {
+      ignore: [...this.options.exclude, this.options.outDir],
+      dot: true,
+    });
+    await Promise.all(
+      srcPaths.map(async (src) => {
+        const isFileNotDirectory = await isFile(src);
+        if (!isFile) {
+          return false;
+        }
+        const code = await readFile(src, 'utf8');
+        const obfuscationResult = obfuscate(code, {
+          compact: true,
+          controlFlowFlattening: true,
+          controlFlowFlatteningThreshold: 0.7,
+          numbersToExpressions: true,
+          simplify: true,
+          stringArrayShuffle: true,
+          splitStrings: true,
+          stringArrayThreshold: 0.75,
+        });
+        const dist = join(this.options.outDir, src);
+        const dirPath = dirname(dist);
+        await mkdir(dirPath, { recursive: true });
+        await writeFile(dist, obfuscationResult.getObfuscatedCode());
+      }),
+      // 写入
+    );
+  }
 }
+import { obfuscate } from 'javascript-obfuscator';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';

@@ -59,8 +59,8 @@ export class Build {
     }
     this.log.log('end');
   }
-  stop() {
-    this.cleanOutDir();
+  async stop() {
+    await this.cleanOutDir();
   }
   cleanOutDir() {
     return rm(this.options.outDir, { recursive: true, force: true });
@@ -69,4 +69,3 @@ export class Build {
     return mkdir(this.options.outDir, { recursive: true });
   }
 }
-

@@ -30,13 +30,13 @@ export class Copier {
     this.options = optionsMerge(Copier.defaultOptions, options);
   }
   async start() {
-    const allPaths = await glob(this.options.include, {
+    const srcPaths = await glob(this.options.include, {
       ignore: [...this.options.exclude, this.options.outDir],
       dot: true,
     });
 
     await Promise.all(
-      allPaths.map(async (src) => {
+      srcPaths.map(async (src) => {
         const isFileNotDirectory = await isFile(src);
         if (!isFileNotDirectory) {
           // directory
