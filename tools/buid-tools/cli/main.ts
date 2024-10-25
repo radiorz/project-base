@@ -18,6 +18,7 @@ const cli = new Cli({
     obfuscateOptions: {
       include: 'array',
       exclude: 'array',
+      enabled: 'boolean',
     },
   },
   optionTitles: {
@@ -28,6 +29,7 @@ const cli = new Cli({
       exclude: '[拷贝]排除(pattern)',
     },
     obfuscateOptions: {
+      enabled: '[混淆]启用',
       include: '[混淆]包括(pattern)',
       exclude: '[混淆]排除(pattern)',
     },
