@@ -46,9 +46,9 @@ export class Obfuscator {
           return false;
         }
         const code = await readFile(src, 'utf8');
-        // if (!code) {
-        //   return true;
-        // }
+        if (!code) {
+          return true;
+        }
         try {
           const obfuscationResult = obfuscate(code, {
             compact: true,
