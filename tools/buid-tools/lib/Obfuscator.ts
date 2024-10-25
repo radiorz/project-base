@@ -1,7 +1,8 @@
-import { dirname, join } from 'node:path';
-import { workspace } from '../../version/lib/utils';
-import { glob } from 'glob';
 import { isFile } from '@tikkhun/utils';
+import { glob } from 'glob';
+import { obfuscate } from 'javascript-obfuscator';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 export interface ObfuscateOptions {}
 
 /**
@@ -61,5 +62,4 @@ export class Obfuscator {
     );
   }
 }
-import { obfuscate } from 'javascript-obfuscator';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+

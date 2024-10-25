@@ -12,7 +12,8 @@
  * @example
  */
 import { Logger } from '@tikkhun/logger';
-import { merge } from 'lodash';
+import { optionsMerge } from '@tikkhun/utils-core';
+import { omit } from 'lodash';
 import { mkdir, rm } from 'node:fs/promises';
 import path from 'path';
 import { Copier, CopierOptions } from './Copier';
@@ -28,15 +29,15 @@ export class Build {
   static defaultOptions: BuildOptions = {
     workspace: process.cwd(),
     outDir: 'dist',
-    copyOptions: Copier.defaultOptions,
+    copyOptions: omit(Copier.defaultOptions, ['outDir']),
     obfuscateOptions: {
-      ...Obfuscator.defaultOptions,
+      ...omit(Obfuscator.defaultOptions, ['outDir']),
       enabled: true,
     },
   };
   options: BuildOptions;
   constructor(options?: Partial<BuildOptions>) {
-    this.options = merge({}, Build.defaultOptions, options);
+    this.options = optionsMerge(Build.defaultOptions, options);
   }
   get outDir() {
     return path.join(this.options.workspace, this.options.outDir);
