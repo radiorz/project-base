@@ -3,6 +3,6 @@ async function bootstrap() {
   const build = new Build({
     outDir: 'test-dist',
   });
-  build.start();
+  await build.start();
 }
 bootstrap();

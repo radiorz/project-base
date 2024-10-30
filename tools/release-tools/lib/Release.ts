@@ -173,7 +173,7 @@ export class Release {
         .pipe(outputStream);
       // 添加文件
       this.inputs.forEach((input) => {
-        archive.file(input.source, { name: input.name });
+        archive.file(join(this.options.workspace, input.source), { name: input.name });
       });
       if (this.options.plugins?.length) {
         await Promise.all(
