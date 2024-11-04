@@ -33,6 +33,8 @@ export const TikkhunReleaseDefaultOptions = {
 const logger = new Logger('TikkhunRelease');
 
 export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
+  // 记录时间.
+  console.time('tikkhun-release');
   const opts: TikkhunReleaseDefaultOptions = optionsMerge(TikkhunReleaseDefaultOptions, options);
   logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
   const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
@@ -58,4 +60,5 @@ export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
     plugins,
   });
   await release.start();
+  console.timeEnd('tikkhun-release');
 }

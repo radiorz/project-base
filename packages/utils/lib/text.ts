@@ -76,7 +76,7 @@ export function toCamelCase(str: string) {
 /**
  * 替代params
  * @param {String} pattern
- * @param {Object} variables
+ * @param {Object} variables 
  * @param {Object} options
  * @returns
  * @example
