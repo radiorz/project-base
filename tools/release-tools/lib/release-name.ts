@@ -12,11 +12,10 @@
 import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from './info-builder/info-builder';
 import dayjs from 'dayjs';
-export type Param = keyof Info;
-
+// export type Param = keyof Info;
 export interface ReleaseNameOptions {
   info: Info;
-  params: Param[];
+  params: string[];
   paramDelimiter: string;
   //
   releasedAtPattern: string;

@@ -7,3 +7,4 @@ if (typeof window !== 'undefined' && window.crypto) {
 export function getRandom() {
   return crypto.randomUUID();
 }
+

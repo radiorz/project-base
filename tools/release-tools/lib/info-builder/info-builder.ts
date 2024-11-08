@@ -25,6 +25,7 @@ export interface Info {
   fileMd5?: string | null;
   mainFilePath?: string;
   mainFileName?: string;
+  [props: string]: any;
 }
 export interface InfoBuilderOptions {
   workspace: string;
@@ -74,6 +75,7 @@ export class InfoBuilder {
   // 最终目的
   get(): Info {
     return {
+      ...this.options.input, // 包括多余的项目参数
       name: this.getName(),
       title: this.getTitle(),
       description: this.getDescription(),

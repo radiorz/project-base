@@ -46,6 +46,7 @@ export abstract class AbstractTicker extends Emitter {
     if (!this.timers.has(timer)) {
       return;
     }
+    // TODO abort signal is better
     this.off('change', timer.onTime);
     this.off('stop', timer.onStop);
     this.off('start', timer.onStart);
