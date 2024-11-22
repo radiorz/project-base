@@ -8,6 +8,7 @@ export interface CommandOptions {
   program?: Command;
   version: string;
   description: string;
+  logo?: string;
   defaultOptions: Record<string, any>;
   excludeOptions: string[];
   optionTypes: Record<string, any>;
@@ -19,6 +20,7 @@ export abstract class AbstractCommand {
     program: undefined,
     version: '',
     description: '',
+    logo: undefined,
     defaultOptions: {},
     excludeOptions: [],
     optionTypes: {},

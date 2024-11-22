@@ -34,6 +34,7 @@ export class CommandManager {
     this.init();
   }
   welcome() {
+    if (this.options.logo) console.log(this.options.logo);
     this.logger.log('Welcome!');
     this.logger.log('version: ' + this.options.version);
     this.logger.log('description: ' + this.options.description);
