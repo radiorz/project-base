@@ -32,13 +32,22 @@ export interface ProjectDirOptions {
   build: (name: string, options: Omit<ProjectDirOptions, 'build'>) => string;
 }
 export interface CreatorOptions {
+  // 项目的目标目录
   workspace: string;
+  // 清空旧的
   clean: boolean;
+  // 项目名称
   projectName: string;
+  // templates: string[];
+  // 项目模板路径
   template: string;
+  // 排除复制的文件
   templateExclude: string[];
+  // ejs 模板文件
   templateFiles: string[];
+  // 需要移动的文件配置
   replaces: ReplaceDir[];
+  //
   projectDirOptions: ProjectDirOptions;
 }
 let libDir: string;

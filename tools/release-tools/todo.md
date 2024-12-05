@@ -1,5 +1,5 @@
 # TODO
-
+- 优化 archive 速度 7zip 或者微软自带的快很多。
 - read info from yaml
 - info  save as yaml
 - infoOptions input 可增加字段
