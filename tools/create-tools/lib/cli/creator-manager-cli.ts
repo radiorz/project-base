@@ -6,7 +6,8 @@ import { TemplateChooser } from '../TemplateChooser';
 import packageJson from '../../package.json';
 import { creatorCli, creatorCliOptions } from './creator-cli';
 import { templatesDir } from '../utils';
-import { readJSON } from 'fs-extra';
+import fsExtra from 'fs-extra';
+const { readJSON } = fsExtra;
 import path from 'path';
 import { Logger } from '@tikkhun/logger';
 
@@ -35,7 +36,10 @@ export const creatorManagerCli = new Cli(creatorManagerCliOptions);
 // 已经带有 templates
 export async function withTemplatesDir(templatesDir: string) {
   const template = await TemplateChooser({ templatesDir });
-  const creatorCli = new Cli({ ...creatorCliOptions, excludeOptions: ['template'] });
+  const creatorCli = new Cli({
+    ...creatorCliOptions,
+    excludeOptions: [...creatorCliOptions.excludeOptions, 'template'],
+  });
   let templateOptions: any;
   try {
     templateOptions = (await readJSON(path.join(template, 'template.json'))) || {};
@@ -48,7 +52,6 @@ export async function withTemplatesDir(templatesDir: string) {
       ...options,
       ...templateOptions,
       template,
-      // 其他选项怎么办
     });
     await creator.start();
   });
