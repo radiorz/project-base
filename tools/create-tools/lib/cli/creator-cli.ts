@@ -1,6 +1,6 @@
-import { Creator } from '../lib';
-import { Cli } from '@tikkhun/cli-core';
-import packageJson from '../package.json';
+import { Creator } from '..';
+import { Cli, CommandTypes } from '@tikkhun/cli-core';
+import packageJson from '../../package.json';
 export const creatorOptionTitles = {
   workspace: '目标文件夹', // template 复制到的位置
   template: '模板路径', // template 的位置
@@ -31,6 +31,7 @@ export const creatorCliOptions = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
+  types: [CommandTypes.args, CommandTypes.prompts],
   defaultOptions: Creator.DEFAULT_OPTIONS,
   excludeOptions: ['projectDirOptions.build'],
   optionTitles: creatorOptionTitles,
