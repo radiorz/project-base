@@ -1,12 +1,12 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.1.19",
+  "version": "0.2.0",
   "description": "创建项目",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
   "types": "dist/lib/index.d.ts",
   "bin": {
-    "tikkhun-create": "./dist/cli/creator.js",
+    "tikkhun-create": "./dist/cli/main.js",
     "tikkhun-create-manage": "./dist/cli/creatorManager.js"
   },
   "exports": {
