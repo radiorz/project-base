@@ -1,15 +1,15 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
+import { Logger } from '@tikkhun/logger';
+import fsExtra from 'fs-extra';
 import _ from 'lodash';
-const { omit } = _;
+import path from 'path';
+import packageJson from '../../package.json';
 import { Creator } from '../Creator';
 import { TemplateChooser } from '../TemplateChooser';
-import packageJson from '../../package.json';
-import { creatorCli, creatorCliOptions } from './creator-cli';
-import { templatesDir } from '../utils';
-import fsExtra from 'fs-extra';
+import { templatesDir as defaultTemplatesDir } from '../utils';
+import { creatorCliOptions } from './creator-cli';
+const { omit } = _;
 const { readJSON } = fsExtra;
-import path from 'path';
-import { Logger } from '@tikkhun/logger';
 
 export const creatorManagerCliOptions = {
   name: packageJson.name,
@@ -34,7 +34,7 @@ export const creatorManagerCliOptions = {
 export const creatorManagerCli = new Cli(creatorManagerCliOptions);
 
 // 已经带有 templates
-export async function withTemplatesDir(templatesDir: string) {
+export async function withTemplatesDir(templatesDir: string = defaultTemplatesDir) {
   const template = await TemplateChooser({ templatesDir });
   const creatorCli = new Cli({
     ...creatorCliOptions,
@@ -43,7 +43,7 @@ export async function withTemplatesDir(templatesDir: string) {
   let templateOptions: any;
   try {
     templateOptions = (await readJSON(path.join(template, 'template.json'))) || {};
-    Logger.log('模板默认选项', templateOptions);
+    Logger.log('模板默认选项: ' + JSON.stringify(templateOptions));
   } catch (error: any) {
     Logger.warn(`读取templateOptions失败,原因为：` + error.message);
   }

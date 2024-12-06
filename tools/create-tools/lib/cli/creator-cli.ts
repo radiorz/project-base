@@ -3,6 +3,7 @@ import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
 export const creatorOptionTitles = {
   workspace: '目标文件夹', // template 复制到的位置
+  clean: '清除旧文件',
   template: '模板路径', // template 的位置
   templateExclude: '不包含的一些文件', // 排除不复制的内容
   projectName: '项目名称', // 项目名称
@@ -16,6 +17,7 @@ export const creatorOptionTitles = {
 };
 export const creatorOptionTypes = {
   workspace: 'string', // template 复制到的位置
+  clean: 'boolean', // 清除
   template: 'string', // template 的位置
   templateExclude: 'array', // 排除不复制的内容
   projectName: 'string', // 项目名称
