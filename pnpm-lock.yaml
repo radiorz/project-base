@@ -698,12 +698,18 @@ importers:
 
   templates/create-tsup:
     dependencies:
-      '@inquirer/prompts':
-        specifier: ^7.0.0
-        version: 7.0.0(@types/node@22.7.7)
+      '@tikkhun/cli-core':
+        specifier: workspace:^
+        version: link:../../packages/cli-core
       '@tikkhun/create':
         specifier: workspace:^
         version: link:../../tools/create-tools
+      '@tikkhun/logger':
+        specifier: workspace:^
+        version: link:../../packages/logger
+      fs-extra:
+        specifier: ^11.2.0
+        version: 11.2.0
 
   templates/create-vite:
     dependencies:

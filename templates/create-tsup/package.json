@@ -18,7 +18,9 @@
     "@tikkhun/create": "latest"
   },
   "dependencies": {
+    "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/create": "workspace:^",
-    "@inquirer/prompts": "^7.0.0"
+    "@tikkhun/logger": "workspace:^",
+    "fs-extra": "^11.2.0"
   }
 }

@@ -1,16 +1,25 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "创建项目",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
   "types": "dist/lib/index.d.ts",
   "bin": {
     "tikkhun-create": "./dist/cli/main.js",
-    "tikkhun-create-manage": "./dist/cli/creatorManager.js"
+    "tikkhun-create-manage": "./dist/cli/creator-manager.js"
   },
   "exports": {
-    ".": "./lib/index.ts"
+    ".": {
+      "import": {
+        "types": "./dist/lib/index.d.mts",
+        "default": "./dist/lib/index.mjs"
+      },
+      "require": {
+        "default": "./dist/lib/index.js",
+        "types": "./dist/lib/index.d.ts"
+      }
+    }
   },
   "publishConfig": {
     "access": "public",
