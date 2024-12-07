@@ -41,6 +41,7 @@ export async function withTemplatesDir(templatesDir: string = defaultTemplatesDi
     excludeOptions: [...creatorCliOptions.excludeOptions, 'template'],
     immediatelyWelcome: true,
   });
+  // console.log(`creatorCli`, creatorCli);
   let templateOptions: any;
   try {
     templateOptions = (await readJSON(path.join(template, 'template.json'))) || {};

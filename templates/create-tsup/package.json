@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "node ./bin/create-tsup.js",
+    "dev:prompts": "node ./bin/create-tsup.js prompts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

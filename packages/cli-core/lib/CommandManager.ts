@@ -1,12 +1,10 @@
-// import { merge } from 'lodash'; // 这个怎么解决
-import _ from 'lodash';
-const { merge } = _;
 import { AbstractCommand, Action, CommandOptions } from './command/command.interface';
 import { ArgsCommand } from './command/ArgsCommand';
 import { PromptsCommand } from './command/PromptsCommand';
 import { Logger } from '@tikkhun/logger';
 import { ConfigCommand } from './command/ConfigCommand';
 import { Command, createCommand } from 'commander';
+import { optionsMerge } from '@tikkhun/utils-core';
 export enum CommandTypes {
   'prompts' = 'prompts',
   'args' = 'args',
@@ -30,7 +28,7 @@ export class CommandManager {
   promptsCommand?: PromptsCommand;
   configCommand?: ConfigCommand;
   constructor(options: Partial<CommandManagerOptions>) {
-    this.options = merge({}, CommandManager.DEFAULT_OPTIONS, options);
+    this.options = optionsMerge(CommandManager.DEFAULT_OPTIONS, options);
     this.logger = new Logger(this.options.name);
     if (this.options.immediatelyWelcome) this.welcome(); // 有的时候并不想马上触发
     this.init();
