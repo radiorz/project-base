@@ -15,12 +15,14 @@ export enum CommandTypes {
 export interface CommandManagerOptions extends CommandOptions {
   name: string;
   types: CommandTypes[];
+  immediatelyWelcome: boolean;
 }
 export class CommandManager {
   static readonly DEFAULT_OPTIONS: CommandManagerOptions = {
     ...AbstractCommand.DEFAULT_OPTIONS,
-    types: [CommandTypes.args],
     name: '',
+    types: [CommandTypes.args],
+    immediatelyWelcome: false,
   };
   logger: Logger;
   options: CommandManagerOptions;
@@ -30,7 +32,7 @@ export class CommandManager {
   constructor(options: Partial<CommandManagerOptions>) {
     this.options = merge({}, CommandManager.DEFAULT_OPTIONS, options);
     this.logger = new Logger(this.options.name);
-    this.welcome();
+    if (this.options.immediatelyWelcome) this.welcome(); // 有的时候并不想马上触发
     this.init();
   }
   welcome() {

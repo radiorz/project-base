@@ -39,6 +39,7 @@ export async function withTemplatesDir(templatesDir: string = defaultTemplatesDi
   const creatorCli = new Cli({
     ...creatorCliOptions,
     excludeOptions: [...creatorCliOptions.excludeOptions, 'template'],
+    immediatelyWelcome: true,
   });
   let templateOptions: any;
   try {
