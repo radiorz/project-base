@@ -1,6 +1,6 @@
 import { clone, get, merge, set } from 'lodash';
 import { ConfigSource } from './ConfigSource';
-import { Emitter } from './Emitter';
+import { Emitter } from '@tikkhun/utils-core';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 import { ConfigStorage, MemoryStorage } from './ConfigStorage';
 export interface ConfigOptions {
