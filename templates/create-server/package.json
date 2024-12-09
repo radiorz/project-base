@@ -1,11 +1,11 @@
 {
-  "name": "@tikkhun/create-express",
+  "name": "@tikkhun/create-server",
   "version": "0.0.2",
   "description": "",
   "type": "module",
   "main": "./bin/main.js",
   "bin": {
-    "tikkhun-create-express": "./bin/main.js"
+    "tikkhun-create-server": "./bin/main.js"
   },
   "scripts": {
     "dev": "node ./bin/main.js",
