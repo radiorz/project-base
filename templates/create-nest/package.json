@@ -18,7 +18,6 @@
     "@tikkhun/create": "latest"
   },
   "dependencies": {
-    "@tikkhun/create": "workspace:^",
-    "@inquirer/prompts": "^7.0.0"
+    "@tikkhun/create": "workspace:^"
   }
 }
