@@ -42,7 +42,9 @@ export class DepsVersionUpdater {
     for (const workspace of this.options.workspace) {
       try {
         const packageJson = await DepsVersionGetter.loadPackageJSON(workspace);
+
         const allDeps = { ...packageJson.dependencies, ...packageJson.devDependencies };
+
         const needUpdateDepsVersionInfos = Object.entries(allDeps)
           .map(([name, oldVersion]) => DepsVersionGetter.getVersionInfo(name, oldVersion as string))
           .filter(DepsVersionGetter.checkUpdateNeeded);
@@ -53,6 +55,7 @@ export class DepsVersionUpdater {
             packageJson.devDependencies[info.name] = info.newVersion;
           }
         });
+
         return await DepsVersionUpdater.savePackageJSON(workspace, packageJson);
       } catch (error) {
         console.log(`${workspace}更新失败`);

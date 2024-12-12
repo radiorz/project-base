@@ -45,9 +45,9 @@
   "devDependencies": {
     "@tikkhun/version": "latest",
     "@types/dotenv-safe": "^8.1.6",
-    "@types/lodash": "^4.17.12",
-    "@types/node": "^22.7.7",
-    "tsx": "^4.19.1",
-    "tsup": "^8.3.0"
+    "@types/lodash": "^4.17.13",
+    "@types/node": "^22.10.2",
+    "tsx": "^4.19.2",
+    "tsup": "^8.3.5"
   }
 }

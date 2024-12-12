@@ -1,10 +1,13 @@
 {
-  "name": "deps-tools",
+  "name": "@tikkhun/deps-tools",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
+  "bin": {
+    "tk-deps": "./dist/bin/main.ts"
+  },
   "exports": {
     ".": {
       "import": {
@@ -35,10 +38,12 @@
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "@types/fs-extra": "^11.0.4",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.2.0",
+    "glob": "^11.0.0",
+    "npm-check-updates": "^17.1.11"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "vitest": "^2.1.8"
