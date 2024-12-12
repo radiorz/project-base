@@ -1,1 +1,2 @@
-export function hello() {}
+export * from './DepsVersionGetter';
+export * from './DepsVersionUpdate';
