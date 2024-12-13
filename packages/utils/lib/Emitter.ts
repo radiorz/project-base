@@ -39,6 +39,19 @@ export class Emitter {
       this.listeners[eventName] = this.listeners[eventName].filter((listener) => listener !== callback);
     }
   }
+  // 清空全部
+  offAll(eventName?: string) {
+    if (eventName) {
+      delete this.listeners[eventName];
+    } else {
+      // 清除所有引用，帮助垃圾回收
+      for (const key in this.listeners) {
+        delete this.listeners[key];
+      }
+      // 或者直接
+      // this.listeners = {};
+    }
+  }
 
   emit(eventName: string, ...args: any[]) {
     if (this.listeners[eventName]) {
