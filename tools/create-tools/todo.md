@@ -1,5 +1,5 @@
 # TODO
-
+- clean to mode new update 支持部分文件更新。
 - 将 templates 抽象出来，create tools 变成一个类似 scoop 的管理器
 - 可以添加或删除templates源，这个就是一个列表，指向了最终的下载地址或本地仓库
   - 定义好templates源的配置字段 
