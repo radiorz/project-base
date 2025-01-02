@@ -19,7 +19,7 @@ export const LocalStorageSourceDefaultOptions = {
   // 存储的键值对
   key: 'config',
   // 存储的
-  saveDebounce: 200,
+  saveDebounce: 10,
   emitError: false,
 };
 export class LocalStorageSource implements ConfigSource {
@@ -28,7 +28,7 @@ export class LocalStorageSource implements ConfigSource {
   constructor(options?: Partial<typeof LocalStorageSourceDefaultOptions>) {
     this.options = optionsMerge(LocalStorageSource.defaultOptions, options);
     this.save = debounce(this.save.bind(this), this.options.saveDebounce);
-    this.save = debounce(this.save, 10);
+    this.save = debounce(this.save, this.options.saveDebounce);
   }
   load() {
     try {
