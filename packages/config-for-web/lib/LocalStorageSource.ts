@@ -52,6 +52,10 @@ export class LocalStorageSource implements ConfigSource {
   save(path: string, value: any) {
     // 由于是整份保存，所以只能这样当然可以debounce一下
     const config = this.load() || {};
+    if (path === '') {
+      localStorage.setItem(this.options.key, JSON.stringify(value));
+      return;
+    }
     set(config, path, value);
     localStorage.setItem(this.options.key, JSON.stringify(config));
   }
