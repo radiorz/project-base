@@ -1,3 +1,5 @@
+import { isEqual } from "lodash";
+
 type ChangeHandler = (path: string, value: any) => void;
 
 export function createReactiveObject<T extends object>(target: T, onChange: ChangeHandler, parentPath: string = ''): T {
@@ -13,8 +15,8 @@ export function createReactiveObject<T extends object>(target: T, onChange: Chan
     set(target: T, key: string | symbol, value: any, receiver: any): boolean {
       const ownTarget = receiver === target ? target : Object.create(target);
       const oldValue = Reflect.get(ownTarget, key, receiver);
-
-      if (oldValue !== value) {
+      // 对象不等才算更新
+      if (!isEqual(oldValue, value)) {
         const path = `${parentPath}${String(key)}`;
         onChange(path, value);
       }

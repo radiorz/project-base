@@ -1,5 +1,5 @@
 import { Emitter } from '@tikkhun/utils-core';
-import { debounce, get, merge, set, throttle } from 'lodash';
+import { debounce, get, merge, set } from 'lodash';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 import { ConfigSource } from './ConfigSource';
 import { createReactiveObject } from './reactive';
