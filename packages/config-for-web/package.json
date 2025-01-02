@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/web-config",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "type": "module",
   "files": [
     "dist"
