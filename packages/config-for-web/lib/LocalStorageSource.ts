@@ -28,7 +28,6 @@ export class LocalStorageSource implements ConfigSource {
   constructor(options?: Partial<typeof LocalStorageSourceDefaultOptions>) {
     this.options = optionsMerge(LocalStorageSource.defaultOptions, options);
     this.save = debounce(this.save.bind(this), this.options.saveDebounce);
-    this.save = debounce(this.save, this.options.saveDebounce);
   }
   load() {
     try {
