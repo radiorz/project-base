@@ -1,0 +1,33 @@
+{
+  "name": "@tikkhun/web-config",
+  "version": "0.2.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/web-config.umd.cjs",
+  "module": "./dist/web-config.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/web-config.js",
+    "require": "./dist/web-config.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11",
+    "vite-plugin-banner": "^0.8.0",
+    "vitest": "^2.1.5"
+  },
+  "dependencies": {
+    "@tikkhun/config-core": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
+    "@types/lodash-es": "^4.17.12",
+    "lodash-es": "^4.17.21"
+  }
+}
