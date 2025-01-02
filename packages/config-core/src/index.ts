@@ -45,6 +45,8 @@ m.addSource({
     return { nnn: '123', mmm: '123' };
   },
 });
+m.reset();
+console.log(`m.config`, m.config);
 // console.log(`添加源 m.get('nnn')`, m.get('nnn'));
 console.log(`修改nnn为 1234`);
 m.set('nnn', '1234');
