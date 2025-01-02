@@ -9,6 +9,8 @@
  */
 
 export interface EventbusOptions {
+  
+  delimiter: "/",
 
 }
 

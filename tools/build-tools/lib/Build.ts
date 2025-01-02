@@ -19,10 +19,10 @@ import path from 'path';
 import { Copier, CopierOptions } from './Copier';
 import { Obfuscator, ObfuscatorOptions } from './Obfuscator';
 export interface BuildOptions {
-  workspace: string;
-  outDir: string;
-  copyOptions: Partial<Omit<CopierOptions, 'outDir'>>;
-  obfuscateOptions: { enabled: boolean } & Partial<Omit<ObfuscatorOptions, 'outDir'>>;
+  workspace: string; // 需要编译的目录
+  outDir: string; // 输出目录
+  copyOptions: Partial<Omit<CopierOptions, 'outDir'>>; // 直接拷贝的选项
+  obfuscateOptions: { enabled: boolean } & Partial<Omit<ObfuscatorOptions, 'outDir'>>; // 混淆的选项
 }
 export class Build {
   log = new Logger('Build');

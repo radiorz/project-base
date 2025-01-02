@@ -1,8 +1,8 @@
-import { clone, get, merge, set } from 'lodash';
-import { ConfigSource } from './ConfigSource';
 import { Emitter } from '@tikkhun/utils-core';
+import { debounce, get, merge, set, throttle } from 'lodash';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
-import { ConfigStorage, MemoryStorage } from './ConfigStorage';
+import { ConfigSource } from './ConfigSource';
+import { createReactiveObject } from './reactive';
 export interface ConfigOptions {
   /**
    * 获取来源
@@ -12,37 +12,50 @@ export interface ConfigOptions {
    * 全局变量名称
    */
   global?: string;
-  store?: ConfigStorage;
+  // store?: ConfigStorage; // store 永远是内存store 不过 source 可以save 也就是可以同步我们的更改。
 }
-
+export enum ConfigEvents {
+  change = 'change', // 整体改变了
+  valueChange = 'valueChange', // 某个值改变了
+}
 export class Config extends Emitter implements Api {
   options: ConfigOptions;
   sources: ConfigSource[] = [];
-  store: ConfigStorage;
+  // 由于可能会将value完全清空 所以还是多嵌套一层，让监听使用者不需要重新创建 new Proxy对象
+  _config = createReactiveObject<{ value: any }>(
+    {
+      value: {},
+    },
+    this.handleValueChange.bind(this),
+  );
   get config() {
-    return this.store.get();
+    return this._config.value;
   }
-  set config(value) {
-    // 目前总是整份保存
-    this.store.set(value);
-    // 更新也总是整份更新触发
-    this.emit('change', clone(this.config));
+  set config(value: any) {
+    this._config.value = value;
+  }
+  handleValueChange(path: string, value: any) {
+    console.log(`111 path,value`, path, value);
+    const theTruePath = path.replace(/value\.?/, '');
+    this.syncToSources(theTruePath, value);
+    this.emit(ConfigEvents.valueChange, { path: theTruePath, value });
+    // 这里会不断触发，知道 超出debounce时间（不过这样有一定的延迟，或许让业务直接监听valueChange 会更好）
+    this.handleWholeChange();
+  }
+  // 有时候不要频繁变更 所以加个debounce 只监听最后一次抖动
+  handleWholeChange() {
+    this.emit(ConfigEvents.change, this.config);
   }
   constructor(options: ConfigOptions) {
     super();
     this.options = options;
     this.sources = this.options.sources;
-    this.store = this.options.store || new MemoryStorage();
-    this.on('change', (config) => {
-      // 同步到源上
-      this.sources.forEach((source) => {
-        source.save?.(config);
-      });
-    });
     // 设置到全局
     if (this.options.global) {
       (globalThis as any)[this.options.global] = this;
     }
+    // 修改多次最终只会触发一次
+    this.handleWholeChange = debounce(this.handleWholeChange, 100);
   }
   static create(options: ConfigOptions) {
     const configManager = new Config(options);
@@ -50,6 +63,13 @@ export class Config extends Emitter implements Api {
     configManager.load();
     return configManager;
   }
+  syncToSources(path: string, value: any) {
+    // 同步到源上,源采取全修改的方式PUT
+    this.sources.forEach((source) => {
+      source.save?.(path, value);
+    });
+  }
+
   init() {
     // 目前都是同步.
     this.sources.forEach((source) => {
@@ -59,12 +79,19 @@ export class Config extends Emitter implements Api {
   load() {
     // 目前都是同步
     const results = this.sources.map((source) => source.load());
-    this.config = merge({}, ...results);
+    // 合并各个数据
+    const originConfig = merge({}, ...results);
+    // 使用Proxy来监听config的变化
+    this.config = originConfig;
   }
+
   addSource(source: ConfigSource) {
-    this.sources.push(source);
     if (source.init) source.init();
-    this.config = merge({}, this.config, source?.load());
+    // this.config 不能直接等于
+    const sourceConfig = source?.load();
+    // 或者重新全部load也可以 不过这样开销比较大
+    this.config = merge({}, this.config, sourceConfig);
+    this.sources.push(source);
     return this;
   }
   get(path: string): any;
@@ -92,7 +119,8 @@ export class Config extends Emitter implements Api {
 
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (path === '') {
-      this.config = data || {}; // 清空配置
+      // 重置整个配置
+      this.config = {}; // 清空配置
       return;
     }
     if (typeof data === 'undefined') return;
@@ -113,10 +141,14 @@ export class Config extends Emitter implements Api {
     return this.set({ ...first, data: null });
   }
   // 重置整个config
-  reset() {
+  reset(source = false) {
     // 清空所有，然后重新加载
     // 清空所有 正常是直接load就行，但有种情况就是又是store 又是source 如果不清空就白重新加载。
-    this.remove();
+    if (source) {
+      this.sources.forEach((source) => {
+        source.reset?.();
+      });
+    }
     // 重新加载
     this.load();
   }

@@ -1,6 +1,4 @@
-import { EnvSource } from '../lib';
-import { Config } from '../lib';
-import { removePrefix } from '../lib/EnvSource';
+import { Config, EnvSource, ConfigEvents } from '../lib';
 class TheEnvSource extends EnvSource {
   initEnv(): boolean {
     return true;
@@ -11,6 +9,12 @@ class TheEnvSource extends EnvSource {
       a__bb: '888',
       a__cc: '777',
     };
+  }
+  reset() {
+    console.log(`123`, 123);
+  }
+  save(path: string, value: any) {
+    console.log(`save path,value `, path, '%%%%', value);
   }
 }
 const m = Config.create({
@@ -29,14 +33,19 @@ const m = Config.create({
     },
   ],
 });
-m.on('change', (config) => console.log('change', config.nnn));
-console.log(`m.get()`, m.get());
+m.on(ConfigEvents.change, (config) => {
+  console.log(`config change`, config);
+});
+m.on(ConfigEvents.valueChange, ({ path, value }) => console.log(`onvaluechange path,value`, path, value));
+console.log(`获取全部 m.get()`, m.get());
 // console.log(`m.get()`, JSON.stringify(m.get()));
-console.log(`m.get('a.b.c')`, m.get('a.b.c'));
+console.log(`通过路径获取 m.get('a.b.c')`, m.get('a.b.c'));
 m.addSource({
   load() {
-    return { nnn: '123' };
+    return { nnn: '123', mmm: '123' };
   },
 });
+// console.log(`添加源 m.get('nnn')`, m.get('nnn'));
+console.log(`修改nnn为 1234`);
 m.set('nnn', '1234');
-console.log(`m.get('nnn')`, m.get('nnn'));
+console.log(`修改nnn为 1234后 m.get('nnn')`, m.get('nnn'));

@@ -27,12 +27,12 @@ export class Node {
     if (typeof this.options.name === 'function') {
       return this.options.name();
     }
-    return this.options.name!;
+    return this.options.name || this.constructor.name;
   }
   options: NodeOptions;
   constructor(options?: Partial<NodeOptions>) {
     this.options = optionsMerge(Node.defaultOptions, options);
     this._name = this.getName();
   }
-  
+  join(node: Node) {}
 }
