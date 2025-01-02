@@ -35,7 +35,6 @@ export class Config extends Emitter implements Api {
     this._config.value = value;
   }
   handleValueChange(path: string, value: any) {
-    console.log(`111 path,value`, path, value);
     const theTruePath = path.replace(/value\.?/, '');
     this.syncToSources(theTruePath, value);
     this.emit(ConfigEvents.valueChange, { path: theTruePath, value });
@@ -119,13 +118,12 @@ export class Config extends Emitter implements Api {
 
     const { path, data } = Object.assign({ path: '', data: undefined }, opts);
     if (path === '') {
-      // 重置整个配置
-      this.config = {}; // 清空配置
+      this.config = data || {}; // 如果是undefined 默认还是给他一个对象。
       return;
     }
     if (typeof data === 'undefined') return;
     // 这里直接赋值使得每次变化都能被set 函数监听到并触发
-    this.config = set(this.config, path, data);
+    set(this.config, path, data);
   }
   // 删除某部分
   remove(path: string): any;
