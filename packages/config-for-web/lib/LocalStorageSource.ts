@@ -19,14 +19,17 @@ export const LocalStorageSourceDefaultOptions = {
   // 存储的键值对
   key: 'config',
   // 存储的
-  saveDebounce: 10,
+  saveDebounce: 0,
   emitError: false,
+  onSave: () => {},
 };
 export class LocalStorageSource implements ConfigSource {
   static defaultOptions = Object.freeze(LocalStorageSourceDefaultOptions);
   options: typeof LocalStorageSourceDefaultOptions;
   constructor(options?: Partial<typeof LocalStorageSourceDefaultOptions>) {
     this.options = optionsMerge(LocalStorageSource.defaultOptions, options);
+
+    // FIXME saveDebounce 会影响同步性，可能会导致reset后config 依然加载旧参数，这个有待解决。
     if (this.options.saveDebounce) this.save = debounce(this.save.bind(this), this.options.saveDebounce);
   }
   load() {
@@ -54,9 +57,11 @@ export class LocalStorageSource implements ConfigSource {
     const config = this.load() || {};
     if (path === '') {
       localStorage.setItem(this.options.key, JSON.stringify(value));
+      this.options.onSave();
       return;
     }
     set(config, path, value);
     localStorage.setItem(this.options.key, JSON.stringify(config));
+    this.options.onSave();
   }
 }
