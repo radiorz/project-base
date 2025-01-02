@@ -14,7 +14,7 @@
 
 import { ConfigSource } from '@tikkhun/config-core';
 import { optionsMerge } from '@tikkhun/utils-core';
-import { debounce, merge, set } from 'lodash-es';
+import { debounce, set } from 'lodash-es';
 export const LocalStorageSourceDefaultOptions = {
   // 存储的键值对
   key: 'config',
@@ -45,7 +45,9 @@ export class LocalStorageSource implements ConfigSource {
   reset(path?: string) {
     if (!path) {
       this.save('', {});
+      return;
     }
+    this.save(path, undefined);
   }
   // 这里应该搞个debounce
   save(path: string, value: any) {
