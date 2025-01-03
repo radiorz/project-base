@@ -6,4 +6,5 @@ export interface ConfigSource {
   reset?: (path?: string) => void;
   // 用来同步配置进行新的保存
   save?: (path: string, value: any) => void;
+  onChange?: (path: string, value: any) => void; // source变化我也变化
 }
