@@ -15,6 +15,8 @@ export interface EnvSourceOptions {
 
   // # value 相关
   valueTransformer: (key: string, value: any) => any;
+  // initEnv(): void;
+  // loadEnv(): Record<string, any>;
 }
 
 export abstract class EnvSource implements ConfigSource {
@@ -25,7 +27,11 @@ export abstract class EnvSource implements ConfigSource {
     shouldRemovedPrefix: undefined, // 路径简化
     delimiter: '__',
     camelCase: true,
-
+    // 这个其实要强制实现
+    // initEnv() {},
+    // loadEnv() {
+    //   return {};
+    // },
     // 原始的.env很可能都是string，可以在此转换转换
     valueTransformer(_, value: any) {
       return value;
