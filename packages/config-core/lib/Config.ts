@@ -3,17 +3,26 @@ import { debounce, get, merge, set } from 'lodash';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 import { ConfigSource } from './ConfigSource';
 import { createReactiveObject } from './reactive';
-export interface ConfigOptions {
-  /**
-   * 获取来源
-   */
-  sources: ConfigSource[];
-  /**
-   * 全局变量名称
-   */
+// export interface ConfigOptions {
+//   /**
+//    * 获取来源
+//    */
+//   sources: ConfigSource[];
+//   /**
+//    * 全局变量名称
+//    */
+//   global: string;
+//   // store?: ConfigStorage; // store 永远是内存store 不过 source 可以save 也就是可以同步我们的更改。
+//   allowSyncError: boolean;
+// }
+export const DefaultConfigOptions = {
+  sources: [], //
+  global: undefined,
+  allowSyncError: false,
+};
+export type ConfigOptions = typeof DefaultConfigOptions & {
   global?: string;
-  // store?: ConfigStorage; // store 永远是内存store 不过 source 可以save 也就是可以同步我们的更改。
-}
+};
 export enum ConfigEvents {
   change = 'change', // 整体改变了
   valueChange = 'valueChange', // 某个值改变了
@@ -21,7 +30,6 @@ export enum ConfigEvents {
 export class Config extends Emitter implements Api {
   inited = false;
   loaded = false;
-  options: ConfigOptions;
   sources: ConfigSource[] = [];
   // 由于可能会将value完全清空 所以还是多嵌套一层，让监听使用者不需要重新创建 new Proxy对象
   _config = createReactiveObject<{ value: any }>(
@@ -38,7 +46,12 @@ export class Config extends Emitter implements Api {
   }
   async handleValueChange(path: string, value: any) {
     const theTruePath = path.replace(/value\.?/, '');
-    await this.syncToSources(theTruePath, value);
+    try {
+      await this.sync(theTruePath, value);
+    } catch (error) {
+      console.log('sync error', error);
+      if (!this.options.allowSyncError) throw error;
+    }
     this.emit(ConfigEvents.valueChange, { path: theTruePath, value });
     // 这里会不断触发，知道 超出debounce时间（不过这样有一定的延迟，或许让业务直接监听valueChange 会更好）
     this.handleWholeChange();
@@ -47,9 +60,10 @@ export class Config extends Emitter implements Api {
   handleWholeChange() {
     this.emit(ConfigEvents.change, this.config);
   }
-  constructor(options: ConfigOptions) {
+  options: ConfigOptions;
+  constructor(options: Partial<ConfigOptions>) {
     super();
-    this.options = options;
+    this.options = merge({}, DefaultConfigOptions, options);
     this.sources = this.options.sources;
     // 设置到全局
     if (this.options.global) {
@@ -64,9 +78,8 @@ export class Config extends Emitter implements Api {
     await configManager.load();
     return configManager;
   }
-
+  // 初始化
   async init() {
-    // 目前都是同步.
     const results = Promise.all(
       this.sources
         .filter((source) => source.init)
@@ -77,6 +90,7 @@ export class Config extends Emitter implements Api {
     this.inited = true;
     return results;
   }
+  // 加载配置
   async load() {
     // 目前都是同步
     const results = await Promise.all(this.sources.map((source) => source.load()));
@@ -88,7 +102,7 @@ export class Config extends Emitter implements Api {
     this.loaded = true;
   }
   /** 同步给源 */
-  async syncToSources(path: string, value: any) {
+  async sync(path: string, value: any) {
     // 同步到源上,源采取全修改的方式PUT
     return Promise.all(
       this.sources.map(async (source) => {
