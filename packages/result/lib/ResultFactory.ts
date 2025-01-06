@@ -1,49 +1,107 @@
 /**
  * @author
- * @file ResultFactory.ts
- * @fileBase ResultFactory
- * @path packages\result\lib\ResultFactory.ts
+ * @file BestResultFactory.ts
+ * @fileBase BestResultFactory
+ * @path packages\result\lib\BestResultFactory.ts
  * @from
  * @desc
  * @example
  */
-/**
- * 原始输入
- */
-export interface OriginResult {
-  token: string | string[]; // 业务链条 比如 ['user', 'login']
-  // success: boolean; // 成功与否
-  status: string | boolean; // 细分状态
-  error?: Error; // 错误体 即代码中捕获的错误
-  payload?: any; // 其他的数据可以暂存在这里
-  // 直接的输出者
-  code?: string | number; // code
-  message?: string; // 直接的日志消息
-}
 
-export interface FriendlyResult extends OriginResult {
-  getString: (options?: any) => string;
-  getCode: () => string | number;
-}
+import { get } from 'lodash';
+import { ReuseResult, FinalResult, OriginResult, OriginToken, ResultFactory } from './ResultFactory.type';
+import { optionsMerge } from '@tikkhun/utils-core';
+import { params } from './utils/params';
+const defaultResultFactoryOptions = {
+  messageMap: new Map<string, Record<string, any>>(),
+  // defaultLocale: undefined, // undefined貌似不支持
+  ignoreError: true, // 忽略一些未找到的错误
+  tokenPattern: '{token}.{status}',
+};
+type ResultFactoryOptions = typeof defaultResultFactoryOptions & { defaultLocale?: string };
+export class ResultFactoryImpl implements ResultFactory {
+  static defaultOptions: ResultFactoryOptions = Object.freeze(defaultResultFactoryOptions);
+  options: ResultFactoryOptions;
+  getCurrentMessageMap(locale?: string) {
+    if (!locale && !this.options.defaultLocale) {
+      return null;
+    }
+    return this.options.messageMap.get(locale || this.options.defaultLocale!);
+  }
+  constructor(options?: Partial<ResultFactoryOptions>) {
+    this.options = optionsMerge(ResultFactoryImpl.defaultOptions, options);
+  }
+  final(result: ReuseResult): FinalResult {
+    throw new Error('Method not implemented.');
+  }
 
-export interface ResultFactoryOptions {
-  friendlyMessageBuilder?: (result: OriginResult, options?: any) => string;
-  codeBuilder?: (result: OriginResult) => string | number;
-}
-// 这里使用 abstract 而不是options 更好
-export abstract class ResultFactory {
-  public createResult(result: OriginResult): FriendlyResult {
+  createResult(result: OriginResult): ReuseResult {
     const factory = this;
-    return {
+    const reuseResult: ReuseResult = {
       ...result,
       getCode() {
-        return this.code ?? factory.getResultCode?.(result) ?? '';
+        return factory.getResultCode(this);
       },
-      getString(options) {
-        return this.message ?? factory.getResultString?.(this, options) ?? '';
+      getString(language?: string) {
+        return factory.getResultString(this, language);
+      },
+      final() {
+        return {
+          code: this.getCode(),
+          message: this.getString(),
+        };
       },
     };
+    return reuseResult;
   }
-  abstract getResultString(result: OriginResult, options?: any): string;
-  abstract getResultCode(result: OriginResult): string | number;
+  getResultString(result: ReuseResult, language?: string) {
+    const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessageToken(result));
+    // 没有对应的message
+    if (!messageTemplate) {
+      // ignore error
+      if (this.options.ignoreError) {
+        return '';
+      } else {
+        throw new Error('no message found');
+      }
+    }
+    // 搞个简单的插值
+    return params(messageTemplate, { ...result.payload, error: result.error?.message });
+  }
+  getResultCode(result: ReuseResult): string | number {
+    return this.getMessageToken(result);
+  }
+
+  private getStatusToken(status: string | boolean) {
+    return typeof status === 'boolean' ? (status ? 'success' : 'error') : status;
+  }
+  private getMessageToken(result: ReuseResult) {
+    // 这里前置正确错误是因为大家更关注错误, 有时候甚至只用写错误，可以省略众多括号{}
+    return params(this.options.tokenPattern, {
+      token: getTokenStr(result.token),
+      status: this.getStatusToken(result.status),
+    });
+  }
+
+  // 不同语言的message集合
+  addLocale(name: string, messageMap: Record<string, any>) {
+    if (!this.options.defaultLocale) {
+      this.options.defaultLocale = name;
+    }
+    this.options.messageMap.set(name, messageMap);
+  }
+  changeLocale(name: string) {
+    if (this.options.messageMap.has(name)) {
+      this.options.defaultLocale = name;
+    }
+  }
+}
+export function getTokenStr(token: OriginToken) {
+  if (typeof token === 'function') {
+    token = token();
+  }
+  if (Array.isArray(token)) {
+    return token.join('.');
+  }
+  return token;
 }

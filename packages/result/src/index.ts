@@ -1,6 +1,6 @@
-import { BestResultFactory } from '../lib';
+import { ResultFactoryImpl } from '../lib';
 // 初始化
-const resultFactory = new BestResultFactory();
+const resultFactory = new ResultFactoryImpl();
 resultFactory.addLocale('zh', {
   user: {
     sign_in: {
@@ -27,7 +27,7 @@ const result = resultFactory.createResult({
 });
 console.log(`successResult`, result);
 console.log(`successResult.getString() `, result.getString());
-console.log(`successResult.getCode()`, result.code);
+console.log(`successResult.getCode()`, result.getCode());
 
 // 多语言测试
 console.log(`successResult.getString('en')`, result.getString('en'));
@@ -36,5 +36,6 @@ console.log(`successResult.getString('en')`, result.getString('en'));
 result.status = false;
 result.error = new Error('test error');
 console.log(`errorResult`, result);
-console.log(`errorResult`, result.status);
+console.log(`errorResult status`, result.status);
+console.log(`errorResult code`, result.getCode());
 console.log(`errorResult`, result.getString());
