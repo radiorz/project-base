@@ -14,16 +14,20 @@ import { optionsMerge } from '@tikkhun/utils-core';
 import { params } from './utils/params';
 const defaultBestResultFactoryOptions = {
   codeJson: {},
-  messageMap: new Map<string, JSON>(),
-  defaultLanguage: 'zh',
+  messageMap: new Map<string, Record<string, any>>(),
+  // defaultLocale: undefined, // undefined貌似不支持
+  ignoreError: true, // 忽略一些未找到的错误
 };
-type BestResultFactoryOptions = typeof defaultBestResultFactoryOptions;
+type BestResultFactoryOptions = typeof defaultBestResultFactoryOptions & { defaultLocale?: string };
 export class BestResultFactory {
   static defaultOptions: BestResultFactoryOptions = Object.freeze(defaultBestResultFactoryOptions);
   options: BestResultFactoryOptions;
   resultFactory: ResultFactory;
-  get currentMessageMap() {
-    return this.options.messageMap.get(this.options.defaultLanguage);
+  getCurrentMessageMap(locale?: string) {
+    if (!locale && !this.options.defaultLocale) {
+      return null;
+    }
+    return this.options.messageMap.get(locale || this.options.defaultLocale!);
   }
   constructor(options?: Partial<BestResultFactoryOptions>) {
     this.options = optionsMerge(BestResultFactory.defaultOptions, options);
@@ -35,13 +39,20 @@ export class BestResultFactory {
   createResult(result: OriginResult) {
     return this.resultFactory.createResult(result);
   }
-  getChainString(chain: string | string[]) {
+  private getChainString(chain: string | string[]) {
     return typeof chain === 'string' ? chain : chain.join('.');
   }
-  // TODO 这里需要搞个插值不然有时候不够清晰
-  private friendlyMessageBuilder(result: OriginResult) {
-    // 这里要插值
-    const messageTemplate = get(this.currentMessageMap, this.getChainString(result.token));
+  private getMessagePath(result: Pick<OriginResult, 'success' | 'token'>) {
+    return `${result.success ? 'success' : 'error'}.` + this.getChainString(result.token);
+  }
+  private friendlyMessageBuilder(result: OriginResult, language?: string) {
+    const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessagePath(result));
+    // 没有对应的message
+    if (!messageTemplate) {
+      // ignore error
+      return '';
+    }
+    // 搞个简单的插值
     return params(messageTemplate, { ...result.payload, error: result.error?.message });
   }
   private codeBuilder(result: OriginResult) {
@@ -56,12 +67,15 @@ export class BestResultFactory {
     set(this.options.codeJson, typeof chain === 'string' ? chain : chain.join('.'), undefined);
   }
   // 不同语言的message集合
-  addLanguage(language: string, messageMap: JSON) {
-    this.options.messageMap.set(language, messageMap);
+  addLocale(name: string, messageMap: Record<string, any>) {
+    if (!this.options.defaultLocale) {
+      this.options.defaultLocale = name;
+    }
+    this.options.messageMap.set(name, messageMap);
   }
-  changeLanguage(language: string) {
-    if (this.options.messageMap.has(language)) {
-      this.options.defaultLanguage = language;
+  changeLocale(name: string) {
+    if (this.options.messageMap.has(name)) {
+      this.options.defaultLocale = name;
     }
   }
 }

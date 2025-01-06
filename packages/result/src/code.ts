@@ -1,8 +1,12 @@
 export default {
-  user: {
-    login: {
-      success: '001',
-      error: '002',
+  success: {
+    user: {
+      login: '201',
+    },
+  },
+  error: {
+    user: {
+      login: '400',
     },
   },
 };

@@ -21,12 +21,12 @@ export interface OriginResult {
 }
 
 export interface FriendlyResult extends OriginResult {
-  getString: () => string;
+  getString: (options?: any) => string;
   getCode: () => string | number;
 }
 
 export interface ResultFactoryOptions {
-  friendlyMessageBuilder?: (result: OriginResult) => string;
+  friendlyMessageBuilder?: (result: OriginResult, options?: any) => string;
   codeBuilder?: (result: OriginResult) => string | number;
 }
 
@@ -39,7 +39,7 @@ export class ResultFactory {
   createResult(result: OriginResult): FriendlyResult {
     return {
       ...result,
-      getString: () => result.message ?? this.options.friendlyMessageBuilder?.(result) ?? '',
+      getString: (options) => result.message ?? this.options.friendlyMessageBuilder?.(result, options) ?? '',
       getCode: () => result.code ?? this.options.codeBuilder?.(result) ?? 1,
     };
   }
