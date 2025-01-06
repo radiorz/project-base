@@ -31,9 +31,6 @@ export class ResultFactoryImpl implements ResultFactory {
   constructor(options?: Partial<ResultFactoryOptions>) {
     this.options = optionsMerge(ResultFactoryImpl.defaultOptions, options);
   }
-  final(result: ReuseResult): FinalResult {
-    throw new Error('Method not implemented.');
-  }
 
   createResult(result: OriginResult): ReuseResult {
     const factory = this;
@@ -45,16 +42,16 @@ export class ResultFactoryImpl implements ResultFactory {
       getString(language?: string) {
         return factory.getResultString(this, language);
       },
-      final() {
-        return {
+      final(): FinalResult {
+        return Object.freeze({
           code: this.getCode(),
           message: this.getString(),
-        };
+        });
       },
     };
     return reuseResult;
   }
-  getResultString(result: ReuseResult, language?: string) {
+  private getResultString(result: ReuseResult, language?: string) {
     const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessageToken(result));
     // 没有对应的message
     if (!messageTemplate) {
@@ -68,7 +65,7 @@ export class ResultFactoryImpl implements ResultFactory {
     // 搞个简单的插值
     return params(messageTemplate, { ...result.payload, error: result.error?.message });
   }
-  getResultCode(result: ReuseResult): string | number {
+  private getResultCode(result: ReuseResult): string | number {
     return this.getMessageToken(result);
   }
 

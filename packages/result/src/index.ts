@@ -28,9 +28,9 @@ const result = resultFactory.createResult({
 console.log(`successResult`, result);
 console.log(`successResult.getString() `, result.getString());
 console.log(`successResult.getCode()`, result.getCode());
-
 // 多语言测试
 console.log(`successResult.getString('en')`, result.getString('en'));
+console.log(`result.final()`, result.final());
 
 // 测试切换status
 result.status = false;
@@ -39,3 +39,4 @@ console.log(`errorResult`, result);
 console.log(`errorResult status`, result.status);
 console.log(`errorResult code`, result.getCode());
 console.log(`errorResult`, result.getString());
+console.log(`result.final()`, result.final());
