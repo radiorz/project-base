@@ -1,9 +1,6 @@
 import { BestResultFactory } from '../lib';
-import code from './code';
 import zh from './zh';
-const resultFactory = new BestResultFactory({
-  codeJson: code,
-});
+const resultFactory = new BestResultFactory();
 
 const result = resultFactory.createResult({
   success: false, // 成功与否

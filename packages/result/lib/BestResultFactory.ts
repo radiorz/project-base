@@ -13,7 +13,6 @@ import { OriginResult, ResultFactory } from './ResultFactory';
 import { optionsMerge } from '@tikkhun/utils-core';
 import { params } from './utils/params';
 const defaultBestResultFactoryOptions = {
-  codeJson: {},
   messageMap: new Map<string, Record<string, any>>(),
   // defaultLocale: undefined, // undefined貌似不支持
   ignoreError: true, // 忽略一些未找到的错误
@@ -42,30 +41,27 @@ export class BestResultFactory {
   private getChainString(chain: string | string[]) {
     return typeof chain === 'string' ? chain : chain.join('.');
   }
-  private getMessagePath(result: Pick<OriginResult, 'success' | 'token'>) {
+  private getMessageToken(result: Pick<OriginResult, 'success' | 'token'>) {
     return `${result.success ? 'success' : 'error'}.` + this.getChainString(result.token);
   }
   private friendlyMessageBuilder(result: OriginResult, language?: string) {
-    const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessagePath(result));
+    const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessageToken(result));
     // 没有对应的message
     if (!messageTemplate) {
       // ignore error
-      return '';
+      if (this.options.ignoreError) {
+        return '';
+      } else {
+        throw new Error('no message found');
+      }
     }
     // 搞个简单的插值
     return params(messageTemplate, { ...result.payload, error: result.error?.message });
   }
   private codeBuilder(result: OriginResult) {
-    return get(this.options.codeJson, this.getChainString(result.token));
+    return this.getMessageToken(result);
   }
-  // 添加或更新code
-  upsertCode(chain: string | string[], code: string | number) {
-    set(this.options.codeJson, typeof chain === 'string' ? chain : chain.join('.'), code);
-  }
-  // 删除code
-  removeCode(chain: string | string[]) {
-    set(this.options.codeJson, typeof chain === 'string' ? chain : chain.join('.'), undefined);
-  }
+
   // 不同语言的message集合
   addLocale(name: string, messageMap: Record<string, any>) {
     if (!this.options.defaultLocale) {
