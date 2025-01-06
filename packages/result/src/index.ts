@@ -19,5 +19,5 @@ resultFactory.addLocale('en', {
 });
 console.log(`result`, result);
 console.log(`result.getString() `, result.getString());
-console.log(`result.getCode()`, result.getCode());
+console.log(`result.getCode()`, result.code);
 console.log(`result.getString('en')`, result.getString('en'));

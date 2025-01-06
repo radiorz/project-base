@@ -62,7 +62,7 @@ resultFactory.addLocale('en', {
       login: 'login failed, reason is {error}',
     },
   },
-});
+});4
 console.log(`result`, result);
 console.log(`result.getString() `, result.getString());
 console.log(`result.getCode()`, result.getCode());

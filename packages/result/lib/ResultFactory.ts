@@ -29,18 +29,15 @@ export interface ResultFactoryOptions {
   friendlyMessageBuilder?: (result: OriginResult, options?: any) => string;
   codeBuilder?: (result: OriginResult) => string | number;
 }
-
-export class ResultFactory {
-  static defaultOptions: ResultFactoryOptions = Object.freeze({});
-  options: ResultFactoryOptions;
-  constructor(options?: Partial<ResultFactoryOptions>) {
-    this.options = Object.assign({}, ResultFactory.defaultOptions, options);
-  }
-  createResult(result: OriginResult): FriendlyResult {
+// 这里使用 abstract 而不是options 更好
+export abstract class ResultFactory {
+  public createResult(result: OriginResult): FriendlyResult {
     return {
       ...result,
-      getString: (options) => result.message ?? this.options.friendlyMessageBuilder?.(result, options) ?? '',
-      getCode: () => result.code ?? this.options.codeBuilder?.(result) ?? 1,
+      getCode: () => result.code ?? this.getResultCode?.(result) ?? '',
+      getString: (options) => result.message ?? this.getResultString?.(result, options) ?? '',
     };
   }
+  abstract getResultString(result: OriginResult, options?: any): string;
+  abstract getResultCode(result: OriginResult): string | number;
 }

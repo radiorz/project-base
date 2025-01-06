@@ -9,7 +9,7 @@
  */
 
 import { get, set } from 'lodash';
-import { OriginResult, ResultFactory } from './ResultFactory';
+import { FriendlyResult, OriginResult, ResultFactory } from './ResultFactory';
 import { optionsMerge } from '@tikkhun/utils-core';
 import { params } from './utils/params';
 const defaultBestResultFactoryOptions = {
@@ -18,10 +18,9 @@ const defaultBestResultFactoryOptions = {
   ignoreError: true, // 忽略一些未找到的错误
 };
 type BestResultFactoryOptions = typeof defaultBestResultFactoryOptions & { defaultLocale?: string };
-export class BestResultFactory {
+export class BestResultFactory extends ResultFactory {
   static defaultOptions: BestResultFactoryOptions = Object.freeze(defaultBestResultFactoryOptions);
   options: BestResultFactoryOptions;
-  resultFactory: ResultFactory;
   getCurrentMessageMap(locale?: string) {
     if (!locale && !this.options.defaultLocale) {
       return null;
@@ -29,22 +28,21 @@ export class BestResultFactory {
     return this.options.messageMap.get(locale || this.options.defaultLocale!);
   }
   constructor(options?: Partial<BestResultFactoryOptions>) {
+    super();
     this.options = optionsMerge(BestResultFactory.defaultOptions, options);
-    this.resultFactory = new ResultFactory({
-      friendlyMessageBuilder: this.friendlyMessageBuilder.bind(this),
-      codeBuilder: this.codeBuilder.bind(this),
-    });
   }
-  createResult(result: OriginResult) {
-    return this.resultFactory.createResult(result);
+  // @overload
+  createResult(result: OriginResult): FriendlyResult & { code: string | number } {
+    const finalResult = super.createResult(result);
+    const code = finalResult.getCode();
+    // 直接获取心智低
+    return {
+      ...finalResult, // 其实这里就没必要有 getCode了 算了还是先保留着吧
+      code,
+      // message: finalResult.getString(), //
+    };
   }
-  private getChainString(chain: string | string[]) {
-    return typeof chain === 'string' ? chain : chain.join('.');
-  }
-  private getMessageToken(result: Pick<OriginResult, 'success' | 'token'>) {
-    return `${result.success ? 'success' : 'error'}.` + this.getChainString(result.token);
-  }
-  private friendlyMessageBuilder(result: OriginResult, language?: string) {
+  getResultString(result: OriginResult, language?: string) {
     const messageTemplate = get(this.getCurrentMessageMap(language), this.getMessageToken(result));
     // 没有对应的message
     if (!messageTemplate) {
@@ -58,8 +56,15 @@ export class BestResultFactory {
     // 搞个简单的插值
     return params(messageTemplate, { ...result.payload, error: result.error?.message });
   }
-  private codeBuilder(result: OriginResult) {
+  getResultCode(result: OriginResult) {
     return this.getMessageToken(result);
+  }
+  private getChainString(chain: string | string[]) {
+    return typeof chain === 'string' ? chain : chain.join('.');
+  }
+  private getMessageToken(result: Pick<OriginResult, 'success' | 'token'>) {
+    // 这里前置正确错误是因为大家更关注错误, 有时候甚至只用写错误，可以省略众多括号{}
+    return `${result.success ? 'success' : 'error'}.` + this.getChainString(result.token);
   }
 
   // 不同语言的message集合
