@@ -41,7 +41,7 @@ export class BestResultFactory extends ResultFactory {
     return {
       ...finalResult, // 其实这里就没必要有 getCode了 算了还是先保留着吧
       code,
-      _status: finalResult.status,
+      _status: finalResult.status, 
       get status() {
         return this._status;
       },
