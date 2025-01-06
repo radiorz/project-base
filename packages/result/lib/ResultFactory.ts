@@ -11,8 +11,9 @@
  * 原始输入
  */
 export interface OriginResult {
-  success: boolean; // 成功与否
   token: string | string[]; // 业务链条 比如 ['user', 'login']
+  // success: boolean; // 成功与否
+  status: string | boolean; // 细分状态
   error?: Error; // 错误体 即代码中捕获的错误
   payload?: any; // 其他的数据可以暂存在这里
   // 直接的输出者
@@ -32,10 +33,15 @@ export interface ResultFactoryOptions {
 // 这里使用 abstract 而不是options 更好
 export abstract class ResultFactory {
   public createResult(result: OriginResult): FriendlyResult {
+    const factory = this;
     return {
       ...result,
-      getCode: () => result.code ?? this.getResultCode?.(result) ?? '',
-      getString: (options) => result.message ?? this.getResultString?.(result, options) ?? '',
+      getCode() {
+        return this.code ?? factory.getResultCode?.(result) ?? '';
+      },
+      getString(options) {
+        return this.message ?? factory.getResultString?.(this, options) ?? '';
+      },
     };
   }
   abstract getResultString(result: OriginResult, options?: any): string;

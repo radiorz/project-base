@@ -16,6 +16,7 @@ const defaultBestResultFactoryOptions = {
   messageMap: new Map<string, Record<string, any>>(),
   // defaultLocale: undefined, // undefined貌似不支持
   ignoreError: true, // 忽略一些未找到的错误
+  tokenPattern: '{token}.{status}',
 };
 type BestResultFactoryOptions = typeof defaultBestResultFactoryOptions & { defaultLocale?: string };
 export class BestResultFactory extends ResultFactory {
@@ -32,13 +33,22 @@ export class BestResultFactory extends ResultFactory {
     this.options = optionsMerge(BestResultFactory.defaultOptions, options);
   }
   // @overload
-  createResult(result: OriginResult): FriendlyResult & { code: string | number } {
+  createResult(result: OriginResult) {
+    // 创建result 然后可以不断变换他的状态对实际情况更有利
     const finalResult = super.createResult(result);
     const code = finalResult.getCode();
     // 直接获取心智低
     return {
       ...finalResult, // 其实这里就没必要有 getCode了 算了还是先保留着吧
       code,
+      _status: finalResult.status,
+      get status() {
+        return this._status;
+      },
+      set status(status: string | boolean) {
+        this.code = this.getCode();
+        this._status = status;
+      },
       // message: finalResult.getString(), //
     };
   }
@@ -59,12 +69,20 @@ export class BestResultFactory extends ResultFactory {
   getResultCode(result: OriginResult) {
     return this.getMessageToken(result);
   }
+
   private getChainString(chain: string | string[]) {
     return typeof chain === 'string' ? chain : chain.join('.');
   }
-  private getMessageToken(result: Pick<OriginResult, 'success' | 'token'>) {
+  private getStatusToken(status: string | boolean) {
+    return typeof status === 'boolean' ? (status ? 'success' : 'error') : status;
+  }
+  private getMessageToken(result: Pick<OriginResult, 'status' | 'token'>) {
     // 这里前置正确错误是因为大家更关注错误, 有时候甚至只用写错误，可以省略众多括号{}
-    return `${result.success ? 'success' : 'error'}.` + this.getChainString(result.token);
+    const token = this.getChainString(result.token);
+    return params(this.options.tokenPattern, {
+      token,
+      status: this.getStatusToken(result.status),
+    });
   }
 
   // 不同语言的message集合
