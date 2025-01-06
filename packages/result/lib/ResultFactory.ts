@@ -12,7 +12,7 @@
  */
 export interface OriginResult {
   success: boolean; // 成功与否
-  bizChain: string | string[]; // 业务链条 比如 ['user', 'login']
+  token: string | string[]; // 业务链条 比如 ['user', 'login']
   error?: Error; // 错误体 即代码中捕获的错误
   payload?: any; // 其他的数据可以暂存在这里
   // 直接的输出者
@@ -21,7 +21,7 @@ export interface OriginResult {
 }
 
 export interface FriendlyResult extends OriginResult {
-  getFriendlyMessage: () => string;
+  getString: () => string;
   getCode: () => string | number;
 }
 
@@ -39,7 +39,7 @@ export class ResultFactory {
   createResult(result: OriginResult): FriendlyResult {
     return {
       ...result,
-      getFriendlyMessage: () => result.message ?? this.options.friendlyMessageBuilder?.(result) ?? '',
+      getString: () => result.message ?? this.options.friendlyMessageBuilder?.(result) ?? '',
       getCode: () => result.code ?? this.options.codeBuilder?.(result) ?? 1,
     };
   }

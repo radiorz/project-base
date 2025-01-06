@@ -11,6 +11,7 @@
 import { get, set } from 'lodash';
 import { OriginResult, ResultFactory } from './ResultFactory';
 import { optionsMerge } from '@tikkhun/utils-core';
+import { params } from './utils/params';
 const defaultBestResultFactoryOptions = {
   codeJson: {},
   messageMap: new Map<string, JSON>(),
@@ -39,10 +40,12 @@ export class BestResultFactory {
   }
   // TODO 这里需要搞个插值不然有时候不够清晰
   private friendlyMessageBuilder(result: OriginResult) {
-    return get(this.currentMessageMap, this.getChainString(result.bizChain));
+    // 这里要插值
+    const messageTemplate = get(this.currentMessageMap, this.getChainString(result.token));
+    return params(messageTemplate, { ...result.payload, error: result.error?.message });
   }
   private codeBuilder(result: OriginResult) {
-    return get(this.options.codeJson, this.getChainString(result.bizChain));
+    return get(this.options.codeJson, this.getChainString(result.token));
   }
   // 添加或更新code
   upsertCode(chain: string | string[], code: string | number) {
