@@ -11,7 +11,8 @@
 import { get } from 'lodash';
 import { ReuseResult, FinalResult, OriginResult, OriginToken, ResultFactory } from './ResultFactory.type';
 import { optionsMerge } from '@tikkhun/utils-core';
-import { params } from './utils/params';
+// import { params } from './utils/params';
+import { replaceParams } from '@tikkhun/utils-core';
 const defaultResultFactoryOptions = {
   messageMap: new Map<string, Record<string, any>>(),
   // defaultLocale: undefined, // undefined貌似不支持
@@ -63,7 +64,7 @@ export class ResultFactoryImpl implements ResultFactory {
       }
     }
     // 搞个简单的插值
-    return params(messageTemplate, { ...result.payload, error: result.error?.message });
+    return replaceParams(messageTemplate, { ...result.payload, error: result.error?.message });
   }
   private getResultCode(result: ReuseResult): string | number {
     return this.getMessageToken(result);
@@ -74,7 +75,7 @@ export class ResultFactoryImpl implements ResultFactory {
   }
   private getMessageToken(result: ReuseResult) {
     // 这里前置正确错误是因为大家更关注错误, 有时候甚至只用写错误，可以省略众多括号{}
-    return params(this.options.tokenPattern, {
+    return replaceParams(this.options.tokenPattern, {
       token: getTokenStr(result.token),
       status: this.getStatusToken(result.status),
     });

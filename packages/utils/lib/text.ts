@@ -75,15 +75,27 @@ export function toCamelCase(str: string) {
 }
 /**
  * 替代params
- * @param {String} pattern
- * @param {Object} variables 
+ * @param {String} pattern 模板 比如 “aaa”
+ * @param {Object} variables 用于替代的变量
  * @param {Object} options
+ * @param {Boolean} options.keepMatch 是否保留用于匹配的字符串 比如 {xxx}
  * @returns
  * @example
  * replaceParams("{app}",{app: "hahah"}) => "hahah"
  */
-export function replaceParams(pattern: string, variables: Record<string, any>, options = { keepMatch: false }): string {
+export function replaceParams(
+  pattern: string,
+  variables: Record<string, any> = {},
+  options = { keepMatch: false, stringify: true },
+): string {
   return pattern.replace(/\{([^}]+)\}/g, (match, key) => {
-    return variables.hasOwnProperty(key) && !isNil(variables[key]) ? variables[key] : options.keepMatch ? match : '';
+    const value = variables[key];
+    return variables.hasOwnProperty(key) && !isNil(value)
+      ? typeof value === 'object'
+        ? JSON.stringify(value)
+        : value
+      : options.keepMatch
+        ? match
+        : '';
   });
 }
