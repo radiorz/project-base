@@ -320,43 +320,6 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(terser@5.31.2)
 
-  packages/node-utils:
-    dependencies:
-      fs-extra:
-        specifier: ^11.2.0
-        version: 11.2.0
-      js-yaml:
-        specifier: ^4.1.0
-        version: 4.1.0
-      lodash:
-        specifier: ^4.17.21
-        version: 4.17.21
-    devDependencies:
-      '@types/dotenv-safe':
-        specifier: ^8.1.6
-        version: 8.1.6
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      '@types/js-yaml':
-        specifier: ^4.0.9
-        version: 4.0.9
-      '@types/lodash':
-        specifier: ^4.17.13
-        version: 4.17.13
-      '@types/node':
-        specifier: ^22.10.2
-        version: 22.10.2
-      tsup:
-        specifier: ^8.3.5
-        version: 8.3.5(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.4.5)
-      tsx:
-        specifier: ^4.19.2
-        version: 4.19.2
-      vitest:
-        specifier: ^2.1.8
-        version: 2.1.8(@types/node@22.10.2)(terser@5.31.2)
-
   packages/requestable:
     devDependencies:
       '@faker-js/faker':
@@ -397,8 +360,8 @@ importers:
   packages/result:
     dependencies:
       '@tikkhun/utils-core':
-        specifier: ^0.0.11
-        version: 0.0.11
+        specifier: workspace:^
+        version: link:../utils
       '@types/lodash':
         specifier: ^4.17.13
         version: 4.17.13
@@ -2584,9 +2547,6 @@ packages:
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
-
-  '@tikkhun/utils-core@0.0.11':
-    resolution: {integrity: sha512-qpBCsDHeZHOcM7Sxfh1E8lec9sw53ubTODPJ4LV70gzw8pGG0XB8At72EDDaK2S7gmhVVNPeJ/MO508z9Uxk0A==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
@@ -8375,10 +8335,6 @@ snapshots:
       lodash: 4.17.21
 
   '@tikkhun/requestable@0.0.6': {}
-
-  '@tikkhun/utils-core@0.0.11':
-    dependencies:
-      lodash: 4.17.21
 
   '@tikkhun/utils-core@0.0.3':
     dependencies:

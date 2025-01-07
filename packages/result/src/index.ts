@@ -5,7 +5,7 @@ resultFactory.addLocale('zh', {
   user: {
     sign_in: {
       success: '登录成功',
-      error: '登录错误，原因为 {error}',
+      error: '登录,但错误，原因为 {error} ,上下文：{context}',
     },
   },
 }); // 第一个添加的是默认语言
@@ -22,7 +22,7 @@ const result = resultFactory.createResult({
   token: 'user.sign_in', // 业务链条 比如 ['user', 'login']
   status: true, // 细分状态
   // error: new Error('没事抛个错'), // 错误体 即代码中捕获的错误
-  payload: {}, // 其他的数据可以暂存在这里
+  payload: { context: { a: 1, b: 2, c: 3 } }, // 其他的数据可以暂存在这里
   // 直接的输出者
 });
 console.log(`successResult`, result);

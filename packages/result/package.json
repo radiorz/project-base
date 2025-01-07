@@ -34,7 +34,7 @@
   "dependencies": {
     "@types/lodash": "^4.17.13",
     "lodash": "^4.17.21",
-    "@tikkhun/utils-core": "workspace: ^"
+    "@tikkhun/utils-core": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
