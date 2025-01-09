@@ -382,6 +382,25 @@ importers:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.2)(terser@5.31.2)
 
+  packages/result-log:
+    dependencies:
+      '@tikkhun/result':
+        specifier: ^0.0.7
+        version: 0.0.7
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.11
+      tsup:
+        specifier: ^8.3.0
+        version: 8.3.5(postcss@8.4.49)(tsx@4.19.2)(typescript@5.7.2)(yaml@2.4.5)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.2
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.8(@types/node@20.17.11)(terser@5.31.2)
+
   packages/timer:
     dependencies:
       '@tikkhun/logger':
@@ -2547,6 +2566,12 @@ packages:
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
+
+  '@tikkhun/result@0.0.7':
+    resolution: {integrity: sha512-aGR7zwjeGIV3Ze53maf0NL4NeV6+93M6Dh0CcqcNOZAR/jP6gYjl3b+WCpko2kZp9R0tJyWHcN7dci8su5jM2Q==}
+
+  '@tikkhun/utils-core@0.0.12':
+    resolution: {integrity: sha512-9YY8vyPPfOrHqGPgeGq1g0eEhh/AtwVrczAgLjXH1tnX/G5WJcmFe6WGoNs6U8noMvpJqaDDa9gca0RhXSF9xA==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
@@ -8335,6 +8360,16 @@ snapshots:
       lodash: 4.17.21
 
   '@tikkhun/requestable@0.0.6': {}
+
+  '@tikkhun/result@0.0.7':
+    dependencies:
+      '@tikkhun/utils-core': 0.0.12
+      '@types/lodash': 4.17.13
+      lodash: 4.17.21
+
+  '@tikkhun/utils-core@0.0.12':
+    dependencies:
+      lodash: 4.17.21
 
   '@tikkhun/utils-core@0.0.3':
     dependencies:

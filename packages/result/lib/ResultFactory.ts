@@ -31,7 +31,8 @@ export class ResultFactoryImpl implements ResultFactory {
   constructor(options?: Partial<ResultFactoryOptions>) {
     this.options = optionsMerge(ResultFactoryImpl.defaultOptions, options);
   }
-
+  // 起个别名。
+  create = (result: OriginResult) => this.createResult(result);
   createResult(result: OriginResult): ReuseResult {
     const factory = this;
     const reuseResult: ReuseResult = {

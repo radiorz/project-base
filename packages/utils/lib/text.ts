@@ -13,6 +13,7 @@
  */
 
 import { isNil } from './is';
+import { optionsMerge } from './object';
 
 /**
  * @function capitalize 大写首字母
@@ -88,13 +89,14 @@ export function replaceParams(
   variables: Record<string, any> = {},
   options = { keepMatch: false, stringify: true },
 ): string {
+  const { keepMatch, stringify } = optionsMerge({ keepMatch: false, stringify: true }, options);
   return pattern.replace(/\{([^}]+)\}/g, (match, key) => {
     const value = variables[key];
     return variables.hasOwnProperty(key) && !isNil(value)
-      ? typeof value === 'object'
+      ? stringify && typeof value === 'object'
         ? JSON.stringify(value)
         : value
-      : options.keepMatch
+      : keepMatch
         ? match
         : '';
   });
