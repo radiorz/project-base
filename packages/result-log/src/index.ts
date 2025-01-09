@@ -1,2 +1,5 @@
-import { hello } from '../lib';
-hello();
+import { log } from '../lib';
+
+log({
+  token: 'user.error',
+});

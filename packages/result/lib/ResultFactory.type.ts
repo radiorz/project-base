@@ -15,6 +15,7 @@ export interface OriginResult {
   token: OriginToken; // 业务链条 比如 ['user', 'login']
   // success: boolean; // 成功与否
   status: string | boolean; // 细分状态
+  level?: string | number; // 日志级别
   error?: Error; // 错误体 即代码中捕获的错误
   payload?: any; // 其他的数据可以暂存在这里
   // 直接的输出者

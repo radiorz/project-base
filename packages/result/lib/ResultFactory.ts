@@ -17,8 +17,29 @@ const defaultResultFactoryOptions = {
   // defaultLocale: undefined, // undefined貌似不支持
   ignoreError: true, // 忽略一些未找到的错误
   tokenPattern: '{token}.{status}',
+  logAdapter: console,
 };
-type ResultFactoryOptions = typeof defaultResultFactoryOptions & { defaultLocale?: string };
+export interface LogAdapter {
+  info: (...args: any[]) => void;
+  debug: (...args: any[]) => void;
+  warn: (...args: any[]) => void;
+  error: (...args: any[]) => void;
+  log: (...args: any[]) => void;
+}
+export interface CodeAdapter {
+  (result: ReuseResult): string | number;
+}
+export interface StringAdapter {
+
+}
+export interface ErrorAdapter {}
+export type ResultFactoryOptions = typeof defaultResultFactoryOptions & {
+  defaultLocale?: string;
+  codeAdapter: CodeAdapter;
+  stringAdapter: StringAdapter;
+  errorAdapter: ErrorAdapter;
+  logAdapter: LogAdapter;
+};
 export class ResultFactoryImpl implements ResultFactory {
   static defaultOptions: ResultFactoryOptions = Object.freeze(defaultResultFactoryOptions);
   options: ResultFactoryOptions;
