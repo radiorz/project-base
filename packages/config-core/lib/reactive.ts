@@ -6,7 +6,11 @@ export function createReactiveObject<T extends object>(target: T, onChange: Chan
   const handler: ProxyHandler<T> = {
     get(target: T, key: string | symbol, receiver: any): any {
       const result = Reflect.get(target, key, receiver);
-      if (typeof result === 'object' && result !== null) {
+      // 函数不应修改其绑定的this对象
+      if (typeof result === 'function') {
+          return result.bind(target); // 绑定原始对象
+      }
+      else if (typeof result === 'object' && result !== null) {
         return createReactiveObject(result, onChange, `${parentPath}${String(key)}.`);
       }
       return result;
