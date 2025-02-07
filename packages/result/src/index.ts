@@ -40,3 +40,4 @@ console.log(`errorResult status`, result.status);
 console.log(`errorResult code`, result.getCode());
 console.log(`errorResult`, result.getString());
 console.log(`result.final()`, result.final());
+result.final().output();

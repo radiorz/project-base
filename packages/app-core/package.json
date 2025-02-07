@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/result-log",
+  "name": "app-core",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -12,8 +12,8 @@
         "default": "./dist/index.mjs"
       },
       "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
       }
     }
   },
@@ -31,13 +31,11 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@tikkhun/result": "^0.0.7"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "tsup": "^8.3.0",
     "tsx": "^4.19.1",
+    "tsup": "^8.3.0",
     "vitest": "^2.1.3"
   }
 }
