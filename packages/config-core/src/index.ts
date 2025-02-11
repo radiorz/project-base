@@ -15,7 +15,7 @@ class TheEnvSource extends EnvSource {
     console.log(`123`, 123);
   }
   save(path: string, value: any) {
-    console.log(`save path,value `, path, '%%%%', value);
+    console.log(`save path=${path} value=${value}`);
   }
 }
 async function bootstrap() {
@@ -25,6 +25,7 @@ async function bootstrap() {
       {
         load() {
           return {
+            arr: [],
             a: {
               b: {
                 c: 111,
@@ -35,23 +36,27 @@ async function bootstrap() {
       },
     ],
   });
-  m.on(ConfigEvents.change, (config) => {
-    console.log(`config change`, config);
-  });
+  // m.on(ConfigEvents.change, (config) => {
+  //   console.log(`config change`, config);
+  // });
   m.on(ConfigEvents.valueChange, ({ path, value }) => console.log(`onvaluechange path,value`, path, value));
-  console.log(`获取全部 m.get()`, m.get());
-  // console.log(`m.get()`, JSON.stringify(m.get()));
-  console.log(`通过路径获取 m.get('a.b.c')`, m.get('a.b.c'));
-  await m.addSource({
-    load() {
-      return { nnn: '123', mmm: '123' };
-    },
-  });
-  // console.log(`添加源 m.get('nnn')`, m.get('nnn'));
-  console.log(`修改nnn为 1234`);
-  m.set('nnn', '1234');
-  console.log(`修改nnn为 1234后 m.get('nnn')`, m.get('nnn'));
-  await m.reset();
-  console.log(`m.config`, m.config);
+  // console.log(`获取全部 m.get()`, m.get());
+  // // console.log(`m.get()`, JSON.stringify(m.get()));
+  // console.log(`通过路径获取 m.get('a.b.c')`, m.get('a.b.c'));
+  // await m.addSource({
+  //   load() {
+  //     return { nnn: '123', mmm: '123' };
+  //   },
+  // });
+  // // console.log(`添加源 m.get('nnn')`, m.get('nnn'));
+  // console.log(`修改nnn为 1234`);
+  // m.set('nnn', '1234');
+  // console.log(`修改nnn为 1234后 m.get('nnn')`, m.get('nnn'));
+  // await m.reset();
+  // console.log(`m.config`, m.config);
+  m.config.arr.push({a:1});
+  m.config.arr.push('3');
+  m.config.arr[0].a = 2;
+  console.log(`m.config.arr`, m.config.arr);
 }
 bootstrap();

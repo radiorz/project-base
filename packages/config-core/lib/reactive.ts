@@ -1,19 +1,22 @@
-import { isEqual } from "lodash";
+import { isEqual } from 'lodash';
 
 type ChangeHandler = (path: string, value: any) => void;
 
 export function createReactiveObject<T extends object>(target: T, onChange: ChangeHandler, parentPath: string = ''): T {
   const handler: ProxyHandler<T> = {
     get(target: T, key: string | symbol, receiver: any): any {
-      const result = Reflect.get(target, key, receiver);
+      const value = Reflect.get(target, key, receiver);
       // 函数不应修改其绑定的this对象
-      if (typeof result === 'function') {
-          return result.bind(target); // 绑定原始对象
+      if (typeof value === 'function') {
+        // 数组修改本身的方法应特殊处理
+        if (Array.isArray(target)) {
+          return value;
+        }
+        return value.bind(target); // 绑定原始对象
+      } else if (typeof value === 'object' && value !== null) {
+        return createReactiveObject(value, onChange, `${parentPath}${String(key)}.`);
       }
-      else if (typeof result === 'object' && result !== null) {
-        return createReactiveObject(result, onChange, `${parentPath}${String(key)}.`);
-      }
-      return result;
+      return value;
     },
 
     set(target: T, key: string | symbol, value: any, receiver: any): boolean {

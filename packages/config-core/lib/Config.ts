@@ -1,5 +1,5 @@
 import { Emitter } from '@tikkhun/utils-core';
-import { debounce, get, merge, set } from 'lodash';
+import { debounce, get, merge, set, clone } from 'lodash';
 import type { Api, GetOptions, RemoveOptions, SetOptions } from './Api';
 import { ConfigSource } from './ConfigSource';
 import { createReactiveObject } from './reactive';
@@ -52,7 +52,7 @@ export class Config extends Emitter implements Api {
       console.log('sync error', error);
       if (!this.options.allowSyncError) throw error;
     }
-    this.emit(ConfigEvents.valueChange, { path: theTruePath, value });
+    this.emit(ConfigEvents.valueChange, { path: theTruePath, value: clone(value) });
     // 这里会不断触发，知道 超出debounce时间（不过这样有一定的延迟，或许让业务直接监听valueChange 会更好）
     this.handleWholeChange();
   }
