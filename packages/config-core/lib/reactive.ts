@@ -12,7 +12,10 @@ export function createReactiveObject<T extends object>(target: T, onChange: Chan
         if (Array.isArray(target)) {
           return value;
         }
-        return value.bind(target); // 绑定原始对象
+        // 对这两者进行特殊处理
+        if (target instanceof Map || target instanceof Set) {
+          return value.bind(target); // 绑定原始对象
+        }
       } else if (typeof value === 'object' && value !== null) {
         return createReactiveObject(value, onChange, `${parentPath}${String(key)}.`);
       }

@@ -16,7 +16,6 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "@tikkhun/create": "latest"
   },
   "dependencies": {
     "@tikkhun/create": "workspace:^"
