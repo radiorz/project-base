@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/release",
-  "version": "0.0.45",
+  "version": "0.0.46",
   "description": "",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
@@ -29,6 +29,7 @@
     "dev": "tsx ./src/index.ts",
     "dev:cli": "tsx ./cli/main.ts",
     "test": "vitest",
+    "test:example": "tsx ./cli/main.ts config -c ./examples/release.json",
     "deps:update": "ncu -u"
   },
   "publishConfig": {
@@ -55,19 +56,19 @@
     "archiver": "^7.0.1",
     "cli-spinners": "^3.2.0",
     "dayjs": "^1.11.13",
-    "fast-xml-parser": "^4.5.0",
-    "fs-extra": "^11.2.0",
-    "glob": "^11.0.0",
+    "fast-xml-parser": "^4.5.3",
+    "fs-extra": "^11.3.0",
+    "glob": "^11.0.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/lodash": "^4.17.13",
-    "@types/node": "^22.10.2",
-    "tsup": "^8.3.5",
-    "tsx": "^4.19.2",
-    "vitest": "^2.1.8"
+    "@types/lodash": "^4.17.15",
+    "@types/node": "^22.13.4",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
+    "vitest": "^3.0.6"
   },
   "engines": {
     "node": ">=14"

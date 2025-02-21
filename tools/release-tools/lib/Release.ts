@@ -51,7 +51,7 @@ export class Release {
   static defaultOptions: ReleaseOptions = {
     workspace: process.cwd(),
     include: ['**/*'],
-    exclude: ['**/node_modules', '**/release', '**/deploy', '**/.git', '**/.vscode'],
+    exclude: ['**/node_modules/**', '**/release/**', '**/deploy/**', '**/.git/**', '**/.vscode/**'],
     archiveType: ArchiveType.zip,
     clean: true,
     releasePathRelative: 'cwd', // 默认直接保存到当前执行的文件夹比较可能
@@ -75,6 +75,7 @@ export class Release {
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
     this.options = optionsMerge(Release.defaultOptions, options);
+    this.log.log(`[说明] 最终release配置参数:` + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.watchError();
   }
@@ -117,10 +118,10 @@ export class Release {
   private async getInputs() {
     const filePaths = await glob(this.options.include, {
       ignore: this.options.exclude,
-      // skip: this.options.exclude,
       dot: true,
       cwd: this.options.workspace,
     });
+    console.log(`filePaths`, filePaths);
     // 搞成对象主要给inputmove
     return filePaths.map((path) => {
       const _path = path.replaceAll('\\', '/');
