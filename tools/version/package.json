@@ -37,15 +37,15 @@
   "license": "ISC",
   "dependencies": {
     "@tikkhun/logger": "workspace:^",
-    "commander": "^12.1.0",
+    "commander": "^13.1.0",
     "dayjs": "^1.11.13",
-    "fs-extra": "^11.2.0"
+    "fs-extra": "^11.3.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^22.10.2",
-   "tsx": "^4.19.2",
-    "tsup": "^8.3.5",
-    "vitest": "^2.1.8"
+   "tsx": "^4.19.3",
+    "tsup": "^8.3.6",
+    "vitest": "^3.0.7"
   }
 }

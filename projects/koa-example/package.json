@@ -13,8 +13,8 @@
   "dependencies": {
     "@types/koa": "^2.15.0",
     "koa": "^2.15.4",
-    "nodemon": "^3.1.7",
-    "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "nodemon": "^3.1.9",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3"
   }
 }

@@ -33,9 +33,9 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^22.10.2",
-    "tsx": "^4.19.2",
-    "tsup": "^8.3.5",
-    "vitest": "^2.1.8"
+    "tsx": "^4.19.3",
+    "tsup": "^8.3.6",
+    "vitest": "^3.0.7"
   },
   "dependencies": {
     "@tikkhun/logger": "^1.0.8"

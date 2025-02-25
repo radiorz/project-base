@@ -51,16 +51,16 @@
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
-    "glob": "^11.0.0",
+    "glob": "^11.0.1",
     "javascript-obfuscator": "^4.1.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.13",
+    "@types/lodash": "^4.17.15",
     "@types/node": "^22.10.2",
-    "tsup": "^8.3.5",
-    "tsx": "^4.19.2",
-    "vitest": "^2.1.8"
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
+    "vitest": "^3.0.7"
   },
   "engines": {
     "node": ">=14"

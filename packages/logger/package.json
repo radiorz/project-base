@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "fs-extra": "^11.2.0",
+    "fs-extra": "^11.3.0",
     "js-yaml": "^4.1.0",
     "lodash": "^4.17.21"
   },
@@ -40,10 +40,10 @@
     "@types/dotenv-safe": "^8.1.6",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.17.13",
+    "@types/lodash": "^4.17.15",
     "@types/node": "^22.10.2",
-    "tsx": "^4.19.2",
-    "tsup": "^8.3.5",
-    "vitest": "^2.1.8"
+    "tsx": "^4.19.3",
+    "tsup": "^8.3.6",
+    "vitest": "^3.0.7"
   }
 }

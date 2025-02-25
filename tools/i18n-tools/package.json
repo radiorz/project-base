@@ -36,13 +36,13 @@
     "@tikkhun/logger": "^1.0.7",
     "@tikkhun/utils-core": "workspace:^",
     "@types/fs-extra": "^11.0.4",
-    "commander": "^12.1.0",
-    "fs-extra": "^11.2.0"
+    "commander": "^13.1.0",
+    "fs-extra": "^11.3.0"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
-   "tsx": "^4.19.2",
-    "tsup": "^8.3.5",
-    "vitest": "^2.1.8"
+   "tsx": "^4.19.3",
+    "tsup": "^8.3.6",
+    "vitest": "^3.0.7"
   }
 }

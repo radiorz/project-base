@@ -11,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.28.1"
+    "rollup": "^4.34.8"
   }
 }
