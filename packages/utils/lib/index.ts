@@ -13,3 +13,4 @@ export * from './time';
 export * from './tree';
 export * from './version';
 export * from './Emitter';
+export * from './language/chinese';
