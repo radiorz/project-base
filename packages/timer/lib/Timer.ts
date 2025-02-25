@@ -8,12 +8,11 @@ export const oneSecondMillis = 1 * 1000;
 export const oneMinuteMillis = 60 * 1000;
 export const oneHourMillis = 3600 * 1000;
 export const oneDayMillis = 3600 * 1000 * 24;
-
 export interface TimerOptions {
   ticker: Ticker | true | null;
   isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
   onTime: (now: number) => void;
-  start: true;
+  start: boolean;
 }
 
 //
@@ -25,54 +24,59 @@ export function getDefaultTimerOptions(): TimerOptions {
     start: true,
   };
 }
-export interface ReallyTimerOptions {
-  ticker: Ticker | null;
-  isOnTime: 'day' | 'hour' | 'minute' | 'second' | ((now: number) => boolean);
+export interface NormalizedTimerOptions {
+  ticker: Ticker | null; // null 是为了懒加载 ticker
+  isOnTime: (now: number) => boolean;
   onTime: (now: number) => void;
   start: true;
 }
 export class Timer implements ITimer {
   id = getRandom();
-  options: ReallyTimerOptions;
-  isOnTime: (now: number) => boolean = (now: number) => true;
+  options: NormalizedTimerOptions;
   logger = new Logger(this.id);
   constructor(options?: Partial<TimerOptions>) {
+    // normalize options
     const defaultOptions = getDefaultTimerOptions();
-    if (defaultOptions.ticker === true) {
-      defaultOptions.ticker = new Ticker({ start: false });
+    const inputOptions = Object.assign({}, defaultOptions as NormalizedTimerOptions, options);
+    let ticker = null;
+    if (inputOptions.ticker instanceof Ticker) {
+      ticker = inputOptions.ticker;
     }
-    this.options = Object.assign({}, defaultOptions as ReallyTimerOptions, options);
-    this.setIsOnTime();
+    if (inputOptions.ticker === true) {
+      ticker = new Ticker({ start: false });
+    }
+    this.options = {
+      ...inputOptions,
+      ticker,
+      isOnTime: Timer.getIsOnTime(inputOptions.isOnTime, ticker?.options?.accuracy || defaultTickerOptions.accuracy),
+    };
     this.onTime = this.onTime.bind(this);
     this.onStop = this.onStop.bind(this);
     this.onStart = this.onStart.bind(this);
     if (this.options.ticker) this.init();
     if (this.options.ticker && this.options.start) this.start();
   }
-  setIsOnTime() {
-    if (typeof this.options.isOnTime === 'string') {
-      if (this.options.isOnTime === 'hour') {
-        this.isOnTime = (now: number) =>
-          Timer.isOnHour(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
-      } else if (this.options.isOnTime === 'minute') {
-        this.isOnTime = (now: number) =>
-          Timer.isOnMinute(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
-      } else if (this.options.isOnTime === 'day') {
-        this.isOnTime = (now: number) =>
-          Timer.isOnDay(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
-      } else if (this.options.isOnTime === 'second') {
-        this.isOnTime = (now: number) =>
-          Timer.isOnSecond(now, this.options.ticker?.options.accuracy || defaultTickerOptions.accuracy);
+  static getIsOnTime(isOnTime: TimerOptions['isOnTime'], accuracy: number) {
+    if (typeof isOnTime === 'string') {
+      if (isOnTime === 'hour') {
+        return (now: number) => Timer.isOnHour(now, accuracy);
+      } else if (isOnTime === 'minute') {
+        return (now: number) => Timer.isOnMinute(now, accuracy);
+      } else if (isOnTime === 'day') {
+        return (now: number) => Timer.isOnDay(now, accuracy);
+      } else if (isOnTime === 'second') {
+        return (now: number) => Timer.isOnSecond(now, accuracy);
       } else {
-        this.isOnTime = (now: number) => true;
+        return (now: number) => true;
       }
     } else {
-      this.isOnTime = this.options.isOnTime;
+      // func
+      return isOnTime;
     }
   }
 
   onTime(now: number) {
-    const isOnTime = this.isOnTime(now);
+    const isOnTime = this.options.isOnTime(now);
     if (isOnTime) {
       this.options.onTime(now);
     }
