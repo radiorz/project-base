@@ -1,5 +1,6 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
+import { json2Sheet } from '../json-sheet';
 export const Json2SheetOptionDefaults = {
   input: 'package.json',
   output: 'package.xlsx',
@@ -27,5 +28,8 @@ export const json2SheetCliOptions = {
   excludeOptions: ['projectDirOptions.build'],
   optionTitles: Json2SheetOptionTitles,
   optionTypes: Json2SheetOptionTypes,
+  action: async (options: any) => {
+    await json2Sheet(options);
+  },
 };
-export const json2Sheet = new Cli(json2SheetCliOptions);
+export const json2SheetCli = new Cli(json2SheetCliOptions);
