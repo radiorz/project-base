@@ -60,7 +60,13 @@ export class CommandManager {
       this.promptsCommand = new PromptsCommand({ ...options, program: this.program });
     }
   }
-  start(action: Action) {
+  start(action?: Action) {
+    if (!action) {
+      action = this.options.action;
+    }
+    if (!action) {
+      throw new Error('action is undefined');
+    }
     this.promptsCommand?.start(action);
     this.configCommand?.start(action);
     this.argsCommand?.start(action);

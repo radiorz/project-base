@@ -5,12 +5,13 @@ import { utils, writeFile } from 'xlsx';
 export interface Json2SheetOptions {
   input: string;
   output: string;
-  keyHeader: string;
-  valueHeader: string;
+  delimiter?: string;
+  keyHeader?: string;
+  valueHeader?: string;
 }
-export async function json2Sheet({ input, output, keyHeader, valueHeader }: Json2SheetOptions) {
+export async function json2Sheet({ input, output, delimiter, keyHeader, valueHeader }: Json2SheetOptions) {
   const jsonData = await readJSON(input);
-  const flattedData = flatJson(jsonData);
+  const flattedData = flatJson({ data: jsonData, delimiter: delimiter || '__' });
   const worksheet = kv2worksheet({ data: flattedData, keyHeader, valueHeader });
   const workbook = utils.book_new();
   utils.book_append_sheet(workbook, worksheet, 'Sheet1');

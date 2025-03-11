@@ -3,7 +3,7 @@ import packageJson from '../../package.json';
 import { sheet2json } from '../sheet-json';
 export const sheet2JsonOptionDefaults = {
   input: 'package.xlsx',
-  output: 'package.json',
+  output: 'package_tran.json',
   keyHeader: 'key',
   valueHeader: 'value',
 };

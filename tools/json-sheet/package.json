@@ -1,9 +1,10 @@
 {
-  "name": "json-tools",
+  "name": "@tikkhun/json-sheet",
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "tikkhun-dir-flat": "dist/cli/cli.js"
+    "tikkhun-json-sheet": "dist/cli/json-sheet.js",
+    "tikkhun-sheet-json": "dist/cli/sheet-json.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",

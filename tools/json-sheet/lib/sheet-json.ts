@@ -1,14 +1,22 @@
 import { writeJson } from 'fs-extra';
-import {utils,readFile} from 'xlsx';
+import { readFile, utils } from 'xlsx';
+import { unflatJson } from '../../../packages/utils/lib/json/unflatJson';
 
 export interface Sheet2JsonOptions {
   input: string; // 输入文件路径（Excel 文件）
   output: string; // 输出文件路径（JSON 文件）
-  keyHeader: string; // 键列的表头名称
-  valueHeader: string; // 值列的表头名称
+  delimiter?: string;
+  keyHeader?: string; // 键列的表头名称
+  valueHeader?: string; // 值列的表头名称
 }
 
-export async function sheet2json({ input, output, keyHeader, valueHeader }: Sheet2JsonOptions) {
+export async function sheet2json({
+  input,
+  output,
+  delimiter = '__',
+  keyHeader = 'key',
+  valueHeader = 'value',
+}: Sheet2JsonOptions) {
   // 1. 读取 Excel 文件
   const workbook = readFile(input);
 
@@ -38,7 +46,7 @@ export async function sheet2json({ input, output, keyHeader, valueHeader }: Shee
     const value = row[valueIndex];
     result[key] = value;
   }
-
+  const unFlattedResult = unflatJson({ data: result, delimiter: delimiter });
   // 5. 将结果写入 JSON 文件
-  await writeJson(output, result);
+  await writeJson(output, unFlattedResult);
 }

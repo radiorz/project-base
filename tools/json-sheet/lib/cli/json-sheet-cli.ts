@@ -1,21 +1,25 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
 import { json2Sheet } from '../json-sheet';
+import { delimiter } from 'path';
 export const Json2SheetOptionDefaults = {
   input: 'package.json',
   output: 'package.xlsx',
+  delimiter: '__',
   keyHeader: 'key',
   valueHeader: 'value',
 };
 export const Json2SheetOptionTitles = {
   input: '输入文件',
   output: '输出文件',
+  delimiter: '分隔符',
   keyHeader: '键表头',
   valueHeader: '值表头',
 };
 export const Json2SheetOptionTypes = {
   input: 'string',
   output: 'string',
+  delimiter: 'string',
   keyHeader: 'string',
   valueHeader: 'string',
 };

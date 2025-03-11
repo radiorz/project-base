@@ -2,7 +2,7 @@ import { Command } from 'commander';
 import _ from 'lodash';
 const { merge } = _;
 export interface Action {
-  (options: any): void;
+  (options: any): any;
 }
 export interface CommandOptions {
   program?: Command;
@@ -35,5 +35,5 @@ export abstract class AbstractCommand {
     this.init();
   }
   abstract init(): void;
-  abstract start(action: (options: any) => any): void;
+  abstract start(action?: Action): void;
 }
