@@ -1,6 +1,6 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
-import { hello } from './index';
+import { hello } from '..';
 export const defaultOptions = {
   value: 'world',
 };
