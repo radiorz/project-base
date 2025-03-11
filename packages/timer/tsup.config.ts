@@ -16,7 +16,7 @@ export default defineConfig((options) => ({
   clean: true,
   treeshake: true,
   globalName: capitalize(name),
-  compileOptions: {
+  compilerOptions: {
     global_defs: {
       crypto: 'crypto',
     },

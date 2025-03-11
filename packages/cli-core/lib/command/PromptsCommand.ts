@@ -84,7 +84,10 @@ export class PromptsCommand extends AbstractCommand {
     const typedResults = OptionsTransformer.parse(unflattedOptions, this.options.optionTypes);
     action(typedResults);
   }
-  async start(action: Action) {
+  async start(action: Action | undefined = this.options.action) {
+    if (!action) {
+      throw new Error('action is undefined');
+    }
     if (this.command) {
       this.command.action(() => this.actionHandler(action));
       return;

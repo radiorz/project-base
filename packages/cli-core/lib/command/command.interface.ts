@@ -13,6 +13,7 @@ export interface CommandOptions {
   excludeOptions: string[];
   optionTypes: Record<string, any>;
   optionTitles: Record<string, any>;
+  action?: Action;
 }
 
 export abstract class AbstractCommand {
