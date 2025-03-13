@@ -104,7 +104,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/cli-core:
     dependencies:
@@ -144,7 +144,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/config-core:
     dependencies:
@@ -169,7 +169,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/config-for-node:
     dependencies:
@@ -231,7 +231,7 @@ importers:
         version: 0.8.0
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/effect:
     dependencies:
@@ -250,7 +250,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/event:
     devDependencies:
@@ -265,7 +265,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/logger:
     dependencies:
@@ -302,7 +302,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/message:
     devDependencies:
@@ -317,7 +317,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/node-daemon:
     dependencies:
@@ -336,7 +336,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/requestable:
     devDependencies:
@@ -354,7 +354,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/requestable-tcp:
     dependencies:
@@ -373,7 +373,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/result:
     dependencies:
@@ -398,7 +398,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/result-log:
     dependencies:
@@ -417,7 +417,32 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+
+  packages/sequelize-utils:
+    dependencies:
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../utils
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
+      sequelize:
+        specifier: ^6.37.6
+        version: 6.37.6
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.11
+      tsup:
+        specifier: ^8.3.0
+        version: 8.3.6(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.4.5)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.3
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.9(@types/node@20.17.11)(terser@5.31.2)
 
   packages/timer:
     dependencies:
@@ -442,7 +467,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/utils:
     dependencies:
@@ -470,7 +495,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   packages/utils-for-node:
     dependencies:
@@ -507,7 +532,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   projects/client-trpc:
     dependencies:
@@ -924,7 +949,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/create-tools:
     dependencies:
@@ -979,7 +1004,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/daemon:
     dependencies:
@@ -998,7 +1023,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/deduplicate:
     dependencies:
@@ -1026,7 +1051,7 @@ importers:
         version: 8.3.6(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.4.5)
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/deps-tools:
     dependencies:
@@ -1060,7 +1085,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/dir-flat:
     dependencies:
@@ -1088,7 +1113,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/json-sheet:
     dependencies:
@@ -1180,7 +1205,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
   tools/version:
     dependencies:
@@ -1211,7 +1236,7 @@ importers:
         version: 4.19.3
       vitest:
         specifier: ^3.0.7
-        version: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+        version: 3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
 packages:
 
@@ -2875,6 +2900,9 @@ packages:
   '@types/cookies@0.9.0':
     resolution: {integrity: sha512-40Zk8qR147RABiQ7NQnBzWzDcjKzNrntB5BAmeGCb2p/MIyOE+4BVvc17wumsUqUw00bJYqoXFHYygQnEFh4/Q==}
 
+  '@types/debug@4.1.12':
+    resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
+
   '@types/dotenv-safe@8.1.6':
     resolution: {integrity: sha512-ftZXu3WGT6ALq+f98IX2gWriGMPds+0ku5h8kZewNpY47ua+Z+XNcin9apZ2kVd4B9LV1vMfUOyDf1/hhreR0Q==}
 
@@ -2973,6 +3001,9 @@ packages:
 
   '@types/minimatch@3.0.5':
     resolution: {integrity: sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==}
+
+  '@types/ms@2.1.0':
+    resolution: {integrity: sha512-GsCCIZDE/p3i96vtEqx+7dBUGXrc7zeSK3wwPHIaRThS+9OhWIXRqzs4d6k1SVU8g91DrNRWxWUGhp5KXQb2VA==}
 
   '@types/node@20.17.11':
     resolution: {integrity: sha512-Ept5glCK35R8yeyIeYlRIZtX6SLRyqMhOFTgj5SOkMpLTdw3SEHI9fHx60xaUZ+V1aJxQJODE+7/j5ocZydYTg==}
@@ -4017,9 +4048,6 @@ packages:
     resolution: {integrity: sha512-t/Ygsytq+R995EJ5PZlD4Cu56sWa8InXySaViRzw9apusqsOO2bQP+SbYzAhR0pFKoB+43lYy8rWban9JSuXnA==}
     engines: {node: '>= 0.4'}
 
-  dayjs@1.11.11:
-    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
-
   dayjs@1.11.13:
     resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
@@ -4200,6 +4228,9 @@ packages:
   dotenv@8.6.0:
     resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
+
+  dottie@2.0.6:
+    resolution: {integrity: sha512-iGCHkfUc5kFekGiqhe8B/mdaurD+lakO9txNnTvKtA6PISrw86LgqHvRzWYPyoE2Ph5aMIrCw9/uko6XHTKCwA==}
 
   dunder-proto@1.0.1:
     resolution: {integrity: sha512-KIN/nDJBQRcXw0MLVhZE9iQHmG68qAVIBg9CqmUYjmQIhgij9U5MFvrqkUL5FbtyyzZuOeOt0zdeRe4UY7ct+A==}
@@ -4990,6 +5021,10 @@ packages:
     resolution: {integrity: sha512-EdDDZu4A2OyIK7Lr/2zG+w5jmbuk1DVBnEwREQvBzspBJkCEbRa8GxU1lghYcaGJCnRWibjDXlq779X1/y5xwg==}
     engines: {node: '>=8'}
 
+  inflection@1.13.4:
+    resolution: {integrity: sha512-6I/HUDeYFfuNCVS3td055BaXBwKYuzw7K3ExVMStBowKo9oOAMJIXIHvdyR3iboTCp1b+1i5DSkIZTcwIktuDw==}
+    engines: {'0': node >= 0.4.0}
+
   inflight@1.0.6:
     resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     deprecated: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
@@ -5721,6 +5756,12 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  moment-timezone@0.5.47:
+    resolution: {integrity: sha512-UbNt/JAWS0m/NJOebR0QMRHBk0hu03r5dx9GK8Cs0AS3I81yDcOc9k+DytPItgVvBP7J6Mf6U2n3BPAacAV9oA==}
+
+  moment@2.30.1:
+    resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
+
   ms@2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==}
 
@@ -6011,6 +6052,9 @@ packages:
 
   perfect-debounce@1.0.0:
     resolution: {integrity: sha512-xCy9V055GLEqoFaHoC1SoLIaLmWctgCUaBaWxDZ7/Zx4CTyX7cJQLJOok/orfjZAh9kEYpjJa4d0KcJmCbctZA==}
+
+  pg-connection-string@2.7.0:
+    resolution: {integrity: sha512-PI2W9mv53rXJQEOb8xNR8lH7Hr+EKa6oJa38zsK0S/ky2er16ios1wLKhZyxzD7jUReiWokc9WK5nxSnC7W1TA==}
 
   picocolors@1.1.1:
     resolution: {integrity: sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==}
@@ -6304,6 +6348,9 @@ packages:
     resolution: {integrity: sha512-l+sSefzHpj5qimhFSE5a8nufZYAM3sBSVMAPtYkmC+4EH2anSGaEMXSD0izRQbu9nfyQ9y5JrVmp7E8oZrUjvA==}
     engines: {node: '>=8'}
 
+  retry-as-promised@7.1.1:
+    resolution: {integrity: sha512-hMD7odLOt3LkTjcif8aRZqi/hybjpLNgSk5oF5FCowfCjok6LukpN2bDX7R5wDmbgBQFn7YoBxSagmtXHaJYJw==}
+
   reusify@1.0.4:
     resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
@@ -6409,6 +6456,43 @@ packages:
 
   seq-queue@0.0.5:
     resolution: {integrity: sha512-hr3Wtp/GZIc/6DAGPDcV4/9WoZhjrkXsi5B/07QgX8tsdc6ilr7BFM6PM6rbdAX1kFSDYeZGLipIZZKyQP0O5Q==}
+
+  sequelize-pool@7.1.0:
+    resolution: {integrity: sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==}
+    engines: {node: '>= 10.0.0'}
+
+  sequelize@6.37.6:
+    resolution: {integrity: sha512-4Slqjqpktofs7AVqWviFOInzP9w8ZRQDhF+DnRtm4WKIdIATpyzGgedyseP3xbgpBxapvfQcJv6CeIdZe4ZL2A==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      ibm_db: '*'
+      mariadb: '*'
+      mysql2: '*'
+      oracledb: '*'
+      pg: '*'
+      pg-hstore: '*'
+      snowflake-sdk: '*'
+      sqlite3: '*'
+      tedious: '*'
+    peerDependenciesMeta:
+      ibm_db:
+        optional: true
+      mariadb:
+        optional: true
+      mysql2:
+        optional: true
+      oracledb:
+        optional: true
+      pg:
+        optional: true
+      pg-hstore:
+        optional: true
+      snowflake-sdk:
+        optional: true
+      sqlite3:
+        optional: true
+      tedious:
+        optional: true
 
   serialize-javascript@4.0.0:
     resolution: {integrity: sha512-GaNA54380uFefWghODBWEGisLZFj00nS5ACs6yHa9nLqlLpVLO8ChDGeKRjZnV4Nh4n0Qi7nhYZD/9fCPzEqkw==}
@@ -6802,6 +6886,9 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
 
+  toposort-class@1.0.1:
+    resolution: {integrity: sha512-OsLcGGbYF3rMjPUf8oKktyvCiUxSbqMMS39m33MAjLTC1DVIH6x3WSt63/M77ihI09+Sdfk1AXvfhCEeUmC7mg==}
+
   touch@3.1.1:
     resolution: {integrity: sha512-r0eojU4bI8MnHr8c5bNo7lJDdI2qXlWWJk6a9EAFG7vbhTjElYhBVS3/miuE0uOuoLdb8Mc/rVfsmm6eo5o9GA==}
     hasBin: true
@@ -7143,6 +7230,10 @@ packages:
     resolution: {integrity: sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==}
     engines: {node: '>= 0.4.0'}
 
+  uuid@8.3.2:
+    resolution: {integrity: sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==}
+    hasBin: true
+
   uuid@9.0.1:
     resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
     hasBin: true
@@ -7388,6 +7479,9 @@ packages:
     resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
     engines: {node: '>=8'}
     hasBin: true
+
+  wkx@0.5.0:
+    resolution: {integrity: sha512-Xng/d4Ichh8uN4l0FToV/258EjMGU9MGcA0HV2d9B/ZpZB3lqQm7nkOdZdm5GhKtLLhAE7PiVQwN4eN+2YJJUg==}
 
   wmf@1.0.2:
     resolution: {integrity: sha512-/p9K7bEh0Dj6WbXg4JG0xvLQmIadrner1bi45VMJTfnbVHsc7yIajZyoSoK60/dtVBs12Fm6WkUI5/3WAVsNMw==}
@@ -8983,7 +9077,7 @@ snapshots:
     dependencies:
       '@tikkhun/logger': 1.0.8
       commander: 12.1.0
-      dayjs: 1.11.11
+      dayjs: 1.11.13
       fs-extra: 11.3.0
 
   '@trpc/client@11.0.0-rc.403(@trpc/server@11.0.0-rc.456)':
@@ -9060,6 +9154,10 @@ snapshots:
       '@types/express': 5.0.0
       '@types/keygrip': 1.0.6
       '@types/node': 22.13.4
+
+  '@types/debug@4.1.12':
+    dependencies:
+      '@types/ms': 2.1.0
 
   '@types/dotenv-safe@8.1.6':
     dependencies:
@@ -9179,6 +9277,8 @@ snapshots:
   '@types/mime@1.3.5': {}
 
   '@types/minimatch@3.0.5': {}
+
+  '@types/ms@2.1.0': {}
 
   '@types/node@20.17.11':
     dependencies:
@@ -10471,8 +10571,6 @@ snapshots:
       es-errors: 1.3.0
       is-data-view: 1.0.1
 
-  dayjs@1.11.11: {}
-
   dayjs@1.11.13: {}
 
   debug@2.6.9:
@@ -10618,6 +10716,8 @@ snapshots:
   dotenv@16.4.7: {}
 
   dotenv@8.6.0: {}
+
+  dottie@2.0.6: {}
 
   dunder-proto@1.0.1:
     dependencies:
@@ -11668,6 +11768,8 @@ snapshots:
 
   indent-string@4.0.0: {}
 
+  inflection@1.13.4: {}
+
   inflight@1.0.6:
     dependencies:
       once: 1.4.0
@@ -12524,7 +12626,7 @@ snapshots:
 
   make-dir@4.0.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.1
 
   make-error@1.3.6: {}
 
@@ -12651,6 +12753,12 @@ snapshots:
   mkdirp@2.1.3: {}
 
   mkdirp@2.1.6: {}
+
+  moment-timezone@0.5.47:
+    dependencies:
+      moment: 2.30.1
+
+  moment@2.30.1: {}
 
   ms@2.0.0: {}
 
@@ -12944,6 +13052,8 @@ snapshots:
   pathval@2.0.0: {}
 
   perfect-debounce@1.0.0: {}
+
+  pg-connection-string@2.7.0: {}
 
   picocolors@1.1.1: {}
 
@@ -13252,6 +13362,8 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
+  retry-as-promised@7.1.1: {}
+
   reusify@1.0.4: {}
 
   rfdc@1.4.1: {}
@@ -13406,6 +13518,29 @@ snapshots:
       - supports-color
 
   seq-queue@0.0.5: {}
+
+  sequelize-pool@7.1.0: {}
+
+  sequelize@6.37.6:
+    dependencies:
+      '@types/debug': 4.1.12
+      '@types/validator': 13.12.0
+      debug: 4.4.0(supports-color@5.5.0)
+      dottie: 2.0.6
+      inflection: 1.13.4
+      lodash: 4.17.21
+      moment: 2.30.1
+      moment-timezone: 0.5.47
+      pg-connection-string: 2.7.0
+      retry-as-promised: 7.1.1
+      semver: 7.7.1
+      sequelize-pool: 7.1.0
+      toposort-class: 1.0.1
+      uuid: 8.3.2
+      validator: 13.12.0
+      wkx: 0.5.0
+    transitivePeerDependencies:
+      - supports-color
 
   serialize-javascript@4.0.0:
     dependencies:
@@ -13839,6 +13974,8 @@ snapshots:
 
   toidentifier@1.0.1: {}
 
+  toposort-class@1.0.1: {}
+
   touch@3.1.1: {}
 
   tr46@0.0.3: {}
@@ -14091,7 +14228,7 @@ snapshots:
       buffer: 6.0.3
       chalk: 4.1.2
       cli-highlight: 2.1.11
-      dayjs: 1.11.11
+      dayjs: 1.11.13
       debug: 4.3.5
       dotenv: 16.4.5
       glob: 10.4.5
@@ -14176,6 +14313,8 @@ snapshots:
       which-typed-array: 1.1.15
 
   utils-merge@1.0.1: {}
+
+  uuid@8.3.2: {}
 
   uuid@9.0.1: {}
 
@@ -14429,7 +14568,7 @@ snapshots:
       - supports-color
       - terser
 
-  vitest@3.0.7(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
+  vitest@3.0.7(@types/debug@4.1.12)(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
     dependencies:
       '@vitest/expect': 3.0.7
       '@vitest/mocker': 3.0.7(vite@6.1.1(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5))
@@ -14452,6 +14591,7 @@ snapshots:
       vite-node: 3.0.7(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
       why-is-node-running: 2.3.0
     optionalDependencies:
+      '@types/debug': 4.1.12
       '@types/node': 20.17.11
     transitivePeerDependencies:
       - jiti
@@ -14467,7 +14607,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
+  vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
     dependencies:
       '@vitest/expect': 3.0.7
       '@vitest/mocker': 3.0.7(vite@6.1.1(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5))
@@ -14490,6 +14630,7 @@ snapshots:
       vite-node: 3.0.7(@types/node@22.10.2)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
       why-is-node-running: 2.3.0
     optionalDependencies:
+      '@types/debug': 4.1.12
       '@types/node': 22.10.2
     transitivePeerDependencies:
       - jiti
@@ -14505,7 +14646,7 @@ snapshots:
       - tsx
       - yaml
 
-  vitest@3.0.7(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
+  vitest@3.0.7(@types/debug@4.1.12)(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5):
     dependencies:
       '@vitest/expect': 3.0.7
       '@vitest/mocker': 3.0.7(vite@6.1.1(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5))
@@ -14528,6 +14669,7 @@ snapshots:
       vite-node: 3.0.7(@types/node@22.13.4)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
       why-is-node-running: 2.3.0
     optionalDependencies:
+      '@types/debug': 4.1.12
       '@types/node': 22.13.4
     transitivePeerDependencies:
       - jiti
@@ -14646,6 +14788,10 @@ snapshots:
     dependencies:
       siginfo: 2.0.0
       stackback: 0.0.2
+
+  wkx@0.5.0:
+    dependencies:
+      '@types/node': 22.13.4
 
   wmf@1.0.2: {}
 
