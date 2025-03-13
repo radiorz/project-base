@@ -1,5 +1,5 @@
 import { Op } from 'sequelize';
-export function getDayRangeQuery(start: string | number, end: string | number) {
+export function getDayRangeQuery(start: string | number, end: string | number): any {
   if (!start || !end) {
     return;
   }

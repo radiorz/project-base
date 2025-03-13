@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-export function fuzzyString(value: string) {
+export function fuzzyString(value: string): any {
   if (typeof value === 'string') {
     return {
       [Op.like]: `%${value}%`,
