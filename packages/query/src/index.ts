@@ -1,2 +1,2 @@
-import { hello } from '../lib';
+import { hello } from '../lib/core';
 hello();

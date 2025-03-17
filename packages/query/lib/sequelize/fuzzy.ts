@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 
-export function fuzzyString(value: string): any {
+export function fuzzy(value: string): any {
   if (typeof value === 'string') {
     return {
       [Op.like]: `%${value}%`,
@@ -8,9 +8,9 @@ export function fuzzyString(value: string): any {
   }
   return value;
 }
-export function fuzzyManyString(query: Record<string, any>, keys: string[] = []) {
+export function fuzzyMany(query: Record<string, any>, keys: string[] = []) {
   if (!query) return query;
   keys.forEach((key) => {
-    query[key] = fuzzyString(query[key]);
+    query[key] = fuzzy(query[key]);
   });
 }

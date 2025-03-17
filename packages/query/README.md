@@ -1,4 +1,4 @@
-# query
+# sequelize-utils
 
 ## 使用
 

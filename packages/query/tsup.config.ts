@@ -14,6 +14,7 @@ export default defineConfig((options: any) => ({
   // sourcemap: true,
   clean: true,
   treeshake: true,
+  external: ['sequelize'],
   // 压缩代码
   minify: !options.watch,
   banner: {
