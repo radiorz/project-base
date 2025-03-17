@@ -44,7 +44,7 @@ export class Config extends Emitter implements Api {
   set config(value: any) {
     this._config.value = value;
   }
-  async handleValueChange(path: string, value: any) {
+  private async handleValueChange(path: string, value: any) {
     const theTruePath = path.replace(/value\.?/, '');
     try {
       await this.sync(theTruePath, value);
@@ -57,7 +57,7 @@ export class Config extends Emitter implements Api {
     this.handleWholeChange();
   }
   // 有时候不要频繁变更 所以加个debounce 只监听最后一次抖动
-  handleWholeChange() {
+  private handleWholeChange() {
     this.emit(ConfigEvents.change, this.config);
   }
   options: ConfigOptions;
