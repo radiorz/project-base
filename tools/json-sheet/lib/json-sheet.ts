@@ -10,7 +10,13 @@ export interface Json2SheetOptions {
   valueHeader?: string;
 }
 export async function json2Sheet({ input, output, delimiter, keyHeader, valueHeader }: Json2SheetOptions) {
-  const jsonData = await readJSON(input);
+  let jsonData = null;
+  // 兼容 js 的情况
+  if (input.endsWith('.js')) {
+    jsonData = require(input);
+  } else {
+    jsonData = await readJSON(input);
+  }
   const flattedData = flatJson({ data: jsonData, delimiter: delimiter || '__' });
   const worksheet = kv2worksheet({ data: flattedData, keyHeader, valueHeader });
   const workbook = utils.book_new();
