@@ -2,7 +2,7 @@
  * @FilePath: \project-base\packages\action\lib\BinaryActionManager\BinaryActionManager.ts
  * @Author: zk.su
  * @Date: 2025-04-03 13:57:47
- * @LastEditTime: 2025-04-07 11:41:22
+ * @LastEditTime: 2025-04-07 11:58:06
  * @LastEditors: zk.su
  * @Description:
  * @TODO:
@@ -16,16 +16,18 @@
  * @Description:
  * @TODO:
  */
-import { ActionManager, actionManager, Action } from '../ActionManager';
-import { Subject, Observable, timer, merge } from 'rxjs';
-import { pairwise, startWith, filter, switchMap, map, takeUntil, groupBy } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { groupBy, map } from 'rxjs/operators';
+import { ActionManager, actionManager } from '../ActionManager';
 import { IOStrategy } from './strategies/IOStrategy';
 
-export enum BinaryActionType {
-  TURN_ON = 'TURN_ON', // 从0变1
-  TURN_OFF = 'TURN_OFF', // 从1变0
-  LONG_PRESS = 'LONG_PRESS', // 持续1超过3秒后变0
-}
+export type BinaryActionType = string;
+
+export const DefaultBinaryActionTypes = {
+  TURN_ON: 'TURN_ON',
+  TURN_OFF: 'TURN_OFF',
+  LONG_PRESS: 'LONG_PRESS',
+} as const;
 
 export interface BinaryMessage {
   from: string;

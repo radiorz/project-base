@@ -1,3 +1,12 @@
+/*
+ * @FilePath: \project-base\packages\action\examples\morse-code\index.ts
+ * @Author: zk.su
+ * @Date: 2025-04-03 14:14:52
+ * @LastEditTime: 2025-04-07 11:59:46
+ * @LastEditors: zk.su
+ * @Description: 
+ * @TODO: 
+ */
 import { BinaryActionManager } from '../../lib/BinaryActionManager';
 import { MorseCodeStrategy } from './MorseCodeStrategy';
 
@@ -27,17 +36,17 @@ class MorseCodeInput {
     // 绑定摩斯密码处理
     this.binaryManager.bind('morseInput', 'input1', 'MORSE_CODE');
 
-    // 处理摩斯密码输入
-    this.binaryManager.options.actionManager.on('morseInput', (morseCode: string) => {
-      const letter = MORSE_CODE_MAP[morseCode];
-      if (letter) {
-        this.currentText += letter;
-        console.log(`当前输入: ${this.currentText}`);
-        console.log(`识别到字母: ${letter} (摩斯密码: ${morseCode})`);
-      } else {
-        console.log(`未识别的摩斯密码: ${morseCode}`);
-      }
-    });
+    // // 处理摩斯密码输入
+    // this.binaryManager.options.actionManager.on('morseInput', (morseCode: string) => {
+    //   const letter = MORSE_CODE_MAP[morseCode];
+    //   if (letter) {
+    //     this.currentText += letter;
+    //     console.log(`当前输入: ${this.currentText}`);
+    //     console.log(`识别到字母: ${letter} (摩斯密码: ${morseCode})`);
+    //   } else {
+    //     console.log(`未识别的摩斯密码: ${morseCode}`);
+    //   }
+    // });
   }
 
   // 模拟按键按下
