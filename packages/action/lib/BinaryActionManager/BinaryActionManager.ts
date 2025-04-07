@@ -76,14 +76,14 @@ export class BinaryActionManager {
 
     this.messageSubject.pipe(groupBy((msg) => msg.from)).subscribe((group) => {
       const strategyStreams = Array.from(this.strategies.values()).map((strategy) =>
-        strategy.handle(group).pipe(map((type) => ({ type, gpioId: group.key }))),
+        strategy.handle(group).pipe(map((value) => ({ type: strategy.type, value, from: group.key }))),
       );
 
-      merge(...strategyStreams).subscribe(({ type, gpioId }) => {
-        const actions = this.ioActionBinder.get(`${gpioId}:${type}`);
+      merge(...strategyStreams).subscribe(({ from, type, value }) => {
+        const actions = this.ioActionBinder.get(`${from}:${type}`);
         if (actions) {
           actions.forEach((actionName) => {
-            this.options.actionManager.handle(actionName);
+            this.options.actionManager.handle(actionName, { context: { from, value } });
           });
         }
       });

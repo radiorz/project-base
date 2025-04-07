@@ -1,102 +1,186 @@
-/*
- * @FilePath: \project-base\packages\action\examples\morse-code\index.ts
- * @Author: zk.su
- * @Date: 2025-04-03 14:14:52
- * @LastEditTime: 2025-04-07 11:59:46
- * @LastEditors: zk.su
- * @Description: 
- * @TODO: 
- */
 import { BinaryActionManager } from '../../lib/BinaryActionManager';
-import { MorseCodeStrategy } from './MorseCodeStrategy';
-
-// 摩斯密码映射表
-const MORSE_CODE_MAP = {
-  '.-': 'A', '-...': 'B', '-.-.': 'C', '-..': 'D', '.': 'E',
-  '..-.': 'F', '--.': 'G', '....': 'H', '..': 'I', '.---': 'J',
-  '-.-': 'K', '.-..': 'L', '--': 'M', '-.': 'N', '---': 'O',
-  '.--.': 'P', '--.-': 'Q', '.-.': 'R', '...': 'S', '-': 'T',
-  '..-': 'U', '...-': 'V', '.--': 'W', '-..-': 'X', '-.--': 'Y',
-  '--..': 'Z'
-};
+import { MorseCodeStrategy } from '../../lib/BinaryActionManager';
+import { ActionManager, actionManager } from '../../lib/ActionManager';
+import { MORSE_CODE_MAP } from '../../lib/BinaryActionManager/strategies/MorseCodeStrategy';
 
 class MorseCodeInput {
   private binaryManager: BinaryActionManager;
   private currentText: string = '';
-
+  private actionManager = new ActionManager();
   constructor() {
-    this.binaryManager = new BinaryActionManager();
+    this.binaryManager = new BinaryActionManager({ actionManager: this.actionManager });
     this.initializeMorseCode();
+    this.actionManager.createAction('morseInput', (context) => {
+      this.currentText += context.value;
+    });
   }
 
   private initializeMorseCode() {
-    // 添加摩斯密码策略
-    this.binaryManager.addStrategy(new MorseCodeStrategy());
+    const morseStrategy = new MorseCodeStrategy();
+    this.binaryManager.addStrategy(morseStrategy);
 
-    // 绑定摩斯密码处理
-    this.binaryManager.bind('morseInput', 'input1', 'MORSE_CODE');
-
-    // // 处理摩斯密码输入
-    // this.binaryManager.options.actionManager.on('morseInput', (morseCode: string) => {
-    //   const letter = MORSE_CODE_MAP[morseCode];
-    //   if (letter) {
-    //     this.currentText += letter;
-    //     console.log(`当前输入: ${this.currentText}`);
-    //     console.log(`识别到字母: ${letter} (摩斯密码: ${morseCode})`);
-    //   } else {
-    //     console.log(`未识别的摩斯密码: ${morseCode}`);
-    //   }
-    // });
+    this.binaryManager.bind('morseInput', 'input1', morseStrategy.type);
   }
 
-  // 模拟按键按下
   press() {
     this.binaryManager.onMessage({
       from: 'input1',
       value: 1,
-      triggerTime: Date.now()
+      triggerTime: Date.now(),
     });
   }
 
-  // 模拟按键释放
   release() {
     this.binaryManager.onMessage({
       from: 'input1',
       value: 0,
-      triggerTime: Date.now()
+      triggerTime: Date.now(),
     });
   }
-
-  // 获取当前输入的文本
   getText() {
     return this.currentText;
   }
-
-  // 清空当前输入
-  clear() {
-    this.currentText = '';
-  }
 }
 
-// 使用示例
+// 测试代码
 const morseInput = new MorseCodeInput();
 
 // 模拟输入字母 "A" (.- 摩斯密码)
-async function inputA() {
-  // 点 (.)
-  morseInput.press();
-  await new Promise(resolve => setTimeout(resolve, 100));
-  morseInput.release();
-  await new Promise(resolve => setTimeout(resolve, 200));
+async function testInput() {
+  // H (...)
+  for (let i = 0; i < 4; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000)); // 字母间隔
 
-  // 划 (-)
+  // E (.)
   morseInput.press();
-  await new Promise(resolve => setTimeout(resolve, 500));
+  await new Promise((resolve) => setTimeout(resolve, 100));
   morseInput.release();
-  await new Promise(resolve => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // L (.-..)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  for (let i = 0; i < 2; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // L (.-..)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  for (let i = 0; i < 2; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // O (---)
+  for (let i = 0; i < 3; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 2000)); // 单词间隔
+
+  // W (.--)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  for (let i = 0; i < 2; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // O (---)
+  for (let i = 0; i < 3; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 800));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // R (.-.)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // L (.-..)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  for (let i = 0; i < 2; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
+  await new Promise((resolve) => setTimeout(resolve, 1000));
+
+  // D (-..)
+  morseInput.press();
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  morseInput.release();
+  await new Promise((resolve) => setTimeout(resolve, 200));
+
+  for (let i = 0; i < 2; i++) {
+    morseInput.press();
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    morseInput.release();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+  }
 }
 
-// 测试输入
-inputA().then(() => {
-  console.log('最终输入结果:', morseInput.getText());
+testInput().then(() => {
+  console.log('输入完成:', morseInput.getText());
 });
