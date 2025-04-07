@@ -1,12 +1,11 @@
-import { BinaryActionManager } from '../../lib/BinaryActionManager';
-import { MorseCodeStrategy } from '../../lib/BinaryActionManager';
-import { ActionManager, actionManager } from '../../lib/ActionManager';
-import { MORSE_CODE_MAP } from '../../lib/BinaryActionManager/strategies/MorseCodeStrategy';
+import { ActionManager } from '../../lib/ActionManager';
+import { BinaryActionManager, MorseCodeStrategy } from '../../lib/BinaryActionManager';
 
 class MorseCodeInput {
   private binaryManager: BinaryActionManager;
   private currentText: string = '';
   private actionManager = new ActionManager();
+  private inputName = 'input1';
   constructor() {
     this.binaryManager = new BinaryActionManager({ actionManager: this.actionManager });
     this.initializeMorseCode();
@@ -19,12 +18,12 @@ class MorseCodeInput {
     const morseStrategy = new MorseCodeStrategy();
     this.binaryManager.addStrategy(morseStrategy);
 
-    this.binaryManager.bind('morseInput', 'input1', morseStrategy.type);
+    this.binaryManager.bind('morseInput', this.inputName, morseStrategy.type);
   }
 
   press() {
     this.binaryManager.onMessage({
-      from: 'input1',
+      from: this.inputName,
       value: 1,
       triggerTime: Date.now(),
     });
@@ -32,7 +31,7 @@ class MorseCodeInput {
 
   release() {
     this.binaryManager.onMessage({
-      from: 'input1',
+      from: this.inputName,
       value: 0,
       triggerTime: Date.now(),
     });
@@ -45,69 +44,75 @@ class MorseCodeInput {
 // 测试代码
 const morseInput = new MorseCodeInput();
 
-// 模拟输入字母 "A" (.- 摩斯密码)
+// 基础时间单位（一个点的持续时间，毫秒）
+const DOT_DURATION = 100;
+const DASH_DURATION = DOT_DURATION * 3;
+const SIGNAL_GAP = DOT_DURATION;
+const LETTER_GAP = DOT_DURATION * 3;
+const WORD_GAP = DOT_DURATION * 7;
+
 async function testInput() {
-  // H (...)
+  // H (....)
   for (let i = 0; i < 4; i++) {
     morseInput.press();
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
     morseInput.release();
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    if (i < 3) await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
   }
-  await new Promise((resolve) => setTimeout(resolve, 1000)); // 字母间隔
+  await new Promise((resolve) => setTimeout(resolve, LETTER_GAP));
 
   // E (.)
   morseInput.press();
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
   morseInput.release();
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, LETTER_GAP));
 
   // L (.-..)
   morseInput.press();
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
   morseInput.release();
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
 
   morseInput.press();
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  await new Promise((resolve) => setTimeout(resolve, DASH_DURATION));
   morseInput.release();
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
 
   for (let i = 0; i < 2; i++) {
     morseInput.press();
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
     morseInput.release();
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    if (i < 1) await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
   }
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, LETTER_GAP));
 
   // L (.-..)
   morseInput.press();
-  await new Promise((resolve) => setTimeout(resolve, 100));
+  await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
   morseInput.release();
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
 
   morseInput.press();
-  await new Promise((resolve) => setTimeout(resolve, 800));
+  await new Promise((resolve) => setTimeout(resolve, DASH_DURATION));
   morseInput.release();
-  await new Promise((resolve) => setTimeout(resolve, 200));
+  await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
 
   for (let i = 0; i < 2; i++) {
     morseInput.press();
-    await new Promise((resolve) => setTimeout(resolve, 100));
+    await new Promise((resolve) => setTimeout(resolve, DOT_DURATION));
     morseInput.release();
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    if (i < 1) await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
   }
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, LETTER_GAP));
 
   // O (---)
   for (let i = 0; i < 3; i++) {
     morseInput.press();
-    await new Promise((resolve) => setTimeout(resolve, 800));
+    await new Promise((resolve) => setTimeout(resolve, DASH_DURATION));
     morseInput.release();
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    if (i < 2) await new Promise((resolve) => setTimeout(resolve, SIGNAL_GAP));
   }
-  await new Promise((resolve) => setTimeout(resolve, 2000)); // 单词间隔
+  await new Promise((resolve) => setTimeout(resolve, WORD_GAP));
 
   // W (.--)
   morseInput.press();
