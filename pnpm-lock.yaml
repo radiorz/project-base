@@ -91,6 +91,25 @@ importers:
         specifier: ^3.0.7
         version: 3.0.7(@types/node@22.13.10)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
 
+  packages/action:
+    dependencies:
+      rxjs:
+        specifier: ^7.8.2
+        version: 7.8.2
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.11
+      tsup:
+        specifier: ^8.3.0
+        version: 8.4.0(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.4.5)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.3
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.9(@types/node@20.17.11)(terser@5.31.2)
+
   packages/app-core:
     devDependencies:
       '@types/node':
@@ -443,6 +462,21 @@ importers:
       vitest:
         specifier: ^3.0.7
         version: 3.0.7(@types/debug@4.1.12)(@types/node@20.17.11)(terser@5.31.2)(tsx@4.19.3)(yaml@2.4.5)
+
+  packages/server-module:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.11
+      tsup:
+        specifier: ^8.3.0
+        version: 8.4.0(postcss@8.5.3)(tsx@4.19.3)(typescript@5.7.3)(yaml@2.4.5)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.3
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.9(@types/node@20.17.11)(terser@5.31.2)
 
   packages/timer:
     dependencies:
@@ -9267,7 +9301,7 @@ snapshots:
 
   '@types/dotenv-safe@8.1.6':
     dependencies:
-      '@types/node': 22.13.4
+      '@types/node': 22.13.10
       dotenv: 8.6.0
 
   '@types/ejs@3.1.5': {}
@@ -9301,7 +9335,7 @@ snapshots:
   '@types/fs-extra@11.0.4':
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 22.13.4
+      '@types/node': 22.13.10
 
   '@types/graceful-fs@4.1.9':
     dependencies:
@@ -9355,7 +9389,7 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/keygrip': 1.0.6
       '@types/koa-compose': 3.2.8
-      '@types/node': 22.13.4
+      '@types/node': 22.13.10
 
   '@types/linkify-it@5.0.0': {}
 
