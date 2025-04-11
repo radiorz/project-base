@@ -1,12 +1,12 @@
 export interface Action {
   handle: (context: any) => any | Promise<any>;
 }
-export enum handleutionMode {
+export enum HandleMode {
   Sequential, // 顺序执行
   Concurrent, // 并发执行（乱序执行）
 }
 export interface ActionhandleOptions {
-  mode?: handleutionMode;
+  mode?: HandleMode;
   context?: any;
 }
 export class ActionManager {
@@ -37,7 +37,7 @@ export class ActionManager {
     const actions = this.get(name);
     if (!actions) throw new Error(`Action ${name} not found`);
     if (Array.isArray(actions)) {
-      if (options?.mode === handleutionMode.Concurrent) {
+      if (options?.mode === HandleMode.Concurrent) {
         return await Promise.all(actions.filter((action) => !!action).map((action) => action.handle(options?.context)));
       }
       // 顺序执行
@@ -53,4 +53,3 @@ export class ActionManager {
   }
 }
 
-export const actionManager = new ActionManager();

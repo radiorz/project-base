@@ -18,16 +18,10 @@
  */
 import { merge, Observable, Subject } from 'rxjs';
 import { groupBy, map } from 'rxjs/operators';
-import { ActionManager, actionManager } from '../ActionManager';
+import { ActionManager } from '../ActionManager';
 import { IOStrategy } from './strategies/IOStrategy';
 
 export type BinaryActionType = string;
-
-export const DefaultBinaryActionTypes = {
-  TURN_ON: 'TURN_ON',
-  TURN_OFF: 'TURN_OFF',
-  LONG_PRESS: 'LONG_PRESS',
-} as const;
 
 export interface BinaryMessage {
   from: string;
@@ -42,7 +36,7 @@ export interface BinaryActionManagerOptions {
 
 export class BinaryActionManager {
   static defaultOptions: BinaryActionManagerOptions = Object.freeze({
-    actionManager,
+    actionManager: new ActionManager(),
     longPressTime: 3000,
   });
 
