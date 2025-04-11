@@ -40,12 +40,12 @@
     "@types/fs-extra": "^11.0.4",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.1",
-    "npm-check-updates": "^17.1.15"
+    "npm-check-updates": "^17.1.18"
   },
   "devDependencies": {
     "@types/node": "^22",
-    "tsup": "^8.3.6",
+    "tsup": "^8.4.0",
     "tsx": "^4.19.3",
-    "vitest": "^3.0.7"
+    "vitest": "^3.1.1"
   }
 }

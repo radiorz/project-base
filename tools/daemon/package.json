@@ -35,12 +35,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cron": "^4.1.0"
+    "cron": "^4.1.4"
   },
   "devDependencies": {
     "@types/node": "^22.10.2",
    "tsx": "^4.19.3",
-    "tsup": "^8.3.6",
-    "vitest": "^3.0.7"
+    "tsup": "^8.4.0",
+    "vitest": "^3.1.1"
   }
 }

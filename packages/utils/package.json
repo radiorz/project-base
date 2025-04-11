@@ -37,11 +37,11 @@
   },
   "devDependencies": {
     "@linjiajian999/esbuild-plugin-import": "^1.0.2",
-    "@types/lodash": "^4.17.15",
+    "@types/lodash": "^4.17.16",
     "@types/node": "^22.10.2",
     "esbuild-plugin-lodash": "^1.2.0",
     "tsx": "^4.19.3",
-    "tsup": "^8.3.6",
-    "vitest": "^3.0.7"
+    "tsup": "^8.4.0",
+    "vitest": "^3.1.1"
   }
 }
