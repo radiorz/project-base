@@ -1,6 +1,7 @@
-export interface TreeNode {
-  id: string;
-  parentId: string | null;
+export interface TreeNode<Id = string | number| any> {
+  id: Id;
+  parentId?: Id | null;
+  ancestorIds?: Id[];
   children?: TreeNode[];
   [props: string]: any;
 }
@@ -80,3 +81,19 @@ export function findNodeByIdBFS(tree: TreeNode, id: string): TreeNode | null {
   // 如果没有找到匹配的节点，返回 null
   return null;
 }
+
+export const addAncestorIds = (tree: TreeNode): TreeNode => {
+  const dfs = (node: TreeNode, ancestors: Array<string | number> = []): TreeNode => {
+    // 创建当前节点的不可变副本
+    const currentNode: TreeNode = { ...node };
+    // 当前节点的祖先 ID 列表是父节点的祖先加上父节点自身的 ID
+    currentNode.ancestorIds = [...ancestors];
+    // 如果有子节点，递归处理每个子节点，并传递更新后的祖先列表
+    if (currentNode.children) {
+      currentNode.children = currentNode.children.map((child) => dfs(child, [...ancestors, node.id]));
+    }
+    return currentNode;
+  };
+  // 从根节点开始，没有父祖先
+  return dfs(tree);
+};

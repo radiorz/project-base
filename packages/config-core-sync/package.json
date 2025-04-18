@@ -1,10 +1,10 @@
 {
-  "name": "@tikkhun/utils-core",
-  "version": "0.0.15",
+  "name": "@tikkhun/config-core",
+  "version": "0.2.6",
   "description": "",
-  "types": "dist/index.d.ts",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "import": {
@@ -18,13 +18,17 @@
     }
   },
   "files": [
+    "lib",
     "dist",
-    "lib"
+    "package.json",
+    "README.md"
   ],
   "scripts": {
     "build": "tsup",
     "dev": "tsx ./src/index.ts",
-    "test": "vitest"
+    "test": "vitest",
+    "version": "semantic-version update",
+    "_publish": "npm version patch && pnpm run build && npm publish"
   },
   "publishConfig": {
     "access": "public"
@@ -33,15 +37,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@tikkhun/utils-core": "workspace:^"
   },
   "devDependencies": {
-    "@linjiajian999/esbuild-plugin-import": "^1.0.2",
+    "@tikkhun/version": "latest",
     "@types/lodash": "^4.17.16",
-    "@types/node": "^22.10.2",
-    "esbuild-plugin-lodash": "^1.2.0",
-    "tsx": "^4.19.3",
+    "lodash": "^4.17.21",
     "tsup": "^8.4.0",
+    "tsx": "^4.19.3",
     "vitest": "^3.1.1"
   }
 }
