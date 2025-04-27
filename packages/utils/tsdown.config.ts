@@ -1,4 +1,4 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 import packageJson from './package.json';
 const name = packageJson.name;
 const version = packageJson.version;
