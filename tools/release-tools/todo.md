@@ -1,13 +1,15 @@
 # TODO
-- 优化 archive 速度 7zip 或者微软自带的快很多。
-- read info from yaml
+- 压缩速度: 优化 archive 速度 7zip 或者微软自带的快很多。
+- 配置文件读取： 支持 js ts json 等多种文件形式的读取 yaml?
 - info  save as yaml
-- infoOptions input 可增加字段
+
 - fix directory rename需要重新glob。
 - TODO file 支持glob
 - TODO 支持directory
 
 # DONE
+## 20241023 星期三
+- infoOptions input 可增加字段
 ## 20241022 星期二
 - plugin化 各种特色打包都通过插件实现
 - release path 根据 cwd 而不是 workspace 定位
