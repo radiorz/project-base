@@ -7,14 +7,12 @@ import banner2 from 'rollup-plugin-banner2';
 // import pluginLodashImport from 'esbuild-plugin-lodash';
 export default defineConfig((options) => ({
   plugins: [
-//     banner2(() => {
-//       return {
-//         js: `/**
-//   ${name}
-//   ${version}
-// */`,
-//       };
-//     }),
+    banner2(() => {
+      return `/**
+  ${name}
+  ${version}
+*/`;
+    }),
   ],
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
