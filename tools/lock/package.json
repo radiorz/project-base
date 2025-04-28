@@ -1,10 +1,10 @@
 {
   "name": "@tikkhun/lock",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "bin": {
-    "tikkhun-lock-generate": "dist/cli/generate.js",
-    "tikkhun-lock-validate": "dist/cli/validate.js"
+    "tikkhun-lock-generate": "dist/cli/generator.js",
+    "tikkhun-lock-validate": "dist/cli/validator.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
