@@ -51,7 +51,7 @@
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
-    "glob": "^11.0.1",
+    "glob": "^11.0.2",
     "javascript-obfuscator": "^4.1.1",
     "lodash": "^4.17.21"
   },
@@ -59,8 +59,8 @@
     "@types/lodash": "^4.17.16",
     "@types/node": "^22.10.2",
     "tsup": "^8.4.0",
-    "tsx": "^4.19.3",
-    "vitest": "^3.1.1"
+    "tsx": "^4.19.4",
+    "vitest": "^3.1.2"
   },
   "engines": {
     "node": ">=14"

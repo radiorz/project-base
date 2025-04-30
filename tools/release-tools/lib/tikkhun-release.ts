@@ -1,3 +1,12 @@
+/**
+ * @author
+ * @file tikkhun-release.ts
+ * @fileBase tikkhun-release
+ * @path tools\release-tools\lib\tikkhun-release.ts
+ * @from
+ * @desc tikkhun主要扁平化了release 的选项,不用创建对象与function
+ * @example
+ */
 import { optionsMerge } from '@tikkhun/utils-core';
 import { InfoBuilder, InfoBuilderOptions } from './info-builder';
 import { Release, ReleaseOptions } from './release';
