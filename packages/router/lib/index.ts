@@ -1,5 +1,5 @@
 // 定义上下文接口
-interface Context {
+export interface Context {
   request: {
     pathname: string;
     // 其他请求属性
@@ -9,22 +9,28 @@ interface Context {
 }
 
 // 定义中间件类型
-type Middleware = (ctx: Context, next: () => Promise<void>) => Promise<void>;
+export type Middleware = (ctx: Context, next: () => Promise<void>) => Promise<void>;
 
 // 定义路由中间件类型
-type RouteMiddleware = {
+export type RouteMiddleware = {
   pathname: string;
   middleware: Middleware;
 };
 
 // 定义函数处理系统类
-class FunctionHandlerSystem {
+export class Router {
   private middlewares: Middleware[] = [];
   private routeMiddlewares: RouteMiddleware[] = [];
 
-  // 添加全局中间件
-  use(middleware: Middleware) {
-    this.middlewares.push(middleware);
+  // 添加全局或局部中间件
+  use(pathname: string | Middleware, middleware?: Middleware) {
+    if (typeof pathname === 'string' && middleware) {
+      // 局部中间件
+      this.routeMiddlewares.push({ pathname, middleware });
+    } else if (typeof pathname === 'function') {
+      // 全局中间件
+      this.middlewares.push(pathname);
+    }
     return this;
   }
 
@@ -66,6 +72,3 @@ class FunctionHandlerSystem {
     };
   }
 }
-
-// 导出函数处理系统类
-export { FunctionHandlerSystem };

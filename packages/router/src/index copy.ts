@@ -6,12 +6,13 @@ async function exampleUsage() {
 
   // 添加全局中间件
   router.use(async (ctx, next) => {
-    console.log('[global] 路由被调用了', ctx.request.pathname);
+    console.log('Global Middleware: Before next');
     await next();
+    console.log('Global Middleware: After next');
   });
 
   // 添加局部中间件
-  router.use('', async (ctx, next) => {
+  router.use('/home', async (ctx, next) => {
     console.log('Home Local Middleware: Before next');
     await next();
     console.log('Home Local Middleware: After next');
