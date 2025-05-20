@@ -4,11 +4,18 @@ const { merge } = _;
 export interface Action {
   (options: any): any;
 }
+interface Schema {
+  // TODO 用类似json schema 的方式去弄选项
+  default: any;
+  title: string;
+  type: string;
+}
 export interface CommandOptions {
   program?: Command;
   version: string;
   description: string;
   logo?: string;
+  optionsSchema?: Schema;
   defaultOptions: Record<string, any>;
   excludeOptions: string[];
   optionTypes: Record<string, any>;
