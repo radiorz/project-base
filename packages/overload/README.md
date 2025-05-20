@@ -1,7 +1,9 @@
 # overload
 一种书写override函数较为优雅的方法
+
 ## 免责
 本库仅用于学习交流，如有雷同，纯属巧合。
+
 ## 使用
 详见 src
 ```typescript
