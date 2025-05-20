@@ -1,6 +1,6 @@
 // 定义自定义 ActionMgr 类型，继承 Map 并添加 do 方法
 interface ActionMgr extends Map<string, Function> {
-  do: (name: string, ...args: any[]) => Promise<any>;
+  do: (name: string, ...args: any[]) => any | Promise<any>;
 }
 
 export const DefaultActionMgrOptions = {};
