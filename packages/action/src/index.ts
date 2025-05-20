@@ -1,19 +1,8 @@
-/*
- * @FilePath: \project-base\packages\action\src\index.ts
- * @Author: zk.su
- * @Date: 2025-04-03 11:40:45
- * @LastEditTime: 2025-04-07 11:49:08
- * @LastEditors: zk.su
- * @Description: 
- * @TODO: 
- */
-import { BinaryActionManager, LongPressInStrategy, LongPressStrategy, TurnOnStrategy } from '../lib/BinaryActionManager'
-const binaryActionManager = new BinaryActionManager();
+import { createActionMgr } from '../lib';
 
-// 添加策略
-binaryActionManager.addStrategy(new TurnOnStrategy());
-binaryActionManager.addStrategy(new LongPressStrategy(3000));
-
-// 移除策略
-binaryActionManager.addStrategy(new LongPressInStrategy());
-
+const actionMgr = createActionMgr();
+actionMgr.set('add', (a: number, b: number) => a + b);
+actionMgr.set('sub', (a: number, b: number) => a - b);
+console.log(actionMgr.do('add', 1, 2)); // 3
+console.log(actionMgr.get('add')?.(1, 2)); // -1
+console.log(actionMgr.get('sub')?.(1, 2)); // -1

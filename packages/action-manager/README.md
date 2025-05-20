@@ -1,4 +1,4 @@
-# simple-action
+# action
 
 ## 使用
 
