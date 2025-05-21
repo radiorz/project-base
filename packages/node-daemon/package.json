@@ -34,8 +34,8 @@
   "devDependencies": {
     "@types/node": "^22.10.2",
     "tsx": "^4.19.4",
-    "tsup": "^8.4.0",
-    "vitest": "^3.1.2"
+    "tsup": "^8.5.0",
+    "vitest": "^3.1.4"
   },
   "dependencies": {
     "@tikkhun/logger": "^1.0.8"
