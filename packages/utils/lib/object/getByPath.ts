@@ -1,9 +1,9 @@
 import _ from 'lodash';
 const { get } = _;
-export function getByPath(config: Record<string, any>, path: string = '') {
+export function getByPath(this: any, config: Record<string, any>, path: string = '') {
+  const self = config ?? this;
   if (!path) {
-    return config;
+    return self;
   }
-  return get(config, path);
+  return get(self, path);
 }
-
