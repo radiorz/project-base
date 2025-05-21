@@ -15,3 +15,4 @@ export * from './version';
 export * from './Emitter';
 export * from './language/chinese';
 export * from './data';
+export * from './string';
