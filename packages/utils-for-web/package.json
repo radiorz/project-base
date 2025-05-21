@@ -1,17 +1,17 @@
 {
-  "name": "@tikkhun/web-utils",
+  "name": "@tikkhun/utils-web",
   "version": "0.0.8",
   "type": "module",
   "files": [
     "dist"
   ],
-  "main": "./dist/web-utils.umd.cjs",
-  "module": "./dist/web-utils.js",
+  "main": "./dist/utils-web.umd.cjs",
+  "module": "./dist/utils-web.js",
   "types": "./dist/index.d.ts",
   "exports": {
     "types": "./dist/index.d.ts",
-    "import": "./dist/web-utils.js",
-    "require": "./dist/web-utils.umd.cjs"
+    "import": "./dist/utils-web.js",
+    "require": "./dist/utils-web.umd.cjs"
   },
   "scripts": {
     "dev": "vite",

@@ -1,4 +1,4 @@
-import { toDashCase } from '@tikkhun/utils';
+import { toDashCase } from '../string/toDashCase';
 
 export function keyToDashCase(style: Record<string, any>): string {
   return Object.entries(style)
