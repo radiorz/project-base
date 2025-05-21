@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { killUndefined } from './object';
+import { killUndefined } from './getByPath';
 
 it('killUndefined', () => {
   const origin = {
