@@ -9,12 +9,17 @@
     "build": "turbo run build",
     "deploy": "turbo run deploy",
     "publish": "turbo run publish",
+    "changeset": "changeset",
+    "changeset:version": "changeset version",
+    "changeset:publish": "changeset publish",
     "server-template:deploy": "del-cli deploy/server-template --force && pnpm --filter server-template deploy deploy/server-template && cd deploy/server-template && npm run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.27.10",
+    "changeset": "^0.2.6",
     "del-cli": "^6.0.0",
     "turbo": "^2.5.3"
   },
