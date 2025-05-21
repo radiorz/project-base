@@ -11,8 +11,7 @@
     "publish": "turbo run publish",
     "changeset": "changeset",
     "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish",
-    "server-template:deploy": "del-cli deploy/server-template --force && pnpm --filter server-template deploy deploy/server-template && cd deploy/server-template && npm run build"
+    "changeset:publish": "changeset publish"
   },
   "keywords": [],
   "author": "",
