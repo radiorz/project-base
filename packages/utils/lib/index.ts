@@ -16,3 +16,4 @@ export * from './Emitter';
 export * from './language/chinese';
 export * from './data';
 export * from './string';
+export * from './object';

@@ -1,0 +1,31 @@
+{
+  "name": "@tikkhun/web-utils",
+  "version": "0.0.8",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/web-utils.umd.cjs",
+  "module": "./dist/web-utils.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/web-utils.js",
+    "require": "./dist/web-utils.umd.cjs"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.2",
+    "vitest": "^2.0.5"
+  },
+  "dependencies": {
+    "crypto-js": "^4.2.0",
+    "vite-plugin-banner": "^0.7.1"
+  }
+}
