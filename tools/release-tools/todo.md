@@ -1,13 +1,15 @@
 # TODO
 - config文件之后还能用args配置
 - 压缩速度: 优化 archive 速度 7zip 或者微软自带的快很多。
-- 配置文件读取： 支持 js ts json 等多种文件形式的读取 yaml?
 
 - fix directory rename需要重新glob。
 - TODO file 支持glob
 - TODO 支持directory
 
 # DONE
+## 20250522 星期四
+- 配置文件读取： 支持 js ts json 等多种文件形式的读取 yaml?
+
 ## 20241023 星期三
 - infoOptions input 可增加字段
 ## 20241022 星期二

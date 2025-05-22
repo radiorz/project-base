@@ -1,0 +1,27 @@
+export default {
+  workspace: '',
+  include: ['**/*'],
+  exclude: [
+    '**/node_modules/**',
+    '**/release/**',
+    '**/deploy/**',
+    '**/.git/**',
+    '**/.vscode/**',
+    '**/examples/**',
+    '**/docs/**',
+    '**/trash/**',
+  ],
+  archiveType: 'zip',
+  clean: true,
+  releasePathRelative: 'cwd',
+  releasePath: 'release',
+  infoBuilderOptions: {
+    input: {
+      system: 'linux',
+      tag: 'beta',
+    },
+  },
+  releaseNameOptions: {
+    params: ['name', 'version', 'tag', 'releasedAt', 'system'],
+  },
+};
