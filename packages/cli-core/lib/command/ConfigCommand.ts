@@ -4,6 +4,7 @@ const { readJson, writeJson } = fsExtra;
 import { join } from 'path';
 import { AbstractCommand, Action } from './command.interface';
 import { Logger } from '@tikkhun/logger';
+import { readConfig } from '../../../config-loader/lib/read-config';
 export class ConfigCommand extends AbstractCommand {
   static defaultConfigPath = join(process.cwd(), 'release.json');
   program: Command | undefined;
@@ -30,12 +31,8 @@ export class ConfigCommand extends AbstractCommand {
   }
   private addAction(action: Action) {
     this.program!.action(async ({ config = '' }) => {
-      let options;
-      if (config.endsWith('.js')) {
-        options = await import(config);
-      } else if (config.endsWith('.json')) {
-        options = await readJson(config);
-      }
+      let options = await readConfig(config);
+
       if (!options) {
         throw new Error(`配置文件为空，请检查${config}`);
       }
