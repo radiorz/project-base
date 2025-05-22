@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/config-core",
+  "name": "@tikkhun/config-core-sync",
   "version": "0.2.6",
   "description": "",
   "main": "dist/index.js",

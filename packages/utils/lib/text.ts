@@ -12,7 +12,7 @@
  * @example
  */
 
-import { isNil } from './is';
+import { isNil } from './is/is';
 import { optionsMerge } from './object';
 
 /**

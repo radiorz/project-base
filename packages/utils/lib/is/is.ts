@@ -1,4 +1,4 @@
-import { nativeNumber } from './regex';
+import { nativeNumber } from '../regex/regex';
 
 export function isInt(n: any) {
   return Number.isInteger(n);
