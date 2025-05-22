@@ -17,7 +17,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@changesets/cli": "^2.27.10",
+    "@changesets/cli": "^2.29.4",
     "changeset": "^0.2.6",
     "del-cli": "^6.0.0",
     "turbo": "^2.5.3"

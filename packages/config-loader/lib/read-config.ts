@@ -86,9 +86,17 @@ readConfig.addImpl(FILE_TYPES.env, (filePath: string) => {
   });
   return env;
 });
+function hasOnlyDefaultKey(obj: object): boolean {
+  const keys = Object.keys(obj);
+  return keys.length === 1 && keys[0] === 'default';
+}
+
 async function importModuleDefault(filePath: string) {
   const module = await import(pathToFileURL(filePath).href);
-  return module.default;
+  const result = module.default;
+  // 如果是ESM模块，并且有default导出，返回default导出，否则返回整个模块对象
+  if (hasOnlyDefaultKey(result)) return result.default;
+  return result;
 }
 readConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
 readConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);

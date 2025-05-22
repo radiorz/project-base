@@ -7,7 +7,7 @@
  * @desc tikkhun主要扁平化了release 的选项,不用创建对象与function
  * @example
  */
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { InfoBuilder, InfoBuilderOptions } from './info-builder';
 import { Release, ReleaseOptions } from './release';
 import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-store.plugin';
@@ -44,7 +44,7 @@ const logger = new Logger('TikkhunRelease');
 export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
   // 记录时间.
   console.time('tikkhun-release');
-  const opts: TikkhunReleaseDefaultOptions = optionsMerge(TikkhunReleaseDefaultOptions, options);
+  const opts: TikkhunReleaseDefaultOptions = mergeOptions(TikkhunReleaseDefaultOptions, options);
   logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
   const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
   const infoBuilder = new InfoBuilder(infoBuilderOptions);

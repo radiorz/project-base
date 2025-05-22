@@ -9,7 +9,7 @@
  */
 // 为何将name从info拆除，是因为可能要同时修改多个filename, 比如apk本身的名字，我这个只是releaseName.
 
-import { optionsMerge, UnderlineDelimiter } from '@tikkhun/utils-core';
+import { mergeOptions, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from './info-builder/info-builder';
 import dayjs from 'dayjs';
 // export type Param = keyof Info;
@@ -30,7 +30,7 @@ export class ReleaseName {
   };
   options: ReleaseNameOptions;
   constructor(options?: Partial<ReleaseNameOptions>) {
-    this.options = optionsMerge(ReleaseName.defaultOptions, options);
+    this.options = mergeOptions(ReleaseName.defaultOptions, options);
   }
   // 字符串化有几种方案：
   // - 采用pattern的定义形式 "{app}{yyy}" 但这个有个不好的就是不能parse成原本的配置对象 好处是最灵活
