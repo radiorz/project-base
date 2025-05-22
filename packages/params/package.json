@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "tikkhun-dir-flat": "dist/cli/cli.js"
+    "tikkhun-params": "dist/cli/cli.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
