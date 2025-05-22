@@ -68,7 +68,7 @@ readConfig.addImpl(FILE_TYPES.yaml, (filePath: string) => {
 });
 readConfig.addImpl(FILE_TYPES.toml, (filePath: string) => {
   const fileContent = fs.readFileSync(filePath, 'utf8');
-  return toml.parse(content);
+  return toml.parse(fileContent);
 });
 readConfig.addImpl(FILE_TYPES.env, (filePath: string) => {
   const fileContent = fs.readFileSync(filePath, 'utf8');
@@ -84,6 +84,7 @@ readConfig.addImpl(FILE_TYPES.env, (filePath: string) => {
 readConfig.addImpl(FILE_TYPES.javascript, async (filePath: string) => {
   // 动态加载 JS 文件
   // return (await import(filePath))?.default;
+  const module = require(filePath);
   return require(filePath)?.default;
 });
 readConfig.addImpl(FILE_TYPES.typescript, function readTypeScriptConfig(filePath: string) {
