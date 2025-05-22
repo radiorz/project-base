@@ -1,0 +1,48 @@
+{
+  "name": "config-reader",
+  "version": "0.0.1",
+  "description": "",
+  "bin": {
+    "tikkhun-dir-flat": "dist/cli/cli.js"
+  },
+  "main": "dist/lib/index.js",
+  "module": "dist/lib/index.mjs",
+  "types": "dist/lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/lib/index.d.mts",
+        "default": "./dist/lib/index.mjs"
+      },
+      "require": {
+        "default": "./dist/lib/index.js",
+        "types": "./dist/lib/index.d.ts"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsx ./src/index.ts",
+    "test": "vitest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tikkhun/cli-core": "latest",
+    "@tikkhun/logger": "latest",
+    "commander": "^12.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "tsx": "^4.19.1",
+    "tsup": "^8.3.0",
+    "vitest": "^2.1.3"
+  }
+}
