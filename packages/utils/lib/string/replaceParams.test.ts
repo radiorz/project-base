@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { replaceParams } from './text';
+import { replaceParams } from './replaceParams';
 
 it('replaceParams', () => {
   // 一个变量

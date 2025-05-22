@@ -1,7 +1,7 @@
-import { it, expect } from "vitest";
-import { isNativeNumber } from "./is";
+import { it, expect } from 'vitest';
+import { isNativeNumber } from './isNativeNumber';
 
-it("is native number", () => {
+it('is native number', () => {
   expect(isNativeNumber(0)).toBe(true);
   expect(isNativeNumber(1)).toBe(true);
   expect(isNativeNumber(-1)).toBe(false);

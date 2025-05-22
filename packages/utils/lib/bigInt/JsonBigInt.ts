@@ -12,6 +12,8 @@
  * @example
  */
 
+import { isBigInt } from '../is/isBigInt';
+
 export interface JsonBigIntOptions {
   magicString: string;
 }
@@ -43,7 +45,4 @@ export class JsonBigInt {
   stringify(json: Record<string, any>) {
     return JSON.stringify(json, this.replacer.bind(this));
   }
-}
-export function isBigInt(v: any) {
-  return typeof v === 'bigint';
 }
