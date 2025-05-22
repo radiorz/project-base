@@ -1,5 +1,5 @@
 {
-  "name": "config-reader",
+  "name": "@tikkhun/config-loader",
   "version": "0.0.1",
   "description": "",
   "bin": {
