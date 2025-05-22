@@ -308,6 +308,9 @@ importers:
       '@tikkhun/logger':
         specifier: latest
         version: 1.0.8
+      '@tikkhun/overload':
+        specifier: workspace:*
+        version: link:../overload
       commander:
         specifier: ^12.1.0
         version: 12.1.0
@@ -319,7 +322,7 @@ importers:
         specifier: ^8.3.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
       tsx:
-        specifier: ^4.19.1
+        specifier: ^4.19.4
         version: 4.19.4
       vitest:
         specifier: ^2.1.3

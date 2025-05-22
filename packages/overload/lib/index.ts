@@ -1,5 +1,5 @@
 export const DefaultCreateOverloadOptions = {
-  getType: (arg: any) => typeof arg,
+  getType: (arg: any) => typeof arg as unknown,
   delimiter: ',',
   impls: [] as any[],
 };
