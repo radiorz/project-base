@@ -13,6 +13,8 @@ import toml from 'toml';
 import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
 import { execSync } from 'child_process';
+import { pathToFileURL } from 'node:url';
+
 export enum FILE_TYPES {
   javascript = 'javascript',
   json = 'json',
@@ -81,27 +83,9 @@ readConfig.addImpl(FILE_TYPES.env, (filePath: string) => {
   });
   return env;
 });
-readConfig.addImpl(FILE_TYPES.javascript, async (filePath: string) => {
-  // 动态加载 JS 文件
-  // return (await import(filePath))?.default;
-  const module = require(filePath);
-  return require(filePath)?.default;
-});
-readConfig.addImpl(FILE_TYPES.typescript, function readTypeScriptConfig(filePath: string) {
-  try {
-    // 构造一个临时脚本，将目标 TypeScript 文件的导出对象序列化为 JSON 并打印
-    const wrapperScript = `
-      import config from '${filePath.replace(/'/g, "\\'")}';
-      console.log(JSON.stringify(config));
-    `;
-
-    // 使用 execSync 执行 tsx 命令并获取输出
-    const output = execSync(`npx tsx -e "${wrapperScript.replace(/"/g, '\\"')}" --no-check`).toString();
-
-    // 解析输出为 JSON 对象
-    return JSON.parse(output);
-  } catch (err) {
-    console.error(`执行 tsx 命令失败或解析输出失败: ${filePath}`, err);
-    return null;
-  }
-});
+async function importModuleDefault(filePath: string) {
+  const module = await import(pathToFileURL(filePath).href);
+  return module.default;
+}
+readConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
+readConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
