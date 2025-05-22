@@ -38,7 +38,8 @@
     "@tikkhun/cli-core": "latest",
     "@tikkhun/logger": "latest",
     "@tikkhun/overload": "workspace:*",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "toml": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
