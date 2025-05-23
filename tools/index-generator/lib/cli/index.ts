@@ -1,15 +1,20 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
-import { generateIndex } from '..';
-import { workspace } from '../../../version/lib/utils';
+import { DefaultGenerateIndexOptions, generateIndex } from '..';
 export const defaultOptions = {
-  workspace: '.',
+  ...DefaultGenerateIndexOptions,
 };
 export const optionTitles = {
-  workspace: '路径',
+  cwd: '路径',
+  indexName: '文件名',
+  include: '包含',
+  exclude: '排除',
 };
 export const optionTypes = {
-  workspace: 'string',
+  cwd: 'string',
+  indexName: 'string',
+  include: 'array',
+  exclude: 'array',
 };
 export const cliOptions = {
   name: packageJson.name,
@@ -20,7 +25,7 @@ export const cliOptions = {
   optionTitles,
   optionTypes,
   action: async (options: any) => {
-    generateIndex(options?.workspace);
+    generateIndex(options);
   },
 };
 export const cli = new Cli(cliOptions);
