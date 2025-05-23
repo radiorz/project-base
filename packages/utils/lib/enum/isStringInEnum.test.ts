@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { isStringInEnum } from './enum';
+import { isStringInEnum } from './isStringInEnum';
 it('isStringInEnum', async () => {
   enum TheEnum {
     a = 'a',
