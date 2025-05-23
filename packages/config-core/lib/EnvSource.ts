@@ -1,6 +1,6 @@
 import { camelCase } from 'lodash';
 import { ConfigSource } from './';
-import { listToJson } from '@tikkhun/utils-core';
+import { listToNestedObject } from '@tikkhun/utils-core';
 export interface EnvSourceOptions {
   // # key相关
   // ## 过滤前缀 // 包括哪些前缀才获取
@@ -73,7 +73,7 @@ export abstract class EnvSource implements ConfigSource {
       });
     // console.log(`list`, list);
     // 转换成对象
-    return listToJson({
+    return listToNestedObject({
       delimiter,
       keyItemTransformer(item: string) {
         if (camelCaseOption) return camelCase(item);

@@ -1,8 +1,8 @@
 import { expect, describe, test } from 'vitest';
-import { ListItem } from './json.interface';
-import { listToJson } from './listToJson';
-import { jsonToList } from './jsonToList';
-describe('listToJson', () => {
+import { ListItem } from './nestedObject.interface';
+import { listToNestedObject } from './listToNestedObject';
+import { nestedObjectToList } from './nestedObjectToList';
+describe('listToNestedObject', () => {
   test('converts list to JSON object', () => {
     const list: ListItem[] = [
       { key: 'foo.bar', value: 1 },
@@ -24,13 +24,13 @@ describe('listToJson', () => {
       keyItemTransformer: (key: string) => key.toLowerCase(),
     };
 
-    const result = listToJson(options);
+    const result = listToNestedObject(options);
 
     expect(result).toStrictEqual(expectedJson);
   });
 });
 
-describe('jsonToList', () => {
+describe('nestedObjectToList', () => {
   test('converts JSON object to list', () => {
     const json = {
       foo: {
@@ -51,7 +51,7 @@ describe('jsonToList', () => {
       json,
     };
 
-    const result = jsonToList(options);
+    const result = nestedObjectToList(options);
     expect(result).toStrictEqual(expectedList);
   });
 });

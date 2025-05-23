@@ -1,8 +1,8 @@
 /**
  * @author
- * @file unflatJson.ts
- * @fileBase unflatJson
- * @path packages\utils\lib\json\unflatJson.ts
+ * @file unflatNestedObject.ts
+ * @fileBase unflatNestedObject
+ * @path packages\utils\lib\json\unflatNestedObject.ts
  * @from
  * @desc
  * @todo
@@ -14,21 +14,21 @@
 
 import _ from 'lodash';
 const { set } = _;
-export interface unflatJsonOptions {
+export interface unflatNestedObjectOptions {
   delimiter: string;
   data: Record<string, any>;
 }
 
-export const defaultunflatJsonOptions: unflatJsonOptions = {
+export const defaultunflatNestedObjectOptions: unflatNestedObjectOptions = {
   delimiter: '.',
   data: {},
 };
 
-export function unflatJson(options: Partial<unflatJsonOptions> = {}) {
-  const { data, delimiter } = Object.assign({}, defaultunflatJsonOptions, options);
-  const _unflatJson: Record<string, any> = {};
+export function unflatNestedObject(options: Partial<unflatNestedObjectOptions> = {}) {
+  const { data, delimiter } = Object.assign({}, defaultunflatNestedObjectOptions, options);
+  const _unflatNestedObject: Record<string, any> = {};
   Object.entries(data).forEach(([key, value]) => {
-    set(_unflatJson, key.split(delimiter).join('.'), value);
+    set(_unflatNestedObject, key.split(delimiter).join('.'), value);
   });
-  return _unflatJson;
+  return _unflatNestedObject;
 }

@@ -12,7 +12,7 @@
  * @example
  */
 import { input } from '@inquirer/prompts';
-import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
+import { flatNestedObject, nestedObjectToList, unflatNestedObject } from '@tikkhun/utils-core';
 import { OptionsTransformer, TYPES } from '../options-transformer/options-transformer';
 import { AbstractCommand, Action } from './command.interface';
 import _ from 'lodash';
@@ -31,15 +31,15 @@ export class PromptsCommand extends AbstractCommand {
   getOptions() {
     const stringifyDefaultOptions = OptionsTransformer.stringify(this.options.defaultOptions);
     // 默认选项
-    const flattedStringifyDefaultOptionList = jsonToList({
+    const flattedStringifyDefaultOptionList = nestedObjectToList({
       delimiter: '.',
       json: stringifyDefaultOptions,
     });
-    const flattedOptionTypeList = flatJson({
+    const flattedOptionTypeList = flatNestedObject({
       delimiter: '.',
       data: this.options.optionTypes,
     });
-    const flattedOptionTitleList = flatJson({
+    const flattedOptionTitleList = flatNestedObject({
       delimiter: '.',
       data: this.options.optionTitles,
     });
@@ -80,7 +80,7 @@ export class PromptsCommand extends AbstractCommand {
   }
   private async actionHandler(action: Action) {
     const options = await this.optionHandler();
-    const unflattedOptions = unflatJson({ delimiter: '.', data: options });
+    const unflattedOptions = unflatNestedObject({ delimiter: '.', data: options });
     const typedResults = OptionsTransformer.parse(unflattedOptions, this.options.optionTypes);
     action(typedResults);
   }

@@ -1,4 +1,4 @@
-import { flatJson, jsonToList, unflatJson } from '@tikkhun/utils-core';
+import { flatNestedObject, nestedObjectToList, unflatNestedObject } from '@tikkhun/utils-core';
 import { OptionsTransformer } from '../options-transformer/options-transformer';
 import { AbstractCommand, Action } from './command.interface';
 import { Command, createCommand, program } from 'commander';
@@ -13,9 +13,9 @@ export class ArgsCommand extends AbstractCommand {
   program: Command | undefined;
   getOptions(): ArgsOption[] {
     const stringOptions = OptionsTransformer.stringify(this.options.defaultOptions);
-    const optionList = jsonToList({ delimiter: '.', json: stringOptions });
+    const optionList = nestedObjectToList({ delimiter: '.', json: stringOptions });
     // console.log(`optionList`, optionList);
-    const optionTypeMap = flatJson({ delimiter: '.', data: this.options.optionTypes });
+    const optionTypeMap = flatNestedObject({ delimiter: '.', data: this.options.optionTypes });
     return optionList
       .filter(({ key }) => {
         // 排除掉排除的选项
@@ -41,7 +41,7 @@ export class ArgsCommand extends AbstractCommand {
   private addAction(action: Action) {
     this.program!.action((stringOptions) => {
       // 转换一下传入参数
-      const jsonOptions = unflatJson({
+      const jsonOptions = unflatNestedObject({
         delimiter: '.',
         data: stringOptions,
       });

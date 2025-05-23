@@ -1,6 +1,6 @@
 import { writeJson } from 'fs-extra';
 import { readFile, utils } from 'xlsx';
-import { unflatJson } from '../../../packages/utils/lib/json/unflatJson';
+import { unflatNestedObject } from '../../../packages/utils/lib/json/unflatNestedObject';
 
 export interface Sheet2JsonOptions {
   input: string; // 输入文件路径（Excel 文件）
@@ -46,7 +46,7 @@ export async function sheet2json({
     const value = row[valueIndex];
     result[key] = value;
   }
-  const unFlattedResult = unflatJson({ data: result, delimiter: delimiter });
+  const unFlattedResult = unflatNestedObject({ data: result, delimiter: delimiter });
   // 5. 将结果写入 JSON 文件
   await writeJson(output, unFlattedResult);
 }

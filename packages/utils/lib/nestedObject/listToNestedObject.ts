@@ -1,7 +1,7 @@
 import _ from 'lodash';
 const { set } = _;
-import { ListItem } from './json.interface';
-export interface ListToJsonOptions {
+import { ListItem } from './nestedObject.interface';
+export interface ListToNestedObjectOptions {
   delimiter: string;
   list: ListItem[];
   isKeyInclude(v: string): boolean;
@@ -11,7 +11,7 @@ export interface ListToJsonOptions {
    */
   keyItemTransformer(v: string): string;
 }
-export const defaultListToJsonOptions: ListToJsonOptions = {
+export const defaultListToNestedObjectOptions: ListToNestedObjectOptions = {
   delimiter: '.',
   list: [],
   isKeyInclude: () => true,
@@ -19,8 +19,8 @@ export const defaultListToJsonOptions: ListToJsonOptions = {
     return v;
   },
 };
-export function listToJson(options?: Partial<ListToJsonOptions>): Record<string, any> {
-  const { delimiter, keyItemTransformer, list, isKeyInclude } = Object.assign({}, defaultListToJsonOptions, options);
+export function listToNestedObject(options?: Partial<ListToNestedObjectOptions>): Record<string, any> {
+  const { delimiter, keyItemTransformer, list, isKeyInclude } = Object.assign({}, defaultListToNestedObjectOptions, options);
   const json = {};
   list.forEach(({ key, value }) => {
     if (!isKeyInclude(key)) return;

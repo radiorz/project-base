@@ -1,5 +1,5 @@
 import { readJSON } from 'fs-extra';
-import { flatJson } from '../../../packages/utils/lib/json/flatJson';
+import { flatNestedObject } from '../../../packages/utils/lib/json/flatNestedObject';
 import { kv2worksheet } from './kv2worksheet';
 import { utils, writeFile } from 'xlsx';
 import { isAbsolute, join } from 'path';
@@ -26,7 +26,7 @@ export async function json2Sheet({ input, output, delimiter, keyHeader, valueHea
   } catch (error) {
     throw new Error('获取json数据失败,原因为:' + error);
   }
-  const flattedData = flatJson({ data: jsonData, delimiter: delimiter || '__' });
+  const flattedData = flatNestedObject({ data: jsonData, delimiter: delimiter || '__' });
   const worksheet = kv2worksheet({ data: flattedData, keyHeader, valueHeader });
   const workbook = utils.book_new();
   utils.book_append_sheet(workbook, worksheet, 'Sheet1');

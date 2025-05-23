@@ -1,25 +1,25 @@
-export interface FlatJsonOptions {
+export interface FlatNestedObjectOptions {
   delimiter: string;
   data: Record<string, any>;
   prefix?: string;
 }
 
-export const defaultFlatJsonOptions: FlatJsonOptions = {
+export const defaultFlatNestedObjectOptions: FlatNestedObjectOptions = {
   delimiter: '.',
   data: {},
   prefix: '',
 };
 
-export function flatJson(options: Partial<FlatJsonOptions>): Record<string, any> {
-  const { data, delimiter, prefix } = Object.assign({}, defaultFlatJsonOptions, options);
+export function flatNestedObject(options: Partial<FlatNestedObjectOptions>): Record<string, any> {
+  const { data, delimiter, prefix } = Object.assign({}, defaultFlatNestedObjectOptions, options);
   return Object.entries(data).reduce((acc = {}, [key, value]) => {
     const newPrefix = prefix ? `${prefix}${delimiter}${key}` : key;
     if (typeof value === 'object' && value !== null) {
-      return { ...acc, ...flatJson({ prefix: newPrefix, data: value, delimiter }) };
+      return { ...acc, ...flatNestedObject({ prefix: newPrefix, data: value, delimiter }) };
     } else {
       return { ...acc, [newPrefix]: value };
     }
   }, {});
 }
 
-flatJson.prototype.defaultFlatJsonOptions = defaultFlatJsonOptions;
+flatNestedObject.prototype.defaultFlatNestedObjectOptions = defaultFlatNestedObjectOptions;

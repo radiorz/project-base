@@ -1,12 +1,12 @@
 import { it, expect } from 'vitest';
-import { listToJson } from './listToJson';
-it('listToJson', async () => {
+import { listToNestedObject } from './listToNestedObject';
+it('listToNestedObject', async () => {
   const originJson = {
     '777__a789': 'a789',
     '777__777': 777,
     '777__888': 888,
   };
-  const json = listToJson({
+  const json = listToNestedObject({
     delimiter: '__',
     list: Object.entries(originJson).map(([key, value]) => {
       return {
