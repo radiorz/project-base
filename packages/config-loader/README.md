@@ -1,8 +1,8 @@
-# config-reader
+# config-loader
 
 用于支持读取配置文件的工具包
 
-## 支持
+## 功能
 
 目前支持文件类型
 
