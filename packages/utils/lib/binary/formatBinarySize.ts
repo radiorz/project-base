@@ -7,10 +7,10 @@ export const binaryUnits = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
 export const formatBinarySize = (size: number) => {
   let unitIndex = 0;
 
-  while (size >= 1024 && unitIndex < units.length - 1) {
+  while (size >= 1024 && unitIndex < binaryUnits.length - 1) {
     size /= 1024;
     unitIndex++;
   }
 
-  return `${size.toFixed(2)} ${units[unitIndex]}`;
+  return `${size.toFixed(2)} ${binaryUnits[unitIndex]}`;
 };

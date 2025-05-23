@@ -11,7 +11,7 @@ export function getResult(data: any, type: STATUS) {
 export function getSuccess(data: any) {
   return {
     status: STATUS.success,
-    code: undefined,
+    code: data.code,
     error: '',
     data,
   };

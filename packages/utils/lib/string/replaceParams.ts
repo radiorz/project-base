@@ -14,7 +14,10 @@
 
 import { isNil } from '../is/isNil';
 import { mergeOptions } from '../object';
-
+interface ReplaceParamsOptions {
+  keepMatch: boolean;
+  stringify: boolean;
+}
 /**
  * 替代params
  * @param {String} pattern 模板 比如 “aaa”
@@ -25,10 +28,11 @@ import { mergeOptions } from '../object';
  * @example
  * replaceParams("{app}",{app: "hahah"}) => "hahah"
  */
+
 export function replaceParams(
   pattern: string,
   variables: Record<string, any> = {},
-  options = { keepMatch: false, stringify: true },
+  options: Partial<ReplaceParamsOptions> = { keepMatch: false, stringify: true },
 ): string {
   const { keepMatch, stringify } = mergeOptions({ keepMatch: false, stringify: true }, options);
   return pattern.replace(/\{([^}]+)\}/g, (match, key) => {
