@@ -9,5 +9,5 @@ npm install @tikkhun/index-generator -g
 ```
 
 ```bash
-tikkhun-index-generator;
+tikkhun-index-generator
 ```
