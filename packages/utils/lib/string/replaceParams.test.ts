@@ -14,4 +14,5 @@ it('replaceParams', () => {
 
   // 变量没值 keepMatch=true
   expect(replaceParams(`{org}`, {}, { keepMatch: true })).toBe('{org}');
+  expect(replaceParams(`{org}`, { org: { a: 1 } }, { keepMatch: true, stringify: false })).toBe('[object Object]');
 });

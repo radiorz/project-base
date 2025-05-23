@@ -38,11 +38,15 @@ export function replaceParams(
   return pattern.replace(/\{([^}]+)\}/g, (match, key) => {
     const value = variables[key];
     return variables.hasOwnProperty(key) && !isNil(value)
-      ? stringify && typeof value === 'object'
-        ? JSON.stringify(value)
+      ? stringify
+        ? anyToVisibleString(value)
         : value
       : keepMatch
         ? match
         : '';
   });
+}
+
+export function anyToVisibleString(value: any) {
+  return typeof value === 'object' ? JSON.stringify(value) : value;
 }
