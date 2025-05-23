@@ -16,11 +16,15 @@ import { createReactiveObject } from './reactive';
 //   allowSyncError: boolean;
 // }
 export const DefaultConfigOptions = {
-  sources: [], //
+  sources: [] as ConfigSource[], //
   global: undefined,
   allowSyncError: false,
 };
 export type ConfigOptions = typeof DefaultConfigOptions & {
+  sources: ConfigSource[];
+  /**
+   * 全局变量名称
+   */
   global?: string;
 };
 export enum ConfigEvents {
@@ -72,7 +76,7 @@ export class Config extends Emitter implements Api {
     // 修改多次最终只会触发一次
     this.handleWholeChange = debounce(this.handleWholeChange, 100);
   }
-  static async create(options: ConfigOptions) {
+  static async create(options: Partial<ConfigOptions>) {
     const configManager = new Config(options);
     await configManager.init();
     await configManager.load();
