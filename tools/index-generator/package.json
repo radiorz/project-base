@@ -1,9 +1,9 @@
 {
-  "name": "index-generator",
+  "name": "@tikkhun/index-generator",
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "tikkhun-dir-flat": "dist/cli/cli.js"
+    "tikkhun-index-generator": "dist/cli/cli.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
