@@ -15,8 +15,8 @@
         "default": "./dist/lib/index.mjs"
       },
       "require": {
-        "default": "./dist/lib/index.js",
-        "types": "./dist/lib/index.d.ts"
+        "types": "./dist/lib/index.d.ts",
+        "default": "./dist/lib/index.js"
       }
     }
   },
@@ -37,12 +37,13 @@
   "dependencies": {
     "@tikkhun/cli-core": "latest",
     "@tikkhun/logger": "latest",
-    "commander": "^12.1.0"
+    "commander": "^12.1.0",
+    "glob": "^11.0.2"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
-    "tsx": "^4.19.1",
     "tsup": "^8.3.0",
+    "tsx": "^4.19.1",
     "vitest": "^2.1.3"
   }
 }
