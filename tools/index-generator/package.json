@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "",
   "bin": {
-    "tikkhun-index-generator": "dist/cli/cli.js"
+    "tikkhun-index-generator": "dist/cli/index.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",

@@ -1,20 +1,45 @@
 // 引入必要的模块
-import { glob } from 'glob';
 import fs from 'fs/promises';
+import { glob } from 'glob';
+import path from 'path';
 interface GenerateIndexOptions {
   indexName: string;
+  include: string | string[];
+  exclude: string[];
 }
-export async function generateIndex(path: string, options?: Partial<GenerateIndexOptions>) {
+export async function generateIndex(cwd: string, options?: Partial<GenerateIndexOptions>) {
   try {
+    cwd = path.resolve(cwd);
+    // console.log(`path `, path.resolve(cwd));
     // 使用 glob 获取指定目录下的所有文件路径
-    const files = await glob(path);
-
+    const files = await glob('*', { cwd, ignore: options?.exclude });
     // 将文件路径转换为 export * from "路径" 格式的语句
-    const exportStatements = files.map((file) => `export * from "${file}";`).join('\n');
-
+    const exportStatements = files
+      .map(
+        (file) => `export * from "./${path.extname(file) ? path.basename(file).split(path.extname(file))[0] : file}";`,
+      )
+      .join('\n');
+    console.log(exportStatements);
     // 将这些语句写入 index.ts 文件
-    await fs.writeFile(options?.indexName || 'index.ts', exportStatements, 'utf-8');
+    // 检查文件是否存在，如果不存在则创建,存在不创建
+    const toWriteFile = options?.indexName || 'index.ts';
+    if (await isFileExists(toWriteFile)) {
+      console.error('index.ts 文件已存在，不进行创建');
+      return;
+    }
+    await fs.writeFile(toWriteFile, exportStatements, 'utf-8');
   } catch (error) {
     console.error('生成 index 文件时出错:', error);
+  }
+}
+
+export async function isFileExists(filePath: string) {
+  // 检查文件是否存在
+  try {
+    await fs.access(filePath, fs.constants.F_OK);
+    return true;
+  } catch (accessError) {
+    // 文件不存在，继续创建
+    return false;
   }
 }
