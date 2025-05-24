@@ -33,6 +33,7 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
 const FileInfo = 'FileInfo';
 export const loadInfo = createOverLoad({
   getType(arg: any, index: number) {
+    // 定义一种特殊的类型，用于获取单文件信息
     if (index === 0 && arg === FileInfo) {
       return FileInfo;
     }
