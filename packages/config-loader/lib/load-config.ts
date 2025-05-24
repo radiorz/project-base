@@ -60,23 +60,24 @@ export const loadConfig = createOverLoad({
     return 'any'; // 这里就简单搞成any了，目前第二参数，第三参数可以输入任意函数而不影响匹配
   },
 });
-loadConfig.addImpl(FILE_TYPES.json, async (filePath: string) => {
+
+export const loadJSON = async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return JSON.parse(fileContent);
-});
-loadConfig.addImpl(FILE_TYPES.json5, async (filePath: string) => {
+};
+export const loadJSON5 = async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return JSON5.parse(fileContent);
-});
-loadConfig.addImpl(FILE_TYPES.yaml, async (filePath: string) => {
+};
+export const loadYaml = async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return yaml.load(fileContent);
-});
-loadConfig.addImpl(FILE_TYPES.toml, async (filePath: string) => {
+};
+export const loadToml = async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return toml.parse(fileContent);
-});
-const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
+};
+export const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
   const fileContent = readFileSync(filePath, 'utf8');
   const envList = [] as { key: string; value: string }[];
   fileContent.split('\n').forEach((line) => {
@@ -95,13 +96,15 @@ const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedObjectOpt
   });
   return env;
 };
-// 这里没有处理有参数和无参数的情况，所以只能分开处理了，需要修改overlaod
-loadConfig.addImpl(FILE_TYPES.env, 'any', loadEnvConfig);
+loadConfig.addImpl(FILE_TYPES.json, loadJSON);
+loadConfig.addImpl(FILE_TYPES.json5, loadJSON5);
+loadConfig.addImpl(FILE_TYPES.yaml, loadYaml);
+loadConfig.addImpl(FILE_TYPES.toml, loadToml);
+// 有参数和无参数的情况对于overload通常是分开两种，所以只能分开写了
 loadConfig.addImpl(FILE_TYPES.env, loadEnvConfig);
-function hasOnlyDefaultKey(obj: object): boolean {
-  const keys = Object.keys(obj);
-  return keys.length === 1 && keys[0] === 'default';
-}
+loadConfig.addImpl(FILE_TYPES.env, 'any', loadEnvConfig);
+loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
+loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
 
 async function importModuleDefault(filePath: string) {
   const module = await import(pathToFileURL(filePath).href);
@@ -110,5 +113,7 @@ async function importModuleDefault(filePath: string) {
   if (hasOnlyDefaultKey(result)) return result.default;
   return result;
 }
-loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
-loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
+function hasOnlyDefaultKey(obj: object): boolean {
+  const keys = Object.keys(obj);
+  return keys.length === 1 && keys[0] === 'default';
+}

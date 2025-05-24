@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/config-loader",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "",
   "bin": {
     "tikkhun-config-loader": "dist/cli/index.js"
