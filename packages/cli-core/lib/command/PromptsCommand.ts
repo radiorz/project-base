@@ -13,7 +13,7 @@
  */
 import { input } from '@inquirer/prompts';
 import { flatNestedObject, nestedObjectToList, unflatNestedObject } from '@tikkhun/utils-core';
-import { OptionsTransformer, TYPES } from '../options-transformer/options-transformer';
+import { NestedArgs, TYPES } from '@tikkhun/nested-args';
 import { AbstractCommand, Action } from './command.interface';
 import _ from 'lodash';
 const { get } = _;
@@ -29,7 +29,7 @@ export class PromptsCommand extends AbstractCommand {
   command: any;
   optionHandler: any;
   getOptions() {
-    const stringifyDefaultOptions = OptionsTransformer.stringify(this.options.defaultOptions);
+    const stringifyDefaultOptions = NestedArgs.stringify(this.options.defaultOptions);
     // 默认选项
     const flattedStringifyDefaultOptionList = nestedObjectToList({
       delimiter: '.',
@@ -81,7 +81,7 @@ export class PromptsCommand extends AbstractCommand {
   private async actionHandler(action: Action) {
     const options = await this.optionHandler();
     const unflattedOptions = unflatNestedObject({ delimiter: '.', data: options });
-    const typedResults = OptionsTransformer.parse(unflattedOptions, this.options.optionTypes);
+    const typedResults = NestedArgs.parse(unflattedOptions, this.options.optionTypes);
     action(typedResults);
   }
   async start(action: Action) {
