@@ -10,11 +10,15 @@ TikkhunRelease({
           version: 'version',
           description: 'description',
           tag: 'tag',
-          system: 'system',
-          hardware: 'hardware',
         },
       ],
       ['FileInfo', 'package.json'],
+      [
+        {
+          system: 'any',
+          hardware: 'any',
+        },
+      ],
     ],
   },
 });
