@@ -5,3 +5,4 @@ export * from './number.type';
 export * from './object-array.type';
 export * from './object.type';
 export * from './param-type.interface';
+export * from './param.type';

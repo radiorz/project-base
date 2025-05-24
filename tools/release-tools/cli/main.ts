@@ -19,7 +19,7 @@ const cli = new Cli({
     releasePath: 'string',
     clean: 'boolean',
     getInfoOptions: {
-      from: 'array',
+      from: 'objectArray',
     },
     inputMoveOptions: {
       items: 'objectArray', // 实际上是 objectArray

@@ -1,24 +1,13 @@
 import { arrayType, booleanType, keyValueArrayType, numberType, objectArrayType, objectType } from './paramTypes';
+import { TYPES } from './paramTypes/param.type';
 
-export const TYPES = {
-  array: 'array',
-  keyValueArray: 'keyValueArray',
-  objectArray: 'objectArray',
-  boolean: 'boolean',
-  number: 'number',
-  object: 'object',
-  string: 'string',
-  select: 'select', // 几个中进行选择 选择一项
-} as const;
-export type TYPES = keyof typeof TYPES;
-
-export class OptionsTransformer {
+export class NestedArgs {
   schema: Record<string, any>;
   constructor(schema: Record<string, any>) {
     this.schema = schema;
   }
   parse(obj: Record<string, any>) {
-    return OptionsTransformer.parse(obj, this.schema);
+    return NestedArgs.parse(obj, this.schema);
   }
 
   static parse(obj: Record<string, any>, schema: Record<string, any>) {
@@ -26,9 +15,9 @@ export class OptionsTransformer {
     Object.entries(obj).forEach(([key, value]) => {
       const type = schema[key];
       if (typeof value === 'object') {
-        _obj[key] = OptionsTransformer.parse(value, type);
+        _obj[key] = NestedArgs.parse(value, type);
       } else {
-        _obj[key] = OptionsTransformer.parseValueByType(value as string, type);
+        _obj[key] = NestedArgs.parseValueByType(value as string, type);
       }
     });
     return _obj;
@@ -60,7 +49,7 @@ export class OptionsTransformer {
   static stringify(obj: Record<string, any>) {
     const _obj: Record<string, any> = {};
     Object.entries(obj).forEach(([key, value]) => {
-      _obj[key] = OptionsTransformer.stringifyValue(value);
+      _obj[key] = NestedArgs.stringifyValue(value);
     });
     return _obj;
   }
@@ -79,7 +68,7 @@ export class OptionsTransformer {
       return arrayType.stringify(value);
     }
     if (typeof value === 'object') {
-      return OptionsTransformer.stringify(value);
+      return NestedArgs.stringify(value);
     }
     return '' + value;
   }

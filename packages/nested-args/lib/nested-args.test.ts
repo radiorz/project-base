@@ -1,5 +1,5 @@
 import { it, expect } from 'vitest';
-import { OptionsTransformer } from './options-transformer';
+import { NestedArgs } from './nested-args';
 it('option handler ', async () => {
   const originValue = {
     boolean: 'true',
@@ -27,8 +27,8 @@ it('option handler ', async () => {
       },
     },
   };
-  const typedObj = OptionsTransformer.parse(originValue, types);
+  const typedObj = NestedArgs.parse(originValue, types);
   console.log(`typedObj`, typedObj);
-  const stringObj = OptionsTransformer.stringify(typedObj);
+  const stringObj = NestedArgs.stringify(typedObj);
   console.log(`stringObj`, stringObj);
 });

@@ -54,6 +54,7 @@
     "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
+    "@tikkhun/overload": "workspace:^",
     "archiver": "^7.0.1",
     "cli-spinners": "^3.2.0",
     "dayjs": "^1.11.13",

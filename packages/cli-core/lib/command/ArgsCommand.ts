@@ -41,11 +41,11 @@ export class ArgsCommand extends AbstractCommand {
   private addAction(action: Action) {
     this.program!.action((stringOptions) => {
       // 转换一下传入参数
-      const jsonOptions = unflatNestedObject({
+      const options = unflatNestedObject({
         delimiter: '.',
         data: stringOptions,
       });
-      const typedOptions = OptionsTransformer.parse(jsonOptions, this.options.optionTypes);
+      const typedOptions = OptionsTransformer.parse(options, this.options.optionTypes);
       action(typedOptions);
     });
   }
