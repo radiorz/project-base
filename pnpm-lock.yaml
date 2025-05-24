@@ -315,6 +315,15 @@ importers:
       commander:
         specifier: ^14.0.0
         version: 14.0.0
+      fast-xml-parser:
+        specifier: ^5.2.3
+        version: 5.2.3
+      js-yaml:
+        specifier: ^4.1.0
+        version: 4.1.0
+      json5:
+        specifier: ^2.2.3
+        version: 2.2.3
       toml:
         specifier: ^3.0.0
         version: 3.0.0
@@ -1396,8 +1405,8 @@ importers:
         specifier: workspace:^
         version: link:../../packages/cli-core
       '@tikkhun/config-loader':
-        specifier: ^0.0.8
-        version: 0.0.8(@types/node@22.15.21)
+        specifier: workspace:^
+        version: link:../../packages/config-loader
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
@@ -2921,10 +2930,6 @@ packages:
     resolution: {integrity: sha512-zx68QrodLYlIYJnbprJqtObw8BvzTWT9MdAE/LFrSswfq6kodKPxygODa9/Cv1VMJ39pI3kuqcBsauI1aD3Ruw==}
     hasBin: true
 
-  '@tikkhun/config-loader@0.0.8':
-    resolution: {integrity: sha512-rg4LgIxlESM3HwZRJBEBZEYc3KXX/qsjRbmZ4HOWa0LfxBpEW99bc+IiKiJv9QHtuc2dCJ0xG0Smd0xOWZl7tw==}
-    hasBin: true
-
   '@tikkhun/logger@1.0.8':
     resolution: {integrity: sha512-+0VYEXwJiX+O192ztqrGJARgaAfwlZLsXGwQx9FY1C4iz7S/2XOkf25A1VrhnLCwejdWJLm3UfMHeF1aZ7VtXw==}
 
@@ -2933,9 +2938,6 @@ packages:
 
   '@tikkhun/overload@0.0.1':
     resolution: {integrity: sha512-3PGMx1BgI0Fu8/ysrLr8Vof/aHp9OKt3VS6Rq0cKRfRRaUIOtS/26SvWMTr8aDNfjFzTJZ7H8uQ9atxttHSfFQ==}
-
-  '@tikkhun/overload@0.0.2':
-    resolution: {integrity: sha512-drOvELwjTGoWIAtbLWnnXl44oqw0r5QEeODWl3LeyvFx6Iq9SDR8ns/Sf05N7KIPV9KUbGMdZteCzSckX8tXcw==}
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
@@ -9377,43 +9379,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@tikkhun/cli-core@0.0.22(@types/node@22.15.21)':
-    dependencies:
-      '@inquirer/prompts': 7.5.1(@types/node@22.15.21)
-      '@tikkhun/config-loader': 0.0.6(@types/node@22.15.21)
-      '@tikkhun/logger': 1.0.8
-      '@tikkhun/utils-core': 0.0.20
-      commander: 14.0.0
-      fs-extra: 11.3.0
-      lodash: 4.17.21
-    transitivePeerDependencies:
-      - '@types/node'
-
   '@tikkhun/config-loader@0.0.6(@types/node@20.17.50)':
     dependencies:
       '@tikkhun/cli-core': 0.0.22(@types/node@20.17.50)
       '@tikkhun/logger': 1.0.8
       '@tikkhun/overload': 0.0.1
-      commander: 14.0.0
-      toml: 3.0.0
-    transitivePeerDependencies:
-      - '@types/node'
-
-  '@tikkhun/config-loader@0.0.6(@types/node@22.15.21)':
-    dependencies:
-      '@tikkhun/cli-core': 0.0.22(@types/node@22.15.21)
-      '@tikkhun/logger': 1.0.8
-      '@tikkhun/overload': 0.0.1
-      commander: 14.0.0
-      toml: 3.0.0
-    transitivePeerDependencies:
-      - '@types/node'
-
-  '@tikkhun/config-loader@0.0.8(@types/node@22.15.21)':
-    dependencies:
-      '@tikkhun/cli-core': 0.0.22(@types/node@22.15.21)
-      '@tikkhun/logger': 1.0.8
-      '@tikkhun/overload': 0.0.2
       commander: 14.0.0
       toml: 3.0.0
     transitivePeerDependencies:
@@ -9428,8 +9398,6 @@ snapshots:
   '@tikkhun/overload@0.0.0': {}
 
   '@tikkhun/overload@0.0.1': {}
-
-  '@tikkhun/overload@0.0.2': {}
 
   '@tikkhun/requestable@0.0.6': {}
 

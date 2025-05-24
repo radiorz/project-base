@@ -3,6 +3,7 @@ import fsExtra from 'fs-extra';
 import { join } from 'path';
 import _ from 'lodash';
 const { get } = _;
+import { loadConfig } from '@tikkhun/config-loader';
 /**
  * @author
  * @file PackageJsonConfigReader.ts

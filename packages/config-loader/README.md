@@ -8,16 +8,17 @@
 
 - .json
 - .js
+- .ts
 - .yaml
 - .yml
 - .toml
+- .xml
 - .env
-- .ts
 
 ## 使用
 
 ```bash
-pnpm i @tikkhun/config-reader
+pnpm i @tikkhun/config-loader
 ```
 
 ```ts

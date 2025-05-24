@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/config-loader",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "",
   "bin": {
     "tikkhun-config-loader": "dist/cli/index.js"
@@ -39,6 +39,9 @@
     "@tikkhun/logger": "workspace:*",
     "@tikkhun/overload": "workspace:*",
     "commander": "^14.0.0",
+    "fast-xml-parser": "^5.2.3",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.3",
     "toml": "^3.0.0"
   },
   "devDependencies": {
