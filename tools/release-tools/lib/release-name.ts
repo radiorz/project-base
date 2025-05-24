@@ -62,11 +62,12 @@ export class ReleaseName {
   }
 }
 
-export function validateAndReplaceFileName(filename: string) {
+export function validateAndReplaceFileName(filename: string, replaceText = '@') {
   const illegalChars = /[\\/:*?"<>|]/g;
-  if (illegalChars.test(filename)) {
-    console.log('文件名包含非法字符，已自动替换为下划线');
-    return filename.replace(illegalChars, '_');
+  const illegalChar = illegalChars.test(filename);
+  if (illegalChar) {
+    console.log(`文件名包含非法字符，已自动替换为${replaceText}`);
+    return filename.replace(illegalChars, replaceText);
   }
   return filename;
 }
