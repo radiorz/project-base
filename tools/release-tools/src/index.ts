@@ -1,5 +1,3 @@
-import { Release } from '../lib';
+import { TikkhunRelease } from '../lib';
 
-const release = new Release();
-
-release.start();
+TikkhunRelease();

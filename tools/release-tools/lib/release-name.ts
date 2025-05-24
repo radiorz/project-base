@@ -37,11 +37,12 @@ export class ReleaseName {
   // - 采用数组排列形式，这个只规定了值的顺序，分隔符，所以可以parse成原本参数， 好处是可以parse， 坏处是不够灵活,但是其实大部分情况我们不需要那么灵活 所以直接这样限制一下吧。
   // 目前采用第二种
   stringify(): string {
-    return this.options.params
+    const originName = this.options.params
       .map((param) => {
         return this.paramTransformer(param, this.options.info?.[param]);
       })
       .join(this.options.paramDelimiter);
+    return validateAndReplaceFileName(originName);
   }
   // 转换最终值
   paramTransformer(key: string, value: any) {
@@ -59,4 +60,13 @@ export class ReleaseName {
     });
     return paramObj;
   }
+}
+
+export function validateAndReplaceFileName(filename: string) {
+  const illegalChars = /[\\/:*?"<>|]/g;
+  if (illegalChars.test(filename)) {
+    console.log('文件名包含非法字符，已自动替换为下划线');
+    return filename.replace(illegalChars, '_');
+  }
+  return filename;
 }

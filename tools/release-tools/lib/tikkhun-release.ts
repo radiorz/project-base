@@ -8,7 +8,6 @@
  * @example
  */
 import { mergeOptions } from '@tikkhun/utils-core';
-import { InfoBuilder, InfoBuilderOptions } from './info-builder';
 import { Release, ReleaseOptions } from './release';
 import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-store.plugin';
 import { ReleaseName, ReleaseNameOptions } from './release-name';
@@ -16,11 +15,13 @@ import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
 import { InputMovePlugin, InputMovePluginOptions } from './plugins';
 import { InputMoveOption } from './plugins/input-move.plugin';
+import { join } from 'path';
+import { getInfo, GetInfoOptions } from './info';
 const { omit } = _;
 export interface TikkhunReleaseDefaultOptions
   extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {
   // 这个主要集中在info的输入与获取方式
-  infoBuilderOptions: Partial<InfoBuilderOptions>;
+  getInfoOptions: GetInfoOptions;
   // 存储info的文件
   infoStoreOptions: Partial<{ enabled: boolean } & ReleaseInfoStoreOptions>;
   // 释放文件的名称
@@ -30,7 +31,21 @@ export interface TikkhunReleaseDefaultOptions
 }
 export const TikkhunReleaseDefaultOptions = {
   ...omit(Release.defaultOptions, ['infoStore', 'info', 'releaseName']),
-  infoBuilderOptions: InfoBuilder.defaultOptions,
+  getInfoOptions: {
+    from: [
+      [
+        'package.json',
+        {
+          name: 'name',
+          version: 'version',
+          description: 'description',
+          tag: 'tag',
+          system: 'system',
+          hardware: 'hardware',
+        },
+      ],
+    ],
+  },
   infoStoreOptions: {
     enabled: true,
     ...omit(ReleaseInfoStorePlugin.defaultOptions, ['info']),
@@ -41,15 +56,14 @@ export const TikkhunReleaseDefaultOptions = {
 };
 const logger = new Logger('TikkhunRelease');
 
-export async function TikkhunRelease(options: TikkhunReleaseDefaultOptions) {
+export async function TikkhunRelease(options?: Partial<TikkhunReleaseDefaultOptions>) {
   // 记录时间.
   console.time('tikkhun-release');
   const opts: TikkhunReleaseDefaultOptions = mergeOptions(TikkhunReleaseDefaultOptions, options);
   logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
-  const { infoStoreOptions, infoBuilderOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
-  const infoBuilder = new InfoBuilder(infoBuilderOptions);
-  const info = infoBuilder.get();
-  logger.log('[说明] 项目信息: ' + JSON.stringify(info));
+  const { infoStoreOptions, getInfoOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
+  const info = await getInfo(getInfoOptions);
+  logger.log('[说明] 项目信息:' + JSON.stringify(info, null, 2));
   const releaseNameBuilder = new ReleaseName({ ...releaseNameOptions, info });
   const releaseName = releaseNameBuilder.stringify();
   logger.log('[说明] 项目打包名称: ' + releaseName);

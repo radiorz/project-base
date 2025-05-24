@@ -1,5 +1,5 @@
 export * from './file.utils';
-export * from './info-builder';
+export * from './info';
 export * from './object.utils';
 export * from './plugins';
 export * from './progress-printer';
