@@ -15,8 +15,6 @@ import { input } from '@inquirer/prompts';
 import { flatNestedObject, nestedObjectToList, unflatNestedObject } from '@tikkhun/utils-core';
 import { NestedArgs, TYPES } from '@tikkhun/nested-args';
 import { AbstractCommand, Action } from './command.interface';
-import _ from 'lodash';
-const { get } = _;
 // const actionMap = {
 //   [TYPES.array]: input,
 //   [TYPES.keyValueArray]: input,
