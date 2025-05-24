@@ -43,10 +43,10 @@ export const loadInfo = createOverLoad({
 // 这里将读取他这个文件的配置
 loadInfo.addImpl(FileInfo, 'string', async (_: string, filePath: string) => {
   const config = {
-    fileSize: getFileSizeSync(filePath),
-    fileMd5: calculateMD5Sync(filePath),
     mainFilePath: filePath,
     mainFileName: basename(filePath),
+    fileSize: getFileSizeSync(filePath),
+    fileMd5: calculateMD5Sync(filePath),
   };
   return config;
 });
