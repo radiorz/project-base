@@ -1,8 +1,9 @@
-import { mergeOptions } from '@tikkhun/utils-core';
-import { Info } from './info.interface';
-import { createOverLoad } from '@tikkhun/overload';
 import { loadConfig } from '@tikkhun/config-loader';
+import { createOverLoad } from '@tikkhun/overload';
+import { mergeOptions } from '@tikkhun/utils-core';
+import { join } from 'path';
 import { getInfoFromNestedObject } from './getInfoFromNestedObject';
+import { Info } from './info.interface';
 
 /**
  * @function getInfo
@@ -12,7 +13,6 @@ import { getInfoFromNestedObject } from './getInfoFromNestedObject';
  * @example
  * getInfo() // -> { name: 'tikkhun', ...}
  */
-
 export interface GetInfoOptions {
   from: any[][];
 }
@@ -36,4 +36,14 @@ loadInfo.addImpl('string', 'object', async (path: string, map: Record<string, st
   const config = await loadConfig(path);
   return getInfoFromNestedObject(config, map);
 });
+loadInfo.addImpl(
+  'string',
+  'string',
+  'object',
+  async (workspace: string, filePath: string, map: Record<string, string>) => {
+    const config = await loadConfig(join(workspace, filePath));
+    return getInfoFromNestedObject(config, map);
+  },
+);
+loadInfo.addImpl('object', (value: Info) => value);
 loadInfo.addImpl('object', 'object', getInfoFromNestedObject);
