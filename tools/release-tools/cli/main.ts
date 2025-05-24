@@ -18,19 +18,8 @@ const cli = new Cli({
     releasePathRelative: 'string',
     releasePath: 'string',
     clean: 'boolean',
-    infoBuilderOptions: {
-      workspace: 'string',
-      configType: 'string',
-      mainFilePath: 'string',
-      input: {
-        name: 'string',
-        title: 'string',
-        version: 'string',
-        description: 'string',
-        tag: 'string',
-        system: 'string',
-        hardware: 'string',
-      },
+    getInfoOptions: {
+      from: 'array',
     },
     inputMoveOptions: {
       items: 'objectArray', // 实际上是 objectArray
@@ -59,19 +48,9 @@ const cli = new Cli({
     inputMoveOptions: {
       items: '[移动文件文件夹]文件夹列表',
     },
-    infoBuilderOptions: {
+    getInfoOptions: {
       workspace: '[信息管理]项目信息根目录',
-      configType: '[信息管理]配置文件类型("packageJson"|"androidXml")',
-      mainFilePath: '[信息管理]文件路径(需要hash的文件)',
-      input: {
-        name: '[信息管理]项目名称',
-        title: '[信息管理]项目中文名称',
-        version: '[信息管理]项目版本',
-        tag: '[信息管理]标志',
-        description: '[信息管理]描述',
-        system: '[信息管理]系统参数',
-        hardware: '[信息管理]硬件参数',
-      },
+      from: '[信息管理]项目信息来源',
     },
     infoStoreOptions: {
       enabled: '[信息存储]开启',

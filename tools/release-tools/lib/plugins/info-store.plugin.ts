@@ -12,7 +12,7 @@ import { mergeOptions } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
-import { Info } from '../info-builder/info-builder';
+import { Info } from '../info';
 import { transformObjectByOptionsMap } from '../object.utils';
 import { AfterArchiveInit, AfterInputGot } from './plugin.interface';
 import { Archiver } from 'archiver';
