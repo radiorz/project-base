@@ -34,6 +34,7 @@ export class ConfigReader {
   constructor(options?: Partial<ConfigReaderOptions>) {
     // console.log(options);
     this.options = mergeOptions(ConfigReader.defaultOptions, options);
+    // TODO 这里有个bug就是 await，不过改动较大，反正目前configloader 读取json和xml都是同步写法，暂时不改了。
     this.config = this.getConfig();
     // console.log(`this.config`, this.config);
   }
