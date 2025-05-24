@@ -1,10 +1,10 @@
 /**
- * @function readConfig
+ * @function loadConfig
  * @description 函数用于
  * @param
  * @returns
  * @example
- * readConfig() // ->
+ * loadConfig() // ->
  */
 import { readFileSync } from 'fs';
 import path from 'path';
@@ -13,6 +13,7 @@ import toml from 'toml';
 import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
 import { pathToFileURL } from 'node:url';
+import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
 
 export enum FILE_TYPES {
   javascript = 'javascript',
@@ -53,39 +54,50 @@ function getFilePathType(arg: any) {
       return null;
   }
 }
-export const readConfig = createOverLoad({
+export const loadConfig = createOverLoad({
   getType(arg: any, index: number) {
     if (index === 0) return getFilePathType(arg);
-    return typeof arg;
+    return 'any'; // 这里就简单搞成any了，目前第二参数，第三参数可以输入任意函数而不影响匹配
   },
 });
-readConfig.addImpl(FILE_TYPES.json, async (filePath: string) => {
+loadConfig.addImpl(FILE_TYPES.json, async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return JSON.parse(fileContent);
 });
-readConfig.addImpl(FILE_TYPES.json5, async (filePath: string) => {
+loadConfig.addImpl(FILE_TYPES.json5, async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return JSON5.parse(fileContent);
 });
-readConfig.addImpl(FILE_TYPES.yaml, async (filePath: string) => {
+loadConfig.addImpl(FILE_TYPES.yaml, async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return yaml.load(fileContent);
 });
-readConfig.addImpl(FILE_TYPES.toml, async (filePath: string) => {
+loadConfig.addImpl(FILE_TYPES.toml, async (filePath: string) => {
   const fileContent = readFileSync(filePath, 'utf8');
   return toml.parse(fileContent);
 });
-readConfig.addImpl(FILE_TYPES.env, (filePath: string) => {
+const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
   const fileContent = readFileSync(filePath, 'utf8');
-  const env = {} as Record<string, string>;
+  const envList = [] as { key: string; value: string }[];
   fileContent.split('\n').forEach((line) => {
     const [key, value] = line.split('=');
     if (key && value) {
-      env[key] = value;
+      envList.push({ key, value });
     }
   });
+  const env = listToNestedObject({
+    delimiter: '__',
+    list: envList,
+    keyItemTransformer: function (v: string): string {
+      return toCamelCase(v);
+    },
+    ...options,
+  });
   return env;
-});
+};
+// 这里没有处理有参数和无参数的情况，所以只能分开处理了，需要修改overlaod
+loadConfig.addImpl(FILE_TYPES.env, 'any', loadEnvConfig);
+loadConfig.addImpl(FILE_TYPES.env, loadEnvConfig);
 function hasOnlyDefaultKey(obj: object): boolean {
   const keys = Object.keys(obj);
   return keys.length === 1 && keys[0] === 'default';
@@ -98,5 +110,5 @@ async function importModuleDefault(filePath: string) {
   if (hasOnlyDefaultKey(result)) return result.default;
   return result;
 }
-readConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
-readConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
+loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
+loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);

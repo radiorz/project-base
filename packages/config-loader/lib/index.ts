@@ -1,1 +1,1 @@
-export * from './read-config';
+export * from './load-config';

@@ -1,6 +1,6 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
-import { readConfig } from '..';
+import {  loadConfig } from '..';
 export const defaultOptions = {
   path: 'package.json',
 };
@@ -19,7 +19,7 @@ export const cliOptions = {
   optionTitles,
   optionTypes,
   action: async (options: any) => {
-    const config = await readConfig(options?.value);
+    const config = await loadConfig(options?.value);
     console.log(config);
   },
 };

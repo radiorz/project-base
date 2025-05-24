@@ -14,7 +14,7 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
     const key = args.map(opts.getType).join(opts.delimiter);
     const fn = fnMap.get(key);
     if (!fn) {
-      throw new TypeError('No overload function found');
+      throw new TypeError(`No overload function found, key=${key}`);
     }
     return fn.apply(this, args);
   }
