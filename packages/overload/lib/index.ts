@@ -18,6 +18,7 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
     }
     return fn.apply(this, args);
   }
+  overload.fnMap = fnMap; // 为了方便调试
   overload.addImpl = function (...args: any[]) {
     const fn = args.pop() as Function;
     if (typeof fn !== 'function') {
