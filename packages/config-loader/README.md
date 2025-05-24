@@ -17,17 +17,18 @@
 ## 使用
 
 ```bash
-pnpm i config-reader
+pnpm i @tikkhun/config-reader
 ```
 
 ```ts
-import { readConfig } from 'config-reader';
-const config = await readConfig('./config.json'); // 这里你只要输入不同配置文件的路径即可
-// console.log(readConfig('package.json'));
-// console.log(readConfig('.env'));
-// console.log('test.js', await readConfig('test.js'));
-// console.log('test.js', await readConfig('test.mjs'));
-// console.log(await readConfig('test.ts'));
+import { loadConfig } from '@tikkhun/config-loader';
+const config = await loadConfig('./config.json'); // 这里你只要输入不同配置文件的路径即可
+// 允许load多种配置文件
+// console.log(loadConfig('package.json'));
+// console.log(loadConfig('.env'));
+// console.log('test.js', await loadConfig('test.js'));
+// console.log('test.js', await loadConfig('test.mjs'));
+// console.log(await loadConfig('test.ts'));
 
 console.log(config);
 ```

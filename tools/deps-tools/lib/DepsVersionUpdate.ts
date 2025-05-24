@@ -9,7 +9,7 @@
  */
 
 import { writeJSON } from 'fs-extra';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { DepsVersionGetter, VersionInfo } from './DepsVersionGetter';
 import { workspace } from '../../version/lib/utils';
 import { packageJsonPath } from '../../../packages/node-utils/lib/path';
@@ -29,7 +29,7 @@ export class DepsVersionUpdater {
   options: DepsVersionUpdaterOptions;
   depsVersionGetter: DepsVersionGetter;
   constructor(options?: Partial<DepsVersionUpdaterOptions>) {
-    this.options = optionsMerge(DepsVersionUpdater.defaultOptions, options);
+    this.options = mergeOptions(DepsVersionUpdater.defaultOptions, options);
     this.depsVersionGetter = new DepsVersionGetter({
       ...options,
     });

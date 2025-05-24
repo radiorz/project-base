@@ -1,5 +1,5 @@
 import { isFile } from '@tikkhun/utils';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { glob } from 'glob';
 import { mkdir, copyFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
@@ -29,7 +29,7 @@ export class Copier {
   };
   options: CopierOptions;
   constructor(options?: Partial<CopierOptions>) {
-    this.options = optionsMerge(Copier.defaultOptions, options);
+    this.options = mergeOptions(Copier.defaultOptions, options);
   }
   async start() {
     this.log.log('[开始] 拷贝');

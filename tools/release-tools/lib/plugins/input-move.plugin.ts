@@ -1,4 +1,4 @@
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { AfterInputGot, BeforeInputGot } from './plugin.interface';
 import { Release } from '../release';
 import { Archiver } from 'archiver';
@@ -20,7 +20,7 @@ export class InputMovePlugin implements AfterInputGot {
   });
   options: InputMovePluginOptions;
   constructor(options: Partial<InputMovePluginOptions>) {
-    this.options = optionsMerge(InputMovePlugin.defaultOptions, options);
+    this.options = mergeOptions(InputMovePlugin.defaultOptions, options);
   }
   async afterInputGot(release: Release) {
     if (!this.options.items?.length) {

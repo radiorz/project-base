@@ -13,7 +13,7 @@
  */
 
 import { ConfigSource } from '@tikkhun/config-core';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { debounce, set } from 'lodash-es';
 export const LocalStorageSourceDefaultOptions = {
   // 存储的键值对
@@ -27,7 +27,7 @@ export class LocalStorageSource implements ConfigSource {
   static defaultOptions = Object.freeze(LocalStorageSourceDefaultOptions);
   options: typeof LocalStorageSourceDefaultOptions;
   constructor(options?: Partial<typeof LocalStorageSourceDefaultOptions>) {
-    this.options = optionsMerge(LocalStorageSource.defaultOptions, options);
+    this.options = mergeOptions(LocalStorageSource.defaultOptions, options);
 
     // FIXME saveDebounce 会影响同步性，可能会导致reset后config 依然加载旧参数，这个有待解决。
     if (this.options.saveDebounce) this.save = debounce(this.save.bind(this), this.options.saveDebounce);

@@ -2,7 +2,7 @@
  * 实际上就是实现核心的打包功能
  */
 import { Logger } from '@tikkhun/logger';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
 import { join } from 'path';
@@ -74,7 +74,7 @@ export class Release {
   }
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
-    this.options = optionsMerge(Release.defaultOptions, options);
+    this.options = mergeOptions(Release.defaultOptions, options);
     this.log.log(`[说明] 最终release配置参数:` + JSON.stringify(this.options, null, 2));
     // 项目信息
     this.watchError();

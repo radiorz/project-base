@@ -14,7 +14,7 @@
 import { Logger } from '@tikkhun/logger';
 import ejs from 'ejs';
 import fsExtra from 'fs-extra';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { minimatch } from 'minimatch';
 import { join } from 'path';
 import { templatesDir } from './utils';
@@ -75,7 +75,7 @@ export class Creator {
     );
   }
   constructor(options?: Partial<CreatorOptions>) {
-    this.options = optionsMerge(Creator.DEFAULT_OPTIONS, options);
+    this.options = mergeOptions(Creator.DEFAULT_OPTIONS, options);
   }
   async start() {
     try {

@@ -1,5 +1,5 @@
 // import cliSpinners from 'cli-spinners';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { clearLine, cursorTo } from 'readline';
 export interface ProgressBuildMessageOptions {
   currentFrame: string;
@@ -22,7 +22,7 @@ export class ProgressPrinter {
   hasPrintOne = false; // 已经打印了一个了
   snipperDot: Generator; // 生成下一个打印的图像信息的一个生成器函数
   constructor(options: Partial<ProgressOptions>) {
-    this.options = optionsMerge(ProgressPrinter.defaultOptions, options);
+    this.options = mergeOptions(ProgressPrinter.defaultOptions, options);
     this.snipperDot = getNextSpinnerDot(this.options.frames);
   }
 

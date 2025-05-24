@@ -14,6 +14,7 @@ import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
 import { pathToFileURL } from 'node:url';
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
+import { loadXml } from './loadXml';
 
 export enum FILE_TYPES {
   javascript = 'javascript',
@@ -23,6 +24,7 @@ export enum FILE_TYPES {
   typescript = 'typescript',
   env = 'env',
   toml = 'toml',
+  xml = 'xml',
 }
 function getFilePathType(arg: any) {
   const filePath = arg;
@@ -49,6 +51,8 @@ function getFilePathType(arg: any) {
     case '.mts':
     case '.cts':
       return FILE_TYPES.typescript;
+    case '.xml':
+      return FILE_TYPES.xml;
     default:
       console.error(`不支持的文件格式: ${ext}`);
       return null;
@@ -105,6 +109,7 @@ loadConfig.addImpl(FILE_TYPES.env, loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.env, 'any', loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
+loadConfig.addImpl(FILE_TYPES.xml, loadXml);
 
 async function importModuleDefault(filePath: string) {
   const module = await import(pathToFileURL(filePath).href);

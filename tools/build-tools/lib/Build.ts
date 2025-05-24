@@ -12,7 +12,7 @@
  * @example
  */
 import { Logger } from '@tikkhun/logger';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { omit } from 'lodash';
 import { mkdir, rm } from 'node:fs/promises';
 import path from 'path';
@@ -37,7 +37,7 @@ export class Build {
   };
   options: BuildOptions;
   constructor(options?: Partial<BuildOptions>) {
-    this.options = optionsMerge(Build.defaultOptions, options);
+    this.options = mergeOptions(Build.defaultOptions, options);
   }
   get outDir() {
     return path.join(this.options.workspace, this.options.outDir);

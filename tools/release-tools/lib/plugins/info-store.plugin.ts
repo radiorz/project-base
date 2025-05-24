@@ -8,7 +8,7 @@
  * @example
  */
 
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
@@ -42,7 +42,7 @@ export class ReleaseInfoStorePlugin implements AfterArchiveInit {
   });
   options: ReleaseInfoStoreOptions;
   constructor(options?: Partial<ReleaseInfoStoreOptions>) {
-    this.options = optionsMerge(ReleaseInfoStorePlugin.defaultOptions, options);
+    this.options = mergeOptions(ReleaseInfoStorePlugin.defaultOptions, options);
   }
   // 由于过于简单，所以不再封装
   static transformKeys(options: InfoTransformOptions) {

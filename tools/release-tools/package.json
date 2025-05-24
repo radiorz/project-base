@@ -51,6 +51,7 @@
   },
   "dependencies": {
     "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "archiver": "^7.0.1",

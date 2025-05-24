@@ -10,7 +10,7 @@
 
 import { get } from 'lodash';
 import { ReuseResult, FinalResult, OriginResult, OriginToken, ResultFactory } from './ResultFactory.type';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 import { replaceParams } from '@tikkhun/utils-core';
 const defaultResultFactoryOptions = {
   messageMap: new Map<string, Record<string, any>>(),
@@ -34,7 +34,7 @@ export class BestResultFactory implements ResultFactory {
     return this.options.messageMap.get(locale || this.options.defaultLocale!);
   }
   constructor(options?: Partial<ResultFactoryOptions>) {
-    this.options = optionsMerge(BestResultFactory.defaultOptions, options);
+    this.options = mergeOptions(BestResultFactory.defaultOptions, options);
   }
   // 起个别名。
   create = (result: OriginResult) => this.createResult(result);

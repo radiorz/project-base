@@ -1,4 +1,4 @@
-import { optionsMerge } from '../../utils/lib/object';
+import { mergeOptions } from '../../utils/lib/object';
 /**
  * @author
  * @file Node.ts
@@ -31,7 +31,7 @@ export class Node {
   }
   options: NodeOptions;
   constructor(options?: Partial<NodeOptions>) {
-    this.options = optionsMerge(Node.defaultOptions, options);
+    this.options = mergeOptions(Node.defaultOptions, options);
     this._name = this.getName();
   }
   join(node: Node) {}

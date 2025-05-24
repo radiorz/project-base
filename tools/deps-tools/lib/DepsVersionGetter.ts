@@ -2,7 +2,7 @@ import { join } from 'path';
 import { workspace } from '../../version/lib/utils';
 import { readJSON, writeJSON } from 'fs-extra';
 import { ChildProcess, execSync } from 'child_process';
-import { optionsMerge } from '@tikkhun/utils-core';
+import { mergeOptions } from '@tikkhun/utils-core';
 // 经常一个版本是需要更新到指定版本的，但monorepo 需要改相当多包，写个脚本搞定
 /**
  * @author
@@ -34,7 +34,7 @@ export class DepsVersionGetter {
   });
   options: DepsVersionGetterOptions;
   constructor(options?: Partial<DepsVersionGetterOptions>) {
-    this.options = optionsMerge(DepsVersionGetter.defaultOptions, options);
+    this.options = mergeOptions(DepsVersionGetter.defaultOptions, options);
   }
   async get() {
     if (!this.options.workspace.length) {
