@@ -49,7 +49,6 @@ const cli = new Cli({
       items: '[移动文件文件夹]文件夹列表',
     },
     getInfoOptions: {
-      workspace: '[信息管理]项目信息根目录',
       from: '[信息管理]项目信息来源',
     },
     infoStoreOptions: {
