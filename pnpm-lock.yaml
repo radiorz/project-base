@@ -304,11 +304,11 @@ importers:
   packages/config-loader:
     dependencies:
       '@tikkhun/cli-core':
-        specifier: latest
-        version: 0.0.21(@types/node@20.17.50)
+        specifier: workspace:*
+        version: link:../cli-core
       '@tikkhun/logger':
-        specifier: latest
-        version: 1.0.8
+        specifier: workspace:*
+        version: link:../logger
       '@tikkhun/overload':
         specifier: workspace:*
         version: link:../overload
@@ -1363,7 +1363,7 @@ importers:
     dependencies:
       '@tikkhun/cli-core':
         specifier: latest
-        version: 0.0.21(@types/node@20.17.50)
+        version: 0.0.22(@types/node@20.17.50)
       '@tikkhun/logger':
         specifier: latest
         version: 1.0.8
@@ -2908,11 +2908,11 @@ packages:
     resolution: {integrity: sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g==}
     engines: {node: '>=12'}
 
-  '@tikkhun/cli-core@0.0.21':
-    resolution: {integrity: sha512-vF+ul+P1GSJf/40RKFV63z9Dwy0tDM0ObjtzmN7p8+nGAgUNLs9Ujs9G9m7jsx03lNNsyj+9SIwBR6FEvcuWWA==}
+  '@tikkhun/cli-core@0.0.22':
+    resolution: {integrity: sha512-yLHWVnyqH7b3YFKbLfphOanAjqpxZXdFa+TsxwMgKTqYEds8BqPKB41QBq8QeORsAFDatlyt47ojMVrUFTPcMg==}
 
-  '@tikkhun/config-loader@0.0.1':
-    resolution: {integrity: sha512-PV35QLPOxnrdbNjVOqBviju8z0EnDz8zzgPWA57N3O7Fi9NezAgSvE0bm57papIe1X4ngfXepfqUzwzEKE1row==}
+  '@tikkhun/config-loader@0.0.6':
+    resolution: {integrity: sha512-zx68QrodLYlIYJnbprJqtObw8BvzTWT9MdAE/LFrSswfq6kodKPxygODa9/Cv1VMJ39pI3kuqcBsauI1aD3Ruw==}
     hasBin: true
 
   '@tikkhun/logger@1.0.8':
@@ -2933,8 +2933,8 @@ packages:
   '@tikkhun/utils-core@0.0.12':
     resolution: {integrity: sha512-9YY8vyPPfOrHqGPgeGq1g0eEhh/AtwVrczAgLjXH1tnX/G5WJcmFe6WGoNs6U8noMvpJqaDDa9gca0RhXSF9xA==}
 
-  '@tikkhun/utils-core@0.0.17':
-    resolution: {integrity: sha512-prF0P9Kxsj2V4F+nZYDm2ei5VpqFB2M9TkZ+oxLq+k/uQZ049Na/kOfbBnuTwwknDgvunG0KUWXdQdTI1dKiAQ==}
+  '@tikkhun/utils-core@0.0.20':
+    resolution: {integrity: sha512-tf4ZZPebAzTNpuCEsQ3mXVnB42Cc6gfoJx1UQwBptnWJmSbxcoZirWyIoOoy0LaBGNJVDZ0SkUvm7y3u6IQv8w==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
@@ -9352,24 +9352,24 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@tikkhun/cli-core@0.0.21(@types/node@20.17.50)':
+  '@tikkhun/cli-core@0.0.22(@types/node@20.17.50)':
     dependencies:
       '@inquirer/prompts': 7.5.1(@types/node@20.17.50)
-      '@tikkhun/config-loader': 0.0.1(@types/node@20.17.50)
+      '@tikkhun/config-loader': 0.0.6(@types/node@20.17.50)
       '@tikkhun/logger': 1.0.8
-      '@tikkhun/utils-core': 0.0.17
+      '@tikkhun/utils-core': 0.0.20
       commander: 14.0.0
       fs-extra: 11.3.0
       lodash: 4.17.21
     transitivePeerDependencies:
       - '@types/node'
 
-  '@tikkhun/config-loader@0.0.1(@types/node@20.17.50)':
+  '@tikkhun/config-loader@0.0.6(@types/node@20.17.50)':
     dependencies:
-      '@tikkhun/cli-core': 0.0.21(@types/node@20.17.50)
+      '@tikkhun/cli-core': 0.0.22(@types/node@20.17.50)
       '@tikkhun/logger': 1.0.8
       '@tikkhun/overload': 0.0.1
-      commander: 12.1.0
+      commander: 14.0.0
       toml: 3.0.0
     transitivePeerDependencies:
       - '@types/node'
@@ -9396,7 +9396,7 @@ snapshots:
     dependencies:
       lodash: 4.17.21
 
-  '@tikkhun/utils-core@0.0.17':
+  '@tikkhun/utils-core@0.0.20':
     dependencies:
       lodash: 4.17.21
 
