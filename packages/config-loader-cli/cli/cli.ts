@@ -1,6 +1,6 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
-import packageJson from '../../package.json';
-import {  loadConfig } from '..';
+import packageJson from '../package.json';
+import { loadConfig } from '@tikkhun/config-loader';
 export const defaultOptions = {
   path: 'package.json',
 };
