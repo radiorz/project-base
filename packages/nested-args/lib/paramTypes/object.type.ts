@@ -4,7 +4,7 @@ export const objectType: ParamType = {
   stringify(v: any): string {
     return JSON.stringify(v);
   },
-  parse(value: string) {
+  parse(value: any) {
     return typeof value === 'object' ? JSON.parse(value) : {};
   },
 };
