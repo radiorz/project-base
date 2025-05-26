@@ -1,5 +1,6 @@
 import { it, expect } from 'vitest';
 import { NestedArgs } from './nested-args';
+import { TYPES } from './paramTypes/param.type';
 it('option handler ', async () => {
   const originValue = {
     boolean: 'true',
@@ -15,15 +16,15 @@ it('option handler ', async () => {
     },
   };
   const types = {
-    boolean: 'boolean',
-    a: 'number',
-    b: 'array',
+    boolean: TYPES.boolean,
+    a: TYPES.number,
+    b: TYPES.array,
     c: {
-      d: 'number',
-      f: 'string',
-      e: 'boolean',
+      d: TYPES.number,
+      f: TYPES.string,
+      e: TYPES.boolean,
       g: {
-        h: 'string',
+        h: TYPES.string,
       },
     },
   };

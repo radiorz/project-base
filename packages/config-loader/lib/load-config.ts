@@ -61,7 +61,7 @@ function getFilePathType(arg: any) {
 export const loadConfig = createOverLoad({
   getType(arg: any, index: number) {
     if (index === 0) return getFilePathType(arg);
-    return 'any'; // 这里就简单搞成any了，目前第二参数，第三参数可以输入任意函数而不影响匹配
+    return typeof arg; // 这里就简单搞成any了，目前第二参数，第三参数可以输入任意函数而不影响匹配
   },
 });
 
@@ -106,7 +106,7 @@ loadConfig.addImpl(FILE_TYPES.yaml, loadYaml);
 loadConfig.addImpl(FILE_TYPES.toml, loadToml);
 // 有参数和无参数的情况对于overload通常是分开两种，所以只能分开写了
 loadConfig.addImpl(FILE_TYPES.env, loadEnvConfig);
-loadConfig.addImpl(FILE_TYPES.env, 'any', loadEnvConfig);
+loadConfig.addImpl(FILE_TYPES.env, 'object', loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.xml, loadXml);
