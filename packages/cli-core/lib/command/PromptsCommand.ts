@@ -27,7 +27,9 @@ export class PromptsCommand extends AbstractCommand {
   command: any;
   optionHandler: any;
   getOptions() {
-    const stringifyDefaultOptions = NestedArgs.stringify(this.options.defaultOptions);
+    const stringifyDefaultOptions = NestedArgs.stringify(this.options.defaultOptions, {
+      schema: this.options.optionTypes,
+    });
     // 默认选项
     const flattedStringifyDefaultOptionList = nestedObjectToList({
       delimiter: '.',
@@ -79,7 +81,7 @@ export class PromptsCommand extends AbstractCommand {
   private async actionHandler(action: Action) {
     const options = await this.optionHandler();
     const unflattedOptions = unflatNestedObject({ delimiter: '.', data: options });
-    const typedResults = NestedArgs.parse(unflattedOptions, this.options.optionTypes);
+    const typedResults = NestedArgs.parse(unflattedOptions, { schema: this.options.optionTypes });
     action(typedResults);
   }
   async start(action: Action) {

@@ -12,7 +12,7 @@ interface ArgsOption {
 export class ArgsCommand extends AbstractCommand {
   program: Command | undefined;
   getOptions(): ArgsOption[] {
-    const stringOptions = NestedArgs.stringify(this.options.defaultOptions);
+    const stringOptions = NestedArgs.stringify(this.options.defaultOptions, { schema: this.options.optionTypes });
     const optionList = nestedObjectToList({ delimiter: '.', json: stringOptions });
     // console.log(`optionList`, optionList);
     const optionTypeMap = flatNestedObject({ delimiter: '.', data: this.options.optionTypes });
@@ -45,7 +45,7 @@ export class ArgsCommand extends AbstractCommand {
         delimiter: '.',
         data: stringOptions,
       });
-      const typedOptions = NestedArgs.parse(options, this.options.optionTypes);
+      const typedOptions = NestedArgs.parse(options, { schema: this.options.optionTypes });
       action(typedOptions);
     });
   }
