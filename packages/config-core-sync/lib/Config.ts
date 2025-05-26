@@ -44,10 +44,10 @@ export class Config extends Emitter implements Api {
   set config(value: any) {
     this._config.value = value;
   }
-  private async handleValueChange(path: string, value: any) {
+  private handleValueChange(path: string, value: any) {
     const theTruePath = path.replace(/value\.?/, '');
     try {
-      await this.sync(theTruePath, value);
+      this.sync(theTruePath, value);
     } catch (error) {
       console.log('sync error', error);
       if (!this.options.allowSyncError) throw error;
@@ -72,28 +72,26 @@ export class Config extends Emitter implements Api {
     // 修改多次最终只会触发一次
     this.handleWholeChange = debounce(this.handleWholeChange, 100);
   }
-  static async create(options: ConfigOptions) {
+  static create(options: ConfigOptions) {
     const configManager = new Config(options);
-    await configManager.init();
-    await configManager.load();
+    configManager.init();
+    configManager.load();
     return configManager;
   }
   // 初始化
-  async init() {
-    const results = Promise.all(
-      this.sources
-        .filter((source) => source.init)
-        .map((source) => {
-          return source.init!();
-        }),
-    );
+  init() {
+    const results = this.sources
+      .filter((source) => source.init)
+      .map((source) => {
+        return source.init!();
+      });
     this.inited = true;
     return results;
   }
   // 加载配置
-  async load() {
+  load() {
     // 目前都是同步
-    const results = await Promise.all(this.sources.map((source) => source.load()));
+    const results = this.sources.map((source) => source.load());
     // 合并各个数据
     const originConfig = merge({}, ...results);
     // 使用Proxy来监听config的变化
@@ -102,19 +100,17 @@ export class Config extends Emitter implements Api {
     this.loaded = true;
   }
   /** 同步给源 */
-  async sync(path: string, value: any) {
+  sync(path: string, value: any) {
     // 同步到源上,源采取全修改的方式PUT
-    return Promise.all(
-      this.sources.map(async (source) => {
-        return await source.save?.(path, value);
-      }),
-    );
+    return this.sources.map((source) => {
+      return source.save?.(path, value);
+    });
   }
 
-  async addSource(source: ConfigSource) {
-    if (source.init) await source.init();
+  addSource(source: ConfigSource) {
+    if (source.init) source.init();
     // this.config 不能直接等于
-    const sourceConfig = await source?.load();
+    const sourceConfig = source?.load();
     // 或者重新全部load也可以 不过这样开销比较大
     this.config = merge({}, this.config, sourceConfig);
     this.sources.push(source);
@@ -166,17 +162,15 @@ export class Config extends Emitter implements Api {
     return this.set({ ...first, data: null });
   }
   // 重置整个config
-  async reset(source = false) {
+  reset(source = false) {
     // 清空所有，然后重新加载
     // 清空所有 正常是直接load就行，但有种情况就是又是store 又是source 如果不清空就白重新加载。
     if (source) {
-      await Promise.all(
-        this.sources.map((source) => {
-          return source.reset?.();
-        }),
-      );
+      this.sources.map((source) => {
+        return source.reset?.();
+      });
     }
     // 重新加载
-    await this.load();
+    this.load();
   }
 }
