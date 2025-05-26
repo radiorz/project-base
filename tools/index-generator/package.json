@@ -35,10 +35,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/cli-core": "workspace:*",
+    "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "latest",
     "@tikkhun/overload": "^0.0.1",
-    "@tikkhun/utils-core": "workspace:*",
+    "@tikkhun/utils-core": "workspace:^",
     "commander": "^12.1.0",
     "glob": "^11.0.2"
   },

@@ -35,9 +35,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/cli-core": "workspace:*",
-    "@tikkhun/logger": "workspace:*",
-    "@tikkhun/config-loader": "workspace:*",
+    "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/logger": "workspace:^",
+    "@tikkhun/config-loader": "workspace:^",
     "commander": "^14.0.0",
     "fast-xml-parser": "^5.2.3",
     "js-yaml": "^4.1.0",
