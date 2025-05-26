@@ -90,6 +90,7 @@ export const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedOb
       envList.push({ key, value });
     }
   });
+  // TODO 这里好像没有对value进行转换？ nested args 可以上场
   const env = listToNestedObject({
     delimiter: '__',
     list: envList,
@@ -110,15 +111,16 @@ loadConfig.addImpl(FILE_TYPES.env, 'object', loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.xml, loadXml);
+loadConfig.addImpl(FILE_TYPES.xml, 'object', loadXml);
 
-async function importModuleDefault(filePath: string) {
+export async function importModuleDefault(filePath: string) {
   const module = await import(pathToFileURL(filePath).href);
   const result = module.default;
   // 如果是ESM模块，并且有default导出，返回default导出，否则返回整个模块对象
   if (hasOnlyDefaultKey(result)) return result.default;
   return result;
 }
-function hasOnlyDefaultKey(obj: object): boolean {
+export function hasOnlyDefaultKey(obj: object): boolean {
   const keys = Object.keys(obj);
   return keys.length === 1 && keys[0] === 'default';
 }

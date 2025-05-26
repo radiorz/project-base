@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/nested-args",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -31,7 +31,9 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "@tikkhun/utils-core": "workspace:*"
+  },
   "devDependencies": {
     "@types/node": "^20.3.1",
     "tsx": "^4.19.1",

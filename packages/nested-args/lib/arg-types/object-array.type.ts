@@ -1,6 +1,9 @@
-import { ParamType } from './param-type.interface';
+import { ArgType } from '../arg-type.interface';
 
-export const objectArrayType: ParamType = {
+export const objectArrayType: ArgType = {
+  isThisType(v: any): boolean {
+    return Array.isArray(v);
+  },
   stringify(v: any): string {
     return JSON.stringify(v);
   },

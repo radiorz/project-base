@@ -1,79 +1,86 @@
-import { arrayType, booleanType, keyValueArrayType, numberType, objectArrayType, objectType } from './paramTypes';
-import { TYPES } from './paramTypes/param.type';
-
-export class NestedArgs {
+import { TYPES } from './arg.type';
+import {
+  arrayType,
+  booleanType,
+  jsonType,
+  keyValueArrayType,
+  numberType,
+  objectArrayType,
+  objectType,
+} from './arg-types';
+import { mergeOptions } from '@tikkhun/utils-core';
+import { stringType } from './arg-types/string.type';
+export interface NestedArgsOptions {
   schema: Record<string, any>;
-  constructor(schema: Record<string, any>) {
-    this.schema = schema;
+  typeHandlers: Record<string, any>;
+  types: TYPES | string[];
+}
+// TODO type是用来注册的，然后parse是用来解析的
+export class NestedArgs {
+  static options: NestedArgsOptions = {
+    schema: {},
+    types: [...Object.values(TYPES)],
+    typeHandlers: {
+      [TYPES.boolean]: booleanType,
+      [TYPES.number]: numberType,
+      [TYPES.string]: stringType,
+      [TYPES.array]: arrayType,
+      [TYPES.keyValueArray]: keyValueArrayType,
+      [TYPES.json]: jsonType,
+      [TYPES.object]: objectType,
+      [TYPES.objectArray]: objectArrayType,
+    },
+  };
+
+  static parse(obj: Record<string, any>, options: Partial<NestedArgsOptions> = this.options) {
+    const opts = mergeOptions(this.options, options) as NestedArgsOptions;
+    const _obj: Record<string, any> = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      if (isTheObject(value)) {
+        _obj[key] = this.parse(value, { ...opts, schema: opts.schema[key] });
+        return;
+      }
+      const typeName = opts.schema?.[key] || TYPES.string;
+      const type = opts.typeHandlers[typeName];
+      _obj[key] = type.parse(value as string);
+    });
+    return _obj;
+  }
+
+  static stringify(obj: Record<string, any>, options?: Partial<NestedArgsOptions>) {
+    const opts = mergeOptions(this.options, options);
+    const _obj: Record<string, any> = {};
+    Object.entries(obj).forEach(([key, value]) => {
+      const typeName = opts.schema[key] || TYPES.string;
+
+      if (isTheObject(value) && typeof typeName === 'object') {
+        _obj[key] = this.stringify(value, { ...opts, schema: opts.schema[key] });
+        return;
+      }
+
+      const type = opts.typeHandlers[typeName];
+      _obj[key] = type.stringify(value);
+    });
+    return _obj;
+  }
+  options: NestedArgsOptions;
+  constructor(options?: Partial<NestedArgsOptions>) {
+    this.options = mergeOptions(NestedArgs.options, options);
   }
   parse(obj: Record<string, any>) {
-    return NestedArgs.parse(obj, this.schema);
+    return NestedArgs.parse(obj, this.options);
   }
+  stringify(obj: Record<string, any>) {
+    return NestedArgs.stringify(obj, this.options);
+  }
+}
 
-  static parse(obj: Record<string, any>, schema: Record<string, any>) {
-    const _obj: Record<string, any> = {};
-    Object.entries(obj).forEach(([key, value]) => {
-      const type = schema[key];
-      if (typeof value === 'object') {
-        _obj[key] = NestedArgs.parse(value, type);
-      } else {
-        _obj[key] = NestedArgs.parseValueByType(value as string, type);
-      }
-    });
-    return _obj;
+function isTheObject(v: any) {
+  if (Array.isArray(v)) {
+    return false;
   }
-  private static parseValueByType(value: string, type: string) {
-    if (value === 'undefined') {
-      return;
-    }
-    if (type === TYPES.keyValueArray) {
-      return keyValueArrayType.parse(value);
-    }
-    if (type === TYPES.objectArray) {
-      return objectArrayType.parse(value);
-    }
-    if (type === TYPES.array) {
-      return arrayType.parse(value);
-    }
-    if (type === TYPES.object) {
-      return objectType.parse(value);
-    }
-    if (type === TYPES.number) {
-      return numberType.parse(value);
-    }
-    if (type === TYPES.boolean) {
-      return booleanType.parse(value);
-    }
-    return value;
+  if (typeof v === 'object') {
+    return true;
   }
-  static stringify(obj: Record<string, any>) {
-    const _obj: Record<string, any> = {};
-    Object.entries(obj).forEach(([key, value]) => {
-      _obj[key] = NestedArgs.stringifyValue(value);
-    });
-    return _obj;
-  }
-
-  private static stringifyValue(value: any) {
-    if (Array.isArray(value)) {
-      const item1 = value[0];
-      // 有点魔法 key value 的值让他们用=表示
-      if (typeof item1 === 'object') {
-        const isKeyValueArray = this.isKeyValueObject(item1);
-        if (isKeyValueArray) {
-          return keyValueArrayType.stringify(value);
-        }
-        return objectArrayType.stringify(value);
-      }
-      return arrayType.stringify(value);
-    }
-    if (typeof value === 'object') {
-      return NestedArgs.stringify(value);
-    }
-    return '' + value;
-  }
-  private static isKeyValueObject(obj: any) {
-    const keys = Object.keys(obj);
-    return keys[0] === 'key' && keys[1] === 'value';
-  }
+  return false;
 }

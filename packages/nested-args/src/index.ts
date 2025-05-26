@@ -13,20 +13,20 @@ const originValue = {
     },
   },
 };
-const types = {
+const schema = {
   boolean: TYPES.boolean,
-  a: TYPES['number'],
-  b: TYPES['array'],
+  a: TYPES.number,
+  b: TYPES.array,
   c: {
-    d: TYPES['number'],
-    f: TYPES['string'],
-    e: TYPES['boolean'],
+    d: TYPES.number,
+    f: TYPES.string,
+    e: TYPES.boolean,
     g: {
-      h: TYPES['string'],
+      h: TYPES.string,
     },
   },
 };
-const typedObj = NestedArgs.parse(originValue, types);
+const typedObj = NestedArgs.parse(originValue, { schema });
 console.log(`typedObj`, typedObj);
-const stringObj = NestedArgs.stringify(typedObj);
+const stringObj = NestedArgs.stringify(typedObj, { schema });
 console.log(`stringObj`, stringObj);

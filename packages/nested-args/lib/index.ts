@@ -1,2 +1,4 @@
 export * from './nested-args';
-export * from './paramTypes';
+export * from './arg-types';
+export * from './arg.type';
+export * from './arg-type.interface';
