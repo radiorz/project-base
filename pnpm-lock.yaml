@@ -307,13 +307,13 @@ importers:
   packages/config-loader:
     dependencies:
       '@tikkhun/cli-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../cli-core
       '@tikkhun/logger':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../logger
       '@tikkhun/overload':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../overload
       commander:
         specifier: ^14.0.0
@@ -350,13 +350,13 @@ importers:
   packages/config-loader-cli:
     dependencies:
       '@tikkhun/cli-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../cli-core
       '@tikkhun/config-loader':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../config-loader
       '@tikkhun/logger':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../logger
       commander:
         specifier: ^14.0.0
@@ -479,7 +479,7 @@ importers:
   packages/nested-args:
     dependencies:
       '@tikkhun/utils-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../utils
     devDependencies:
       '@types/node':
@@ -762,7 +762,7 @@ importers:
   packages/utils-for-web:
     dependencies:
       '@tikkhun/utils-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../utils
       crypto-js:
         specifier: ^4.2.0
@@ -927,7 +927,7 @@ importers:
         specifier: ^11.0.0
         version: 11.0.0(@nestjs/common@11.1.1(class-transformer@0.5.1)(class-validator@0.14.2)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.1)(reflect-metadata@0.2.2)(rxjs@7.8.2)(typeorm@0.3.24(mysql2@3.14.1)(reflect-metadata@0.2.2)(ts-node@10.9.2(@types/node@22.15.21)(typescript@5.8.3)))
       '@tikkhun/utils':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/utils-for-node
       class-transformer:
         specifier: ^0.5.1
@@ -942,7 +942,7 @@ importers:
         specifier: ^3.14.1
         version: 3.14.1
       nest-common:
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../templates/nest-common
       reflect-metadata:
         specifier: ^0.2.2
@@ -1368,7 +1368,7 @@ importers:
   tools/index-generator:
     dependencies:
       '@tikkhun/cli-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/cli-core
       '@tikkhun/logger':
         specifier: latest
@@ -1377,7 +1377,7 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
       '@tikkhun/utils-core':
-        specifier: workspace:*
+        specifier: workspace:^
         version: link:../../packages/utils
       commander:
         specifier: ^12.1.0
@@ -1440,7 +1440,7 @@ importers:
     dependencies:
       '@tikkhun/cli-core':
         specifier: latest
-        version: 0.0.24(@types/node@20.17.50)
+        version: 0.0.26(@types/node@20.17.50)
       '@tikkhun/logger':
         specifier: latest
         version: 1.0.8
@@ -1463,6 +1463,67 @@ importers:
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+
+  tools/release-core:
+    dependencies:
+      '@tikkhun/cli-core':
+        specifier: workspace:^
+        version: link:../../packages/cli-core
+      '@tikkhun/config-loader':
+        specifier: workspace:^
+        version: link:../../packages/config-loader
+      '@tikkhun/logger':
+        specifier: workspace:^
+        version: link:../../packages/logger
+      '@tikkhun/overload':
+        specifier: workspace:^
+        version: link:../../packages/overload
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../../packages/utils
+      archiver:
+        specifier: ^7.0.1
+        version: 7.0.1
+      cli-spinners:
+        specifier: ^3.2.0
+        version: 3.2.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
+      fast-xml-parser:
+        specifier: ^5.2.3
+        version: 5.2.3
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+      glob:
+        specifier: ^11.0.2
+        version: 11.0.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      '@types/archiver':
+        specifier: ^6.0.3
+        version: 6.0.3
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
+      '@types/lodash':
+        specifier: ^4.17.17
+        version: 4.17.17
+      '@types/node':
+        specifier: ^22.15.21
+        version: 22.15.21
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.4
+        version: 4.19.4
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
   tools/release-tools:
     dependencies:
@@ -2998,9 +3059,15 @@ packages:
   '@tikkhun/cli-core@0.0.24':
     resolution: {integrity: sha512-qWm67Ypc0DcqyE3T8uT35UiqTGToKxb2jKY/lxSUcSILhBGEbAaJHRm42B6ZHGm9fS0n9hazXUQxn6M+QvQNeA==}
 
+  '@tikkhun/cli-core@0.0.26':
+    resolution: {integrity: sha512-NRidL3ivik3pTm0KugBagpPt2pgft8PaguvtKT/Vfd41C0N0MSjxSNchYIDpscYMsuJTLOrVs+/giBNwtUg4pw==}
+
   '@tikkhun/config-loader@0.0.10':
     resolution: {integrity: sha512-rYvDbzXi+bXq2dL1diM3AuZYdKUVVKIwNo2PQPOPVFH6Af+h7zizMnMT3Y/AUCBz8q1Mt9fEBjWNu3/fzyxdVA==}
     hasBin: true
+
+  '@tikkhun/config-loader@0.0.11':
+    resolution: {integrity: sha512-jV5al/sBJkGKp8Gl6sOG0NAvsKzKkFHuR8SRDkRXzXz5xxJH3EOkBKs4BNpUqW9GjK4RVw/5ZJGJ8n6sPDvIfg==}
 
   '@tikkhun/config-loader@0.0.6':
     resolution: {integrity: sha512-zx68QrodLYlIYJnbprJqtObw8BvzTWT9MdAE/LFrSswfq6kodKPxygODa9/Cv1VMJ39pI3kuqcBsauI1aD3Ruw==}
@@ -3013,6 +3080,9 @@ packages:
   '@tikkhun/nested-args@0.0.0':
     resolution: {integrity: sha512-frDzdPmHctQ75+q69cTZEL8dWwCG3w6q2S0MhJpYDluCwEQqHE4lSoLiJrmp7FLWJ8MXQcStgBImtKuuRC7A0g==}
 
+  '@tikkhun/nested-args@0.0.2':
+    resolution: {integrity: sha512-ggmGBLsddmYDQMhsH5cPdJgMgH5exKDYvE0riyjKjHKm57ygtqZ/3ByU7Oh5huTNKo38b0cxK9rHtZsv8+GOCw==}
+
   '@tikkhun/overload@0.0.0':
     resolution: {integrity: sha512-lqQ86z0B+1E08SGwP0axyn5iUQ7WieniRpGOSnBhAkrNLgbu+M64MxQsvF670MVPJSAkvBhMFMUcrBuSuPYm4w==}
 
@@ -3021,6 +3091,9 @@ packages:
 
   '@tikkhun/overload@0.0.2':
     resolution: {integrity: sha512-drOvELwjTGoWIAtbLWnnXl44oqw0r5QEeODWl3LeyvFx6Iq9SDR8ns/Sf05N7KIPV9KUbGMdZteCzSckX8tXcw==}
+
+  '@tikkhun/overload@0.0.3':
+    resolution: {integrity: sha512-IklxOXVut/LZAyYHtTjjsH4IJfT6rCLl82DtMQ3kRM/lC1ydDTcegDf488DM+KerBwfx+Wuh3fokAxFdjpXDpw==}
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
@@ -9475,6 +9548,19 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
+  '@tikkhun/cli-core@0.0.26(@types/node@20.17.50)':
+    dependencies:
+      '@inquirer/prompts': 7.5.1(@types/node@20.17.50)
+      '@tikkhun/config-loader': 0.0.11(@types/node@20.17.50)
+      '@tikkhun/logger': 1.0.8
+      '@tikkhun/nested-args': 0.0.2
+      '@tikkhun/utils-core': 0.0.20
+      commander: 14.0.0
+      fs-extra: 11.3.0
+      lodash: 4.17.21
+    transitivePeerDependencies:
+      - '@types/node'
+
   '@tikkhun/config-loader@0.0.10(@types/node@20.17.50)':
     dependencies:
       '@tikkhun/cli-core': 0.0.22(@types/node@20.17.50)
@@ -9488,9 +9574,22 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@tikkhun/config-loader@0.0.6(@types/node@20.17.50)':
+  '@tikkhun/config-loader@0.0.11(@types/node@20.17.50)':
     dependencies:
       '@tikkhun/cli-core': 0.0.24(@types/node@20.17.50)
+      '@tikkhun/logger': 1.0.8
+      '@tikkhun/overload': 0.0.3
+      commander: 14.0.0
+      fast-xml-parser: 5.2.3
+      js-yaml: 4.1.0
+      json5: 2.2.3
+      toml: 3.0.0
+    transitivePeerDependencies:
+      - '@types/node'
+
+  '@tikkhun/config-loader@0.0.6(@types/node@20.17.50)':
+    dependencies:
+      '@tikkhun/cli-core': 0.0.26(@types/node@20.17.50)
       '@tikkhun/logger': 1.0.8
       '@tikkhun/overload': 0.0.1
       commander: 14.0.0
@@ -9506,11 +9605,17 @@ snapshots:
 
   '@tikkhun/nested-args@0.0.0': {}
 
+  '@tikkhun/nested-args@0.0.2':
+    dependencies:
+      '@tikkhun/utils-core': 0.0.20
+
   '@tikkhun/overload@0.0.0': {}
 
   '@tikkhun/overload@0.0.1': {}
 
   '@tikkhun/overload@0.0.2': {}
+
+  '@tikkhun/overload@0.0.3': {}
 
   '@tikkhun/requestable@0.0.6': {}
 
