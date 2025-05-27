@@ -13,7 +13,7 @@ import { mergeOptions, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from './info';
 import dayjs from 'dayjs';
 // export type Param = keyof Info;
-export interface ReleaseNameOptions {
+export interface InfoStringOptions {
   info: Info;
   params: string[];
   paramDelimiter: string;
@@ -21,16 +21,16 @@ export interface ReleaseNameOptions {
   releasedAtPattern: string;
 }
 
-export class ReleaseName {
-  static defaultOptions: ReleaseNameOptions = {
+export class InfoString {
+  static defaultOptions: InfoStringOptions = {
     info: {},
     params: ['name', 'version', 'releasedAt'],
     paramDelimiter: UnderlineDelimiter,
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
   };
-  options: ReleaseNameOptions;
-  constructor(options?: Partial<ReleaseNameOptions>) {
-    this.options = mergeOptions(ReleaseName.defaultOptions, options);
+  options: InfoStringOptions;
+  constructor(options?: Partial<InfoStringOptions>) {
+    this.options = mergeOptions(InfoString.defaultOptions, options);
   }
   // 字符串化有几种方案：
   // - 采用pattern的定义形式 "{app}{yyy}" 但这个有个不好的就是不能parse成原本的配置对象 好处是最灵活

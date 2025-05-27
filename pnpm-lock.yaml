@@ -1539,6 +1539,9 @@ importers:
       '@tikkhun/overload':
         specifier: workspace:^
         version: link:../../packages/overload
+      '@tikkhun/release-core':
+        specifier: workspace:^
+        version: link:../release-core
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../packages/utils

@@ -8,14 +8,12 @@
  * @example
  */
 import { mergeOptions } from '@tikkhun/utils-core';
-import { Release, ReleaseOptions } from './release';
+import { Release, ReleaseOptions } from '@tikkhun/release-core';
 import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-store.plugin';
-import { ReleaseName, ReleaseNameOptions } from './release-name';
+import { InfoString, InfoStringOptions } from './info-string';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';
 import { InputMovePlugin, InputMovePluginOptions } from './plugins';
-import { InputMoveOption } from './plugins/input-move.plugin';
-import { join } from 'path';
 import { getInfo, GetInfoOptions } from './info';
 const { omit } = _;
 export interface TikkhunReleaseDefaultOptions
@@ -25,7 +23,7 @@ export interface TikkhunReleaseDefaultOptions
   // 存储info的文件
   infoStoreOptions: Partial<{ enabled: boolean } & ReleaseInfoStoreOptions>;
   // 释放文件的名称
-  releaseNameOptions: Partial<ReleaseNameOptions>;
+  releaseNameOptions: Partial<InfoStringOptions>;
   // 重命名文件
   inputMoveOptions: Partial<InputMovePluginOptions>;
 }
@@ -50,7 +48,7 @@ export const TikkhunReleaseDefaultOptions = {
     enabled: true,
     ...omit(ReleaseInfoStorePlugin.defaultOptions, ['info']),
   },
-  releaseNameOptions: omit(ReleaseName.defaultOptions, ['info']),
+  releaseNameOptions: omit(InfoString.defaultOptions, ['info']),
   // 重命名的文件列表
   inputMoveOptions: InputMovePlugin.defaultOptions,
 };
@@ -64,7 +62,7 @@ export async function TikkhunRelease(options?: Partial<TikkhunReleaseDefaultOpti
   const { infoStoreOptions, getInfoOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
   const info = await getInfo(getInfoOptions);
   logger.log('[说明] 项目信息:' + JSON.stringify(info, null, 2));
-  const releaseNameBuilder = new ReleaseName({ ...releaseNameOptions, info });
+  const releaseNameBuilder = new InfoString({ ...releaseNameOptions, info });
   const releaseName = releaseNameBuilder.stringify();
   logger.log('[说明] 项目打包名称: ' + releaseName);
   // release 的额外功能通过插件方式实现

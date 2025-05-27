@@ -1,10 +1,7 @@
+import type { AfterInputGot, Release } from '@tikkhun/release-core';
 import { mergeOptions } from '@tikkhun/utils-core';
-import { AfterInputGot, BeforeInputGot } from './plugin.interface';
-import { Release } from '../release';
-import { Archiver } from 'archiver';
-import { join } from 'path';
 import { stat } from 'node:fs/promises';
-import { glob } from 'glob';
+import { join } from 'path';
 export interface InputMoveOption {
   source: string; // 源文件
   target: string; // 目标文件
