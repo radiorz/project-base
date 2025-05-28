@@ -3,11 +3,12 @@ import { loadConfig } from '../lib';
 
 async function bootstrap() {
   console.log(loadConfig('package.json'));
-  console.log(loadConfig('.env'));
-  console.log(loadConfig('.env', { delimiter: '_' }));
-  console.log(loadConfig('test.xml'));
-  console.log('test.js', await loadConfig('test.js'));
-  console.log('test.js', await loadConfig('test.mjs'));
-  console.log(await loadConfig('test.ts'));
+  console.log(loadConfig('./src/.env'));
+  console.log(loadConfig('./src/.env', { delimiter: '_' }));
+  console.log(loadConfig('./src/test.xml'));
+  console.log('./src/test.js', await loadConfig('./src/test.js'));
+  console.log('./src/test.mjs', await loadConfig('./src/test.mjs'));
+  console.log('./src/test.ts', await loadConfig('./src/test.ts'));
+  console.log('./src/test.xlsx', await loadConfig('./src/test.xlsx'));
 }
 bootstrap();

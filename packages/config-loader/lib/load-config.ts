@@ -6,24 +6,26 @@
  * @example
  * loadConfig() // ->
  */
-import { readFileSync } from 'fs';
-import path from 'path';
-import JSON5 from 'json5';
-import toml from 'toml';
-import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
-import { pathToFileURL } from 'node:url';
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import { convertXmlToConfig } from './xml';
-import { FILE_TYPES } from './type';
+import { readFileSync } from 'fs';
+import yaml from 'js-yaml';
+import JSON5 from 'json5';
+import { extname } from 'node:path';
+import { pathToFileURL } from 'node:url';
+import { basename } from 'node:path';
+import toml from 'toml';
 import { loadConfigFromSheet } from './sheet';
+import { FILE_TYPES } from './type';
+import { convertXmlToConfig } from './xml';
 
 export function getFilePathType(arg: any) {
   const filePath = arg;
+  const fileBaseName = basename(filePath);
   // 根据前缀判断
-  if (filePath.startsWith('.env')) return FILE_TYPES.env;
+  if (fileBaseName.startsWith('.env')) return FILE_TYPES.env;
   // 根据文件扩展名判断文件类型
-  const ext = path.extname(filePath);
+  const ext = extname(fileBaseName);
   switch (ext) {
     case '.toml':
       return FILE_TYPES.toml;
@@ -48,7 +50,7 @@ export function getFilePathType(arg: any) {
     case '.xlsx':
       return FILE_TYPES.sheet;
     default:
-      console.error(`不支持的文件格式: ${ext}`);
+      console.error(`文件的格式不受支持: ${filePath}`);
       return null;
   }
 }
