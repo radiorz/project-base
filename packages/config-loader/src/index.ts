@@ -1,4 +1,3 @@
-import { delimiter } from 'path';
 import { loadConfig } from '../lib';
 import { saveConfig } from '../lib/save-config';
 
