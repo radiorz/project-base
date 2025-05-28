@@ -1256,6 +1256,10 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
+  tools/create-tools/templates/default: {}
+
+  tools/create-tools/templates/one-mjs: {}
+
   tools/daemon:
     dependencies:
       cron:
@@ -1525,6 +1529,31 @@ importers:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
+  tools/release-plugins/info:
+    dependencies:
+      '@tikkhun/cli-core':
+        specifier: latest
+        version: 0.0.26(@types/node@20.17.50)
+      '@tikkhun/logger':
+        specifier: latest
+        version: 1.0.8
+      commander:
+        specifier: ^12.1.0
+        version: 12.1.0
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.50
+      tsup:
+        specifier: ^8.3.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.4
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.9(@types/node@20.17.50)(terser@5.39.2)
+
   tools/release-tools:
     dependencies:
       '@tikkhun/cli-core':
@@ -1545,6 +1574,67 @@ importers:
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../packages/utils
+      archiver:
+        specifier: ^7.0.1
+        version: 7.0.1
+      cli-spinners:
+        specifier: ^3.2.0
+        version: 3.2.0
+      dayjs:
+        specifier: ^1.11.13
+        version: 1.11.13
+      fast-xml-parser:
+        specifier: ^5.2.3
+        version: 5.2.3
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+      glob:
+        specifier: ^11.0.2
+        version: 11.0.2
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
+    devDependencies:
+      '@types/archiver':
+        specifier: ^6.0.3
+        version: 6.0.3
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
+      '@types/lodash':
+        specifier: ^4.17.17
+        version: 4.17.17
+      '@types/node':
+        specifier: ^22.15.21
+        version: 22.15.21
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.4
+        version: 4.19.4
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.21)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+
+  tools/release-tools/release/@tikkhun@release_0.0.54_2025-05-24-23-35-08:
+    dependencies:
+      '@tikkhun/cli-core':
+        specifier: workspace:^
+        version: link:../../../../packages/cli-core
+      '@tikkhun/config-loader':
+        specifier: workspace:^
+        version: link:../../../../packages/config-loader
+      '@tikkhun/logger':
+        specifier: workspace:^
+        version: link:../../../../packages/logger
+      '@tikkhun/overload':
+        specifier: workspace:^
+        version: link:../../../../packages/overload
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../../../../packages/utils
       archiver:
         specifier: ^7.0.1
         version: 7.0.1

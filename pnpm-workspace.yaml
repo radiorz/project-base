@@ -4,7 +4,7 @@ packages:
   - "packages/*"
   - "projects/*"
   - "docs/*"
-  - "tools/*"
+  - "tools/**/*"
   - "templates/*"
   - "examples/*"
   - "configs/*"

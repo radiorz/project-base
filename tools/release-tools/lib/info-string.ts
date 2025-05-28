@@ -10,7 +10,7 @@
 // 为何将name从info拆除，是因为可能要同时修改多个filename, 比如apk本身的名字，我这个只是releaseName.
 
 import { mergeOptions, UnderlineDelimiter } from '@tikkhun/utils-core';
-import type { Info } from './info';
+import type { Info } from '@tikkhun/info';
 import dayjs from 'dayjs';
 // export type Param = keyof Info;
 export interface InfoStringOptions {
