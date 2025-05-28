@@ -1,14 +1,23 @@
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../package.json';
-import { loadConfig } from '@tikkhun/config-loader';
+import { loadConfig, saveConfig } from '@tikkhun/config-loader';
 export const defaultOptions = {
-  path: 'package.json',
+  input: 'package.json',
+  output: '',
+  // inputOptions: ,
+  // outputOptions: {},
 };
 export const optionTitles = {
-  path: '路径',
+  input: '路径',
+  output: '输出路径',
+  inputOptions: '输入选项',
+  outputOptions: '输出选项',
 };
 export const optionTypes = {
-  path: 'string',
+  input: 'string',
+  output: 'string',
+  inputOptions: 'json',
+  outputOptions: 'json',
 };
 export const cliOptions = {
   name: packageJson.name,
@@ -18,9 +27,13 @@ export const cliOptions = {
   defaultOptions,
   optionTitles,
   optionTypes,
-  action: async (options: any) => {
-    const config = await loadConfig(options?.value);
-    console.log(config);
+  action: async (options: { input: string; output: string; inputOptions: any; outputOptions: any }) => {
+    const config = await loadConfig(options?.input);
+    if (!options.output) {
+      console.log(config);
+      return;
+    }
+    await saveConfig(config, options.output);
   },
 };
 export const cli = new Cli(cliOptions);
