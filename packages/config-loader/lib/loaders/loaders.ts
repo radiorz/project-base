@@ -1,9 +1,9 @@
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
 import yaml from 'js-yaml';
 import JSON5 from 'json5';
-import { readFile } from 'node:fs/promises';
 import toml from 'toml';
 import { convertXmlToConfig } from './xml';
+import { readFile } from 'node:fs/promises';
 
 export const loadJSON = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');

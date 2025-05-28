@@ -1,5 +1,5 @@
 import { XMLParser } from 'fast-xml-parser';
-import { convertToConfig } from '../type';
+import { convertToConfig } from '../../type';
 /**
  * 同步读取并解析XML文件
  * @param xmlPath XML文件路径

@@ -1,5 +1,5 @@
 import { readFile } from 'xlsx';
-import { loadFromFile } from '../type';
+import { loadFromFile } from '../../type';
 import { convertToConfigFromSheet, ConvertToConfigFromSheetOptions } from './convertToConfigFromSheet';
 
 export const loadConfigFromSheet: loadFromFile<ConvertToConfigFromSheetOptions> = async function loadConfigFromSheet(

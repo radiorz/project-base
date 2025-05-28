@@ -1,5 +1,5 @@
 import { writeFile } from 'xlsx';
-import { Config } from '../type';
+import { Config } from '../../type';
 import { convertToSheetFromConfig } from './convertToSheetFromConfig';
 
 /**

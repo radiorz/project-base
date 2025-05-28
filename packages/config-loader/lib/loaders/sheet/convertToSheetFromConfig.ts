@@ -1,6 +1,6 @@
 import { flatNestedObject } from '@tikkhun/utils-core';
 import { utils, WorkBook } from 'xlsx';
-import type { Config, convertFromConfig } from '../type';
+import type { Config, convertFromConfig } from '../../type';
 import { kv2worksheet } from './kv2worksheet';
 export interface SaveToSheetOptions {
   delimiter?: string;

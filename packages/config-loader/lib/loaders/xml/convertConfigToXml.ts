@@ -1,5 +1,5 @@
 import { XMLBuilder, XmlBuilderOptions } from 'fast-xml-parser';
-import { Config, convertFromConfig } from '../type';
+import { Config, convertFromConfig } from '../../type';
 
 export const convertConfigToXml: convertFromConfig = async function saveToXml(
   config: Config,

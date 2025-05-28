@@ -1,5 +1,6 @@
 import { delimiter } from 'path';
 import { loadConfig } from '../lib';
+import { saveConfig } from '../lib/save-config';
 
 async function bootstrap() {
   console.log('package.json', loadConfig('package.json'));
@@ -12,3 +13,7 @@ async function bootstrap() {
   console.log('./src/test.xlsx', await loadConfig('./src/test.xlsx'));
 }
 bootstrap();
+async function bootstrapSaver() {
+  saveConfig({ test: 123 }, './src/test_saver.json');
+}
+bootstrapSaver();
