@@ -8,7 +8,7 @@
  */
 import { createOverLoad } from '@tikkhun/overload';
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import { readFileSync } from 'fs';
+import { readFile } from 'node:fs/promises';
 import yaml from 'js-yaml';
 import JSON5 from 'json5';
 import { extname } from 'node:path';
@@ -62,23 +62,23 @@ export const loadConfig = createOverLoad({
 });
 
 export const loadJSON = async (filePath: string) => {
-  const fileContent = readFileSync(filePath, 'utf8');
+  const fileContent = await readFile(filePath, 'utf8');
   return JSON.parse(fileContent);
 };
 export const loadJSON5 = async (filePath: string) => {
-  const fileContent = readFileSync(filePath, 'utf8');
+  const fileContent = await readFile(filePath, 'utf8');
   return JSON5.parse(fileContent);
 };
 export const loadYaml = async (filePath: string) => {
-  const fileContent = readFileSync(filePath, 'utf8');
+  const fileContent = await readFile(filePath, 'utf8');
   return yaml.load(fileContent);
 };
 export const loadToml = async (filePath: string) => {
-  const fileContent = readFileSync(filePath, 'utf8');
+  const fileContent = await readFile(filePath, 'utf8');
   return toml.parse(fileContent);
 };
-export const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
-  const fileContent = readFileSync(filePath, 'utf8');
+export const loadEnvConfig = async (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
+  const fileContent = await readFile(filePath, 'utf8');
   const envList = [] as { key: string; value: string }[];
   fileContent.split('\n').forEach((line) => {
     const [key, value] = line.split('=');
@@ -97,8 +97,8 @@ export const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedOb
   });
   return env;
 };
-function loadFromXml(filePath: string, options?: any) {
-  const fileContent = readFileSync(filePath, 'utf8');
+async function loadFromXml(filePath: string, options?: any) {
+  const fileContent = await readFile(filePath, 'utf8');
   const config = convertXmlToConfig(fileContent, options);
   return config;
 }
