@@ -14,7 +14,7 @@ import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
 import { pathToFileURL } from 'node:url';
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import { loadXml } from './loadXml';
+import { loadXml } from './xml';
 
 export enum FILE_TYPES {
   javascript = 'javascript',

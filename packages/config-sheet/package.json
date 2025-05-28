@@ -1,10 +1,10 @@
 {
-  "name": "@tikkhun/json-sheet",
+  "name": "@tikkhun/config-sheet",
   "version": "0.0.4",
   "description": "",
   "bin": {
-    "tikkhun-json-sheet": "dist/cli/json-sheet.js",
-    "tikkhun-sheet-json": "dist/cli/sheet-json.js"
+    "tikkhun-config-sheet": "dist/cli/config-sheet.js",
+    "tikkhun-sheet-config": "dist/cli/sheet-config.js"
   },
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
@@ -39,6 +39,7 @@
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
+    "@tikkhun/config-loader": "workspace:^",
     "commander": "^14.0.0",
     "fs-extra": "^11.3.0",
     "xlsx": "^0.18.5"
