@@ -2,7 +2,7 @@ import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
 import { isValidPassword } from '..';
 export const defaultOptions = {
-  password: '123456',
+  password: '',
   secret: '',
 };
 export const optionTitles = {
