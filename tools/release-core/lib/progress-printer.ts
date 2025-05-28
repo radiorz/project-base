@@ -1,4 +1,3 @@
-// import cliSpinners from 'cli-spinners';
 import { mergeOptions } from '@tikkhun/utils-core';
 import { clearLine, cursorTo } from 'readline';
 export interface ProgressBuildMessageOptions {
