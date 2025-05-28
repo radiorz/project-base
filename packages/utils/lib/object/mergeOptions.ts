@@ -13,7 +13,7 @@ export function mergeOptions(...args: any[]) {
 /**
  * @deprecated
  */
-export const mergeOptions = mergeOptions;
+export const optionsMerge = mergeOptions;
 
 function MergeOptionsCustomizer(objValue: any, srcValue: any) {
   if (Array.isArray(srcValue)) {

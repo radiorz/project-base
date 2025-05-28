@@ -6,3 +6,4 @@ export * from './killUndefined';
 export * from './mergeOptions';
 export * from './sortKey';
 export * from './tranKeyToDashCase';
+export * from './transformObjectByOptionsMap';

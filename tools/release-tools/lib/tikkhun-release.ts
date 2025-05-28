@@ -9,7 +9,7 @@
  */
 import { mergeOptions } from '@tikkhun/utils-core';
 import { Release, ReleaseOptions } from '@tikkhun/release-core';
-import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from './plugins/info-store.plugin';
+import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from '../../release-plugins/info-store/lib/info-store.plugin';
 import { InfoString, InfoStringOptions } from './info-string';
 import _ from 'lodash';
 import { Logger } from '@tikkhun/logger';

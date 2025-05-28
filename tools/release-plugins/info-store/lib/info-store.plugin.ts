@@ -14,8 +14,8 @@ import { Archiver } from 'archiver';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
-import { Info } from '../info';
-import { transformObjectByOptionsMap } from '../object.utils';
+import { Info } from '@tikkhun/info';
+import { transformObjectByOptionsMap } from '../../../release-tools/lib/object.utils';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。
