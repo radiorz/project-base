@@ -8,14 +8,13 @@
  * @example
  */
 
+import type { Info } from '@tikkhun/info';
 import type { AfterArchiveInit, Release } from '@tikkhun/release-core';
-import { mergeOptions } from '@tikkhun/utils-core';
+import { mergeOptions, transformObjectByOptionsMap } from '@tikkhun/utils-core';
 import { Archiver } from 'archiver';
 import dayjs from 'dayjs';
 import { XMLBuilder } from 'fast-xml-parser';
 import _ from 'lodash';
-import { Info } from '@tikkhun/info';
-import { transformObjectByOptionsMap } from '../../../release-tools/lib/object.utils';
 const { isEmpty } = _;
 export type TransformMap = Record<string, string>;
 // 目前想到的就是用  archive 进行打包。

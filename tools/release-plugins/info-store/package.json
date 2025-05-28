@@ -1,5 +1,5 @@
 {
-  "name": "info-store",
+  "name": "@tikkhun-release/info-store",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -32,7 +32,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/release-core": "workspace:^"
+    "@tikkhun/release-core": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
+    "@tikkhun/info": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
