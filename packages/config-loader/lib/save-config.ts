@@ -7,9 +7,9 @@
  * saveConfig() // ->
  */
 import { createOverLoad } from '@tikkhun/overload';
+import { getFileType } from './getFileType';
 import { saveConfigToSheet, saveToEnv, saveToJsLike, saveToJson, saveToToml, saveToXml, saveToYaml } from './loaders';
 import { FILE_TYPES } from './type';
-import { getFileType } from './getFileType';
 export const saveConfig = createOverLoad({
   getType(arg: any, index: number) {
     if (index === 1) return getFileType(arg);

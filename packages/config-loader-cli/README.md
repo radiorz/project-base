@@ -1,6 +1,6 @@
-# config-loader
+# config-loader-cli
 
-用于支持读取配置文件的工具包
+用于支持读取和写入配置文件的命令行工具。
 
 ## 功能
 
@@ -14,22 +14,21 @@
 - .toml
 - .xml
 - .env
+- .xlsx
 
-## 使用
+## 安装
 
 ```bash
-pnpm i @tikkhun/config-loader
+pnpm i @tikkhun/config-loader-cli
 ```
 
-```ts
-import { loadConfig } from '@tikkhun/config-loader';
-const config = await loadConfig('./config.json'); // 这里你只要输入不同配置文件的路径即可
-// 允许load多种配置文件
-// console.log(loadConfig('package.json'));
-// console.log(loadConfig('.env'));
-// console.log('test.js', await loadConfig('test.js'));
-// console.log('test.js', await loadConfig('test.mjs'));
-// console.log(await loadConfig('test.ts'));
+## 使用
+```bash
+# 读取配置文件
+tikkhun-config-loader --input=./config.json
+```
 
-console.log(config);
+```bash
+# 写入配置文件
+tikkhun-config-loader --input=./config.json --output=./config.js
 ```
