@@ -4,7 +4,8 @@ import { mergeOptions } from '@tikkhun/utils-core';
 import { join, basename } from 'path';
 import { getInfoFromNestedObject } from './getInfoFromNestedObject';
 import { Info } from './info.interface';
-import { calculateMD5Sync, getFileSizeSync } from '../file.utils';
+import { calculateMD5 } from '@tikkhun/utils';
+import { stat } from 'fs/promises';
 
 /**
  * @function getInfo
@@ -42,11 +43,12 @@ export const loadInfo = createOverLoad({
 });
 // 这里将读取他这个文件的配置
 loadInfo.addImpl(FileInfo, 'string', async (_: string, filePath: string) => {
+  const fileStat = await stat(filePath);
   const config = {
     mainFilePath: filePath,
     mainFileName: basename(filePath),
-    fileSize: getFileSizeSync(filePath),
-    fileMd5: calculateMD5Sync(filePath),
+    fileSize: fileStat.size,
+    fileMd5: await calculateMD5(filePath),
   };
   return config;
 });

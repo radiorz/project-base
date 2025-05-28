@@ -37,6 +37,7 @@
   "dependencies": {
     "@tikkhun/cli-core": "latest",
     "@tikkhun/logger": "latest",
+    "@tikkhun/utils": "workspace:^",
     "commander": "^12.1.0"
   },
   "devDependencies": {
