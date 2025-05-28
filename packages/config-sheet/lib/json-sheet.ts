@@ -1,5 +1,5 @@
 import { readJSON } from 'fs-extra';
-import { flatNestedObject } from '../../../packages/utils/lib/json/flatNestedObject';
+import { flatNestedObject } from '@tikkhun/utils-core';
 import { kv2worksheet } from './kv2worksheet';
 import { utils, writeFile } from 'xlsx';
 import { isAbsolute, join } from 'path';
@@ -15,7 +15,6 @@ export async function json2Sheet({ input, output, delimiter, keyHeader, valueHea
   if (!isAbsolute(input)) {
     input = join(process.cwd(), input);
   }
-  console.log('input', input);
   try {
     // 兼容 js 的情况
     if (input.endsWith('.js')) {

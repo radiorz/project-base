@@ -41,8 +41,7 @@
     "@tikkhun/utils-core": "workspace:^",
     "@tikkhun/config-loader": "workspace:^",
     "commander": "^14.0.0",
-    "fs-extra": "^11.3.0",
-    "xlsx": "^0.18.5"
+    "fs-extra": "^11.3.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

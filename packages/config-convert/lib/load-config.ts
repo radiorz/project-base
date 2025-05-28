@@ -14,19 +14,11 @@ import yaml from 'js-yaml';
 import { createOverLoad } from '@tikkhun/overload';
 import { pathToFileURL } from 'node:url';
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import { loadXml } from './xml';
+import { convertXmlToConfig } from './xml';
+import { FILE_TYPES } from './type';
+import { loadConfigFromSheet } from './sheet';
 
-export enum FILE_TYPES {
-  javascript = 'javascript',
-  json = 'json',
-  json5 = 'json5',
-  yaml = 'yaml',
-  typescript = 'typescript',
-  env = 'env',
-  toml = 'toml',
-  xml = 'xml',
-}
-function getFilePathType(arg: any) {
+export function getFilePathType(arg: any) {
   const filePath = arg;
   // 根据前缀判断
   if (filePath.startsWith('.env')) return FILE_TYPES.env;
@@ -53,6 +45,8 @@ function getFilePathType(arg: any) {
       return FILE_TYPES.typescript;
     case '.xml':
       return FILE_TYPES.xml;
+    case '.xlsx':
+      return FILE_TYPES.sheet;
     default:
       console.error(`不支持的文件格式: ${ext}`);
       return null;
@@ -101,6 +95,11 @@ export const loadEnvConfig = (filePath: string, options?: Partial<ListToNestedOb
   });
   return env;
 };
+function loadFromXml(filePath: string, options?: any) {
+  const fileContent = readFileSync(filePath, 'utf8');
+  const config = convertXmlToConfig(fileContent, options);
+  return config;
+}
 loadConfig.addImpl(FILE_TYPES.json, loadJSON);
 loadConfig.addImpl(FILE_TYPES.json5, loadJSON5);
 loadConfig.addImpl(FILE_TYPES.yaml, loadYaml);
@@ -110,8 +109,9 @@ loadConfig.addImpl(FILE_TYPES.env, loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.env, 'object', loadEnvConfig);
 loadConfig.addImpl(FILE_TYPES.javascript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
-loadConfig.addImpl(FILE_TYPES.xml, loadXml);
-loadConfig.addImpl(FILE_TYPES.xml, 'object', loadXml);
+loadConfig.addImpl(FILE_TYPES.xml, loadFromXml);
+loadConfig.addImpl(FILE_TYPES.xml, 'object', loadFromXml);
+loadConfig.addImpl(FILE_TYPES.sheet, loadConfigFromSheet);
 
 export async function importModuleDefault(filePath: string) {
   const module = await import(pathToFileURL(filePath).href);

@@ -1,6 +1,6 @@
 {
-  "name": "@tikkhun/config-loader",
-  "version": "0.0.11",
+  "name": "@tikkhun/config-convert",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -39,10 +39,11 @@
     "fast-xml-parser": "^5.2.3",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.3",
-    "toml": "^3.0.0"
+    "toml": "^3.0.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@tikkhun/utils-core": "^0.0.20",
+    "@tikkhun/utils-core": "^0.0.21",
     "@types/node": "^20.3.1",
     "tsup": "^8.5.0",
     "tsx": "^4.19.4",

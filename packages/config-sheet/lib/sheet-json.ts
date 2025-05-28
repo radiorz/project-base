@@ -13,9 +13,7 @@ export interface Sheet2JsonOptions {
 export async function sheet2json({
   input,
   output,
-  delimiter = '__',
-  keyHeader = 'key',
-  valueHeader = 'value',
+
 }: Sheet2JsonOptions) {
   // 1. 读取 Excel 文件
   const workbook = readFile(input);
