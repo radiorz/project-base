@@ -1,1 +1,1 @@
-export function hello() {}
+export * from './info-store.plugin';

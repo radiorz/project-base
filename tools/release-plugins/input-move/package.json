@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/release-info-store",
+  "name": "@tikkhun/release-input-move",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
