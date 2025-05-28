@@ -16,8 +16,8 @@
         "default": "./dist/lib/index.mjs"
       },
       "require": {
-        "default": "./dist/lib/index.js",
-        "types": "./dist/lib/index.d.ts"
+        "types": "./dist/lib/index.d.ts",
+        "default": "./dist/lib/index.js"
       }
     }
   },
