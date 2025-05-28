@@ -1,7 +1,10 @@
-{
-  "name": "@tikkhun/overload",
-  "version": "0.0.4",
+export default {
+  "name": "@tikkhun/config-loader-cli",
+  "version": "0.1.0",
   "description": "",
+  "bin": {
+    "tikkhun-config-loader": "dist/index.js"
+  },
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -31,11 +34,21 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/logger": "workspace:^",
+    "@tikkhun/config-loader": "workspace:^",
+    "commander": "^14.0.0",
+    "fast-xml-parser": "^5.2.3",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.3",
+    "toml": "^3.0.0"
+  },
   "devDependencies": {
+    "@tikkhun/utils-core": "^0.0.20",
     "@types/node": "^20.3.1",
-    "tsx": "^4.19.4",
     "tsup": "^8.5.0",
+    "tsx": "^4.19.4",
     "vitest": "^3.1.4"
   }
 }

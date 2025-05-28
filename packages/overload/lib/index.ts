@@ -11,7 +11,9 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
   const opts = Object.assign({}, DefaultCreateOverloadOptions, options);
   const fnMap = new Map<string, Function>();
   function overload(this: any, ...args: any[]) {
-    const key = args.map(opts.getType).join(opts.delimiter);
+    const keys = trimTrailingUndefined(args.map(opts.getType));
+    console.log(`keys`, keys);
+    const key = keys.join(opts.delimiter);
     const fn = fnMap.get(key);
     if (!fn) {
       throw new TypeError(`No overload function found, key=${key}`);
@@ -32,4 +34,17 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
     overload.addImpl(...impl);
   }
   return overload;
+}
+
+function trimTrailingUndefined<T>(arr: T[]): T[] {
+  const newArr = [...arr];
+  newArr.reduceRight((acc, _, index) => {
+    if (newArr[index] === 'undefined') {
+      newArr.pop();
+    } else {
+      return false;
+    }
+    return true;
+  }, true);
+  return newArr;
 }

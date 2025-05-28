@@ -28,12 +28,12 @@ export const cliOptions = {
   optionTitles,
   optionTypes,
   action: async (options: { input: string; output: string; inputOptions: any; outputOptions: any }) => {
-    const config = await loadConfig(options?.input);
+    const config = await loadConfig(options?.input, options?.inputOptions);
     if (!options.output) {
       console.log(config);
       return;
     }
-    await saveConfig(config, options.output);
+    await saveConfig(config, options.output, options?.outputOptions);
   },
 };
 export const cli = new Cli(cliOptions);
