@@ -50,15 +50,9 @@
     "url": "https://github.com/radiorz/project-base"
   },
   "dependencies": {
-    "@tikkhun/cli-core": "workspace:^",
-    "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
-    "@tikkhun/overload": "workspace:^",
     "archiver": "^7.0.1",
-    "cli-spinners": "^3.2.0",
-    "dayjs": "^1.11.13",
-    "fast-xml-parser": "^5.2.3",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.2",
     "lodash": "^4.17.21"
