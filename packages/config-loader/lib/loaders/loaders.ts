@@ -1,7 +1,7 @@
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
 import yaml from 'js-yaml';
 import JSON5 from 'json5';
-import toml from 'toml';
+import toml from 'smol-toml';
 import { convertXmlToConfig } from './xml';
 import { readFile } from 'node:fs/promises';
 

@@ -306,9 +306,6 @@ importers:
 
   packages/config-loader:
     dependencies:
-      '@tikkhun/cli-core':
-        specifier: workspace:^
-        version: link:../cli-core
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../logger
@@ -327,16 +324,19 @@ importers:
       json5:
         specifier: ^2.2.3
         version: 2.2.3
-      toml:
-        specifier: ^3.0.0
-        version: 3.0.0
+      smol-toml:
+        specifier: ^1.3.4
+        version: 1.3.4
+      xlsx:
+        specifier: ^0.18.5
+        version: 0.18.5
     devDependencies:
       '@tikkhun/utils-core':
-        specifier: ^0.0.20
-        version: 0.0.20
+        specifier: ^0.0.21
+        version: 0.0.21
       '@types/node':
-        specifier: ^20.3.1
-        version: 20.17.50
+        specifier: ^22.15.23
+        version: 22.15.23
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
@@ -345,7 +345,7 @@ importers:
         version: 4.19.4
       vitest:
         specifier: ^3.1.4
-        version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.23)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
   packages/config-loader-cli:
     dependencies:
@@ -389,6 +389,43 @@ importers:
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+
+  packages/config-sheet:
+    dependencies:
+      '@tikkhun/cli-core':
+        specifier: workspace:^
+        version: link:../cli-core
+      '@tikkhun/config-loader':
+        specifier: workspace:^
+        version: link:../config-loader
+      '@tikkhun/logger':
+        specifier: workspace:^
+        version: link:../logger
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../utils
+      commander:
+        specifier: ^14.0.0
+        version: 14.0.0
+      fs-extra:
+        specifier: ^11.3.0
+        version: 11.3.0
+    devDependencies:
+      '@types/fs-extra':
+        specifier: ^11.0.4
+        version: 11.0.4
+      '@types/node':
+        specifier: ^22.13.10
+        version: 22.15.23
+      tsup:
+        specifier: ^8.5.0
+        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.4
+        version: 4.19.4
+      vitest:
+        specifier: ^3.1.4
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.23)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
   packages/effect:
     dependencies:
@@ -1470,33 +1507,15 @@ importers:
 
   tools/release-core:
     dependencies:
-      '@tikkhun/cli-core':
-        specifier: workspace:^
-        version: link:../../packages/cli-core
-      '@tikkhun/config-loader':
-        specifier: workspace:^
-        version: link:../../packages/config-loader
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
-      '@tikkhun/overload':
-        specifier: workspace:^
-        version: link:../../packages/overload
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../packages/utils
       archiver:
         specifier: ^7.0.1
         version: 7.0.1
-      cli-spinners:
-        specifier: ^3.2.0
-        version: 3.2.0
-      dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
-      fast-xml-parser:
-        specifier: ^5.2.3
-        version: 5.2.3
       fs-extra:
         specifier: ^11.3.0
         version: 11.3.0
@@ -1634,9 +1653,6 @@ importers:
       '@tikkhun/cli-core':
         specifier: workspace:^
         version: link:../../packages/cli-core
-      '@tikkhun/config-loader':
-        specifier: workspace:^
-        version: link:../../packages/config-loader
       '@tikkhun/info':
         specifier: workspace:^
         version: link:../release-plugins/info
@@ -1646,9 +1662,6 @@ importers:
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
-      '@tikkhun/overload':
-        specifier: workspace:^
-        version: link:../../packages/overload
       '@tikkhun/release-core':
         specifier: workspace:^
         version: link:../release-core
@@ -1661,40 +1674,16 @@ importers:
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../packages/utils
-      archiver:
-        specifier: ^7.0.1
-        version: 7.0.1
-      cli-spinners:
-        specifier: ^3.2.0
-        version: 3.2.0
-      dayjs:
-        specifier: ^1.11.13
-        version: 1.11.13
-      fast-xml-parser:
-        specifier: ^5.2.3
-        version: 5.2.3
-      fs-extra:
-        specifier: ^11.3.0
-        version: 11.3.0
-      glob:
-        specifier: ^11.0.2
-        version: 11.0.2
       lodash:
         specifier: ^4.17.21
         version: 4.17.21
     devDependencies:
-      '@types/archiver':
-        specifier: ^6.0.3
-        version: 6.0.3
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
       '@types/lodash':
         specifier: ^4.17.17
         version: 4.17.17
       '@types/node':
-        specifier: ^22.15.21
-        version: 22.15.23
+        specifier: ^20
+        version: 20.17.50
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
@@ -1703,7 +1692,7 @@ importers:
         version: 4.19.4
       vitest:
         specifier: ^3.1.4
-        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.23)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+        version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
 
   tools/release-tools/release/@tikkhun@release_0.0.54_2025-05-24-23-35-08:
     dependencies:
@@ -3286,6 +3275,9 @@ packages:
 
   '@tikkhun/utils-core@0.0.20':
     resolution: {integrity: sha512-tf4ZZPebAzTNpuCEsQ3mXVnB42Cc6gfoJx1UQwBptnWJmSbxcoZirWyIoOoy0LaBGNJVDZ0SkUvm7y3u6IQv8w==}
+
+  '@tikkhun/utils-core@0.0.21':
+    resolution: {integrity: sha512-4xOK3m0wZhqznTqmdYAQb4dkvETh9nhxr+TYaDoZ6g4/eet3OL3xh7pa7rE1YpynTdBdGhPq81K5X8KInGCCEg==}
 
   '@tikkhun/utils-core@0.0.3':
     resolution: {integrity: sha512-541irSB8kBUD9QK7fmciT9ughUE1jqrMCzbseJOPEFRO+X9/6Clztkc4VCk5zMUzYHRAI8v+ty+L+fYtNKGarQ==}
@@ -7007,6 +6999,10 @@ packages:
   smob@1.5.0:
     resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
 
+  smol-toml@1.3.4:
+    resolution: {integrity: sha512-UOPtVuYkzYGee0Bd2Szz8d2G3RfMfJ2t3qVdZUAozZyAk+a0Sxa+QKix0YCwjL/A1RR0ar44nCxaoN9FxdJGwA==}
+    engines: {node: '>= 18'}
+
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
@@ -9810,6 +9806,10 @@ snapshots:
       lodash: 4.17.21
 
   '@tikkhun/utils-core@0.0.20':
+    dependencies:
+      lodash: 4.17.21
+
+  '@tikkhun/utils-core@0.0.21':
     dependencies:
       lodash: 4.17.21
 
@@ -14184,6 +14184,8 @@ snapshots:
   slash@5.1.0: {}
 
   smob@1.5.0: {}
+
+  smol-toml@1.3.4: {}
 
   source-map-js@1.2.1: {}
 

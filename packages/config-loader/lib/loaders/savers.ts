@@ -12,9 +12,11 @@ export function saveToYaml(data: Config, filePath: string) {
   const content = yaml.dump(data);
   writeFile(filePath, content);
 }
+import toml from 'smol-toml';
 
 export function saveToToml(data: Config, filePath: string) {
-  throw new Error('尚未实现');
+  const content = toml.stringify(data);
+  writeFile(filePath, content);
 }
 export function saveToEnv(data: Config, filePath: string, options?: Partial<NestedObjectToListOptions>) {
   // TODO 这里好像没有对value进行转换？ nested args 可以上场
