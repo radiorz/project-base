@@ -7,59 +7,10 @@
  * loadConfig() // ->
  */
 import { createOverLoad } from '@tikkhun/overload';
-import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import { readFile } from 'node:fs/promises';
-import yaml from 'js-yaml';
-import JSON5 from 'json5';
-import { extname } from 'node:path';
-import { pathToFileURL } from 'node:url';
-import { basename } from 'node:path';
-import toml from 'toml';
-import { loadConfigFromSheet } from './sheet';
+import { basename, extname } from 'node:path';
+import { loadConfigFromSheet, loadEnvConfig, loadFromXml, loadJSON, loadJSON5, loadToml, loadYaml } from './loaders';
+import { importModuleDefault } from './loaders';
 import { FILE_TYPES } from './type';
-import { convertXmlToConfig } from './xml';
-
-export const loadJSON = async (filePath: string) => {
-  const fileContent = await readFile(filePath, 'utf8');
-  return JSON.parse(fileContent);
-};
-export const loadJSON5 = async (filePath: string) => {
-  const fileContent = await readFile(filePath, 'utf8');
-  return JSON5.parse(fileContent);
-};
-export const loadYaml = async (filePath: string) => {
-  const fileContent = await readFile(filePath, 'utf8');
-  return yaml.load(fileContent);
-};
-export const loadToml = async (filePath: string) => {
-  const fileContent = await readFile(filePath, 'utf8');
-  return toml.parse(fileContent);
-};
-export const loadEnvConfig = async (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
-  const fileContent = await readFile(filePath, 'utf8');
-  const envList = [] as { key: string; value: string }[];
-  fileContent.split('\n').forEach((line) => {
-    const [key, value] = line.split('=');
-    if (key && value) {
-      envList.push({ key, value });
-    }
-  });
-  // TODO 这里好像没有对value进行转换？ nested args 可以上场
-  const env = listToNestedObject({
-    delimiter: '__',
-    list: envList,
-    keyItemTransformer: function (v: string): string {
-      return toCamelCase(v);
-    },
-    ...options,
-  });
-  return env;
-};
-async function loadFromXml(filePath: string, options?: any) {
-  const fileContent = await readFile(filePath, 'utf8');
-  const config = convertXmlToConfig(fileContent, options);
-  return config;
-}
 
 export function getFilePathType(arg: any) {
   const filePath = arg;
@@ -114,15 +65,3 @@ loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.xml, loadFromXml);
 loadConfig.addImpl(FILE_TYPES.xml, 'object', loadFromXml);
 loadConfig.addImpl(FILE_TYPES.sheet, loadConfigFromSheet);
-
-export async function importModuleDefault(filePath: string) {
-  const module = await import(pathToFileURL(filePath).href);
-  const result = module.default;
-  // 如果是ESM模块，并且有default导出，返回default导出，否则返回整个模块对象
-  if (hasOnlyDefaultKey(result)) return result.default;
-  return result;
-}
-export function hasOnlyDefaultKey(obj: object): boolean {
-  const keys = Object.keys(obj);
-  return keys.length === 1 && keys[0] === 'default';
-}
