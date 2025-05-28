@@ -7,14 +7,14 @@
  * @desc tikkhun主要扁平化了release 的选项,不用创建对象与function
  * @example
  */
-import { mergeOptions } from '@tikkhun/utils-core';
-import { Release, ReleaseOptions } from '@tikkhun/release-core';
-import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from '../../release-plugins/info-store/lib/info-store.plugin';
-import { InfoString, InfoStringOptions } from './info-string';
-import _ from 'lodash';
+import { getInfo, GetInfoOptions } from '@tikkhun/info';
+import { InfoString, InfoStringOptions } from '@tikkhun/info-string';
 import { Logger } from '@tikkhun/logger';
-import { InputMovePlugin, InputMovePluginOptions } from './plugins';
-import { getInfo, GetInfoOptions } from './info';
+import { Release, ReleaseOptions } from '@tikkhun/release-core';
+import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from '@tikkhun/release-info-store';
+import { InputMovePlugin, InputMovePluginOptions } from '@tikkhun/release-input-move';
+import { mergeOptions } from '@tikkhun/utils-core';
+import _ from 'lodash';
 const { omit } = _;
 export interface TikkhunReleaseDefaultOptions
   extends Omit<ReleaseOptions, 'infoStore' | 'info' | 'releaseName' | 'plugins'> {

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { Cli, CommandTypes } from '@tikkhun/cli-core';
-import { InputMovePlugin, TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
+import { TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
 import packageJson from '../package.json';
 const cli = new Cli({
   types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
