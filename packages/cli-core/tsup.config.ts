@@ -1,6 +1,6 @@
 import { defineConfig } from 'tsup';
 import packageJson from './package.json';
-const name = packageJson.name;
+const { name, version } = packageJson;
 export default defineConfig((options: any) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
@@ -19,7 +19,7 @@ export default defineConfig((options: any) => ({
   minify: !options.watch,
   banner: {
     js: `/**
-  ${name}
+  ${name}@${version}
 */`,
   },
 }));
