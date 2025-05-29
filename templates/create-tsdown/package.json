@@ -1,0 +1,22 @@
+{
+  "name": "@tikkhun/create-tsdown",
+  "version": "1.1.10",
+  "description": "",
+  "type": "module",
+  "main": "./bin/create-tsdown.js",
+  "bin": {
+    "tikkhun-create-tsdown": "./bin/create-tsdown.js"
+  },
+  "scripts": {
+    "dev": "node ./bin/create-tsdown.js",
+    "dev:prompts": "node ./bin/create-tsdown.js prompts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "peerDependencies": {},
+  "dependencies": {
+    "@tikkhun/create": "workspace:^"
+  }
+}
