@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "创建项目",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
@@ -55,13 +55,13 @@
     "@types/ejs": "^3.1.5",
     "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.17",
-    "@types/node": "^22.10.2",
+    "@types/node": "^22.15.24",
     "tsup": "^8.5.0",
     "tsx": "^4.19.4",
     "vitest": "^3.1.4"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.5.1",
+    "@inquirer/prompts": "^7.5.3",
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
