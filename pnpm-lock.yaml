@@ -1048,6 +1048,12 @@ importers:
         specifier: workspace:^
         version: link:../../tools/create-tools
 
+  templates/create-tsdown:
+    dependencies:
+      '@tikkhun/create':
+        specifier: workspace:^
+        version: link:../../tools/create-tools
+
   templates/create-tsup:
     dependencies:
       '@tikkhun/create':
@@ -1306,40 +1312,6 @@ importers:
       tsup:
         specifier: ^8.5.0
         version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
-      vitest:
-        specifier: ^3.1.4
-        version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.23)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
-
-  tools/deps-tools:
-    dependencies:
-      '@tikkhun/cli-core':
-        specifier: workspace:^
-        version: link:../../packages/cli-core
-      '@tikkhun/utils-core':
-        specifier: workspace:^
-        version: link:../../packages/utils
-      '@types/fs-extra':
-        specifier: ^11.0.4
-        version: 11.0.4
-      fs-extra:
-        specifier: ^11.3.0
-        version: 11.3.0
-      glob:
-        specifier: ^11.0.2
-        version: 11.0.2
-      npm-check-updates:
-        specifier: ^18.0.1
-        version: 18.0.1
-    devDependencies:
-      '@types/node':
-        specifier: ^22
-        version: 22.15.23
-      tsup:
-        specifier: ^8.5.0
-        version: 8.5.0(jiti@2.4.2)(postcss@8.5.3)(tsx@4.19.4)(typescript@5.8.3)
-      tsx:
-        specifier: ^4.19.4
-        version: 4.19.4
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@22.15.23)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
@@ -3122,15 +3094,19 @@ packages:
 
   '@tikkhun/overload@0.0.0':
     resolution: {integrity: sha512-lqQ86z0B+1E08SGwP0axyn5iUQ7WieniRpGOSnBhAkrNLgbu+M64MxQsvF670MVPJSAkvBhMFMUcrBuSuPYm4w==}
+    deprecated: this package has been deprecated
 
   '@tikkhun/overload@0.0.1':
     resolution: {integrity: sha512-3PGMx1BgI0Fu8/ysrLr8Vof/aHp9OKt3VS6Rq0cKRfRRaUIOtS/26SvWMTr8aDNfjFzTJZ7H8uQ9atxttHSfFQ==}
+    deprecated: this package has been deprecated
 
   '@tikkhun/overload@0.0.2':
     resolution: {integrity: sha512-drOvELwjTGoWIAtbLWnnXl44oqw0r5QEeODWl3LeyvFx6Iq9SDR8ns/Sf05N7KIPV9KUbGMdZteCzSckX8tXcw==}
+    deprecated: this package has been deprecated
 
   '@tikkhun/overload@0.0.3':
     resolution: {integrity: sha512-IklxOXVut/LZAyYHtTjjsH4IJfT6rCLl82DtMQ3kRM/lC1ydDTcegDf488DM+KerBwfx+Wuh3fokAxFdjpXDpw==}
+    deprecated: this package has been deprecated
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
@@ -6140,11 +6116,6 @@ packages:
   normalize-path@3.0.0:
     resolution: {integrity: sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==}
     engines: {node: '>=0.10.0'}
-
-  npm-check-updates@18.0.1:
-    resolution: {integrity: sha512-MO7mLp/8nm6kZNLLyPgz4gHmr9tLoU+pWPLdXuGAx+oZydBHkHWN0ibTonsrfwC2WEQNIQxuZagYwB67JQpAuw==}
-    engines: {node: ^18.18.0 || >=20.0.0, npm: '>=8.12.1'}
-    hasBin: true
 
   npm-run-path@4.0.1:
     resolution: {integrity: sha512-S48WzZW777zhNIrn7gxOlISNAqi9ZC/uQFnRdbeIHhZhCA6UqpkOT8T1G7BvfdgP4Er8gF4sUbaS0i7QvIfCWw==}
@@ -13237,8 +13208,6 @@ snapshots:
       validate-npm-package-license: 3.0.4
 
   normalize-path@3.0.0: {}
-
-  npm-check-updates@18.0.1: {}
 
   npm-run-path@4.0.1:
     dependencies:

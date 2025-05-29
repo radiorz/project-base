@@ -5,3 +5,4 @@ import { withTemplatesDir } from '@tikkhun/create';
 
 const templatesDir = join(dirname(fileURLToPath(import.meta.url)), '../templates');
 withTemplatesDir(templatesDir);
+
