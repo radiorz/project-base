@@ -1,10 +1,11 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 import packageJson from './package.json';
-const name = packageJson.name;
+const { name, version } = packageJson;
+import banner from 'rollup-plugin-banner2';
 export default defineConfig((options: any) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
-  entry: [`lib/**/*.ts`, '!lib/**/*.test.ts'],
+  entry: [`lib/**/*.ts`, '!**/*.test.ts'],
   // 格式化
   format: ['cjs', 'esm'],
   // typescript 注释
@@ -16,9 +17,5 @@ export default defineConfig((options: any) => ({
   treeshake: true,
   // 压缩代码
   minify: !options.watch,
-  banner: {
-    js: `/**
-  ${name}
-*/`,
-  },
+  plugins: [banner(() => `/**${name}@${version}*/`)],
 }));

@@ -1,19 +1,25 @@
 import { trimTrailingUndefined } from './trimTrailingUndefined';
 import { flattenNestedArray } from './flattenNestedArray';
 
+// 定义一个类型，用于表示实现函数的参数和返回值
+type ImplFunction = (...args: any[]) => any;
+
+// 定义默认选项类型
 export const DefaultCreateOverloadOptions = {
   getType: (arg: any, index: number, args?: any[]) => typeof arg as unknown,
   delimiter: ',',
-  impls: [] as any[],
+  impls: [] as [...Parameters<ImplFunction>, ImplFunction][],
 };
-// export interface CreateOverloadOptions extends typeof DefaultCreateOverloadOptions {
 
-// }
 export type CreateOverloadOptions = typeof DefaultCreateOverloadOptions;
-export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
+
+// 为 createOverLoad 添加泛型
+export function createOverLoad<F extends ImplFunction>(options: Partial<CreateOverloadOptions> = {}) {
   const opts = Object.assign({}, DefaultCreateOverloadOptions, options);
-  const fnMap = new Map<string, Function>();
-  function overload(this: any, ...args: any[]) {
+  const fnMap = new Map<string, F>();
+
+  // 定义 overload 函数类型
+  function overload(this: any, ...args: Parameters<F>): ReturnType<F> {
     const keys = trimTrailingUndefined(args).map(opts.getType);
     const key = keys.join(opts.delimiter);
     const fn = fnMap.get(key);
@@ -22,9 +28,10 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
     }
     return fn.apply(this, args);
   }
+
   overload.fnMap = fnMap; // 为了方便调试
-  overload.addImpl = function (...args: any[]) {
-    const fn = args.pop() as Function;
+  overload.addImpl = function (...args: [...Parameters<F>, F]) {
+    const fn = args.pop() as F;
     if (typeof fn !== 'function') {
       throw new TypeError('The last argument must be a function');
     }
@@ -34,9 +41,11 @@ export function createOverLoad(options: Partial<CreateOverloadOptions> = {}) {
       fnMap.set(key, fn);
     });
   };
+
   // 方便添加实现
   for (const impl of opts.impls) {
-    overload.addImpl(...impl);
+    overload.addImpl(...(impl as [...Parameters<F>, F]));
   }
+
   return overload;
 }
