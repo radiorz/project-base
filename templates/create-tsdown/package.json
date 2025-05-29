@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create-tsdown",
-  "version": "1.1.10",
+  "version": "0.0.0",
   "description": "",
   "type": "module",
   "main": "./bin/create-tsdown.js",
