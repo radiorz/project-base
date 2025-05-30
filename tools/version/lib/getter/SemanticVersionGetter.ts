@@ -42,6 +42,7 @@ export class SemanticVersionGetter implements Getter {
     this.filePath = path.join(workspace, this.opts.file);
   }
   async get() {
+    // TODO 这里只能在当前层级上读，其实可以一级一级网上找
     if (!(await pathExists(this.filePath))) {
       throw new Error('get new version,but error: the file is not found');
     }
