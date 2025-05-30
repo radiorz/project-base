@@ -5,6 +5,9 @@ import { parse as parseToml } from 'smol-toml';
 import { convertXmlToConfig } from './xml';
 // import { readLocalOrUrlFile as readFile } from '@tikkhun/utils';
 import { readFile } from 'node:fs/promises';
+
+// 这里应该搞一个 pipe 反正就是filePath -> fileContent -> config 的一种方式，搞个pipe看着更清楚
+// TODO filePath 之后可以用fetch支持网络文件，然后以 file:// 开头的可以用new Url包装一下
 export const loadJSON = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');
   return JSON.parse(fileContent);

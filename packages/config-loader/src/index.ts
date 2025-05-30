@@ -11,6 +11,10 @@ async function bootstrap() {
   console.log('./src/test.mjs', await loadConfig('./src/test.mjs'));
   console.log('./src/test.ts', await loadConfig('./src/test.ts'));
   console.log('./src/test.xlsx', await loadConfig('./src/test.xlsx'));
+  console.log(
+    'https://github.com/zhangfisher/flex-tools/blob/master/package.json',
+    await loadConfig('https://github.com/zhangfisher/flex-tools/blob/master/package.json'),
+  );
 }
 bootstrap();
 async function bootstrapSaver() {
