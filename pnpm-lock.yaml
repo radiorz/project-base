@@ -312,6 +312,9 @@ importers:
       '@tikkhun/overload':
         specifier: workspace:^
         version: link:../overload
+      '@tikkhun/pipe':
+        specifier: workspace:^
+        version: link:../pipe
       '@tikkhun/utils':
         specifier: workspace:^
         version: link:../utils-for-node
@@ -534,6 +537,21 @@ importers:
       vitest:
         specifier: ^3.1.4
         version: 3.1.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.19.4)
+
+  packages/pipe:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.3.1
+        version: 20.17.50
+      tsdown:
+        specifier: ^0.12.2
+        version: 0.12.2(typescript@5.8.3)
+      tsx:
+        specifier: ^4.19.1
+        version: 4.19.4
+      vitest:
+        specifier: ^2.1.3
+        version: 2.1.9(@types/node@20.17.50)(terser@5.39.2)
 
   packages/query:
     dependencies:
