@@ -7,7 +7,6 @@
  * loadConfig() // ->
  */
 import { createOverLoad } from '@tikkhun/overload';
-import { basename, extname } from 'node:path';
 import { loadConfigFromSheet, loadEnvConfig, loadFromXml, loadJSON, loadJSON5, loadToml, loadYaml } from './loaders';
 import { importModuleDefault } from './loaders';
 import { FILE_TYPES } from './type';
