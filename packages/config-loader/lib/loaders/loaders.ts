@@ -1,25 +1,25 @@
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
-import yaml from 'js-yaml';
-import JSON5 from 'json5';
-import toml from 'smol-toml';
+import { load as parseYaml } from 'js-yaml';
+import { parse as parseJSON5 } from 'json5';
+import { parse as parseToml } from 'smol-toml';
 import { convertXmlToConfig } from './xml';
+// import { readLocalOrUrlFile as readFile } from '@tikkhun/utils';
 import { readFile } from 'node:fs/promises';
-
 export const loadJSON = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');
   return JSON.parse(fileContent);
 };
 export const loadJSON5 = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');
-  return JSON5.parse(fileContent);
+  return parseJSON5(fileContent);
 };
 export const loadYaml = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');
-  return yaml.load(fileContent);
+  return parseYaml(fileContent);
 };
 export const loadToml = async (filePath: string) => {
   const fileContent = await readFile(filePath, 'utf8');
-  return toml.parse(fileContent);
+  return parseToml(fileContent);
 };
 export const loadEnvConfig = async (filePath: string, options?: Partial<ListToNestedObjectOptions>) => {
   const fileContent = await readFile(filePath, 'utf8');
