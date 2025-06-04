@@ -6,7 +6,7 @@
  * @example
  * speak() // ->
  */
-export function speak(text: string) {
+export function speak(text: string,) {
   if (!window.speechSynthesis) {
     return;
   }
