@@ -7,6 +7,6 @@
  * isBuffer() // ->
  */
 export function isBuffer(value: any): value is Buffer {
-  return value?.constructor === Buffer;
+  // return value?.constructor === Buffer;
+  return value instanceof Buffer;
 }
-
