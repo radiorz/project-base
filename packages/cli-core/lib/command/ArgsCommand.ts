@@ -9,6 +9,7 @@ interface ArgsOption {
   key: string;
   value?: any;
   type?: string;
+  title?: string;
 }
 export class ArgsCommand extends AbstractCommand {
   program: Command | undefined;
@@ -34,6 +35,7 @@ export class ArgsCommand extends AbstractCommand {
         key: 'config',
         value: '',
         type: 'string',
+        title: '配置',
       },
     ];
   }
@@ -43,8 +45,8 @@ export class ArgsCommand extends AbstractCommand {
     this.addOptions(options);
   }
   private addOptions(options: ArgsOption[]) {
-    options.forEach(({ key, value, type }) => {
-      this.program!.option(`--${key} <${type}>`, get(this.options.optionTitles, key), value);
+    options.forEach(({ key, value, type, title }) => {
+      this.program!.option(`--${key} <${type}>`, title || get(this.options.optionTitles, key), value);
     });
   }
   private addAction(action: Action) {
