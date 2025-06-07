@@ -35,8 +35,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/cli-core": "latest",
-    "@tikkhun/logger": "latest",
+    "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils": "workspace:^",
     "commander": "^12.1.0"
   },

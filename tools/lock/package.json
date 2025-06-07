@@ -38,8 +38,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/cli-core": "latest",
-    "@tikkhun/logger": "latest",
+    "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/logger": "workspace:^",
     "bcryptjs": "^3.0.2",
     "commander": "^14.0.0"
   },

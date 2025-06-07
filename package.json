@@ -8,10 +8,7 @@
     "del": "del-cli --help",
     "build": "turbo run build",
     "deploy": "turbo run deploy",
-    "publish": "turbo run publish",
-    "changeset": "changeset",
-    "changeset:version": "changeset version",
-    "changeset:publish": "changeset publish"
+    "publish": "turbo run publish"
   },
   "keywords": [],
   "author": "",
