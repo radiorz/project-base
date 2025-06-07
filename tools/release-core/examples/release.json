@@ -15,13 +15,5 @@
   "clean": true,
   "releasePathRelative": "cwd",
   "releasePath": "release",
-  "infoBuilderOptions": {
-    "input": {
-      "system": "linux",
-      "tag": "beta"
-    }
-  },
-  "releaseNameOptions": {
-    "params": ["name", "version", "tag", "releasedAt", "system"]
-  }
+  "releaseName": "release1123123"
 }

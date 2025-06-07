@@ -6,13 +6,16 @@ export default {
   clean: true,
   releasePathRelative: 'cwd',
   releasePath: 'release',
-  infoBuilderOptions: {
-    workspace: 'D:\\code\\project-base\\tools\\release-tools',
-    configType: 'packageJson',
-    input: {
-      subname: 'tools',
-      name: 'release-tools',
-    },
+  getInfoOptions: {
+    from: [
+      ['package.json'],
+      [
+        {
+          system: 'linux',
+          tag: 'beta',
+        },
+      ],
+    ],
   },
   infoStoreOptions: {
     enabled: true,
@@ -21,7 +24,7 @@ export default {
     path: 'released_info.json',
   },
   releaseNameOptions: {
-    params: ['subname', 'name', 'version', 'releasedAt'],
+    params: ['subname', 'name', 'version', 'releasedAt', 'description'],
     paramDelimiter: '_',
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
   },
