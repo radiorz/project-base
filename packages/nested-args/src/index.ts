@@ -1,32 +1,46 @@
 import { NestedArgs, TYPES } from '../lib';
 
-const originValue = {
+const args = {
   boolean: 'true',
-  a: '123',
-  b: '1,2,3',
-  c: {
-    d: '123',
-    f: 'aaa',
-    e: 'true',
-    g: {
-      h: '123',
-    },
+  number: '123',
+  string: 'string',
+  array: '1,2,3',
+  keyValueArray: 'a=1,b=2,c=3',
+  json: '{"a":1,"b":2,"c":3}',
+  object: '{"a":1,"b":2,"c":3}',
+  objectArray: '[{"a":1,"b":2,"c":3},{"a":1,"b":2,"c":3}]',
+  nested: {
+    boolean: 'true',
+    number: '123',
+    string: 'string',
+    array: '1,2,3',
+    keyValueArray: 'a=1,b=2,c=3',
+    json: '{"a":1,"b":2,"c":3}',
+    object: '{"a":1,"b":2,"c":3}',
+    objectArray: '[{"a":1,"b":2,"c":3},{"a":1,"b":2,"c":3}]',
   },
 };
 const schema = {
   boolean: TYPES.boolean,
-  a: TYPES.number,
-  b: TYPES.array,
-  c: {
-    d: TYPES.number,
-    f: TYPES.string,
-    e: TYPES.boolean,
-    g: {
-      h: TYPES.string,
-    },
+  number: TYPES.number,
+  string: TYPES.string,
+  array: TYPES.array,
+  keyValueArray: TYPES.keyValueArray,
+  json: TYPES.json,
+  object: TYPES.object,
+  objectArray: TYPES.objectArray,
+  nested: {
+    boolean: TYPES.boolean,
+    number: TYPES.number,
+    string: TYPES.string,
+    array: TYPES.array,
+    keyValueArray: TYPES.keyValueArray,
+    json: TYPES.json,
+    object: TYPES.object,
+    objectArray: TYPES.objectArray,
   },
 };
-const typedObj = NestedArgs.parse(originValue, { schema });
+const typedObj = NestedArgs.parse(args, { schema });
 console.log(`typedObj`, typedObj);
 const stringObj = NestedArgs.stringify(typedObj, { schema });
 console.log(`stringObj`, stringObj);

@@ -4,6 +4,9 @@ export const numberType: ArgType = {
   isThisType(value: any): boolean {
     return typeof value === 'number';
   },
+  isArgThisType(value: string): boolean {
+    return !isNaN(Number(value));
+  },
   stringify(value: any): string {
     return value.toString();
   },

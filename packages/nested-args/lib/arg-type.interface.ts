@@ -1,6 +1,7 @@
-export interface ArgType {
+export interface ArgType<OriginType = any> {
   isThisType: (value: any) => boolean;
-  stringify: (value: any) => string;
-  parse: (value: string) => any;
+  isArgThisType: (value: string) => boolean;
+  stringify: (value: OriginType) => string;
+  parse: (value: string) => OriginType;
   [key: string]: any;
 }

@@ -8,6 +8,14 @@ export const keyValueArrayType: ArgType = {
   isThisType(v: any): boolean {
     return Array.isArray(v) && v.every((item: KeyValueItem) => this.isKeyValueObject(item));
   },
+  isArgThisType(v: string): boolean {
+    try {
+      const parsedValue = JSON.parse(v);
+      return Array.isArray(parsedValue) && parsedValue.every((item: KeyValueItem) => this.isKeyValueObject(item));
+    } catch (error) {
+      return false;
+    }
+  },
   isKeyValueObject(v: any): boolean {
     return 'key' in v && 'value' in v;
   },

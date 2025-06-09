@@ -4,6 +4,9 @@ export const objectType: ArgType = {
   isThisType(v: any): boolean {
     return typeof v === 'object';
   },
+  isArgThisType(v: any): boolean {
+    return typeof v === 'string' && v.includes('{');
+  },
   stringify(v: any): string {
     return JSON.stringify(v);
   },

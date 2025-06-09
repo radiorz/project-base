@@ -4,13 +4,13 @@ export interface KeyValueItem {
   key: string;
   value: string;
 }
-export const arrayType: ArgType = {
+export const arrayType: ArgType<number | string[]> = {
   isThisType(v: any): boolean {
-    return Array.isArray(v);
+    return Array.isArray(v) && typeof v[0] !== 'object';
   },
-  // isArgThisType(v: any): boolean {
-  //   return v.includes(',');
-  // },
+  isArgThisType(v: string): boolean {
+    return typeof v === 'string' && v.includes(',');
+  },
   // [1,2,3]=> 1,2,3
   stringify(v: any): string {
     if (!v?.length) {

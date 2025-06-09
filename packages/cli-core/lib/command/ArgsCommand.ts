@@ -58,11 +58,14 @@ export class ArgsCommand extends AbstractCommand {
         action(options);
         return;
       }
-      const options = mergeOptions(await this.getOptionsByFile(configPath), this.getOptionsByArgs(restStringOptions));
+      const fileOptions = await this.getOptionsByFile(configPath);
+      console.log(`fileOptions`, fileOptions);
+      const options = mergeOptions(fileOptions, this.getOptionsByArgs(restStringOptions));
       action(options);
     });
   }
   async getOptionsByFile(filePath: string) {
+    if (!filePath) return;
     return await loadConfig(filePath);
   }
   getOptionsByArgs(args: any) {
