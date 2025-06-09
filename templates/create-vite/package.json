@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create-vite",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "",
   "type": "module",
   "main": "./bin/create.mjs",
@@ -14,8 +14,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "peerDependencies": {
-  },
+  "peerDependencies": {},
   "dependencies": {
     "@tikkhun/create": "workspace:^"
   }

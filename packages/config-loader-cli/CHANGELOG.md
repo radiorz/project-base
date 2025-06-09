@@ -1,15 +1,9 @@
-# @tikkhun/create
+# @tikkhun/config-loader-cli
 
-## 0.2.6
+## 0.1.3
 
 ### Patch Changes
 
 - feat(nested-args) update
 - Updated dependencies
   - @tikkhun/cli-core@0.0.28
-
-## 1.0.0
-
-### Major Changes
-
-- feat: cli-core update.
