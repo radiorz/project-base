@@ -12,6 +12,7 @@ export const arrayType: ArgType<number | string[]> = {
     return typeof v === 'string' && v.includes(',');
   },
   // [1,2,3]=> 1,2,3
+  // ["1","2","3"]=> "1","2","3"
   stringify(v: any): string {
     if (!v?.length) {
       return '';
@@ -21,7 +22,8 @@ export const arrayType: ArgType<number | string[]> = {
     }
     return v.map((item) => JSON.stringify(item)).toString();
   },
-  // 1,2,3 => [1,2,3]
+  // 1,2,3=>[1,2,3]
+  // "1","2","3" => ["1","2","3"]
   parse(v: string) {
     return v.split(',').map((item) => JSON.parse(item));
   },
