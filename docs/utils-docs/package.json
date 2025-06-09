@@ -16,6 +16,6 @@
     "vitepress": "^1.6.3"
   },
   "dependencies": {
-    "@tikkhun/utils-core": "^0.0.3"
+    "@tikkhun/utils-core": "workspace:^"
   }
 }

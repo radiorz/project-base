@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/overload": "^0.0.0"
+    "@tikkhun/overload": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
