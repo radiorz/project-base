@@ -1,5 +1,5 @@
 {
-  "name": "app-core",
+  "name": "@tikkhun/app-core",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",

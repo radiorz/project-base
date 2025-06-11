@@ -2,6 +2,7 @@
   "name": "<%= projectName %>",
   "version": "0.0.1",
   "description": "",
+  "private": true,
   "bin": {
     "tikkhun-<%= projectName %>": "dist/cli/index.js"
   },

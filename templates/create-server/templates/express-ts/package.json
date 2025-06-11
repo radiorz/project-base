@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "type": "module",
+  "private": true,
   "scripts": {
     "dev": "tsx --watch ./main.ts",
     "build": "tsc",

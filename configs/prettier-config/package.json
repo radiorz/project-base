@@ -1,5 +1,5 @@
 {
-  "name": "prettier-config",
+  "name": "@tikkhun/prettier-config",
   "version": "1.0.0",
   "description": "",
   "main": "prettier.js",
