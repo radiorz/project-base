@@ -8,6 +8,7 @@ export const DefaultGenerateIndexOptions = {
   indexName: 'index.ts',
   include: '*',
   exclude: [],
+  clean: false,
 };
 
 type GenerateIndexOptions = typeof DefaultGenerateIndexOptions & {
@@ -31,7 +32,7 @@ export async function generateIndex(options?: Partial<GenerateIndexOptions>) {
     // 将这些语句写入 index.ts 文件
     // 检查文件是否存在，如果不存在则创建,存在不创建
     const toWriteFile = opts?.indexName || 'index.ts';
-    if (await isFileExists(toWriteFile)) {
+    if (!opts?.clean || (await isFileExists(toWriteFile))) {
       console.error('index.ts 文件已存在，不进行创建');
       return;
     }

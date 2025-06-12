@@ -9,12 +9,14 @@ export const optionTitles = {
   indexName: '文件名',
   include: '包含',
   exclude: '排除',
+  clean: '清除旧的',
 };
 export const optionTypes = {
   cwd: 'string',
   indexName: 'string',
   include: 'array',
   exclude: 'array',
+  clean: 'boolean',
 };
 export const cliOptions = {
   name: packageJson.name,

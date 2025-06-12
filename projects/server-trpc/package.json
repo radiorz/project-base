@@ -14,10 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "@trpc/server": "npm:@trpc/server@next",
-    "tsx": "^4.19.4",
-    "zod": "^3.25.20"
+    "tsx": "^4.20.2",
+    "zod": "^3.25.63"
   },
   "devDependencies": {
-    "tsx": "^4.19.4"
+    "tsx": "^4.20.2"
   }
 }

@@ -17,7 +17,7 @@
     "@changesets/cli": "^2.29.4",
     "changeset": "^0.2.6",
     "del-cli": "^6.0.0",
-    "turbo": "^2.5.3"
+    "turbo": "^2.5.4"
   },
-  "packageManager": "pnpm@10.11.0"
+  "packageManager": "pnpm@10.12.1"
 }
