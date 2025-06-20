@@ -1,5 +1,5 @@
 {
-  "name": "config",
+  "name": "messenger",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
@@ -34,12 +34,14 @@
   "license": "ISC",
   "dependencies": {
     "@tikkhun/utils-core": "workspace:^",
-    "mitt": "^3.0.1"
+    "mitt": "^3.0.1",
+    "mqtt": "^5.13.1",
+    "nanoid": "^5.1.5"
   },
   "devDependencies": {
-    "@types/node": "^24.0.1",
-    "tsdown": "^0.12.7",
-    "tsx": "^4.20.2",
-    "vitest": "^3.2.3"
+    "@types/node": "^20.3.1",
+    "tsdown": "^0.12.2",
+    "tsx": "^4.19.1",
+    "vitest": "^2.1.3"
   }
 }

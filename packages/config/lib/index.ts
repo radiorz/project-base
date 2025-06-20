@@ -1,6 +1,7 @@
 import { mergeOptions } from '@tikkhun/utils-core';
-import { cloneDeep, get, set } from 'lodash-es';
-import mitt, { Emitter } from 'mitt';
+import { get, set } from 'lodash-es';
+import mitt, { Emitter, Handler, WildcardHandler } from 'mitt';
+import { createReactiveObject } from './reactive';
 export interface Source {
   initialed?: boolean;
   load(): any;
@@ -8,8 +9,9 @@ export interface Source {
   reset?(): void;
   init?(): boolean;
 }
+export type OriginConfig = Record<string, any>;
 
-export async function source(sources: Source[]) {
+export async function source(sources: Source[]): Promise<OriginConfig> {
   // 获取配置
   const results = await Promise.all(
     sources
@@ -21,47 +23,54 @@ export async function source(sources: Source[]) {
 
   return mergeOptions(...results);
 }
-type OriginConfig = Record<string, any>;
-const OriginConfigSymbol = Symbol('OriginConfig');
-const EmitterSymbol = Symbol('Emitter');
-interface Config extends Proxy {
-  [OriginConfigSymbol]: OriginConfig;
-  [EmitterSymbol]: Emitter<any>;
+
+interface ConfigApi {
   get(path: string): any;
   set(path: string, value: any): void;
   reset(): void;
-  watch(path: string, callback: (value: any) => void): void;
+  watch<Events = string>(path: string, handler: Handler<Events>): void;
+  watch(path: '*', handler: WildcardHandler<any>): void;
 }
+const DefaultCreateConfigOptions = {
+  couldReset: false,
+};
+export class ConfigProxy implements ConfigApi {
+  // private dirtyValues?: OriginConfig;
+  private emitter = mitt();
+  private _value: any;
+  get value() {
+    return this._value.value; // 多加一层是为了确保监听的有效性
+  }
+  set value(value) {
+    this._value.value = value;
+  }
 
-export function createConfig(config: OriginConfig): Config {
-  const originConfig = cloneDeep(config);
-  const proxy = new Proxy(config, {
-    get(target, key) {
-      if (key in target) {
-        return Reflect.get(target, key);
-      }
-      return undefined;
-    },
-    set(target, key, value) {
-      return Reflect.set(target, key, value);
-    },
-  });
-  proxy[OriginConfigSymbol] = originConfig; // 这个合理么 为了 reset
-  const emitter = mitt();
-  proxy[EmitterSymbol] = emitter;
-  proxy.get = function (path: string) {
-    return get(this, path, undefined);
-  };
-  proxy.set = function (path: string, value: any) {
-    this[EmitterSymbol].emit(path, value);
-    return set(this, path, value);
-  };
-  // 搞个 dirtyValue
-  proxy.reset = function (path: string) {
-    return;
-  };
-  proxy.watch = function (path: string, callback: (value: any) => void) {
-    return this[EmitterSymbol].on(path, callback);
-  };
-  return proxy as Config;
+  constructor(target: OriginConfig) {
+    this._value = createReactiveObject({ value: target }, (path: string, value: any, oldValue: any) =>
+      this.emitter.emit(path, {
+        value,
+        oldValue,
+      }),
+    );
+  }
+  get(path: string) {
+    return get(this.value, path, undefined);
+  }
+  set(path: string, value: any) {
+    set(this.value, path, value);
+  }
+  reset(): void {
+    throw new Error('Method not implemented.');
+  }
+  watch(path: string, callback: any) {
+    return this.emitter.on(path, callback);
+  }
+}
+export function createConfig(
+  config: OriginConfig,
+  options: Partial<typeof DefaultCreateConfigOptions> = DefaultCreateConfigOptions,
+) {
+  options = mergeOptions(DefaultCreateConfigOptions, options) as typeof DefaultCreateConfigOptions;
+  const proxy = new ConfigProxy(config);
+  return proxy;
 }
