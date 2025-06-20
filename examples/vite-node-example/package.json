@@ -13,6 +13,6 @@
   "license": "ISC",
   "dependencies": {
     "express": "^5.1.0",
-    "vite-node": "^3.2.3"
+    "vite-node": "^3.2.4"
   }
 }

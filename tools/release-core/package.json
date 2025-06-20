@@ -51,17 +51,17 @@
     "@tikkhun/utils-core": "workspace:^",
     "archiver": "^7.0.1",
     "fs-extra": "^11.3.0",
-    "glob": "^11.0.2",
+    "glob": "^11.0.3",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@types/archiver": "^6.0.3",
     "@types/fs-extra": "^11.0.4",
-    "@types/lodash": "^4.17.17",
+    "@types/lodash": "^4.17.18",
     "@types/node": "^22.15.21",
     "tsup": "^8.5.0",
-    "tsx": "^4.20.2",
-    "vitest": "^3.2.3"
+    "tsx": "^4.20.3",
+    "vitest": "^3.2.4"
   },
   "engines": {
     "node": ">=14"
