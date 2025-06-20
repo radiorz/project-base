@@ -490,7 +490,17 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@22.15.30)(jiti@2.4.2)(terser@5.39.2)(tsx@4.20.3)
 
   packages/message:
+    dependencies:
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../utils
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
     devDependencies:
+      '@types/lodash':
+        specifier: ^4.17.18
+        version: 4.17.18
       '@types/node':
         specifier: ^24.0.3
         version: 24.0.3

@@ -32,11 +32,15 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "@tikkhun/utils-core": "workspace:^",
+    "lodash": "^4.17.21"
+  },
   "devDependencies": {
+    "@types/lodash": "^4.17.18",
     "@types/node": "^24.0.3",
-    "tsx": "^4.20.3",
     "tsdown": "^0.12.8",
+    "tsx": "^4.20.3",
     "vitest": "^3.2.4"
   }
 }
