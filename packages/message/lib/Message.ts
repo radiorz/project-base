@@ -27,11 +27,11 @@ export const defaultFlags = {
   sync: false,
 };
 
-export const defaultMessage: Message = {
+export const defaultMessage: Omit<Message, "timestamp"> = {
   type: 0,
   from: '',
   to: '',
-  timestamp: new Date().getTime(),
+  // timestamp: Date.now(), // 这个东西是动态的故不能搞个默认的给他
   sid: 0,
   tid: 0,
   token: '',
@@ -40,7 +40,8 @@ export const defaultMessage: Message = {
 };
 
 export function normalizeMessage(origin: Record<string, any>): Message {
-  return mergeOptions(defaultMessage, origin);
+  const message = mergeOptions(defaultMessage, origin);
+  return { ...message, timestamp: message.timestamp ?? Date.now() }
 }
 // 删除一些不必要的参数
 export function minifyMessage(message: Message) {
