@@ -16,21 +16,17 @@
  * @desc
  * @example
  */
-import mqtt, { MqttClient } from 'mqtt';
+import mqtt, { IClientOptions, MqttClient } from 'mqtt';
 import mitt from 'mitt';
 import { mergeOptions } from '@tikkhun/utils-core';
-export interface UpOptions {
+export interface UpOptions extends IClientOptions {
   immediately: boolean;
   broker: string;
-  username: string;
-  password: string;
-  clientId: string;
 }
 export interface MessengerOptions {
   name: string;
   debug: boolean;
   logger: Console;
-  reconnectWaitTime: number; // 0 就是不重启 毫秒
   up: UpOptions;
   onError: (error: Error) => void;
   onMessage: (topic: string, message: JSON | any) => void;
@@ -42,11 +38,10 @@ export class Messenger {
     name: 'messager',
     logger: console,
     debug: true,
-    reconnectWaitTime: 0, // 0 就是不重启
     up: {
       immediately: false,
-      clientId: 'voerka-visiting',
       broker: '',
+      clientId: 'voerka-visiting',
       username: '',
       password: '',
     },
@@ -68,7 +63,7 @@ export class Messenger {
       this.up();
     }
   }
-  up(options?: UpOptions) {
+  async up(options?: UpOptions) {
     if (this.on) {
       // 先下线
       this.down();
@@ -77,11 +72,12 @@ export class Messenger {
     if (options) {
       this.options.up = options;
     }
-    const { clientId, broker, username, password } = this.options.up;
-    this.client = mqtt.connect(broker, {
+    const { broker, clientId, username, password, reconnectPeriod } = this.options.up;
+    this.client = await mqtt.connectAsync(broker, {
       username,
       password,
-      clientId,
+      clientId, 
+      reconnectPeriod, // 重新连接时间
     });
     this.client.on('connect', this.onClientConnect.bind(this));
     this.client.on('disconnect', this.onClientDisconnect.bind(this));
