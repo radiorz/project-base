@@ -1,5 +1,5 @@
 {
-  "name": "messenger",
+  "name": "@tikkhun/messenger",
   "version": "0.0.0",
   "description": "",
   "main": "dist/index.js",
