@@ -19,6 +19,8 @@
 import mqtt, { IClientOptions, MqttClient } from 'mqtt';
 import mitt from 'mitt';
 import { mergeOptions } from '@tikkhun/utils-core';
+import { Deserialize, jsonDeserialize, jsonSerialize, Serialize } from './Serializer';
+import { serialize } from 'v8';
 export interface UpOptions extends IClientOptions {
   immediately: boolean;
   broker: string;
@@ -31,6 +33,8 @@ export interface MessengerOptions {
   onError: (error: Error) => void;
   onMessage: (topic: string, message: JSON | any) => void;
   doSubscribe: () => void;
+  serialize: Serialize;
+  deserialize: Deserialize;
 }
 
 export class Messenger {
@@ -42,29 +46,35 @@ export class Messenger {
       immediately: false,
       broker: '',
       clientId: 'voerka-visiting',
-      username: '',
-      password: '',
+      // username: '',
+      // password: '',
     },
     onError: () => {},
     onMessage: () => {},
     doSubscribe: () => {},
+    serialize: jsonSerialize,
+    deserialize: (data: any) => jsonDeserialize(data, { allowError: true }),
   });
   options: MessengerOptions;
   // 简化状态
-  on = false;
+  isOn = false;
   client?: MqttClient;
   emitter = mitt();
   get logger() {
+    if (this.options.debug) {
+      return null;
+    }
     return this.options.logger;
   }
   constructor(options?: Partial<MessengerOptions>) {
     this.options = mergeOptions(Messenger.defaultOptions, options);
+    this.logger?.debug?.(`[${this.options.name}] 实例化`, options);
     if (this.options.up.immediately) {
       this.up();
     }
   }
-  async up(options?: UpOptions) {
-    if (this.on) {
+  up(options?: UpOptions) {
+    if (this.isOn) {
       // 先下线
       this.down();
     }
@@ -73,11 +83,11 @@ export class Messenger {
       this.options.up = options;
     }
     const { broker, clientId, username, password, reconnectPeriod } = this.options.up;
-    this.client = await mqtt.connectAsync(broker, {
+    this.client = mqtt.connect(broker, {
+      clientId,
+      reconnectPeriod, // 重新连接时间
       username,
       password,
-      clientId, 
-      reconnectPeriod, // 重新连接时间
     });
     this.client.on('connect', this.onClientConnect.bind(this));
     this.client.on('disconnect', this.onClientDisconnect.bind(this));
@@ -88,55 +98,56 @@ export class Messenger {
   }
   down() {
     if (!this.client) {
-      this.logger.debug('[mqtt服务器]下线,但无需下线,因为无客户端');
+      this.logger?.debug?.('[mqtt服务器]下线,但无需下线,因为无客户端');
       return;
     }
-    if (!this.on) {
-      this.logger.debug('[mqtt服务器]下线,但无需下线,因为状态已下线');
+    if (!this.isOn) {
+      this.logger?.debug?.('[mqtt服务器]下线,但无需下线,因为状态已下线');
       return;
     }
     this.client.end();
   }
   private onClientConnect() {
-    this.logger.debug('[mqtt 客户端]连接成功');
+    this.logger?.debug?.('[mqtt 客户端]连接成功');
     this.options.doSubscribe(); // 连接就订阅
-    this.on = true; // 状态
+    this.isOn = true; // 状态
   }
   private onClientDisconnect() {
-    this.on = false; // 状态
+    console.log(`disconnect`);
+    this.isOn = false; // 状态
   }
   private onClientMessage(topic: string, message: Buffer) {
-    try {
-      const jsonMessage = JSON.parse(message.toString());
-      this.options.onMessage(topic, jsonMessage);
-    } catch (error) {
-      this.options.onMessage(topic, message);
-    }
+    this.options.onMessage(topic, this.options.deserialize(message));
   }
   private onClientClose() {
-    this.logger.debug('[mqtt 客户端]连接关闭');
-    this.on = false;
+    this.logger?.debug?.('[mqtt 客户端]连接关闭');
+    this.isOn = false;
   }
   private onClientError(err: Error) {
-    this.logger.error(`[mqtt 客户端]出现错误,错误为:`, err.message);
+    this.logger?.error?.(`[mqtt 客户端]出现错误,错误为:`, err.message);
     this.options.onError(err);
   }
   get subscribe() {
-    if (!this.on) {
-      throw new Error('客户端未启动');
+    if (!this.client) {
+      throw new Error('[mqtt]无客户端');
     }
-    return this.client!.subscribe.bind(this);
+    return this.client.subscribe.bind(this.client);
   }
   get unsubscribe() {
-    if (!this.on) {
-      throw new Error('客户端未启动');
+    if (!this.client) {
+      throw new Error('[mqtt]无客户端');
     }
-    return this.client!.unsubscribe.bind(this);
+    return this.client.unsubscribe.bind(this.client);
   }
   get publish() {
-    if (!this.on) {
-      throw new Error('客户端未启动');
-    }
-    return this.client!.publish.bind(this);
+    return (topic: string, message: any) => {
+      if (!this.client) {
+        throw new Error('[mqtt]无客户端');
+      }
+      if (!this.isOn) {
+        throw new Error('[mqtt]客户端离线');
+      }
+      return this.client.publish(topic, this.options.serialize(message));
+    };
   }
 }

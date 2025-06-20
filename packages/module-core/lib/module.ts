@@ -25,7 +25,7 @@ export class Module {
   constructor(options?: Partial<ModuleOptions>) {
     this.options = Object.assign({}, Module.defaultOptions, options);
   }
-  connect(module: Module) {
+  connect(module: Module, { children = false } = {}) {
     this.connectMap.set(module, true);
     module.emitter.on('*', (data: any) => {});
     this.emitter.on(module.options.name, (data: any) => {});
