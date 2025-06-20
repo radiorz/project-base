@@ -17,6 +17,6 @@
     "server-trpc": "workspace:^"
   },
   "devDependencies": {
-    "tsx": "^4.20.2"
+    "tsx": "^4.20.3"
   }
 }
