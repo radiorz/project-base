@@ -3,6 +3,6 @@
 
 
 
-interface ConfigSchema {
-  
+export interface ConfigSchema {
+
 }

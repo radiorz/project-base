@@ -1,4 +1,4 @@
-import { ID } from "./id";
+import { ID } from "../id";
 import { MessageType } from "./messageType";
 // 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
 export interface Message {

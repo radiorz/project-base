@@ -1,4 +1,4 @@
-import { MessageType } from "../messageType";
+import { MessageType } from "../message/messageType";
 
 export interface Topic {
   /**
@@ -27,24 +27,24 @@ export interface Topic {
    */
   type: MessageType;
   /**
-   * 子类型
+   * 一般是type的子类型，或者一些重要的属性
    */
-  subType?: string; //比如action的子类型熄灯这个类型,配置变更就跟配置完整路径
+  attrs?: string; //比如action的子类型熄灯这个类型,配置变更就跟配置完整路径
 }
 
 
 export function buildTopic(topic: Topic): string {
-  return [topic.company, topic.domain, topic.tid ?? 0, topic.to, topic.type, topic.subType].join('/')
+  return [topic.company, topic.domain, topic.tid ?? 0, topic.to, topic.type, topic.attrs].join('/')
 }
 export function parseTopic(topic: string): any/* Topic */ {
-  const [company, domain, tid, to, type, subType] = topic.split('/')
+  const [company, domain, tid, to, type, attrs] = topic.split('/')
   return {
     company,
     domain,
     to,
     // MessageType[type],
     type,
-    subType,
+    attrs,
     tid,
   }
 }

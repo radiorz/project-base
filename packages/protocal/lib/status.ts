@@ -1,18 +1,10 @@
-interface StatusCategory {
-  name: string // 状态名称
-  title: string //
-  description: string;
-  // 渲染
-  icon: string; // 图标
+import { Description } from "./consts";
+
+export interface StatusCategory extends Description {
   default: number; // 
   enumDict: Status[]
 }
 
-interface Status {
+export interface Status extends Description {
   value: number;
-  name: string; // 状态名称
-  title: string;//
-  description: string;
-  // 渲染
-  icon: string; // 图标
 }
