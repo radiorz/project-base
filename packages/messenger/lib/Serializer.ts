@@ -7,6 +7,7 @@ export interface Serialize {
 export interface Deserialize {
   (data: string | Buffer): any;
 }
+
 export function jsonSerialize(data: JSON) {
   return JSON.stringify(data);
 }
