@@ -1,7 +1,10 @@
 import { MessageType } from "../messageType";
-import { MessageType } from '../../../requestable/lib/Protocol';
 
 export interface Topic {
+  /**
+   * 公司
+   */
+  company: string; // 经常需要搞个公司标志
   /**
    * 主题域
    */
@@ -23,19 +26,25 @@ export interface Topic {
    * 消息类型
    */
   type: MessageType;
+  /**
+   * 子类型
+   */
+  subType?: string; //比如action的子类型熄灯这个类型,配置变更就跟配置完整路径
 }
 
 
 export function buildTopic(topic: Topic): string {
-  return [topic.domain, topic.to, topic.type, topic.tid].join('/')
+  return [topic.company, topic.domain, topic.tid ?? 0, topic.to, topic.type, topic.subType].join('/')
 }
 export function parseTopic(topic: string): any/* Topic */ {
-  const [domain, to, type, tid] = topic.split('/')
+  const [company, domain, tid, to, type, subType] = topic.split('/')
   return {
+    company,
     domain,
     to,
     // MessageType[type],
     type,
+    subType,
     tid,
   }
 }

@@ -15,9 +15,4 @@ export enum MessageType {
    * 事件
    */
   event,
-  /**
-   * 通知？
-   */
-  notify
 }
-

@@ -9,7 +9,18 @@ export interface Action {
   level: number; // 等级
   params: Record<string, any>; // 参数
 }
-
+export const notifyAction: ActionSchema = {
+  name: 'notify',
+  title: '通知',
+  description: '通知',
+  paramSchema: {
+    message: {
+      type: 'string',
+      title: '通知',
+      description: '通知',
+    },
+  },
+}
 export const messageAction: ActionSchema = {
   name: 'message',
   title: '消息',
