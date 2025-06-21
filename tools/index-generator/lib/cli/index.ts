@@ -3,6 +3,7 @@ import packageJson from '../../package.json';
 import { DefaultGenerateIndexOptions, generateIndex } from '..';
 export const defaultOptions = {
   ...DefaultGenerateIndexOptions,
+  child: false
 };
 export const optionTitles = {
   cwd: '路径',
@@ -10,6 +11,7 @@ export const optionTitles = {
   include: '包含',
   exclude: '排除',
   clean: '清除旧的',
+  child: '子目录'
 };
 export const optionTypes = {
   cwd: 'string',
@@ -17,6 +19,7 @@ export const optionTypes = {
   include: 'array',
   exclude: 'array',
   clean: 'boolean',
+  child: 'boolean'
 };
 export const cliOptions = {
   name: packageJson.name,

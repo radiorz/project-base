@@ -25,6 +25,12 @@ export const arrayType: ArgType<number | string[]> = {
   // 1,2,3=>[1,2,3]
   // "1","2","3" => ["1","2","3"]
   parse(v: string) {
-    return v.split(',').map((item) => JSON.parse(item));
+    return v.split(',').map((item) => {
+      try {
+        return (JSON.parse(item))
+      } catch (error) {
+        return undefined;
+      }
+    }).filter((item) => item !== undefined)
   },
 };

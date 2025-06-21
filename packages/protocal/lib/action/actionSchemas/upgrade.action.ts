@@ -1,4 +1,4 @@
-import { ActionSchema } from "./Action";
+import { ActionSchema } from "../Action.type";
 
 export const upgradeActionSchema: ActionSchema = {
   name: '升级',
