@@ -44,15 +44,17 @@ export interface Message {
   /**
    * 消息之外一些额外的信息
    */
-  meta: MessageMeta;
+  meta?: MessageMeta;
 
   auth?: any; // 认证
 }
 
 export interface MessageMeta {
   /**
-   * 当启用QoS=1时,确保消息可靠到达,接收方如果收到此消息，应马上回得CODE=100的确认消息
-   */
+   * ● 0：不确保消息可靠送达
+   * ● 1：确保消息可靠送达（但可能会送达多次）
+   * ● 2：确保消息可靠送达（而且只会送达一次） 
+  */
   qos: number;
   /**
    * 是否是重复发送
