@@ -1,4 +1,4 @@
-import { Description } from "./consts";
+import { Description } from "../consts";
 // 对动作的定义
 export interface ActionSchema extends Description {
   paramSchema: Record<string, any>;
@@ -7,7 +7,7 @@ export interface ActionSchema extends Description {
 export interface Action {
   name: string; // 名称
   level: number; // 等级
-  params: Record<string, any>; // 参数
+  payload: Record<string, any>; // 参数
 }
 export const notifyAction: ActionSchema = {
   name: 'notify',

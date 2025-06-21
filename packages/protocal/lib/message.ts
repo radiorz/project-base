@@ -1,6 +1,6 @@
 import { ID } from "./id";
 import { MessageType } from "./messageType";
-
+// 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
 export interface Message {
   /**
    * 消息类型
@@ -22,6 +22,9 @@ export interface Message {
   tid: string | number;
   /**
    * 会话ID
+   * 在以下场景需要用到: 
+   * - 请求与应答
+   * - 进程，比如升级进度
    */
   sid: string | number;
   /**
@@ -29,6 +32,11 @@ export interface Message {
    * 指发出消息的时间
    */
   timestamp: number;
+
+  /**
+   * 消息具体类型编码
+   */
+  code: string;
   /**
    * 消息的数据
    */
@@ -66,10 +74,10 @@ export interface MessageMeta {
 
 }
 
-export const defaultMessage: Omit<Message, 'type' | 'timestamp'> = {
-  tid: 0,
+export const defaultMessage: Omit<Message, 'type' | 'timestamp' | 'code'> = {
   from: "",
   to: "",
+  tid: 0,
   sid: 0,
   meta: {
     qos: 0,
