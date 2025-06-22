@@ -16,7 +16,18 @@ export const upgradeActionSchema: ActionSchema = {
         title: '下载地址',
         description: "下载地址"
       },
+      md5: {
+        type: 'string',
+        title: 'MD5',
+        description: '文件MD5值',
+      }
     },
-    required: ['version'],
+    required: ['url'],
   },
+}
+
+export interface UpgradePayload {
+  url: string;
+  version?: string;
+  md5?: string;
 }

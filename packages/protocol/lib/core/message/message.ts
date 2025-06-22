@@ -1,3 +1,4 @@
+import { LocationConfig } from "../../config/configs";
 import { ID } from "../id";
 import { MessageType } from "./messageType";
 // 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
@@ -45,7 +46,8 @@ export interface Message<Payload = Record<string, any>> {
    * 消息之外一些额外的信息
    */
   meta?: MessageMeta;
-
+  // 位置 有时候我们需要知道消息设备的位置
+  location?: LocationConfig;
   auth?: any; // 认证
 }
 

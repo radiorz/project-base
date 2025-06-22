@@ -6,7 +6,7 @@ import { ActionSchema } from "../Action.type";
 export const registerAction: ActionSchema = {
   name: 'register',
   title: '注册',
-  description: '注册',
+  description: '向平台注册',
   payloadSchema: {
     type: 'object',
     properties: {
@@ -30,7 +30,7 @@ export const registerAction: ActionSchema = {
   },
 }
 
-export interface RegisterParams extends Omit<Endpoint, 'config'> {
+export interface RegisterPayload extends Omit<Endpoint, 'config'> {
 
 }
 
@@ -54,7 +54,8 @@ export interface RegisterResponse extends Message {
       auth: any
     },
     sip: {
-      
+
 
     }
   }
+}
