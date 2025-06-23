@@ -1,8 +1,7 @@
 import { ActionSchema } from '@tikkhun/protocol-core';
 
-export const UpdateConfigAction: ActionSchema = {
-  name: 'updateConfig',
-  title: '更新配置',
+export const updateStatusAction: ActionSchema = {
+  name: 'updateStatus',
   payloadSchema: {
     type: 'object',
   },
