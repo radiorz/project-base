@@ -5,14 +5,18 @@
 import { ActionSchema } from "../Action.type";
 
 export const notifyAction: ActionSchema = {
-    name: 'notify',
-    title: '通知',
-    description: '通知',
-    payloadSchema: {
-        message: {
-            type: 'string',
-            title: '通知',
-            description: '通知',
-        },
+  name: 'notify',
+  title: '通知',
+  description: '通知',
+  payloadSchema: {
+    title: {
+      type: 'string',
+      title: '标题',
+      description: '标题',
     },
+    content: {
+      type: "string",
+      title: "内容",
+    },
+  },
 }

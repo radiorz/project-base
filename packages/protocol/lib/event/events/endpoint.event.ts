@@ -1,83 +1,114 @@
-import { EventSchema } from "../event"
+import { EventSchema } from '../event';
 export namespace EndpointEvent {
-
-  enum EndpointEventCode {
+  enum EventCode {
     ready = 1000, // 开机之后准备完成后触发
     off = 1001, // 一般是关机前触发
-    updateStatus = 1002, 
+    updateStatus = 1002,
     updateConfig = 1003,
     affairProgress = 1004,
     cancelAlarm,
     isAlarmHandled,
-    performance
+    performance,
+    log,
   }
   export const off: EventSchema = {
-    code: EndpointEventCode.off,
+    code: EventCode.off,
     level: 3,
-    name: "isEndpointOff"
-  }
+    name: 'isEndpointOff',
+  };
   export const ready: EventSchema = {
-    code: EndpointEventCode.ready,
+    code: EventCode.ready,
     level: 3,
-    name: "isEndpointReady"
-  }
+    name: 'isEndpointReady',
+  };
 
   // 状态变更
   export const updateStatus: EventSchema = {
-    code: EndpointEventCode.updateStatus,
+    code: EventCode.updateStatus,
     level: 3,
     name: 'updateEndpointStatus',
     payloadSchema: {
-      type: "object",
+      type: 'object',
       properties: {
         progress: {
-          type: "number"
-        }, result: {
-          type: "number"
-        }
-      }
+          type: 'number',
+        },
+        result: {
+          type: 'number',
+        },
+      },
     },
-  }
-  export interface UpdateStatusPaylaod {
-    payload: { [key: string]: any },
+  };
+  export interface UpdateStatusPayload {
+    payload: { [key: string]: any };
     // affair
-    progress: number,
-    result: number
+    progress: number;
+    result: number;
   }
   // 配置变更
   export const updateConfig: EventSchema = {
-    code: EndpointEventCode.updateConfig,
+    code: EventCode.updateConfig,
     level: 3,
-    name: "updateEndpointConfig"
-  }
+    name: 'updateEndpointConfig',
+  };
   export interface UpdateConfigPaylaod {
-    payload: { [key: string]: any },
+    payload: { [key: string]: any };
     // affair
-    progress: number,
-    result: number
+    progress: number;
+    result: number;
   }
   // 事务进度
   export const AffairProgress: EventSchema = {
-    code: EndpointEventCode.affairProgress,
+    code: EventCode.affairProgress,
     level: 3,
-    name: "endpointAffairProgress"
-  }
+    name: 'endpointAffairProgress',
+  };
 
   export const cancelAlarm: EventSchema = {
-    code: EndpointEventCode.cancelAlarm,
+    code: EventCode.cancelAlarm,
     level: 3,
-    name: "cancelAlarm"
-  }
+    name: 'cancelAlarm',
+  };
 
   export const isAlarmHandled: EventSchema = {
-    code: EndpointEventCode.isAlarmHandled,
+    code: EventCode.isAlarmHandled,
     level: 3,
-    name: "isAlarmHandled"
-  }
+    name: 'isAlarmHandled',
+  };
   // 性能报告
   export const Performance: EventSchema = {
-    code: EndpointEventCode.performance,
+    code: EventCode.performance,
     level: 3,
-    name: "endpointPerformance"
-  }
+    name: 'endpointPerformance',
+  };
+  export const log: EventSchema = {
+    code: EventCode.log,
+    level: 3,
+    name: 'endpointLog',
+    payloadSchema: {
+      type: 'object',
+      properties: {
+        timestamp: {
+          type: 'number',
+        },
+        level: {
+          type: 'number',
+          description: '日志等级',
+        },
+        message: {
+          type: 'string',
+        },
+        tags: {
+          type: 'object',
+        },
+      },
+    },
+  };
+}
+
+export interface Log {
+  timestamp: number;
+  level: number;
+  message: string;
+  tag: { [key: string]: any };
 }
