@@ -1,4 +1,4 @@
-import { Description } from "../../consts";
+import { Description } from "../@tikkhun/protocol-core";
 import { mqttConfig } from "./mqtt.config";
 import { networkConfig } from "./network.config";
 import { OrgConfig } from "./org.config";

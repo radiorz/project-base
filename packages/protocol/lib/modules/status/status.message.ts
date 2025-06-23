@@ -1,6 +1,6 @@
 // 状态变更message
 
-import { Message, MessageType } from "../core/message";
+import { Message, MessageType } from "@tikkhun/protocol-core";
 
 export interface StatusMessage extends Message {
     type: MessageType.status,

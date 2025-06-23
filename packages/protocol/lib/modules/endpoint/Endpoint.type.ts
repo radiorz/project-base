@@ -1,4 +1,4 @@
-import { Description, ID } from '@/core';
+import { Description, ID } from '@tikkhun/protocol-core';
 import { EndpointType } from './EndpointType.type';
 
 export interface EndpointSchema extends Description {

@@ -1,3 +1,2 @@
-// const calling = 'calling'
-// const nursing = 'nursing'
-// const sleeping = 'sleeping'
+export * from "./sleeping.status";
+export * from "./nursing.status";

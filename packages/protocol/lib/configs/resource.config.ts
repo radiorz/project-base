@@ -1,4 +1,4 @@
-import { Description } from "../../consts";
+import { Description } from "../@tikkhun/protocol-core";
 
 export interface Resource extends Description {
   enabled: boolean;

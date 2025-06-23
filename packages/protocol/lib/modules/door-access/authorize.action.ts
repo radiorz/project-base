@@ -1,4 +1,4 @@
-import { ActionSchema } from "../core/action/Action.type";
+import { ActionSchema } from "@tikkhun/protocol-core";
 // 目前指人脸证书啥的
 export const AuthorizeActionSchema: ActionSchema = {
     name: 'authorize',

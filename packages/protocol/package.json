@@ -34,7 +34,8 @@
   "license": "ISC",
   "dependencies": {
     "big-integer": "^1.6.52",
-    "md5": "^2.3.0"
+    "md5": "^2.3.0",
+    "@tikkhun/protocol-core": "workspace:^"
   },
   "devDependencies": {
     "@types/md5": "^2.3.5",

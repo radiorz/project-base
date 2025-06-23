@@ -1,4 +1,4 @@
-import { ActionSchema } from "../core/action/Action.type";
+import { ActionSchema } from "@tikkhun/protocol-core";
 
 export const rebootActionSchema: ActionSchema = {
     name: 'reboot',

@@ -1,6 +1,6 @@
 import { Endpoint } from "../endpoint";
-import { Message } from "../core/message";
-import { ActionSchema } from "../core/action/Action.type";
+import { Message } from "@tikkhun/protocol-core";
+import { ActionSchema } from "@tikkhun/protocol-core";
 
 // 注册
 export const registerAction: ActionSchema = {
