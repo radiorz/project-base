@@ -1,4 +1,4 @@
-import { SERVER } from "../modules/endpoint/endpoint-type";
+import { SERVER } from "../modules/endpoint/endpoint-types";
 import { EndpointSchema } from "../modules/endpoint/endpoint";
 
 // license-server 定义

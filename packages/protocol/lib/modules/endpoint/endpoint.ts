@@ -1,5 +1,5 @@
 import { Description, ID } from '@tikkhun/protocol-core';
-import { EndpointType } from './EndpointType.type';
+import { EndpointType } from './endpoint-type';
 
 export interface EndpointSchema extends Description {
   type: EndpointType['name'];
