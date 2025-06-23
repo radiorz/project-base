@@ -16,7 +16,7 @@ export namespace EndpointEvent {
     level: 3,
     name: "isEndpointOff"
   }
-  export const Ready: EventSchema = {
+  export const ready: EventSchema = {
     code: EndpointEventCode.ready,
     level: 3,
     name: "isEndpointReady"

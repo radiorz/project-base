@@ -1,5 +1,4 @@
 import { EventSchema } from "../event";
-
 export namespace CallEvent {
 
     export const CallPaylaodSchema = {
@@ -18,8 +17,6 @@ export namespace CallEvent {
     export interface CallPaylaod {
         from: string;
         to: string;
-        progress?: number;
-        result?: number
     }
     // 扩展 CallEventCode 枚举，添加新的事件编码
     enum CallEventCode {
@@ -40,7 +37,8 @@ export namespace CallEvent {
         mediaStreamConnected = 2200,
         mediaStreamDisconnected,
         callPaused = 2300,
-        callResumed
+        callResumed,
+        
     }
 
     export const idle: EventSchema = {

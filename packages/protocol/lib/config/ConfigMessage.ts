@@ -1,8 +1,5 @@
-import { Affair } from "../core/affair";
 import { Message, MessageType } from "../core/message";
-import { Config } from "./config";
-
-export interface ConfigMessage extends Message<Affair<ConfigUpdatePayload> | ConfigUpdatePayload> {
+export interface ConfigMessage extends Message<ConfigUpdatePayload> {
   type: MessageType.config
 }
 

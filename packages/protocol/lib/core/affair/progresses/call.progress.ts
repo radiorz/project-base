@@ -16,3 +16,4 @@ export const CallProgress = {
   mediaEnd: 90,
   allEnd: 100
 }
+// 这里可以结合给callevent

@@ -3,9 +3,9 @@ export type Tid = number | string;
 export const defaultTid: Tid = 0
 
 // workerID?工作ID，用于生成事务id
-export interface Affair<Payload = Record<string, any>> {
+export interface Affair {
   tid: Tid;
-  payload: AffairPayload<Payload>;
+  payload: AffairPayload
 }
 export interface AffairPayload<Payload = Record<string, any>> {
   status: 'begin' | 'end' | 'progress';
@@ -16,6 +16,7 @@ export interface AffairPayload<Payload = Record<string, any>> {
   error?: string; // 错误
 }
 
-export interface AffairMessage extends Message, Affair {
-  payload: AffairPayload & Message['payload'];
+export interface AffairMessage<Payload = { [key: string]: any }> extends Message<Payload> {
+  tid: Tid;
+  affair: Affair['payload']
 }

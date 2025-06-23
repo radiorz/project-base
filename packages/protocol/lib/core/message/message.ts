@@ -1,4 +1,5 @@
 import { LocationConfig } from "../../config/configs";
+import { AffairPayload } from "../affair";
 import { ID } from "../id";
 import { MessageType } from "./messageType";
 // 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
@@ -7,6 +8,10 @@ export interface Message<Payload = Record<string, any>> {
    * 消息类型
    */
   type: MessageType;
+  /**
+   * 消息子类型
+   */
+  subType?: string; // 比如事件的子类型 alarm 类型,
   /**
    * 消息来源
    */
@@ -21,6 +26,8 @@ export interface Message<Payload = Record<string, any>> {
    * 用于关联多个事件与消息
    */
   tid?: string | number;
+
+  affair?: AffairPayload; // 如果是事务，可以跟progress,result 这俩
   /**
    * 会话ID
    * 在以下场景需要用到: 

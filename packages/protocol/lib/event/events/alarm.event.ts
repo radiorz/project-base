@@ -1,13 +1,13 @@
-import { AffairPayload } from "../../core/affair";
+import md5 from 'md5';
 import { ID } from "../../core/id";
 import { EventMessage } from "../eventMessage";
-
-export interface AlarmMessage<Payload = any> extends EventMessage<AffairPayload<Payload>> {
-  tid: string | number;// 带事务 
+import { Event } from '../event';
+export interface AlarmMessage<Payload = Record<string, any>> extends EventMessage<Payload> {
+  payload: Alarm<Payload>
 }
 
-export interface AlarmPayload {
-  from: string ;
+export interface Alarm<Payload = any> extends Event<Payload> {
+  source: string;
 }
 
 interface GetSourceFromOptions {
@@ -15,7 +15,6 @@ interface GetSourceFromOptions {
   timestamp: number,
 
 }
-import md5 from 
 export function getSourceFrom(options: GetSourceFromOptions) {
-  return md5()
+  return md5(`${options.sourceId}${options.timestamp}`).toLocaleLowerCase()
 }
