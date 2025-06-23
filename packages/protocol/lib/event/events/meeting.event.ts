@@ -15,9 +15,11 @@ export namespace MeetingEvent {
     export interface MeetingEventPlaceholderPayload {
         code: number;
     }
+    export enum MeetingEventCode {
+        start = 5000
+    }
     export const meetingEventPlaceholder: EventSchema = {
-        code: null,
-        level: null,
+        code: MeetingEventCode.start,
         name: "meetingEventPlaceholder",
         title: "会议事件占位符"
     };

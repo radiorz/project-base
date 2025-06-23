@@ -9,7 +9,7 @@ export interface EventSchema extends Description {
   /**
    * 等级
    */
-  level: number;
+  level?: number;
 
   /**
    * 来源，自其他事件派生
@@ -24,7 +24,7 @@ export interface EventSchema extends Description {
 }
 
 export interface Event<Payload = Record<string, any>> {
-  type: EventSchema['name'],
+  type?: EventSchema['name'], // 因为有code 就不需要type了
   code: EventSchema['code'],
   level: EventSchema['level']
   /**

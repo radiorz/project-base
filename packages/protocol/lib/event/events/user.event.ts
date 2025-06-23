@@ -1,41 +1,31 @@
 import { EventSchema } from "../event";
 
 export namespace UserEvent {
-    export const UserLoginSchema = {
+    export const UserPayloadSchema = {
         type: "object",
         properties: {
-            code: {
-                type: 'number',
-                const: 6000,
-                description: '用户登录事件编码'
-            }
+            // 文档中没有额外字段，所以为空
         }
     };
-    export interface UserLoginPayload {
-        code: 6000;
+
+    export interface UserPayload {
+        // 没有额外字段
     }
+
+    export enum UserEventCode {
+        login = 6000,
+        logout = 6001
+    }
+
     export const userLogin: EventSchema = {
-        code: 6000,
+        code: UserEventCode.login,
         level: 3,
         name: "userLogin",
         title: "用户登录"
     };
 
-    export const UserLogoutSchema = {
-        type: "object",
-        properties: {
-            code: {
-                type: 'number',
-                const: 6001,
-                description: '用户登出事件编码'
-            }
-        }
-    };
-    export interface UserLogoutPayload {
-        code: 6001;
-    }
     export const userLogout: EventSchema = {
-        code: 6001,
+        code: UserEventCode.logout,
         level: 3,
         name: "userLogout",
         title: "用户登出"
