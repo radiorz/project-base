@@ -1,5 +1,5 @@
-import { SERVER } from "../endpoint-type";
-import { EndpointSchema } from "../Endpoint.type";
+import { SERVER } from "../modules/endpoint/endpoint-type";
+import { EndpointSchema } from "../modules/endpoint/endpoint";
 
 // license-server 定义
 export const licenseServerEndPoint: EndpointSchema = {

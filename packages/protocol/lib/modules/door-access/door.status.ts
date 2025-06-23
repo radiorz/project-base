@@ -1,41 +1,61 @@
 import { StatusCategory } from "../status";
-
-export const DoorStatusCategory: StatusCategory = {
-    default: 0,
-    enumDict: [{
-        value: 0,
-        name: '空闲',
-        description: '空闲'
-    }, {
-        value: 1,
-        name: '休眠中',
-        description: '休眠中'
-    }],
-    name: ""
-}
 // 1
 // 门已关2
 // 关门中3
 // 门已开4
 // 开门中5
 // 门异常
-export const DoorStatus = {
+export enum DoorStatus {
+    /**
+     * 异常
+     */
+    error = 0,
     /**
      * 关
      */
-    closed: 0,
+    closed,
 
     /**
      * 正在关
      */
-    closing: 1, // 
-    open: 2,
+    closing,
+    /**
+     * 开着
+     */
+    open,
     /**
      * 正在开
      */
-    opening: 3,
-    /**
-     * 异常
-     */
-    error: 5
+    opening,
+}
+export const DoorStatusCategory: StatusCategory = {
+    default: 0,
+    name: "door",
+    values: [
+        {
+            value: DoorStatus.error,
+            name: 'error',
+            description: '出错'
+        },
+        {
+            value: DoorStatus.closed,
+            name: 'closed',
+            description: '关'
+        },
+        {
+            value: DoorStatus.closing,
+            name: 'closing',
+            description: '关门中'
+        },
+        {
+            value: DoorStatus.open,
+            name: 'open',
+            description: '关'
+        },
+        {
+            value: DoorStatus.opening,
+            name: 'opening',
+            description: '开门中'
+        },
+    ],
 }
