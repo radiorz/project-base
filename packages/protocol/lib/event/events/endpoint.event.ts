@@ -2,9 +2,9 @@ import { EventSchema } from "../event"
 export namespace EndpointEvent {
 
   enum EndpointEventCode {
-    ready = 1000,
+    ready = 1000, // 开机之后准备完成后触发
     off = 1001, // 一般是关机前触发
-    updateStatus = 1002,
+    updateStatus = 1002, 
     updateConfig = 1003,
     affairProgress = 1004,
     cancelAlarm,

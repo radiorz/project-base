@@ -7,8 +7,8 @@ export interface ConfigMessage extends Message<Affair<ConfigUpdatePayload> | Con
 }
 
 export interface ConfigUpdatePayload<Value = any> {
-  value: Value;
-  oldValue: Value;
+  value?: Value; // 可能变成undefiend
+  oldValue?: Value;
 }
 
 

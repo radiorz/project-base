@@ -20,14 +20,14 @@ export interface Message<Payload = Record<string, any>> {
    * 事务ID
    * 用于关联多个事件与消息
    */
-  tid: string | number;
+  tid?: string | number;
   /**
    * 会话ID
    * 在以下场景需要用到: 
    * - 请求与应答
    * - 进程，比如升级进度
    */
-  sid: string | number;
+  sid?: string | number;
   /**
    * 消息时间戳
    * 指发出消息的时间
