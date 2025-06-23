@@ -55,7 +55,11 @@ export interface Message<Payload = Record<string, any>> {
   meta?: MessageMeta;
   // 位置 有时候我们需要知道消息设备的位置
   location?: Location;
-  auth?: any; // 认证
+  /**
+   * 认证信息
+   * TODO 这个什么时候有用？
+   */
+  auth?: any;
 }
 
 export interface MessageMeta {
