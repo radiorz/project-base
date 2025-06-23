@@ -26,7 +26,7 @@ export interface EventSchema extends Description {
 export interface Event<Payload = Record<string, any>> {
   type?: EventSchema['name'], // 因为有code 就不需要type了
   code: EventSchema['code'],
-  level: EventSchema['level']
+  level: EventSchema['level'] // 事件也携带schema中定义的level
   /**
    * 数据
    */
