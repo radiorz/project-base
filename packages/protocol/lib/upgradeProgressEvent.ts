@@ -1,4 +1,4 @@
-import { EventSchema } from "../../../protocol-core/lib/event/event";
+import { EventSchema } from "../../protocol-core/lib/event/event";
 
 export const upgradeProgressEvent: EventSchema = {
   name: '升级进度',
