@@ -2,18 +2,17 @@ export interface LogConfig {
   enabled: boolean;
   level: LogLevel;
   output: string[]; // server file console
-  outputConfig: Record<string, any> // {server: {url: },file: {maxFileSize: number, maxFileCount: number}}
-
+  outputConfig: Record<string, any>; // {server: {url: },file: {maxFileSize: number, maxFileCount: number}}
 }
 
 export enum LogLevel {
   // 日志级别
   // - =1
-  DEBUG
+  DEBUG,
   // - =2
-  , INFO
+  INFO,
   // - =3
-  , WARN
+  WARN,
   // - =4
-  , ERROR
+  ERROR,
 }

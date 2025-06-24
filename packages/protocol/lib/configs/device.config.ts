@@ -1,18 +1,18 @@
-import { Description } from "@tikkhun/protocol-core";
-import { mqttConfig } from "./mqtt.config";
-import { networkConfig } from "./network.config";
-import { OrgConfig } from "./org.config";
-import { Resource } from "./resource.config";
-import { SipConfig } from "../modules/calling/sip.config";
+import { Description } from '@tikkhun/protocol-core';
+import { mqttConfig } from './mqtt.config';
+import { networkConfig } from './network.config';
+import { OrgConfig } from './org.config';
+import { Resource } from '../modules/resource/resource.config';
+import { SipConfig } from '../modules/calling/sip.config';
 
 export interface DeviceConfig extends Description, OrgConfig {
   // 基础设置
-  id: string;  // 设备唯一id sn
+  id: string; // 设备唯一id sn
   createdAt: string; // 在平台创建时间
   updatedAt: string; // 最后更新时间
 
   type: string; // 设备类型
-  subType?: string;// 具体型号
+  subType?: string; // 具体型号
 
   version: string; // 版本
   // 调试等
@@ -34,9 +34,7 @@ export interface DeviceConfig extends Description, OrgConfig {
   user?: User;
 }
 
-interface User {
-
-}
+interface User {}
 enum Power {
   // 0=其它
   // 1=市电
@@ -50,5 +48,5 @@ enum Power {
 enum Mode {
   development,
   preview,
-  production
+  production,
 }

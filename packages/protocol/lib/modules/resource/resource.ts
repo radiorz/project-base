@@ -1,16 +1,23 @@
 export interface Resource {
-    type: string;
-    name: string;
+  type: string;
+  name: string;
+  /**
+   * 是否启用
+   */
+  enabled?: boolean;
 }
 export const ResourceSchema = {
-    type: 'object',
-    properties: {
-        type: {
-            type: 'string'
-        },
-        name: {
-            type: 'string'
-        },
+  type: 'object',
+  properties: {
+    type: {
+      type: 'string',
     },
-    required: ['type', 'name']
-}
+    name: {
+      type: 'string',
+    },
+    enabled: {
+      type: 'boolean',
+    },
+  },
+  required: ['type', 'name'],
+};

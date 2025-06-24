@@ -118,3 +118,17 @@ export const defaultMessage: Omit<Message, 'type' | 'createdAt' | 'name'> = {
     retain: false,
   },
 };
+export function createMessage<P>(
+  messageSchema: MessageSchema,
+  message: Omit<Message<P>, 'type' | 'subType' | 'module' | 'name' | 'code'>,
+): Message<P> {
+  const { type, subType, module, name, code } = messageSchema;
+  return {
+    ...message,
+    type,
+    subType,
+    module,
+    name,
+    code,
+  };
+}
