@@ -7,16 +7,15 @@
  * @desc
  * @example
  */
-
 export interface AppOptions {
   modules: Module[];
 }
-
-export class App {
+export class BaseApp implements App {
   static defaultOptions: AppOptions = Object.freeze({
     modules: [],
   });
   options: AppOptions;
+  messenger: Messenger;
   constructor(options?: Partial<AppOptions>) {
     this.options = Object.assign({}, App.defaultOptions, options);
   }

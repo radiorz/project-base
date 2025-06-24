@@ -132,6 +132,16 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.20.3)
 
   packages/app-core:
+    dependencies:
+      '@tikkhun/protocol':
+        specifier: workspace:^
+        version: link:../protocol
+      '@tikkhun/protocol-core':
+        specifier: workspace:^
+        version: link:../protocol-core
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../utils
     devDependencies:
       '@types/node':
         specifier: ^20.3.1
