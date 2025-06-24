@@ -1,9 +1,13 @@
 import { Location } from './location';
-import { AffairPayload } from '../affair';
+import { Affair, AffairPayload } from '../affair';
 import { ID } from '../id';
 import { MessageType } from './messageType';
-// 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
-export interface Message<Payload = Record<string, any>> {
+import { Description } from '../consts';
+export interface MessageSchema extends Description {
+  /**
+   * 模块
+   */
+  module?: string; // endpoint config sip mqtt network
   /**
    * 消息类型
    */
@@ -11,7 +15,25 @@ export interface Message<Payload = Record<string, any>> {
   /**
    * 消息子类型
    */
-  subType?: string; // 比如事件的子类型 alarm 类型,
+  subType?: string; // 比如事件的子类型 alarm,config,status, 类型, 动作的request response
+  /**
+   * 等级 一般是紧急程度
+   */
+  level?: number;
+  /**
+   * 消息编码
+   */
+  code?: string;
+  /**
+   * 消息payload 定义
+   */
+  payloadSchema?: Record<string, any>;
+  // @@unique([module,type,subType,name])
+}
+
+// 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
+export interface Message<Payload = Record<string, any>>
+  extends Pick<MessageSchema, 'module' | 'type' | 'subType' | 'name' | 'code'> {
   /**
    * 消息来源
    */
@@ -25,9 +47,12 @@ export interface Message<Payload = Record<string, any>> {
    * 事务ID
    * 用于关联多个事件与消息
    */
-  tid?: string | number;
-
-  affair?: AffairPayload; // 如果是事务，可以跟progress,result 这俩
+  tid?: Affair['tid'];
+  /**
+   * 事务payload
+   * 如果是事务，可以跟progress,result 这俩
+   */
+  affair?: AffairPayload;
   /**
    * 会话ID
    * 在以下场景需要用到:
@@ -36,15 +61,10 @@ export interface Message<Payload = Record<string, any>> {
    */
   sid?: string | number;
   /**
-   * 消息时间戳
+   * 创建消息的时间戳
    * 指发出消息的时间
    */
-  timestamp: number;
-
-  /**
-   * 消息具体类型编码
-   */
-  code: string;
+  createdAt: number;
   /**
    * 消息的数据
    */
@@ -52,7 +72,7 @@ export interface Message<Payload = Record<string, any>> {
   /**
    * 消息之外一些额外的信息
    */
-  meta?: MessageMeta;
+  meta?: Partial<MessageMeta>;
   // 位置 有时候我们需要知道消息设备的位置
   location?: Location;
   /**
@@ -79,16 +99,13 @@ export interface MessageMeta {
    */
   transit: false;
   /**
-   * 奇偶校验
+   * 存着
    */
-  parity: false;
-  /**
-   * 要求对方确认
-   */
-  receipt: false;
+  retain: boolean;
+  [key: string]: any; // 可以添加任何其他消息之外的数据
 }
 
-export const defaultMessage: Omit<Message, 'type' | 'timestamp' | 'code'> = {
+export const defaultMessage: Omit<Message, 'type' | 'createdAt' | 'name'> = {
   from: '',
   to: '',
   tid: 0,
@@ -98,6 +115,6 @@ export const defaultMessage: Omit<Message, 'type' | 'timestamp' | 'code'> = {
     resend: false,
     transit: false,
     parity: false,
-    receipt: false,
+    retain: false,
   },
 };

@@ -1,6 +1,6 @@
 export interface Location {
   map: string;
-  label: string;
+  label?: string;
   x: number;
   y: number;
   z: number;

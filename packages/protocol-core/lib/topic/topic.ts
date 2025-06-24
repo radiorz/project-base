@@ -1,6 +1,6 @@
-import { MessageType } from "../message/messageType";
-
-export interface Topic {
+import { Message } from '../message';
+import { params } from '@tikkhun/utils-core';
+export interface Topic extends Pick<Message, 'type' | 'subType' | 'module' | 'name' | 'tid' | 'from' | 'to'> {
   /**
    * 公司
    */
@@ -10,41 +10,11 @@ export interface Topic {
    */
   domain: string;
   /**
-   * 事务ID
-   * 用于关联多个事件与消息
-   */
-  tid?: string;
-  /**
-   * 发送给谁
-   */
-  to: string; // 设备id 或者组织架构的id，组织id与设备id不重复。
-  // /**
-  //  * 发送给那个组织
-  //  */
-  // group: string; // toGroup 或区域 这个区域可能单独拎出来会好一些 其实也是to的一种
-  /**
-   * 消息类型
-   */
-  type: MessageType;
-  /**
-   * 一般是type的子类型，或者一些重要的属性
+   * 可以加一些其他的东西到结尾
    */
   attrs?: string; //比如action的子类型熄灯这个类型,配置变更就跟配置完整路径
 }
 
-
 export function buildTopic(topic: Topic): string {
-  return [topic.company, topic.domain, topic.tid ?? 0, topic.to, topic.type, topic.attrs].join('/')
-}
-export function parseTopic(topic: string): any/* Topic */ {
-  const [company, domain, tid, to, type, attrs] = topic.split('/')
-  return {
-    company,
-    domain,
-    to,
-    // MessageType[type],
-    type,
-    attrs,
-    tid,
-  }
+  return params(`/{company}/{domain}/{tid}/{from}/{to}/{type}/{subType}/{module}/{name}/{attrs}`, topic);
 }

@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./db"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model MessageSchema {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  module        String   @default("") // 模块
+  type          String // action event 就两种
+  subType       String? // event有 alarm 等，action没有subType
+  name          String   @unique
+  title         String?
+  description   String?
+  icon          String?
+  level         Int
+  payloadSchema Json?
+}
+
+// 消息 record
+model Message {
+  name      String   @unique
+  level     Int
+  createdAt DateTime @default(now())
+  from      String
+  to        String?
+  payload   Json?
+  tid       String?
+  sid       String?
+  affair    Json?
+}
+
+model StatusCategory {
+  name         String   @unique
+  title        String?
+  description  String?
+  icon         String?
+  defaultValue String?
+  values       Status[]
+}
+
+model Status {
+  name               String          @unique
+  title              String?
+  description        String?
+  icon               String?
+  StatusCategory     StatusCategory? @relation(fields: [statusCategoryName], references: [name])
+  statusCategoryName String?
+}
