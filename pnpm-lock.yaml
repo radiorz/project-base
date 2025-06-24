@@ -661,6 +661,10 @@ importers:
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.17.50)(jiti@2.4.2)(terser@5.39.2)(tsx@4.20.3)
 
   packages/protocol-core:
+    dependencies:
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../utils
     devDependencies:
       '@types/node':
         specifier: ^20.3.1
