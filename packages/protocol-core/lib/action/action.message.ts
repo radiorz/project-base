@@ -9,7 +9,7 @@ export interface ActionSchema extends MessageSchema {
 }
 
 // 真正下发的动作数据
-export interface Action<P> extends Message<P> {
+export interface Action<P = any> extends Message<P> {
   type: MessageType.action;
 }
 export function createActionSchema(action: Omit<ActionSchema, 'type'>): ActionSchema {

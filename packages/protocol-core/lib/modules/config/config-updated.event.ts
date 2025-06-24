@@ -1,9 +1,10 @@
 // 状态变更message
 
 import { createEventSchema } from '@/event';
+import { configUpdatedEventCode } from '@/event-codes';
 
-export const ConfigUpdatedEvent = createEventSchema({
-  code: '1001',
+export const configUpdatedEvent = createEventSchema({
+  code: configUpdatedEventCode,
   name: 'config',
   title: '配置变更',
   subType: 'config',

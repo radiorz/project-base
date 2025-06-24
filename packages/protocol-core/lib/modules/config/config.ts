@@ -1,7 +1,6 @@
 // 按 jsonschema
 // 属性配置
 
-import { createEventSchema } from '@/event';
 import { Description } from 'dist';
 
 export type ConfigPayloadSchema = Record<string, any>;

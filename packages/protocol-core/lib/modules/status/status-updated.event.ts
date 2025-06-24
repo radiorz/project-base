@@ -1,9 +1,10 @@
 // 状态变更message
 
 import { createEventSchema } from '@/event';
+import { statusUpdatedEventCode } from '@/event-codes';
 
-export const StatusUpdatedEvent = createEventSchema({
-  code: '1002',
+export const statusUpdatedEvent = createEventSchema({
+  code: statusUpdatedEventCode,
   name: 'status',
   title: '状态变更',
 });
