@@ -4,7 +4,7 @@ export interface EventSchema extends Description {
   /**
    * 编码
    */
-  code: string | number;
+  code?: string | number; // 实际上code没啥用，code 的好处就是不用对event进行命名
   /**
    * 等级
    */
@@ -23,11 +23,17 @@ export interface EventSchema extends Description {
 }
 
 export interface Event<Payload = Record<string, any>> {
-  type?: EventSchema['name'], // 因为有code 就不需要type了
-  code: EventSchema['code'],
+  name: EventSchema['name'], // 因为有code 就不需要 name 了
   level: EventSchema['level'] // 事件也携带schema中定义的level
   /**
    * 数据
    */
   payload: Payload
+}
+export interface BuildEventNameOptions {
+  module?: string;
+  name: string;
+}
+export function buildEventName(options: BuildEventNameOptions) {
+  return [options.module ?? "default", options.name].join('/')
 }

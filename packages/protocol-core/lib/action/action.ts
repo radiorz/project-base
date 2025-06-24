@@ -8,8 +8,9 @@ export interface ActionSchema extends Description {
 export interface Action<Payload = Record<string, any>> {
   name: string; // 名称
   level: number; // 等级
+  timeout?: number; // 超时时间()
+  response?: boolean; // 需要响应
   payload?: Payload; // 参数
-  timeout?: number; // 超时时间
 }
 
 

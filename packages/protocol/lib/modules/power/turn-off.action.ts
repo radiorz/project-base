@@ -1,8 +1,8 @@
 import { ActionSchema } from "@tikkhun/protocol-core";
 
-export const shutdownActionSchema: ActionSchema = {
-    name: 'shutdown',
-    title: '关机',
+export const turnOffActionSchema: ActionSchema = {
+    name: 'turnOff',
+    title: '关停',
     description: '关机设备',
     payloadSchema: {
         type: 'object',
@@ -15,6 +15,10 @@ export const shutdownActionSchema: ActionSchema = {
     },
 }
 
-export interface ShutdownPayload {
-    delay: number;
+export interface TurnOffPayload {
+    delay?: number;
+}
+
+export const defaultTurnOffPayload: TurnOffPayload = {
+    delay: 0
 }

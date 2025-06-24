@@ -1,9 +1,9 @@
-import { Description } from "../@tikkhun/protocol-core";
+import { Description } from "@tikkhun/protocol-core";
 import { mqttConfig } from "./mqtt.config";
 import { networkConfig } from "./network.config";
 import { OrgConfig } from "./org.config";
 import { Resource } from "./resource.config";
-import { SipConfig } from "./sip.config";
+import { SipConfig } from "../modules/calling/sip.config";
 
 export interface DeviceConfig extends Description, OrgConfig {
   // 基础设置

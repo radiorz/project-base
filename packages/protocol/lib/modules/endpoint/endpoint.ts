@@ -9,7 +9,7 @@ export interface EndpointSchema extends Description {
 export interface Endpoint extends Description {
   id: ID;
   type: EndpointSchema['name'];
-  subType: 'string'; // 子型号啥的 ABCD
+  subType?: string; // 子型号啥的 ABCD
   version?: string; // 当前版本
   // 具体配置
   domain?: string; // 领域
