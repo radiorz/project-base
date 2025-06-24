@@ -1,9 +1,9 @@
-import { Description } from "@tikkhun/protocol-core";
+import { Description } from '@/core';
 
 export interface StatusCategory extends Description {
-  default: number | string; // 
+  default: number | string; //
   module?: string; // 模块名称
-  values: Status[]
+  values: Status[];
 }
 
 export interface Status extends Description {

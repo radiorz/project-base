@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsdown';
+import path from 'path';
 import packageJson from './package.json';
 export default defineConfig((options: any) => ({
   // 入口文件
@@ -15,4 +16,7 @@ export default defineConfig((options: any) => ({
   treeshake: true,
   // 压缩代码
   minify: !options.watch,
+  alias: {
+    '@/*': path.resolve('./lib'),
+  },
 }));

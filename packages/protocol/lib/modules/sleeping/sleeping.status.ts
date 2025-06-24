@@ -1,8 +1,8 @@
-import { StatusCategory } from '../modules/status';
+import { StatusCategory } from '../status';
 
 export const SleepingStatusCategory: StatusCategory = {
   default: 0,
-  enumDict: [
+  values: [
     {
       value: 0,
       name: '空闲',

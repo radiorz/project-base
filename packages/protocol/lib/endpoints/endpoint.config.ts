@@ -1,11 +1,11 @@
 import { Description } from '@tikkhun/protocol-core';
-import { mqttConfig } from './mqtt.config';
-import { networkConfig } from './network.config';
-import { OrgConfig } from './org.config';
-import { Resource } from '../modules/resource/resource.config';
-import { SipConfig } from '../modules/calling/sip.config';
+import { mqttConfig } from '../modules/mqtt';
+import { networkConfig } from '../modules/network';
+import { OrgConfig } from '../modules/org/org.config';
+import { Resource } from '../modules/resource';
+import { SipConfig } from '../modules/calling';
 
-export interface DeviceConfig extends Description, OrgConfig {
+export interface EndpointConfig extends Description, OrgConfig {
   // 基础设置
   id: string; // 设备唯一id sn
   createdAt: string; // 在平台创建时间

@@ -1,4 +1,4 @@
-import { createMessage, Message, MessageSchema, MessageType } from '../message';
+import { createMessage, Message, MessageSchema, MessageType } from '../core/message';
 export enum ActionSubType {
   request = 'request',
   response = 'response',

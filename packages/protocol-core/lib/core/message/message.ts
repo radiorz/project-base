@@ -15,7 +15,7 @@ export interface MessageSchema extends Description {
   /**
    * 消息子类型
    */
-  subType?: string; // 比如事件的子类型 alarm,config,status, 类型, 动作的request response
+  subType?: string; // 比如事件的子类型 alarm,config,status, event 类型, 动作的request response exec
   /**
    * 等级 一般是紧急程度
    */
@@ -23,7 +23,7 @@ export interface MessageSchema extends Description {
   /**
    * 消息编码
    */
-  code?: string;
+  code?: string | number;
   /**
    * 消息payload 定义
    */

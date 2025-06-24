@@ -1,4 +1,4 @@
-import { Message } from '../message';
+import { Message } from '../core/message';
 import { mergeOptions, replaceParams } from '@tikkhun/utils-core';
 export interface Topic extends Pick<Message, 'type' | 'subType' | 'module' | 'name' | 'tid' | 'from' | 'to'> {
   /**
