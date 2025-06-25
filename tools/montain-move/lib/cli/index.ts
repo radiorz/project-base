@@ -1,18 +1,18 @@
-import { Cli, CommandTypes } from '@tikkhun/cli-core';
+import { Cli, CommandTypes, echo } from '@tikkhun/cli-core';
 import packageJson from '../../package.json';
 import { defaultMvOptions, mv } from '..';
 
 export const optionTitles = {
-  cwd: "根目录",
-  includes: "包括的目录",
-  exclude: "忽略的目录",
+  cwd: '根目录',
+  includes: '包括的目录',
+  exclude: '忽略的目录',
   // recursive: true,
-  target: "目标目录",
+  target: '目标目录',
 };
 export const optionTypes = {
-  cwd: "string",
-  includes: "array",
-  exclude: "array",
+  cwd: 'string',
+  includes: 'array',
+  exclude: 'array',
   // recursive: true,
   target: 'string',
 };
@@ -25,7 +25,7 @@ export const cliOptions = {
   optionTitles,
   optionTypes,
   action: async (options: any) => {
-    mv(options?.value);
+    mv(options);
   },
 };
 export const cli = new Cli(cliOptions);

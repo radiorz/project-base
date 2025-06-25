@@ -9,14 +9,14 @@ export const defaultMvOptions = {
   // recursive: true,
   target: '.trash',
 };
-const logger = console
+const logger = console;
 export type MvOptions = typeof defaultMvOptions;
 export async function mv(options: Partial<MvOptions>) {
   const opts: MvOptions = mergeOptions(defaultMvOptions, options);
-  const dirs = await glob(
-    opts.includes.map((_path) => `**/${_path}`),
-    { ignore: opts.exclude, cwd: opts.cwd },
-  );
+  const includes = opts.includes.map((_path) => `**/${_path}`);
+  console.log(`includes`,includes)
+  const dirs = await glob(includes, { ignore: opts.exclude, cwd: opts.cwd });
+  logger.info(`需要移动文件夹数量为 ${dirs.length}`);
   // 移动到target
   for (const dir of dirs) {
     try {
@@ -28,5 +28,4 @@ export async function mv(options: Partial<MvOptions>) {
       logger.error(`移动${dir}到${opts.target}失败`, error);
     }
   }
-  
 }
