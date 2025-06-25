@@ -30,10 +30,7 @@ export interface MessageSchema extends Description {
   payloadSchema?: Record<string, any>;
   // @@unique([module,type,subType,name])
 }
-
-// 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
-export interface Message<Payload = Record<string, any>>
-  extends Pick<MessageSchema, 'module' | 'type' | 'subType' | 'name' | 'code'> {
+export interface MessageVariables<Payload> {
   /**
    * 消息来源
    */
@@ -81,6 +78,10 @@ export interface Message<Payload = Record<string, any>>
    */
   auth?: any;
 }
+// 实际上是 MessageWrapper 也就是数据本身可能就是payload部分
+export interface Message<Payload = Record<string, any>>
+  extends Pick<MessageSchema, 'module' | 'type' | 'subType' | 'name' | 'code'>,
+    MessageVariables<Payload> {}
 
 export interface MessageMeta {
   /**

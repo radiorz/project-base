@@ -1,4 +1,7 @@
+import { Message, MessageSchema, MessageVariables } from '@tikkhun/protocol-core';
+
 export interface Messenger {
-  emit(topic: string, messageSchema: MessageSchema, messageVariables: MessageVariables): void;
-  on(topic: string, callback: (message: Message) => void): void;
+  // 所有消息都有schema
+  emit<Payload>(messageSchema: MessageSchema, messageVariables: MessageVariables<Payload>): void;
+  on(messageSchema: MessageSchema, callback: (message: Message) => void): void;
 }
