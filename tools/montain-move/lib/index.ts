@@ -27,7 +27,7 @@ export async function mv(options: Partial<MvOptions>) {
       const dirPath = path.join(opts.cwd, dir);
       const isDirExist = existsSync(dirPath);
       if (!isDirExist) {
-        throw new Error(`移动 ${dir} ${dir} 不存在`);
+        throw new Error(`移动 ${dir},但文件不存在`);
       }
       const target = path.join(opts.target, dir);
       logger.info(`移动 ${dir} 到 ${target}`);
