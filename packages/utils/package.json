@@ -2,18 +2,23 @@
   "name": "@tikkhun/utils-core",
   "version": "0.0.22",
   "description": "",
-  "types": "dist/index.d.ts",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "exports": {
-    ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
+  "source": "./lib/index.ts",
+  "main": "./lib/index.ts",
+  "module": "./lib/index.ts",
+  "publishConfig": {
+    "main": "./dist/index.js",
+    "module": "./dist/index.mjs",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "import": {
+          "types": "./dist/index.d.mts",
+          "default": "./dist/index.mjs"
+        },
+        "require": {
+          "types": "./dist/index.d.ts",
+          "default": "./dist/index.js"
+        }
       }
     }
   },
@@ -23,11 +28,8 @@
   ],
   "scripts": {
     "build": "tsdown",
-    "dev": "tsx ./src/index.ts",
+    "dev": "tsx ./lib/index.ts",
     "test": "vitest"
-  },
-  "publishConfig": {
-    "access": "public"
   },
   "keywords": [],
   "author": "",
