@@ -3,6 +3,7 @@
 *.local
 dist*
 release
+.trash
 # Logs
 logs
 *.log
