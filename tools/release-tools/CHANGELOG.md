@@ -1,5 +1,13 @@
 # @tikkhun/release
 
+## 0.1.5
+
+### Patch Changes
+
+- releasecore的cli去除以免安装警告
+- Updated dependencies
+  - @tikkhun/release-core@0.1.2
+
 ## 0.1.4
 
 ### Patch Changes
