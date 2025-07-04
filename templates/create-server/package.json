@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create-server",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "type": "module",
   "main": "./bin/main.js",
