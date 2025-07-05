@@ -7,4 +7,4 @@ export * from './package';
 export * from './path';
 export * from './platform';
 export * from './yaml';
-
+export * from './node';
