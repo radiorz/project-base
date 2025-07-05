@@ -210,7 +210,7 @@ importers:
     devDependencies:
       '@tikkhun/version':
         specifier: latest
-        version: 2025.7.5
+        version: 2025.7.6
       '@types/lodash':
         specifier: ^4.17.20
         version: 4.17.20
@@ -247,7 +247,7 @@ importers:
     devDependencies:
       '@tikkhun/version':
         specifier: latest
-        version: 2025.7.5
+        version: 2025.7.6
       '@types/dotenv-safe':
         specifier: ^8.1.6
         version: 8.1.6
@@ -271,6 +271,9 @@ importers:
       '@tikkhun/config-core':
         specifier: workspace:^
         version: link:../config-core
+      '@tikkhun/env-source':
+        specifier: workspace:^
+        version: link:../env-source
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../utils/core
@@ -3519,8 +3522,11 @@ packages:
   '@tikkhun/utils@1.0.17':
     resolution: {integrity: sha512-0OZYoPhB7/F6t99s+sTki3qv1b8tMtB5EHWvJirJ5R23wIVQTVpn5Ll0FGI6AaJ4SBpfNoF1gXdTFXIch3vBdA==}
 
-  '@tikkhun/version@2025.7.5':
-    resolution: {integrity: sha512-ofVUETLUn2xjOD2R/1DFARndbXOCv1XHXdPC/5BvbOqCwmv2AAAokr8GXa/HjK7/4XBYbgW0jwvIDnSBIwuwcg==}
+  '@tikkhun/utils@1.0.18':
+    resolution: {integrity: sha512-C5F3ZiZmFMKK7E8mmW41279rUV20Zezsdwf0DaB71U6YxVLh0Cb8rr3p5NywjEzG3TG/qgspH2lEWbZBMEyhQw==}
+
+  '@tikkhun/version@2025.7.6':
+    resolution: {integrity: sha512-3YhzhYp2DMg3R+KiHc4BBoemQ7Pp4DYecVE/GMBcXjvy5FavbvdNqLbA8+oonUJBn4kwjk3Mk5kmkuC5z9AwOQ==}
     hasBin: true
 
   '@tokenizer/inflate@0.2.7':
@@ -10368,10 +10374,17 @@ snapshots:
       lodash: 4.17.21
       url-or-path: 2.6.1
 
-  '@tikkhun/version@2025.7.5':
+  '@tikkhun/utils@1.0.18':
+    dependencies:
+      fs-extra: 11.3.0
+      js-yaml: 4.1.0
+      lodash: 4.17.21
+      url-or-path: 2.6.1
+
+  '@tikkhun/version@2025.7.6':
     dependencies:
       '@tikkhun/logger': 1.0.8
-      '@tikkhun/utils': 1.0.17
+      '@tikkhun/utils': 1.0.18
       commander: 14.0.0
       dayjs: 1.11.13
       fs-extra: 11.3.0

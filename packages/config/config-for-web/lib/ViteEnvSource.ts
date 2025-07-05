@@ -1,4 +1,4 @@
-import { type EnvSource } from "@tikkhun/config-core";
+import { EnvSource } from "@tikkhun/env-source";
 export class ViteEnvSource extends EnvSource {
   getEnv() {
     return import.meta.env;

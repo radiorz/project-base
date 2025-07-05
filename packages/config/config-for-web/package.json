@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/web-config",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "type": "module",
   "files": [
     "dist"
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@tikkhun/config-core": "workspace:^",
+    "@tikkhun/env-source": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "@types/lodash-es": "^4.17.12",
     "lodash-es": "^4.17.21"
