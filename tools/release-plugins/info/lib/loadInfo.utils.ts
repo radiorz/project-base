@@ -1,11 +1,10 @@
 import { loadConfig } from '@tikkhun/config-loader';
 import { createOverLoad } from '@tikkhun/overload';
-import { mergeOptions } from '@tikkhun/utils-core';
-import { join, basename } from 'path';
-import { getInfoFromNestedObject } from './getInfoFromNestedObject';
-import { Info } from './info.interface';
 import { calculateMD5 } from '@tikkhun/utils';
 import { stat } from 'fs/promises';
+import { basename, join } from 'path';
+import { getInfoFromNestedObject } from './getInfoFromNestedObject';
+import { Info } from './info.interface';
 
 export const FileStat = 'FileStat';
 export const loadInfo = createOverLoad({

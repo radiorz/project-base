@@ -11,9 +11,9 @@
  * @done
  * @example
  */
-import { Getter, DateVersionGetter } from './getter';
-import { JsonStore, Store } from './store';
 import { Logger } from '@tikkhun/logger';
+import { DateVersionGetter, Getter } from './getter';
+import { JsonStore, Store } from './store';
 export interface VersionManagerOptions {
   getter: Getter;
   store: Store[] | Store;

@@ -6,6 +6,5 @@ export * from './json';
 export * from './package';
 export * from './path';
 export * from './platform';
-export * from './stream';
 export * from './yaml';
 

@@ -2,9 +2,7 @@
 // 然后 分为 major minor patch 去更新版本
 // 这个package.json中可以使用npm的cli进行 管理
 
-import { readJson, pathExists } from 'fs-extra';
-import { workspace } from '../utils';
-import path from 'path';
+import { pathExists, readJson } from 'fs-extra';
 import { Getter } from './Getter';
 /**
  * @author
@@ -19,6 +17,7 @@ import { Getter } from './Getter';
  * @done
  * @example
  */
+
 export enum Positions {
   major = 0,
   minor,
@@ -36,17 +35,15 @@ export const DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS: SemanticVersionGetterOptio
 };
 export class SemanticVersionGetter implements Getter {
   opts: SemanticVersionGetterOptions;
-  filePath: string;
   constructor(options?: Partial<SemanticVersionGetterOptions>) {
     this.opts = Object.assign({}, DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS, options);
-    this.filePath = path.join(workspace, this.opts.file);
   }
   async get() {
     // TODO 这里只能在当前层级上读，其实可以一级一级网上找
-    if (!(await pathExists(this.filePath))) {
+    if (!(await pathExists(this.opts.file))) {
       throw new Error('get new version,but error: the file is not found');
     }
-    const { [this.opts.key]: oldVersion } = await readJson(this.filePath);
+    const { [this.opts.key]: oldVersion } = await readJson(this.opts.file);
     if (!oldVersion) {
       throw new Error('get new version, but error: the old version is not found');
     }

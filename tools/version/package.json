@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/version",
-  "version": "2024.08.16",
+  "version": "2025.7.5",
   "description": "",
   "bin": {
     "date-version": "./dist/cli/date-version.js",
@@ -16,8 +16,8 @@
       "default": "./dist/lib/index.mjs"
     },
     "require": {
-      "default": "./dist/lib/index.js",
-      "types": "./dist/lib/index.d.ts"
+      "types": "./dist/lib/index.d.ts",
+      "default": "./dist/lib/index.js"
     }
   },
   "files": [
@@ -36,6 +36,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tikkhun/utils": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "commander": "^14.0.0",
     "dayjs": "^1.11.13",
@@ -44,7 +45,7 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^24.0.10",
-   "tsx": "^4.20.3",
+    "tsx": "^4.20.3",
     "tsup": "^8.5.0",
     "vitest": "^3.2.4"
   }

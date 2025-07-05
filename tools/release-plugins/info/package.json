@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/info",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "",
   "bin": {
     "tikkhun-info": "dist/cli/index.js"
@@ -35,9 +35,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/cli-core": "workspace:^",
+    "@tikkhun/overload": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils": "workspace:^",
+    "@tikkhun/utils-core": "workspace:^",
     "commander": "^14.0.0"
   },
   "devDependencies": {

@@ -1,5 +1,6 @@
 import { defineConfig } from 'tsup';
-
+import pkg from './package.json'
+const { name, version } = pkg
 export default defineConfig((options) => ({
   // 入口文件
   // 不直接指定index 是为了支持直接使用某个文件
@@ -17,7 +18,8 @@ export default defineConfig((options) => ({
   minify: !options.watch,
   banner: {
     js: `/**
-  @tikkhun/version
+  ${name}
+  ${version}
 */`,
   },
 }));

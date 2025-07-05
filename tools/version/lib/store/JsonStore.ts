@@ -12,8 +12,6 @@
  * @example
  */
 import { readJson, writeJson } from 'fs-extra';
-import path from 'path';
-import { workspace } from '../utils';
 import { Store } from './Store';
 
 export interface JsonStoreOptions {
@@ -26,16 +24,14 @@ export const DEFAULT_JSON_STORE_OPTIONS = {
 };
 export class JsonStore implements Store {
   opts: JsonStoreOptions;
-  filePath: string;
   constructor(options?: Partial<JsonStoreOptions>) {
     this.opts = Object.assign({}, DEFAULT_JSON_STORE_OPTIONS, options);
-    this.filePath = path.join(workspace, this.opts.file);
   }
   async update(value: any) {
     try {
-      const originJson = await readJson(this.filePath);
+      const originJson = await readJson(this.opts.file);
       await writeJson(
-        this.filePath,
+        this.opts.file,
         {
           ...originJson,
           [this.opts.key]: value,

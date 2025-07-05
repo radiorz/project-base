@@ -1230,21 +1230,6 @@ importers:
         version: link:../../tools/create-tools
 
   templates/create-tsdown:
-    devDependencies:
-      '@types/node':
-        specifier: ^24.0.10
-        version: 24.0.10
-      tsdown:
-        specifier: ^0.12.9
-        version: 0.12.9(typescript@5.8.3)
-      tsx:
-        specifier: ^4.20.3
-        version: 4.20.3
-      vitest:
-        specifier: ^3.2.4
-        version: 3.2.4(@types/debug@4.1.12)(@types/node@24.0.10)(jiti@2.4.2)(terser@5.39.2)(tsx@4.20.3)
-
-  templates/create-tsdown1:
     dependencies:
       '@tikkhun/create':
         specifier: workspace:^
@@ -1417,6 +1402,9 @@ importers:
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
+      '@tikkhun/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils-for-node
       '@tikkhun/utils-core':
         specifier: workspace:^
         version: link:../../packages/utils
@@ -1600,7 +1588,7 @@ importers:
     dependencies:
       '@tikkhun/cli-core':
         specifier: latest
-        version: 0.0.29(@types/node@24.0.10)
+        version: 0.0.30(@types/node@24.0.10)
       '@tikkhun/logger':
         specifier: latest
         version: 1.0.8
@@ -1675,12 +1663,21 @@ importers:
       '@tikkhun/cli-core':
         specifier: workspace:^
         version: link:../../../packages/cli-core
+      '@tikkhun/config-loader':
+        specifier: workspace:^
+        version: link:../../../packages/config-loader
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../../packages/logger
+      '@tikkhun/overload':
+        specifier: workspace:^
+        version: link:../../../packages/overload
       '@tikkhun/utils':
         specifier: workspace:^
         version: link:../../../packages/utils-for-node
+      '@tikkhun/utils-core':
+        specifier: workspace:^
+        version: link:../../../packages/utils
       commander:
         specifier: ^14.0.0
         version: 14.0.0
@@ -1821,6 +1818,9 @@ importers:
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger
+      '@tikkhun/utils':
+        specifier: workspace:^
+        version: link:../../packages/utils-for-node
       commander:
         specifier: ^14.0.0
         version: 14.0.0
@@ -3460,11 +3460,11 @@ packages:
     resolution: {integrity: sha512-/DiOQ5xBxgdYRC8LNk7U+RWat0S3qRLeIw3ZIkMQ9kkVlRmwD/Eg8k8CqIpD6GW7u20JIUOfMKbxtiLutpjQ4g==}
     engines: {node: '>=12'}
 
-  '@tikkhun/cli-core@0.0.29':
-    resolution: {integrity: sha512-QUjZ/gtfaP8/UOqMV67Y3ynp+e9DpN+T5z3Mhq9ZHN+U8miex6T3+uSMguZ+1FQol/MKGvVN0pwm/SgQny8+/g==}
+  '@tikkhun/cli-core@0.0.30':
+    resolution: {integrity: sha512-MWV5OAro0BPFSIPkL8L3mQvWU9CgRalwLO6PfIxLB/dm8EIAVYOtd+CcSheyn54OYCXDPOmuss+rbn+bIW8ZBg==}
 
-  '@tikkhun/config-loader@0.1.3':
-    resolution: {integrity: sha512-K+JL5NOaEEtDJG7MCfcIgmuuKjCZNs9uMPJprh2InlAeeaYWKGBpjMgKvKmvzyckPtLCknpBBIx2dS0OiJTqaA==}
+  '@tikkhun/config-loader@0.1.5':
+    resolution: {integrity: sha512-hNhXTFRCltVMwki7J/9SA4n38KQbNQHIPD710DPLrl+RrlYUX2K4J14BcRKM6g4sNvziW3W2ISc/vDEGlwmGpQ==}
 
   '@tikkhun/logger@1.0.8':
     resolution: {integrity: sha512-+0VYEXwJiX+O192ztqrGJARgaAfwlZLsXGwQx9FY1C4iz7S/2XOkf25A1VrhnLCwejdWJLm3UfMHeF1aZ7VtXw==}
@@ -3475,8 +3475,8 @@ packages:
   '@tikkhun/overload@0.0.5':
     resolution: {integrity: sha512-9YuQtfEFed1Zd5I0c58hxaPk7leoNG5ig/MUsjRqGvGkhtj9U7xrPmp1UwtSpd3mnIcDC//CH/RrXOK66GTpcA==}
 
-  '@tikkhun/pipe@0.0.0':
-    resolution: {integrity: sha512-NKbVt9yKSwX+f+YBJM0mtKM1WTy6obXfSAi5xtlsLxESc3z9nfkC9cVcaTkyqIzGYGhZFbf5wjQzFWoFlV0/jw==}
+  '@tikkhun/pipe@0.0.2':
+    resolution: {integrity: sha512-7ShDfmne0fYMU/CYyKnrgkJAA9dgqTu6UZNsjCJ836ajeslTGTXvK6uxjnCtVDfzeQXtl+pMBiA3f1i3Tr6PnA==}
 
   '@tikkhun/requestable@0.0.6':
     resolution: {integrity: sha512-gyvN4qzvdZWOwA/AgI9RGNxQJZ5PFhJNNrB4D6MkRO6Y7XM+TXMotMtl6Vgi9E8irc9h20bymaf095U0C3el9Q==}
@@ -10207,10 +10207,10 @@ snapshots:
       lz-string: 1.5.0
       pretty-format: 27.5.1
 
-  '@tikkhun/cli-core@0.0.29(@types/node@24.0.10)':
+  '@tikkhun/cli-core@0.0.30(@types/node@24.0.10)':
     dependencies:
       '@inquirer/prompts': 7.6.0(@types/node@24.0.10)
-      '@tikkhun/config-loader': 0.1.3
+      '@tikkhun/config-loader': 0.1.5
       '@tikkhun/logger': 1.0.8
       '@tikkhun/nested-args': 0.0.4
       '@tikkhun/utils-core': 0.0.22
@@ -10220,11 +10220,11 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@tikkhun/config-loader@0.1.3':
+  '@tikkhun/config-loader@0.1.5':
     dependencies:
       '@tikkhun/logger': 1.0.8
       '@tikkhun/overload': 0.0.5
-      '@tikkhun/pipe': 0.0.0
+      '@tikkhun/pipe': 0.0.2
       '@tikkhun/utils': 1.0.15
       commander: 14.0.0
       fast-xml-parser: 5.2.5
@@ -10245,7 +10245,7 @@ snapshots:
 
   '@tikkhun/overload@0.0.5': {}
 
-  '@tikkhun/pipe@0.0.0': {}
+  '@tikkhun/pipe@0.0.2': {}
 
   '@tikkhun/requestable@0.0.6': {}
 

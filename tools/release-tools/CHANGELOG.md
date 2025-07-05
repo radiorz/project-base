@@ -1,5 +1,15 @@
 # @tikkhun/release
 
+## 0.1.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/info@0.0.5
+  - @tikkhun/release-info-store@0.0.3
+  - @tikkhun/info-string@0.0.3
+  - @tikkhun/release-input-move@0.0.3
+
 ## 0.1.6
 
 ### Patch Changes
