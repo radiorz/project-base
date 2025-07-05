@@ -37,9 +37,9 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.18",
-    "@types/node": "^24.0.3",
-    "tsdown": "^0.12.8",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.0.10",
+    "tsdown": "^0.12.9",
     "tsx": "^4.20.3",
     "vitest": "^3.2.4"
   }

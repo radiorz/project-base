@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@tikkhun/utils-core": "workspace:^",
-    "@types/node": "^20.3.1",
+    "@types/node": "^24.0.10",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
     "vitest": "^3.2.4"

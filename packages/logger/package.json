@@ -40,8 +40,8 @@
     "@types/dotenv-safe": "^8.1.6",
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
-    "@types/lodash": "^4.17.18",
-    "@types/node": "^22.10.2",
+    "@types/lodash": "^4.17.20",
+    "@types/node": "^24.0.10",
     "tsx": "^4.20.3",
     "tsup": "^8.5.0",
     "vitest": "^3.2.4"

@@ -15,7 +15,7 @@
   "dependencies": {
     "@trpc/server": "npm:@trpc/server@next",
     "tsx": "^4.20.3",
-    "zod": "^3.25.67"
+    "zod": "^3.25.74"
   },
   "devDependencies": {
     "tsx": "^4.20.3"

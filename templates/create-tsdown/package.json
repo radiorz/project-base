@@ -1,22 +1,43 @@
 {
-  "name": "@tikkhun/create-tsdown",
-  "version": "0.0.4",
+  "name": "<%= projectName %>",
+  "version": "0.0.0",
   "description": "",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
-  "main": "./bin/create-tsdown.js",
-  "bin": {
-    "tikkhun-create-tsdown": "./bin/create-tsdown.js"
+  "private": true,
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "dev": "node ./bin/create-tsdown.js",
-    "dev:prompts": "node ./bin/create-tsdown.js prompts",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsdown",
+    "dev": "tsx ./src/index.ts",
+    "test": "vitest"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "peerDependencies": {},
-  "dependencies": {
-    "@tikkhun/create": "workspace:^"
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^24.0.10",
+    "tsx": "^4.20.3",
+    "tsdown": "^0.12.9",
+    "vitest": "^3.2.4"
   }
 }

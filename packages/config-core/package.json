@@ -41,7 +41,7 @@
   },
   "devDependencies": {
     "@tikkhun/version": "latest",
-    "@types/lodash": "^4.17.18",
+    "@types/lodash": "^4.17.20",
     "lodash": "^4.17.21",
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
