@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/version",
-  "version": "2025.7.5",
+  "version": "2025.7.6",
   "description": "",
   "bin": {
     "date-version": "./dist/cli/date-version.js",

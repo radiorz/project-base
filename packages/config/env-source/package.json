@@ -1,6 +1,6 @@
 {
-  "name": "config",
-  "version": "0.0.0",
+  "name": "@tikkhun/env-source",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.js",
@@ -33,13 +33,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/utils-core": "workspace:^",
-    "mitt": "^3.0.1"
+    "lodash": "^4.17.21",
+    "@tikkhun/utils-core": "workspace:*",
+    "@tikkhun/config-core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^24.0.10",
-    "tsdown": "^0.12.9",
-    "tsx": "^4.20.3",
-    "vitest": "^3.2.4"
+    "@types/node": "^20.3.1",
+    "tsx": "^4.19.1",
+    "tsdown": "^0.12.2",
+    "vitest": "^2.1.3"
   }
 }

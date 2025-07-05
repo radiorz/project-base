@@ -12,7 +12,7 @@
  * @example
  */
 
-import { ConfigSource } from '@tikkhun/config-core';
+import { type ConfigSource } from '@tikkhun/config-core';
 import { mergeOptions } from '@tikkhun/utils-core';
 import { debounce, set } from 'lodash-es';
 export const LocalStorageSourceDefaultOptions = {
@@ -21,7 +21,7 @@ export const LocalStorageSourceDefaultOptions = {
   // 存储的
   saveDebounce: 0,
   emitError: false,
-  onSave: () => {},
+  onSave: () => { },
 };
 export class LocalStorageSource implements ConfigSource {
   static defaultOptions = Object.freeze(LocalStorageSourceDefaultOptions);

@@ -1,5 +1,13 @@
 # @tikkhun/info
 
+## 0.0.6
+
+### Patch Changes
+
+- e50d6d5: feat: findUp file 以防在子目录上运行没有效果
+- Updated dependencies [e50d6d5]
+  - @tikkhun/utils@1.0.18
+
 ## 0.0.5
 
 ### Patch Changes

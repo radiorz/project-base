@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash';
-import { ConfigSource } from './';
+import { Source } from '@tikkhun/config-core';
 import { listToNestedObject } from '@tikkhun/utils-core';
 export interface EnvSourceOptions {
   // # key相关
@@ -19,7 +19,7 @@ export interface EnvSourceOptions {
   // loadEnv(): Record<string, any>;
 }
 
-export abstract class EnvSource implements ConfigSource {
+export abstract class EnvSource implements Source {
   static defaultOptions: EnvSourceOptions = {
     // key相关
     includePrefix: undefined, // 这里可能可以包括多个

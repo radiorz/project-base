@@ -13,7 +13,7 @@
  */
 
 import { config } from 'dotenv-safe';
-import { EnvSource, EnvSourceOptions } from '@tikkhun/config-core';
+import { EnvSource, EnvSourceOptions } from '@tikkhun/env-source';
 
 export interface ProcessEnvSourceOptions extends EnvSourceOptions {
   allowEmptyValues: boolean;
