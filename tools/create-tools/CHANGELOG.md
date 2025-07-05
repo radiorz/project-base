@@ -1,5 +1,13 @@
 # @tikkhun/create
 
+## 0.2.9
+
+### Patch Changes
+
+- fix: config-loader commonjs import
+- Updated dependencies
+  - @tikkhun/cli-core@0.0.30
+
 ## 0.2.8
 
 ### Patch Changes

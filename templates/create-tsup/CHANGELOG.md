@@ -1,5 +1,13 @@
 # @tikkhun/create-tsup
 
+## 1.1.13
+
+### Patch Changes
+
+- fix: config-loader commonjs import
+- Updated dependencies
+  - @tikkhun/create@0.2.9
+
 ## 1.1.12
 
 ### Patch Changes

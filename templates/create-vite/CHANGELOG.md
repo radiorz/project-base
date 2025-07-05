@@ -1,5 +1,13 @@
 # @tikkhun/create-vite
 
+## 0.1.8
+
+### Patch Changes
+
+- fix: config-loader commonjs import
+- Updated dependencies
+  - @tikkhun/create@0.2.9
+
 ## 0.1.7
 
 ### Patch Changes

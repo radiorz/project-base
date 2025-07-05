@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/create",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "创建项目",
   "main": "dist/lib/index.js",
   "module": "dist/lib/index.mjs",
