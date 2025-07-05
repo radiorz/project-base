@@ -1,6 +1,7 @@
 import { listToNestedObject, ListToNestedObjectOptions, toCamelCase } from '@tikkhun/utils-core';
 import { load as parseYaml } from 'js-yaml';
-import { parse as parseJSON5 } from 'json5';
+import JSON5 from 'json5';
+const { parse: parseJSON5 } = JSON5;
 import { parse as parseToml } from 'smol-toml';
 import { convertXmlToConfig } from './xml';
 // import { readLocalOrUrlFile as readFile } from '@tikkhun/utils';

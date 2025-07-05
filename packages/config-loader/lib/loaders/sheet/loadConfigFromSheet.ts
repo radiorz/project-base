@@ -1,4 +1,6 @@
-import { readFile } from 'xlsx';
+// import  { readFile } from 'xlsx';
+import XLSX from 'xlsx'
+const { readFile } = XLSX;
 import { loadFromFile } from '../../type';
 import { convertToConfigFromSheet, ConvertToConfigFromSheetOptions } from './convertToConfigFromSheet';
 
