@@ -1,5 +1,11 @@
 # @tikkhun/utils
 
+## 1.0.19
+
+### Patch Changes
+
+- fix: semantic-version not work
+
 ## 1.0.18
 
 ### Patch Changes

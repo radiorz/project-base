@@ -1,5 +1,13 @@
 # @tikkhun/config-loader-cli
 
+## 0.1.7
+
+### Patch Changes
+
+- fix: semantic-version not work
+- Updated dependencies
+  - @tikkhun/config-loader@0.1.7
+
 ## 0.1.5
 
 ### Patch Changes
