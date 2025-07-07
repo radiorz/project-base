@@ -1,4 +1,4 @@
-#!/usr/bin/env node --import=tsx
+#!/usr/bin/env node
 
 import { cli } from './cli';
 cli.start();
