@@ -7,10 +7,19 @@
  * loadConfig() // ->
  */
 import { createOverLoad } from '@tikkhun/overload';
-import { loadConfigFromSheet, loadEnvConfig, loadFromXml, loadJSON, loadJSON5, loadToml, loadYaml } from './loaders';
-import { importModuleDefault } from './loaders';
-import { FILE_TYPES } from './type';
 import { getFileType } from './getFileType';
+import {
+  importModuleDefault,
+  loadConfigFromSheet,
+  loadEnvConfig,
+  loadFromXml,
+  loadJSON,
+  loadJSON5,
+  loadSingleText,
+  loadToml,
+  loadYaml,
+} from './loaders';
+import { FILE_TYPES } from './type';
 export const loadConfig = createOverLoad({
   getType(arg: any, index: number) {
     if (index === 0) return getFileType(arg);
@@ -29,3 +38,5 @@ loadConfig.addImpl(FILE_TYPES.typescript, importModuleDefault);
 loadConfig.addImpl(FILE_TYPES.xml, loadFromXml);
 loadConfig.addImpl(FILE_TYPES.xml, 'object', loadFromXml);
 loadConfig.addImpl(FILE_TYPES.sheet, loadConfigFromSheet);
+loadConfig.addImpl(FILE_TYPES.dotNodeVersion, loadSingleText);
+loadConfig.addImpl(FILE_TYPES.dotNodeVersion, 'string', loadSingleText);

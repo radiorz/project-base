@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/version",
-  "version": "2025.7.6",
+  "version": "2025.7.7",
   "description": "",
   "bin": {
     "date-version": "./dist/cli/date-version.js",
@@ -38,6 +38,7 @@
   "dependencies": {
     "@tikkhun/utils": "workspace:^",
     "@tikkhun/logger": "workspace:^",
+    "@tikkhun/date-version": "workspace:^",
     "commander": "^14.0.0",
     "dayjs": "^1.11.13",
     "fs-extra": "^11.3.0"

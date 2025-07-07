@@ -4,7 +4,7 @@ import { loadConfig, saveConfig } from '@tikkhun/config-loader';
 export const defaultOptions = {
   input: 'package.json',
   output: '',
-  // inputOptions: ,
+  // inputOptions: {},
   // outputOptions: {},
 };
 export const optionTitles = {

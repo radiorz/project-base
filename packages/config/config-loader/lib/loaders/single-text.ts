@@ -1,0 +1,26 @@
+// 存在一种可能就是我的配置从多个文件进行获取，每个文件就一个配置项，比如.node-version就只有node的版本，.date-version就只有日期版本，这样就可以避免配置文件的冲突问题
+
+import { readLocalOrUrlFile } from '@tikkhun/utils';
+import { writeFile } from 'node:fs/promises';
+import path from 'node:path';
+export async function loadSingleText(filePath: string, key?: string) {
+  key = (key ?? getKeyByFileName(filePath)) as string;
+  const result = await readLocalOrUrlFile(filePath);
+  return { key: result };
+}
+
+export async function saveSingleText(config: Record<string, string>, filePath: string, key?: string) {
+  if (!key) key = getKeyByFileName(filePath);
+  if (config[key] === undefined) {
+    throw new Error(`Key "${key}" not found in data`);
+  }
+  await writeFile(filePath, config[key]);
+}
+
+export function isDotFile(fileName: string) {
+  return fileName.startsWith('.');
+}
+export function getKeyByFileName(filePath: string) {
+  const fileName = path.basename(filePath, path.extname(filePath));
+  return isDotFile(fileName) ? fileName.slice(1) : fileName;
+}

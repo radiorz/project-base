@@ -1,11 +1,11 @@
 import { readFile as readLocalFile } from 'node:fs/promises';
-import { isUrlString } from 'url-or-path';
-
+// import { isUrlString } from 'url-or-path'; // es
 /**
  * @param {string | URL} file
  * @returns {Promise<undefined | string>}
  */
 export async function readLocalOrUrlFile(file: string | URL, options: Parameters<typeof readLocalFile>[1] = 'utf8') {
+  const { isUrlString } = await import('url-or-path');
   if (isUrlString(file)) {
     file = new URL(file);
   }

@@ -1822,6 +1822,9 @@ importers:
 
   tools/version:
     dependencies:
+      '@tikkhun/date-version':
+        specifier: workspace:^
+        version: link:../version-plugins/date-version
       '@tikkhun/logger':
         specifier: workspace:^
         version: link:../../packages/logger

@@ -14,4 +14,5 @@ export enum FILE_TYPES {
   toml = 'toml',
   xml = 'xml',
   sheet = 'sheet',
+  dotNodeVersion = 'dotNodeVersion',
 }

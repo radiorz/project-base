@@ -8,6 +8,7 @@ export function getFileType(filePath: string) {
   const fileBaseName = basename(filePath);
   // 根据前缀判断
   if (fileBaseName.startsWith('.env')) return FILE_TYPES.env;
+  if (fileBaseName.startsWith('.node-version')) return FILE_TYPES.dotNodeVersion;
   // 根据文件扩展名判断文件类型
   const ext = extname(fileBaseName);
   switch (ext) {
@@ -35,6 +36,6 @@ export function getFileType(filePath: string) {
       return FILE_TYPES.sheet;
     default:
       console.error(`文件的格式不受支持: ${filePath}`);
-      return null;
+      return 'string';
   }
 }

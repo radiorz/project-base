@@ -12,14 +12,19 @@
  * @example
  */
 import { Logger } from '@tikkhun/logger';
-import { DateVersionGetter, Getter } from './getter';
+import { Getter } from './getter';
 import { JsonStore, Store } from './store';
+import { getDateVersion } from '@tikkhun/date-version';
 export interface VersionManagerOptions {
   getter: Getter;
   store: Store[] | Store;
 }
 export const DEFAULT_VERSION_MANAGER_OPTIONS: VersionManagerOptions = {
-  getter: new DateVersionGetter(),
+  getter: {
+    get() {
+      return getDateVersion();
+    },
+  },
   store: new JsonStore(),
 };
 export class VersionManager {

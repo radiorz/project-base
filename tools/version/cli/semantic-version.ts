@@ -6,7 +6,7 @@ import {
   JsonStore,
   Positions,
   SemanticVersionGetter,
-  VersionManager
+  VersionManager,
 } from '../lib';
 import { findUp } from '@tikkhun/utils';
 import { join } from 'path';
@@ -15,14 +15,18 @@ Logger.log('[欢迎] semantic-version');
 program
   .command('update')
   .description('更新')
-  .option('-p --position <position>', '更新位置<major,minor,patch>', Positions[DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position])
+  .option(
+    '-p --position <position>',
+    '更新位置<major,minor,patch>',
+    Positions[DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.position],
+  )
   .option('-f --file <fileName>', 'json文件名称', DEFAULT_SEMANTIC_VERSION_GETTER_OPTIONS.file)
   .action(async (options) => {
     const position = Positions[options.position as keyof typeof Positions];
     // 这里提供了向上查找package.json等配置的能力
-    const filePath = findUp(join(process.cwd(), options.file)); // 向上查找直到找到
-    if (!filePath) throw new Error(`更新版本号，但失败，无法获取${options.file}文件路径`)
-    Logger.debug!("filePath", filePath)
+    const filePath = findUp(options.file, process.cwd()); // 向上查找直到找到
+    if (!filePath) throw new Error(`更新版本号，但失败，无法获取${options.file}文件路径`);
+    Logger.debug!('更新的文件路径: ' + filePath);
     const versionManager = new VersionManager({
       getter: new SemanticVersionGetter({ position, file: filePath }),
       store: new JsonStore({
