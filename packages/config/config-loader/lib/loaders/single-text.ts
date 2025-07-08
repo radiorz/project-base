@@ -5,10 +5,14 @@ import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
 export interface LoadSingleTextOptions {
   key: string;
+  trim: boolean;
 }
 export async function loadSingleText(filePath: string, options?: LoadSingleTextOptions) {
-  const { key = getKeyByFileName(filePath) } = options ?? {};
-  const result = await readLocalOrUrlFile(filePath);
+  const { key = getKeyByFileName(filePath), trim = true } = options ?? {};
+  let result = await readLocalOrUrlFile(filePath);
+  if (trim) {
+    result = (result as string)?.trim?.();
+  }
   return { [key]: result };
 }
 
