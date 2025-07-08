@@ -4,8 +4,8 @@ import { loadConfig, saveConfig } from '@tikkhun/config-loader';
 export const defaultOptions = {
   input: 'package.json',
   output: '',
-  // inputOptions: {},
-  // outputOptions: {},
+  inputOptions: undefined,
+  outputOptions: undefined,
 };
 export const optionTitles = {
   input: '路径',
@@ -23,7 +23,7 @@ export const cliOptions = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.prompts],
   defaultOptions,
   optionTitles,
   optionTypes,

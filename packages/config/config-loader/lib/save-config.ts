@@ -36,4 +36,4 @@ saveConfig.addImpl('object', FILE_TYPES.xml, saveToXml);
 saveConfig.addImpl('object', FILE_TYPES.xml, 'object', saveToXml);
 saveConfig.addImpl('object', FILE_TYPES.sheet, saveConfigToSheet);
 saveConfig.addImpl('object', FILE_TYPES.dotNodeVersion, saveSingleText);
-saveConfig.addImpl('object', FILE_TYPES.dotNodeVersion, 'string', saveSingleText);
+saveConfig.addImpl('object', FILE_TYPES.dotNodeVersion, 'object', saveSingleText);

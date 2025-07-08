@@ -3,14 +3,24 @@
 import { readLocalOrUrlFile } from '@tikkhun/utils';
 import { writeFile } from 'node:fs/promises';
 import path from 'node:path';
-export async function loadSingleText(filePath: string, key?: string) {
-  key = (key ?? getKeyByFileName(filePath)) as string;
+export interface LoadSingleTextOptions {
+  key: string;
+}
+export async function loadSingleText(filePath: string, options?: LoadSingleTextOptions) {
+  const { key = getKeyByFileName(filePath) } = options ?? {};
   const result = await readLocalOrUrlFile(filePath);
-  return { key: result };
+  return { [key]: result };
 }
 
-export async function saveSingleText(config: Record<string, string>, filePath: string, key?: string) {
-  if (!key) key = getKeyByFileName(filePath);
+export interface SaveSingleTextOptions {
+  key: string;
+}
+export async function saveSingleText(
+  config: Record<string, string>,
+  filePath: string,
+  options?: Partial<SaveSingleTextOptions>,
+) {
+  const { key = getKeyByFileName(filePath) } = options ?? {};
   if (config[key] === undefined) {
     throw new Error(`Key "${key}" not found in data`);
   }

@@ -1,5 +1,13 @@
 # @tikkhun/config-loader-cli
 
+## 0.1.9
+
+### Patch Changes
+
+- feat: 添加inputOptions 和outputOptions
+- Updated dependencies
+  - @tikkhun/config-loader@0.1.8
+
 ## 0.1.8
 
 ### Patch Changes

@@ -12,7 +12,7 @@ async function bootstrap() {
   console.log('./src/test.ts', await loadConfig('./src/test.ts'));
   console.log('./src/test.xlsx', await loadConfig('./src/test.xlsx'));
   console.log('./src/.node-version', await loadConfig('./src/.node-version'));
-  console.log('./src/.node-version version', await loadConfig('./src/.node-version', 'version'));
+  console.log('./src/.node-version version', await loadConfig('./src/.node-version', { key: 'version' }));
   // console.log(
   //   'https://github.com/zhangfisher/flex-tools/blob/master/package.json',
   //   await loadConfig('https://github.com/zhangfisher/flex-tools/blob/master/package.json'),
@@ -28,6 +28,6 @@ async function bootstrapSaver() {
   await saveConfig(config, './src/test_saver.yaml');
   await saveConfig(config, './src/test_saver.js');
   await saveConfig(config, './src/test_saver.xlsx');
-  await saveConfig(config, './src/test_save/.node-version', 'version');
+  await saveConfig(config, './src/test_save/.node-version', { key: 'version' });
 }
 bootstrapSaver();

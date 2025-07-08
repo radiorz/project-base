@@ -1,5 +1,11 @@
 # @tikkhun/config-loader
 
+## 0.1.8
+
+### Patch Changes
+
+- feat: 添加inputOptions 和outputOptions
+
 ## 0.1.7
 
 ### Patch Changes

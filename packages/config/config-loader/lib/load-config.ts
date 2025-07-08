@@ -39,4 +39,4 @@ loadConfig.addImpl(FILE_TYPES.xml, loadFromXml);
 loadConfig.addImpl(FILE_TYPES.xml, 'object', loadFromXml);
 loadConfig.addImpl(FILE_TYPES.sheet, loadConfigFromSheet);
 loadConfig.addImpl(FILE_TYPES.dotNodeVersion, loadSingleText);
-loadConfig.addImpl(FILE_TYPES.dotNodeVersion, 'string', loadSingleText);
+loadConfig.addImpl(FILE_TYPES.dotNodeVersion, 'object', loadSingleText);
