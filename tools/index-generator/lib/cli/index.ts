@@ -1,11 +1,10 @@
-import { Cli, CommandTypes, echoPackage } from '@tikkhun/cli-core';
-import packageJson from '../../package.json';
+import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import { DefaultGenerateIndexOptions, generateIndex } from '..';
+import packageJson from '../../package.json';
 export const defaultOptions = {
   ...DefaultGenerateIndexOptions,
   child: false
 };
-echoPackage(packageJson)
 export const optionTitles = {
   cwd: '路径',
   indexName: '文件名',
@@ -28,7 +27,7 @@ export const cliOptions = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.prompts],
   defaultOptions,
   optionTitles,
   optionTypes,

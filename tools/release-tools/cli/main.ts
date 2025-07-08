@@ -3,7 +3,7 @@ import { Cli, CommandTypes } from '@tikkhun/cli-core';
 import { TikkhunRelease, TikkhunReleaseDefaultOptions } from '../lib';
 import packageJson from '../package.json';
 const cli = new Cli({
-  types: [CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.config, CommandTypes.prompts],
   version: packageJson.version,
   name: packageJson.name,
   description: packageJson.description,

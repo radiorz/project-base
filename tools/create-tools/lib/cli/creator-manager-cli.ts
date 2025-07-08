@@ -14,7 +14,7 @@ const { readJSON } = fsExtra;
 export const creatorManagerCliOptions = {
   name: packageJson.name,
   version: packageJson.version,
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.prompts],
   description: packageJson.description,
   excludeOptions: [...creatorCliOptions.excludeOptions],
   defaultOptions: {

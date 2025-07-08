@@ -20,7 +20,7 @@ export const cliOptions = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.prompts],
   defaultOptions: defaultMvOptions,
   optionTitles,
   optionTypes,

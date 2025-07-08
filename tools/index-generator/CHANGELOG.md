@@ -1,5 +1,11 @@
 # @tikkhun/index-generator
 
+## 0.1.6
+
+### Patch Changes
+
+- feat: 添加info输出
+
 ## 0.1.5
 
 ### Patch Changes

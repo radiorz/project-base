@@ -1,5 +1,13 @@
 # @tikkhun/create-tsdown
 
+## 0.0.6
+
+### Patch Changes
+
+- feat: 添加info输出
+- Updated dependencies
+  - @tikkhun/create@0.2.13
+
 ## 0.0.5
 
 ### Patch Changes

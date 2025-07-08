@@ -33,7 +33,7 @@ export const creatorCliOptions = {
   name: packageJson.name,
   version: packageJson.version,
   description: packageJson.description,
-  types: [CommandTypes.args, CommandTypes.prompts],
+  types: [CommandTypes.info, CommandTypes.args, CommandTypes.prompts],
   defaultOptions: Creator.DEFAULT_OPTIONS,
   excludeOptions: ['projectDirOptions.build'],
   optionTitles: creatorOptionTitles,

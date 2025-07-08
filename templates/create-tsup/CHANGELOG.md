@@ -1,5 +1,16 @@
 # @tikkhun/create-tsup
 
+## 1.1.14
+
+### Major Changes
+
+- feat: 添加info输出
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/create@0.2.13
+
 ## 1.1.13
 
 ### Patch Changes

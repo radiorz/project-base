@@ -1,5 +1,11 @@
 # @tikkhun/create
 
+## 0.2.13
+
+### Patch Changes
+
+- feat: 添加info输出
+
 ## 0.2.12
 
 ### Patch Changes

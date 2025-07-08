@@ -1,5 +1,11 @@
 # @tikkhun/info
 
+## 0.0.8
+
+### Major Changes
+
+- feat: 添加info输出
+
 ## 0.0.7
 
 ### Patch Changes

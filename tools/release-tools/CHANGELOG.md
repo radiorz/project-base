@@ -1,5 +1,16 @@
 # @tikkhun/release
 
+## 0.1.10
+
+### Patch Changes
+
+- feat: 添加info输出
+- Updated dependencies
+  - @tikkhun/info@0.0.8
+  - @tikkhun/release-info-store@0.0.6
+  - @tikkhun/info-string@0.0.6
+  - @tikkhun/release-input-move@0.0.6
+
 ## 0.1.9
 
 ### Patch Changes
