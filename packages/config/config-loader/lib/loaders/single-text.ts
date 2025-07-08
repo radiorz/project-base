@@ -7,7 +7,7 @@ export interface LoadSingleTextOptions {
   key: string;
   trim: boolean;
 }
-export async function loadSingleText(filePath: string, options?: LoadSingleTextOptions) {
+export async function loadSingleText(filePath: string, options?: Partial<LoadSingleTextOptions>) {
   const { key = getKeyByFileName(filePath), trim = true } = options ?? {};
   let result = await readLocalOrUrlFile(filePath);
   if (trim) {
