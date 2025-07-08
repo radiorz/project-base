@@ -5,10 +5,12 @@ import { Logger } from '@tikkhun/logger';
 import { ConfigCommand } from './command/ConfigCommand';
 import { Command, createCommand } from 'commander';
 import { mergeOptions } from '@tikkhun/utils-core';
+import { InfoCommand } from './command/InfoCommand';
 export enum CommandTypes {
   'prompts' = 'prompts',
   'args' = 'args',
   'config' = 'config',
+  info = 'info',
 }
 export interface CommandManagerOptions extends CommandOptions {
   name: string;
@@ -19,14 +21,16 @@ export class CommandManager {
   static readonly DEFAULT_OPTIONS: CommandManagerOptions = {
     ...AbstractCommand.DEFAULT_OPTIONS,
     name: '',
-    types: [CommandTypes.args],
+    types: [CommandTypes.args, CommandTypes.info],
     immediatelyWelcome: false,
   };
   logger: Logger;
   options: CommandManagerOptions;
-  argsCommand?: ArgsCommand;
-  promptsCommand?: PromptsCommand;
-  configCommand?: ConfigCommand;
+  // argsCommand?: ArgsCommand;
+  // promptsCommand?: PromptsCommand;
+  // configCommand?: ConfigCommand;
+  // infoCommand?: InfoCommand;
+  commands: AbstractCommand[] = [];
   constructor(options: Partial<CommandManagerOptions>) {
     this.options = mergeOptions(CommandManager.DEFAULT_OPTIONS, options);
     this.logger = new Logger(this.options.name);
@@ -50,15 +54,15 @@ export class CommandManager {
       return;
     }
     this.program = createCommand();
-    if (types.includes(CommandTypes.args)) {
-      this.argsCommand = new ArgsCommand({ ...options, program: this.program });
-    }
-    if (types.includes(CommandTypes.config)) {
-      this.configCommand = new ConfigCommand({ ...options, program: this.program });
-    }
-    if (types.includes(CommandTypes.prompts)) {
-      this.promptsCommand = new PromptsCommand({ ...options, program: this.program });
-    }
+    const map = {
+      [CommandTypes.args]: ArgsCommand,
+      [CommandTypes.config]: ConfigCommand,
+      [CommandTypes.prompts]: PromptsCommand,
+      [CommandTypes.info]: InfoCommand,
+    };
+    types.forEach((type) => {
+      this.commands.push(new map[type]({ ...options, program: this.program }));
+    });
   }
   start(action?: Action) {
     if (!action) {
@@ -67,9 +71,9 @@ export class CommandManager {
     if (!action) {
       throw new Error('action is undefined');
     }
-    this.promptsCommand?.start(action);
-    this.configCommand?.start(action);
-    this.argsCommand?.start(action);
+    this.commands.forEach((command) => {
+      command.start(action);
+    });
     // 当没有的时候就不会parse了
     this.program?.parse(process.argv);
   }

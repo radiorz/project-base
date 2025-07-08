@@ -53,6 +53,7 @@ export class ArgsCommand extends AbstractCommand {
     this.program!.action(async (stringOptions) => {
       // 加了一个尾巴就是文件的config
       const { config: configPath, ...restStringOptions } = stringOptions;
+
       if (!configPath) {
         const options = await this.getOptionsByArgs(restStringOptions);
         action(options);

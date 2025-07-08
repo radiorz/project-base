@@ -16,4 +16,5 @@ export function echo(info: Record<string, any>) {
   Logger.log(`[欢迎使用] ${info.name}`);
   // 版本
   Logger.log('版本: ' + info.version);
+  info.description && Logger.log('描述: ' + info.description);
 }

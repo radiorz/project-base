@@ -1,5 +1,11 @@
 # @tikkhun/cli-core
 
+## 0.0.31
+
+### Patch Changes
+
+- feat:添加信息打印
+
 ## 0.0.30
 
 ### Patch Changes

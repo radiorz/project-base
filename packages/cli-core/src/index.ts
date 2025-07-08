@@ -1,9 +1,9 @@
 import { Cli, CommandTypes } from '../lib';
 const cli = new Cli({
-  name: 'adfad ',
+  name: '无敌测试',
   version: '1.1.1',
-  description: 'hahaha',
-  types: [CommandTypes.args, CommandTypes.prompts, CommandTypes.config],
+  description: '我是世界无敌的命令行工具',
+  types: [CommandTypes.args, CommandTypes.prompts, CommandTypes.config, CommandTypes.info],
   defaultOptions: {
     n: 1,
     s: '123',

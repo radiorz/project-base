@@ -1,5 +1,12 @@
 # @tikkhun/config-loader-cli
 
+## 0.1.8
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/cli-core@0.0.31
+
 ## 0.1.7
 
 ### Patch Changes
