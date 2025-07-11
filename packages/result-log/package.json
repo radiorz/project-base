@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/result-log",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -32,7 +32,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/result": "^0.0.7"
+    "@tikkhun/result": "^0.0.8"
   },
   "devDependencies": {
     "@types/node": "^24.0.10",

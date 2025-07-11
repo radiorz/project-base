@@ -1,5 +1,18 @@
 # @tikkhun/release
 
+## 0.1.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/cli-core@0.0.32
+  - @tikkhun/release-core@0.1.3
+  - @tikkhun/info@0.0.9
+  - @tikkhun/release-info-store@0.0.7
+  - @tikkhun/info-string@0.0.7
+  - @tikkhun/release-input-move@0.0.7
+
 ## 0.1.11
 
 ### Patch Changes

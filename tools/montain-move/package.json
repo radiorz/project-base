@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/move",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "",
   "bin": {
     "tikkhun-move": "dist/cli/index.js"
@@ -37,7 +37,7 @@
   "dependencies": {
     "@tikkhun/cli-core": "latest",
     "@tikkhun/logger": "latest",
-    "@tikkhun/utils-core": "^0.0.22",
+    "@tikkhun/utils-core": "^0.0.23",
     "commander": "^14.0.0",
     "glob": "^11.0.3"
   },

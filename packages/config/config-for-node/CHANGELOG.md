@@ -1,5 +1,14 @@
 # @tikkhun/config
 
+## 0.3.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/config-core@0.3.2
+  - @tikkhun/env-source@0.1.2
+
 ## 0.3.1
 
 ### Patch Changes

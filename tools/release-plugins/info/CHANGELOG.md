@@ -1,5 +1,14 @@
 # @tikkhun/info
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/cli-core@0.0.32
+  - @tikkhun/config-loader@0.1.9
+
 ## 0.0.8
 
 ### Major Changes

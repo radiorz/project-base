@@ -1,5 +1,11 @@
 # @tikkhun/version
 
+## 2025.7.8
+
+### Patch Changes
+
+- @tikkhun/date-version@0.0.1
+
 ## 2025.7.6
 
 ### Patch Changes

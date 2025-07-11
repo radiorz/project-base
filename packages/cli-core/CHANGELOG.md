@@ -1,5 +1,14 @@
 # @tikkhun/cli-core
 
+## 0.0.32
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/config-loader@0.1.9
+  - @tikkhun/nested-args@0.0.5
+
 ## 0.0.31
 
 ### Patch Changes

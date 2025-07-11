@@ -1,5 +1,13 @@
 # @tikkhun/build
 
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/cli-core@0.0.32
+
 ## 0.0.9
 
 ### Patch Changes

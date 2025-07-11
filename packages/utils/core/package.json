@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/utils-core",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "",
   "source": "./lib/index.ts",
   "main": "./dist/index.js",

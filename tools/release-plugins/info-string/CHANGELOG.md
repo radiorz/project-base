@@ -1,5 +1,13 @@
 # @tikkhun/info-string
 
+## 0.0.7
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/utils-core@0.0.23
+  - @tikkhun/info@0.0.9
+
 ## 0.0.6
 
 ### Patch Changes
