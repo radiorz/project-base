@@ -1,2 +1,4 @@
-import { hello } from '../lib';
-hello();
+// import { Release } from '../lib';
+
+// const release = new Release();
+// release.run();

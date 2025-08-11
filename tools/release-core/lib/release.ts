@@ -18,6 +18,7 @@ export interface InputOption {
 export enum ArchiveType {
   zip = 'zip',
   tar = 'tar',
+  zipEncrypted = 'zip-encrypted',
 }
 export interface ReleaseInputOptions {
   /* # 打包源头 */
@@ -39,10 +40,12 @@ export interface ReleaseOutputOptions {
 export interface ReleaseOptions extends ReleaseInputOptions, ReleaseOutputOptions {
   // archiveOptions: Record<string, any>;
   plugins?: any[];
+  archiveOptions?: Record<string, any>;
 }
 export const ExtensionMap = {
-  [ArchiveType.zip]: '.zip',
+  [ArchiveType.zip]: '.zip', // 普通zip
   [ArchiveType.tar]: '.tar.gz', // 直接压缩
+  [ArchiveType.zipEncrypted]: '.zip', // 加密zip
   // [ArchiveType.tar]: '.tar.gz',
 };
 
@@ -103,15 +106,15 @@ export class Release {
     this.log.log(`[结束] 删除可能的重名文件: ` + this.releaseFilePath);
   }
   // 这个打包选项就不让用户去关心了，直接写死
-  private static getArchiveOptions(archiveType: ArchiveType): archiver.ArchiverOptions {
+  private static getArchiveOptions(archiveType: ArchiveType, options?: Record<string, any>): archiver.ArchiverOptions {
     if (archiveType === ArchiveType.tar) {
       return {
+        ...(options || {}),
         gzip: true,
-        gzipOptions: { level: 9 },
       };
     }
     return {
-      zlib: { level: 9 }, // Sets the compression level.
+      ...(options || {}),
     };
   }
   private async getInputs() {
@@ -132,8 +135,15 @@ export class Release {
   }
 
   private async save() {
+    if (this.options.archiveType === ArchiveType.zipEncrypted) {
+      archiver.registerFormat('zip-encrypted', require('archiver-zip-encrypted'));
+    }
     // 打包
-    const archive = archiver(this.options.archiveType, Release.getArchiveOptions(this.options.archiveType));
+    const archive = archiver(
+      // @ts-expect-error 这里是 archiver 类型问题，当zip-encrypted 时，类型是 zip-encrypted
+      this.options.archiveType,
+      Release.getArchiveOptions(this.options.archiveType, this.options.archiveOptions),
+    );
     // 这里是文件夹
     const outputStream = createWriteStream(this.releaseFilePath);
 

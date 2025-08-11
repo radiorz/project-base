@@ -50,6 +50,7 @@
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "archiver": "^7.0.1",
+    "archiver-zip-encrypted": "^2.0.0",
     "fs-extra": "^11.3.0",
     "glob": "^11.0.3",
     "lodash": "^4.17.21"
