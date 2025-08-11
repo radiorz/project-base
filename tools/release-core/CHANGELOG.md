@@ -1,5 +1,11 @@
 # @tikkhun/release-core
 
+## 0.1.4
+
+### Patch Changes
+
+- feat: add zip encrypted
+
 ## 0.1.3
 
 ### Patch Changes
