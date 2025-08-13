@@ -2,6 +2,7 @@ import { defineConfig } from 'tsdown';
 import packageJson from './package.json';
 const name = packageJson.name;
 const version = packageJson.version;
+console.log('name,version', name, version);
 import banner2 from 'rollup-plugin-banner2';
 // import { esbuildPluginImport } from '@linjiajian999/esbuild-plugin-import';
 // import pluginLodashImport from 'esbuild-plugin-lodash';
