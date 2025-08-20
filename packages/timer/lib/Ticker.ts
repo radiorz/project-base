@@ -4,8 +4,11 @@ import { ITimer } from './ITimer';
 import { getRandom } from './utils';
 //
 export interface TickerOptions {
+  /** 精度 毫秒 */
   accuracy: number; // 这个用毫秒 多久调用一次getNow
+  /* 获取当前时间的方法 */
   getNow: () => number;
+  /* 是否创建实例后马上开始执行 */
   start: boolean;
 }
 export const defaultTickerOptions: TickerOptions = {
@@ -32,7 +35,10 @@ export abstract class AbstractTicker extends Emitter {
     this.now = await this.options.getNow();
     this.emit('change', this.now);
   }
-
+  // 因为时间总是有误差 所以在这里添加判断方法
+  isTimeOnTick(time: number, now = this.now) {
+    return now <= time && time < now + this.options.accuracy; // 这里采用放后执行
+  }
   addTimer(timer: ITimer) {
     if (this.timers.has(timer)) {
       return;
