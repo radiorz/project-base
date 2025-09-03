@@ -11,9 +11,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@trpc/client": "11.4.3"
+    "@trpc/client": "11.5.0"
   },
   "devDependencies": {
-    "tsx": "^4.20.3"
+    "tsx": "^4.20.5"
   }
 }

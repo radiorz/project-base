@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@types/node": "^24.0.10",
-    "tsdown": "^0.12.9",
-    "tsx": "^4.20.3",
+    "tsdown": "^0.14.2",
+    "tsx": "^4.20.5",
     "vitest": "^3.2.4"
   }
 }

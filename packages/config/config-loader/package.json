@@ -40,14 +40,14 @@
     "fast-xml-parser": "^5.2.5",
     "js-yaml": "^4.1.0",
     "json5": "^2.2.3",
-    "smol-toml": "^1.4.1",
+    "smol-toml": "^1.4.2",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tikkhun/utils-core": "workspace:^",
     "@types/node": "^24.0.10",
-    "tsdown": "^0.12.9",
-    "tsx": "^4.20.3",
+    "tsdown": "^0.14.2",
+    "tsx": "^4.20.5",
     "vitest": "^3.2.4"
   }
 }

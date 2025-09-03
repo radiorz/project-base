@@ -57,18 +57,18 @@
     "@types/lodash": "^4.17.20",
     "@types/node": "^24.0.10",
     "tsup": "^8.5.0",
-    "tsx": "^4.20.3",
+    "tsx": "^4.20.5",
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.6.0",
+    "@inquirer/prompts": "^7.8.4",
     "@tikkhun/cli-core": "workspace:^",
     "@tikkhun/logger": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "@tikkhun/utils": "workspace:^",
     "commander": "^14.0.0",
     "ejs": "^3.1.10",
-    "fs-extra": "^11.3.0",
+    "fs-extra": "^11.3.1",
     "glob": "^11.0.3",
     "lodash": "^4.17.21",
     "minimatch": "^10.0.3"
