@@ -1,4 +1,5 @@
-export default {
+import { defineConfig } from 'tikkhun-release';
+export default defineConfig({
   workspace: 'D:\\code\\project-base\\tools\\release-tools',
   include: ['**/*'],
   exclude: ['**/node_modules/**', '**/release/**', '**/deploy/**', '**/.git/**', '**/.vscode/**'],
@@ -31,4 +32,4 @@ export default {
   inputMoveOptions: {
     items: [],
   },
-};
+});

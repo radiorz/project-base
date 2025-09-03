@@ -1,5 +1,11 @@
 # @tikkhun/release-core
 
+## 0.1.5
+
+### Patch Changes
+
+- fix: absolutePath修复不重复join
+
 ## 0.1.4
 
 ### Patch Changes

@@ -5,7 +5,7 @@ import { Logger } from '@tikkhun/logger';
 import { mergeOptions } from '@tikkhun/utils-core';
 import archiver from 'archiver';
 import fsExtra from 'fs-extra';
-import { join } from 'path';
+import { isAbsolute, join } from 'path';
 import { ProgressPrinter } from './progress-printer';
 import { ensureDir } from './utils';
 import { glob } from 'glob';
@@ -123,7 +123,7 @@ export class Release {
       dot: true,
       cwd: this.options.workspace,
     });
-    console.log(`filePaths`, filePaths);
+    this.log.log(`找到的文件总数: ` + filePaths.length);
     // 搞成对象主要给inputmove
     return filePaths.map((path) => {
       const _path = path.replaceAll('\\', '/');
@@ -183,7 +183,8 @@ export class Release {
         .pipe(outputStream);
       // 添加文件
       this.inputs.forEach((input) => {
-        archive.file(join(this.options.workspace, input.source), { name: input.name });
+        const absoluteInputPath = isAbsolute(input.source) ? input.source : join(this.options.workspace, input.source);
+        archive.file(absoluteInputPath, { name: input.name });
       });
       if (this.options.plugins?.length) {
         await Promise.all(

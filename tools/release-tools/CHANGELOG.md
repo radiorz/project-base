@@ -1,5 +1,19 @@
 # @tikkhun/release
 
+## 0.1.14
+
+### Patch Changes
+
+- fix: absolutePath修复不重复join
+- Updated dependencies
+  - @tikkhun/release-core@0.1.5
+
+## 0.1.13
+
+### Patch Changes
+
+- feat: defineConfig
+
 ## 0.1.12
 
 ### Patch Changes
