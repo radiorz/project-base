@@ -76,10 +76,10 @@ export class Release {
   }
   progressPrinter: ProgressPrinter | null = null;
   constructor(options?: Partial<ReleaseOptions>) {
+    this.watchError();
     this.options = mergeOptions(Release.defaultOptions, options);
     this.log.log(`[说明] 最终release配置参数:` + JSON.stringify(this.options, null, 2));
     // 项目信息
-    this.watchError();
   }
 
   watchError() {
@@ -123,7 +123,7 @@ export class Release {
       dot: true,
       cwd: this.options.workspace,
     });
-    this.log.log(`找到的文件总数: ` + filePaths.length);
+    console.debug('filePaths', filePaths);
     // 搞成对象主要给inputmove
     return filePaths.map((path) => {
       const _path = path.replaceAll('\\', '/');
@@ -225,6 +225,7 @@ export class Release {
         );
       }
       this.inputs = await this.getInputs();
+      this.log.log(`文件总数: ` + this.inputs.length);
       if (this.options.plugins?.length) {
         await Promise.all(
           this.options.plugins.map((plugin) => {

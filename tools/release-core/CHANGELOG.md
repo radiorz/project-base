@@ -1,5 +1,11 @@
 # @tikkhun/release-core
 
+## 0.1.6
+
+### Patch Changes
+
+- fix: move 正常可用
+
 ## 0.1.5
 
 ### Patch Changes

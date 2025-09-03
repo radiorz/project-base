@@ -1,7 +1,7 @@
-import { defineConfig } from 'tikkhun-release';
+import { defineConfig } from './dist/lib';
 export default defineConfig({
   workspace: 'D:\\code\\project-base\\tools\\release-tools',
-  include: ['**/*'],
+  include: ['**/*', 'D:/code/project-base/tools/version/**/*'],
   exclude: ['**/node_modules/**', '**/release/**', '**/deploy/**', '**/.git/**', '**/.vscode/**'],
   archiveType: 'zip',
   clean: true,
@@ -18,18 +18,23 @@ export default defineConfig({
       ],
     ],
   },
+  releaseNameOptions: {
+    params: ['name', 'version', 'releasedAt', 'system', 'tag', 'description'],
+    paramDelimiter: '_',
+    releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
+  },
   infoStoreOptions: {
     enabled: true,
     transformMap: {},
     releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
     path: 'released_info.json',
   },
-  releaseNameOptions: {
-    params: ['subname', 'name', 'version', 'releasedAt', 'description'],
-    paramDelimiter: '_',
-    releasedAtPattern: 'YYYY-MM-DD-HH-mm-ss',
-  },
   inputMoveOptions: {
-    items: [],
+    items: [
+      {
+        source: 'D:/code/project-base/tools/version',
+        target: 'version',
+      },
+    ],
   },
 });

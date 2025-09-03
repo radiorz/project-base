@@ -1,5 +1,13 @@
 # @tikkhun/release-input-move
 
+## 0.0.8
+
+### Patch Changes
+
+- fix: move 正常可用
+- Updated dependencies
+  - @tikkhun/release-core@0.1.6
+
 ## 0.0.7
 
 ### Patch Changes
