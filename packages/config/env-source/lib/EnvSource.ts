@@ -1,5 +1,5 @@
 import { camelCase } from 'lodash';
-import { ConfigSource } from './';
+import { ConfigSource } from '@tikkhun/config-core';
 import { listToNestedObject } from '@tikkhun/utils-core';
 export interface EnvSourceOptions {
   // # key相关
