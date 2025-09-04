@@ -13,7 +13,7 @@ import { mergeOptions, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from '@tikkhun/info';
 import dayjs from 'dayjs';
 import _ from 'lodash';
-const { get } = _; // FIXME 这里为了避免无法使用，不知道有啥好方法没有
+const { get, set } = _; // FIXME 这里为了避免无法使用，不知道有啥好方法没有
 // export type Param = keyof Info;
 export interface InfoStringOptions {
   info: Info;
@@ -53,12 +53,13 @@ export class InfoString {
     }
     return value;
   }
+  // 这个parse并不能完全还原原本的info对象，但可以大致还原一个大概
   parse(str: string): Record<string, any> {
     const paramObj: Record<string, string> = {};
     const values = str.split(this.options.paramDelimiter);
     this.options.params.forEach((param, index) => {
       // 根据params规定的位置取出字符串中的值,赋值给变量对象
-      paramObj[param] = values[index];
+      set(paramObj, param, values[index]);
     });
     return paramObj;
   }
