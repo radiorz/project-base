@@ -1,6 +1,7 @@
 import { mergeOptions } from '@tikkhun/utils-core';
 import { Info } from './info.interface';
 import { loadInfo } from './loadInfo.utils';
+
 /**
  * @function getInfo
  * @description 合并多个info，并返回一个info对象
@@ -10,7 +11,8 @@ import { loadInfo } from './loadInfo.utils';
  * getInfo() // -> { name: 'tikkhun', ...}
  */
 export interface GetInfoOptions {
-  from: any[][];
+  // 价格前嘴
+  from: (any[] | { [props: string]: any[] })[];
 }
 export async function getInfo(options: GetInfoOptions): Promise<Info> {
   const opts = mergeOptions(
@@ -22,6 +24,19 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
   if (!opts.from.length) {
     return {};
   }
-  const infoSources: Info[] = await Promise.all(opts.from.map((fromOptions: any[]) => loadInfo(...fromOptions)));
+  const infoSources: Info[] = await Promise.all(
+    opts.from.map((fromOptions: any[] | { [props: string]: any[] }) => {
+      if (Array.isArray(fromOptions)) {
+        return loadInfo(...fromOptions);
+      }
+      const keys = Object.keys(fromOptions);
+      // 这里可以设置prefix
+      const values: Record<string, Info> = {};
+      keys.forEach(async (key) => {
+        values[key] = await loadInfo(...fromOptions[key]);
+      });
+      return values;
+    }),
+  );
   return mergeOptions(...infoSources); // 合并
 }

@@ -1,5 +1,11 @@
 # @tikkhun/info
 
+## 0.0.10
+
+### Patch Changes
+
+- feat: 支持前缀
+
 ## 0.0.9
 
 ### Patch Changes
