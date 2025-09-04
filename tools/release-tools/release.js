@@ -17,7 +17,8 @@ export default defineConfig({
         },
       ],
       {
-        webInfo: ['D:\\code\\project-base\\tools\\release-plugins\\info\\package.json'],
+        prefix: 'webInfo',
+        args: ['D:\\code\\project-base\\tools\\release-plugins\\info\\package.json'],
       },
     ],
   },

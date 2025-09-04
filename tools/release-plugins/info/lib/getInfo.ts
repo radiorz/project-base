@@ -1,7 +1,13 @@
 import { mergeOptions } from '@tikkhun/utils-core';
 import { Info } from './info.interface';
 import { loadInfo } from './loadInfo/loadInfo.utils';
-
+export type LoadInfoArgs = any[];
+export interface FromObject {
+  prefix?: string;
+  args: LoadInfoArgs;
+  map?: Record<string, string>; // 这个map用于过滤对象,这样获取之后不会有冗余的信息
+}
+export type From = FromObject | LoadInfoArgs;
 /**
  * @function getInfo
  * @description 合并多个info，并返回一个info对象
@@ -12,7 +18,7 @@ import { loadInfo } from './loadInfo/loadInfo.utils';
  */
 export interface GetInfoOptions {
   // 可以添加前缀
-  from: (any[] | { [props: string]: any[] })[];
+  from: From[];
 }
 export async function getInfo(options: GetInfoOptions): Promise<Info> {
   const opts = mergeOptions(
@@ -20,23 +26,43 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
       from: [],
     },
     options,
-  );
+  ) as GetInfoOptions;
   if (!opts.from.length) {
     return {};
   }
   const infoSources: Info[] = await Promise.all(
-    opts.from.map(async (fromOptions: any[] | { [props: string]: any[] }) => {
+    opts.from.map(async (fromOptions) => {
+      if (typeof fromOptions !== 'object') {
+        return null;
+      }
       if (Array.isArray(fromOptions)) {
         return loadInfo(...fromOptions);
       }
-      const keys = Object.keys(fromOptions);
+      const { prefix, args, map } = fromOptions as FromObject;
+      const originInfo = await loadInfo(...args);
+      const mappedInfo = isEmpty(map) ? originInfo : getMappedInfo(originInfo, map!);
       // 这里可以设置prefix
-      const values: Record<string, Info> = {};
-      for (const [key, options] of Object.entries(fromOptions)) {
-        values[key] = await loadInfo(...options);
-      }
+      const values = prefix ? { [prefix]: mappedInfo } : mappedInfo;
       return values;
     }),
   );
   return mergeOptions(...infoSources); // 合并
+}
+
+export function getMappedInfo(data: any, map: Record<string, string>) {
+  // 数据不是data
+  if (typeof data !== 'object') {
+    return data;
+  }
+  const mappedInfo: Record<string, any> = {};
+  for (const [key, value] of Object.entries(map)) {
+    mappedInfo[key] = data[value];
+  }
+  return mappedInfo;
+}
+export function isEmpty(obj: any) {
+  if (!obj) {
+    return true;
+  }
+  return Object.keys(obj).length === 0;
 }

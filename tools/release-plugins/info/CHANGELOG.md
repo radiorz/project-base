@@ -1,5 +1,18 @@
 # @tikkhun/info
 
+## 0.0.14
+
+### Patch Changes
+
+- fix: info prefix works
+
+## 0.0.13
+
+### Patch Changes
+
+- feat: info 支持前缀和map转换
+- 074eff3: fix: info 无法正确读取的问题的解决
+
 ## 0.0.11
 
 ### Patch Changes

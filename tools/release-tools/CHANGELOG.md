@@ -1,5 +1,28 @@
 # @tikkhun/release
 
+## 0.1.21
+
+### Patch Changes
+
+- fix: info prefix works
+- Updated dependencies
+  - @tikkhun/info-string@0.0.14
+  - @tikkhun/release-info-store@0.0.11
+  - @tikkhun/release-input-move@0.0.12
+  - @tikkhun/info@0.0.14
+
+## 0.1.20
+
+### Patch Changes
+
+- 074eff3: fix: info 无法正确读取的问题的解决
+- Updated dependencies
+- Updated dependencies [074eff3]
+  - @tikkhun/info@0.0.13
+  - @tikkhun/release-info-store@0.0.10
+  - @tikkhun/info-string@0.0.13
+  - @tikkhun/release-input-move@0.0.11
+
 ## 0.1.19
 
 ### Patch Changes

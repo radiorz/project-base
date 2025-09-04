@@ -1,5 +1,21 @@
 # @tikkhun/release-info-store
 
+## 0.0.11
+
+### Patch Changes
+
+- fix: info prefix works
+- Updated dependencies
+  - @tikkhun/info@0.0.14
+
+## 0.0.10
+
+### Patch Changes
+
+- Updated dependencies
+- Updated dependencies [074eff3]
+  - @tikkhun/info@0.0.13
+
 ## 0.0.9
 
 ### Patch Changes
