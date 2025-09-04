@@ -17,7 +17,7 @@ export default defineConfig({
         },
       ],
       {
-        test: ['D:\\code\\project-base\\tools\\release-plugins\\info\\package.json'],
+        webInfo: ['D:\\code\\project-base\\tools\\release-plugins\\info\\package.json'],
       },
     ],
   },

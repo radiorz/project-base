@@ -1,4 +1,4 @@
-import { Info } from './info.interface';
+import { Info } from '../info.interface';
 import _ from 'lodash';
 const { get } = _;
 

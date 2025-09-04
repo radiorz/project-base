@@ -1,6 +1,6 @@
 import { mergeOptions } from '@tikkhun/utils-core';
 import { Info } from './info.interface';
-import { loadInfo } from './loadInfo.utils';
+import { loadInfo } from './loadInfo/loadInfo.utils';
 
 /**
  * @function getInfo
@@ -25,16 +25,16 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
     return {};
   }
   const infoSources: Info[] = await Promise.all(
-    opts.from.map((fromOptions: any[] | { [props: string]: any[] }) => {
+    opts.from.map(async (fromOptions: any[] | { [props: string]: any[] }) => {
       if (Array.isArray(fromOptions)) {
         return loadInfo(...fromOptions);
       }
       const keys = Object.keys(fromOptions);
       // 这里可以设置prefix
       const values: Record<string, Info> = {};
-      keys.forEach(async (key) => {
-        values[key] = await loadInfo(...fromOptions[key]);
-      });
+      for (const [key, options] of Object.entries(fromOptions)) {
+        values[key] = await loadInfo(...options);
+      }
       return values;
     }),
   );

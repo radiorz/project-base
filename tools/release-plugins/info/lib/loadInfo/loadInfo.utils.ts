@@ -4,7 +4,7 @@ import { calculateMD5 } from '@tikkhun/utils';
 import { stat } from 'fs/promises';
 import { basename, join } from 'path';
 import { getInfoFromNestedObject } from './getInfoFromNestedObject';
-import { Info } from './info.interface';
+import { Info } from '../info.interface';
 
 export const FileStat = 'FileStat';
 export const loadInfo = createOverLoad({
@@ -17,6 +17,8 @@ export const loadInfo = createOverLoad({
   },
 });
 // 这里将读取他这个文件的配置
+
+// 读取文件信息
 loadInfo.addImpl(FileStat, 'string', async (_: string, filePath: string) => {
   const fileStat = await stat(filePath);
   const config = {
@@ -27,6 +29,7 @@ loadInfo.addImpl(FileStat, 'string', async (_: string, filePath: string) => {
   };
   return config;
 });
+// 通过文件路径读取配置文件
 loadInfo.addImpl('string', loadConfig);
 loadInfo.addImpl('string', 'object', async (path: string, map: Record<string, string>) => {
   const config = await loadConfig(path);
@@ -41,5 +44,6 @@ loadInfo.addImpl(
     return getInfoFromNestedObject(config, map);
   },
 );
+// 通过输入 info 对象
 loadInfo.addImpl('object', (value: Info) => value);
 loadInfo.addImpl('object', 'object', getInfoFromNestedObject);
