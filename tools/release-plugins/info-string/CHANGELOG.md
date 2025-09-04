@@ -1,5 +1,13 @@
 # @tikkhun/info-string
 
+## 0.0.9
+
+### Patch Changes
+
+- feat: param 可以a.b.c.d 这样嵌套获取
+- Updated dependencies
+  - @tikkhun/info@0.0.11
+
 ## 0.0.8
 
 ### Patch Changes

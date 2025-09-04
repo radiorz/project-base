@@ -1,5 +1,11 @@
 # @tikkhun/info
 
+## 0.0.11
+
+### Patch Changes
+
+- feat: param 可以a.b.c.d 这样嵌套获取
+
 ## 0.0.10
 
 ### Patch Changes

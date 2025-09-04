@@ -12,6 +12,8 @@
 import { mergeOptions, UnderlineDelimiter } from '@tikkhun/utils-core';
 import type { Info } from '@tikkhun/info';
 import dayjs from 'dayjs';
+import _ from 'lodash';
+const { get } = _; // FIXME 这里为了避免无法使用，不知道有啥好方法没有
 // export type Param = keyof Info;
 export interface InfoStringOptions {
   info: Info;
@@ -39,7 +41,7 @@ export class InfoString {
   stringify(): string {
     const originName = this.options.params
       .map((param) => {
-        return this.paramTransformer(param, this.options.info?.[param]);
+        return this.paramTransformer(param, get(this.options.info, param));
       })
       .join(this.options.paramDelimiter);
     return validateAndReplaceFileName(originName);

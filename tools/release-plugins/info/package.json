@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/info",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "",
   "bin": {
     "tikkhun-info": "dist/cli/index.js"

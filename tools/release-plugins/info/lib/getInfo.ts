@@ -11,7 +11,7 @@ import { loadInfo } from './loadInfo.utils';
  * getInfo() // -> { name: 'tikkhun', ...}
  */
 export interface GetInfoOptions {
-  // 价格前嘴
+  // 可以添加前缀
   from: (any[] | { [props: string]: any[] })[];
 }
 export async function getInfo(options: GetInfoOptions): Promise<Info> {
