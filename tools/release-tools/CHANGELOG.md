@@ -1,5 +1,21 @@
 # @tikkhun/release
 
+## 0.1.19
+
+### Patch Changes
+
+- fix: ctrl+cworsk
+- Updated dependencies
+  - @tikkhun/info-string@0.0.12
+  - @tikkhun/release-core@0.1.7
+
+## 0.1.18
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/info-string@0.0.11
+
 ## 0.1.17
 
 ### Patch Changes

@@ -16,6 +16,9 @@ export default defineConfig({
           tag: 'beta',
         },
       ],
+      {
+        test: ['D:\\code\\project-base\\tools\\release-plugins\\info\\package.json'],
+      },
     ],
   },
   releaseNameOptions: {

@@ -85,7 +85,9 @@ export class Release {
   watchError() {
     // TODO 当 ctrl+c 删除target文件
     process.on('SIGINT', () => {
+      this.log.log('[结束] 收到ctrl+c信号，退出打包: ' + this.releaseFilePath);
       this.clean();
+      process.exit();
     });
   }
   clean() {
