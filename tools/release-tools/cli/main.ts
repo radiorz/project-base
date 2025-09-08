@@ -33,7 +33,7 @@ const cli = new Cli({
     releaseNameOptions: {
       params: 'array',
       paramDelimiter: 'string',
-      releasedAtPattern: 'string',
+      paramTransformers: 'object',
     },
   },
   optionTitles: {
@@ -60,7 +60,7 @@ const cli = new Cli({
     releaseNameOptions: {
       params: '[释放文件名]参数列表',
       paramDelimiter: '[释放文件名]参数分隔符',
-      releasedAtPattern: '[释放文件名]时间格式(pattern)',
+      paramTransformers: '[释放文件名]参数转换规则({[param]: deleteScope | patternLike })',
     },
   },
 });

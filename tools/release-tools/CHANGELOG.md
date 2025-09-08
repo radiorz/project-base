@@ -1,5 +1,11 @@
 # @tikkhun/release
 
+## 0.1.24
+
+### Patch Changes
+
+- feat: release'name paramTransformers
+
 ## 0.1.23
 
 ### Patch Changes
