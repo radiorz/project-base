@@ -12,8 +12,13 @@ export const objectArrayType: ArgType = {
   },
   parse(v: string) {
     try {
+      // 将所有单引号替换为双引号
+      if (v.includes("'")) {
+        v = v.replace(/'/g, '"');
+      }
       return JSON.parse(v) || [];
-    } catch (error) {
+    } catch (error: any) {
+      console.warn(`parse objectArray,but error: `, error?.message, 'value: ', v);
       return [];
     }
   },

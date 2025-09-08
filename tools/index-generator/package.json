@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/index-generator",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "",
   "bin": {
     "tikkhun-index-generator": "dist/cli/index.js"

@@ -1,5 +1,11 @@
 # @tikkhun/index-generator
 
+## 0.1.9
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.33
+
 ## 0.1.8
 
 ### Patch Changes

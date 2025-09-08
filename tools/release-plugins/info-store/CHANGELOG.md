@@ -1,5 +1,12 @@
 # @tikkhun/release-info-store
 
+## 0.0.12
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/info@0.0.15
+
 ## 0.0.11
 
 ### Patch Changes

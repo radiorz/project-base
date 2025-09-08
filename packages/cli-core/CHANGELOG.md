@@ -1,5 +1,12 @@
 # @tikkhun/cli-core
 
+## 0.0.33
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/nested-args@0.0.6
+
 ## 0.0.32
 
 ### Patch Changes

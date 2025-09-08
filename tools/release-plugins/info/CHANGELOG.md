@@ -1,5 +1,12 @@
 # @tikkhun/info
 
+## 0.0.15
+
+### Patch Changes
+
+- fix: json parse allow ', info add log
+  - @tikkhun/cli-core@0.0.33
+
 ## 0.0.14
 
 ### Patch Changes

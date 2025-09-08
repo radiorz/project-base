@@ -7,7 +7,7 @@ export interface FromObject {
   args: LoadInfoArgs;
   map?: Record<string, string>; // 这个map用于过滤对象,这样获取之后不会有冗余的信息
 }
-export type From = FromObject | LoadInfoArgs;
+export type From = LoadInfoArgs | FromObject;
 /**
  * @function getInfo
  * @description 合并多个info，并返回一个info对象
@@ -19,26 +19,36 @@ export type From = FromObject | LoadInfoArgs;
 export interface GetInfoOptions {
   // 可以添加前缀
   from: From[];
+  debug?: boolean;
 }
 export async function getInfo(options: GetInfoOptions): Promise<Info> {
   const opts = mergeOptions(
     {
       from: [],
+      debug: false,
     },
     options,
   ) as GetInfoOptions;
   if (!opts.from.length) {
+    if (options.debug) {
+      console.debug(`from is empty`);
+    }
     return {};
   }
   const infoSources: Info[] = await Promise.all(
     opts.from.map(async (fromOptions) => {
+      // 要么 数组 要么 对象
       if (typeof fromOptions !== 'object') {
         return null;
       }
       if (Array.isArray(fromOptions)) {
         return loadInfo(...fromOptions);
       }
-      const { prefix, args, map } = fromOptions as FromObject;
+      const { prefix, args, map } = fromOptions || {};
+      // 没有参数就直接返回null
+      if (!args?.length) {
+        return null;
+      }
       const originInfo = await loadInfo(...args);
       const mappedInfo = isEmpty(map) ? originInfo : getMappedInfo(originInfo, map!);
       // 这里可以设置prefix

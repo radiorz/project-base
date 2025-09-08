@@ -1,5 +1,11 @@
 # @tikkhun/nested-args
 
+## 0.0.6
+
+### Patch Changes
+
+- fix: json parse allow ', info add log
+
 ## 0.0.5
 
 ### Patch Changes
