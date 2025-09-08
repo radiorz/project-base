@@ -1,5 +1,11 @@
 # @tikkhun/move
 
+## 0.0.8
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.34
+
 ## 0.0.7
 
 ### Patch Changes

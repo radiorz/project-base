@@ -1,5 +1,11 @@
 # @tikkhun/create
 
+## 0.2.17
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.34
+
 ## 0.2.16
 
 ### Patch Changes

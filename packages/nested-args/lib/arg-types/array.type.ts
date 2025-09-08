@@ -1,9 +1,5 @@
 import { ArgType } from '../arg-type.interface';
 
-export interface KeyValueItem {
-  key: string;
-  value: string;
-}
 export const arrayType: ArgType<number | string[]> = {
   isThisType(v: any): boolean {
     return Array.isArray(v) && typeof v[0] !== 'object';
@@ -11,8 +7,8 @@ export const arrayType: ArgType<number | string[]> = {
   isArgThisType(v: string): boolean {
     return typeof v === 'string' && v.includes(',');
   },
-  // [1,2,3]=> 1,2,3
-  // ["1","2","3"]=> "1","2","3"
+  // [1,2,3]=> '1,2,3'
+  // ["1","2","3"]=> '"1","2","3"'
   stringify(v: any): string {
     if (!v?.length) {
       return '';
@@ -22,15 +18,18 @@ export const arrayType: ArgType<number | string[]> = {
     }
     return v.map((item) => JSON.stringify(item)).toString();
   },
-  // 1,2,3=>[1,2,3]
-  // "1","2","3" => ["1","2","3"]
+  // '1,2,3'=>[1,2,3]
+  // '"1","2","3"' => ["1","2","3"]
   parse(v: string) {
-    return v.split(',').map((item) => {
-      try {
-        return (JSON.parse(item))
-      } catch (error) {
-        return undefined;
-      }
-    }).filter((item) => item !== undefined)
+    return v
+      .split(',')
+      .map((item) => {
+        try {
+          return JSON.parse(item);
+        } catch (error) {
+          return undefined;
+        }
+      })
+      .filter((item) => item !== undefined);
   },
 };

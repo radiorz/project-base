@@ -1,5 +1,11 @@
 # @tikkhun/lock
 
+## 0.0.11
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.34
+
 ## 0.0.10
 
 ### Patch Changes

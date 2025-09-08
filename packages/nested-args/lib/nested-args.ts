@@ -7,6 +7,7 @@ import {
   numberType,
   objectArrayType,
   objectType,
+  stringArrayType,
 } from './arg-types';
 import { mergeOptions } from '@tikkhun/utils-core';
 import { stringType } from './arg-types/string.type';
@@ -29,6 +30,7 @@ export class NestedArgs {
       [TYPES.json]: jsonType,
       [TYPES.object]: objectType,
       [TYPES.objectArray]: objectArrayType,
+      [TYPES.stringArray]: stringArrayType,
     },
   };
 

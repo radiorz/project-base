@@ -1,5 +1,15 @@
 # @tikkhun/release
 
+## 0.1.25
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.34
+- @tikkhun/info@0.0.16
+- @tikkhun/release-info-store@0.0.13
+- @tikkhun/info-string@0.1.1
+- @tikkhun/release-input-move@0.0.14
+
 ## 0.1.24
 
 ### Patch Changes

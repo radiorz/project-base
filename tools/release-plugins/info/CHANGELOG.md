@@ -1,5 +1,11 @@
 # @tikkhun/info
 
+## 0.0.16
+
+### Patch Changes
+
+- @tikkhun/cli-core@0.0.34
+
 ## 0.0.15
 
 ### Patch Changes

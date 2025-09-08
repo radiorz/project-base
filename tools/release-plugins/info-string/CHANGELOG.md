@@ -1,5 +1,11 @@
 # @tikkhun/info-string
 
+## 0.1.1
+
+### Patch Changes
+
+- @tikkhun/info@0.0.16
+
 ## 0.1.0
 
 ### Minor Changes
