@@ -1,5 +1,11 @@
 # @tikkhun/info-string
 
+## 0.1.0
+
+### Minor Changes
+
+- feat: update info string strategy 无参减少配置
+
 ## 0.0.15
 
 ### Patch Changes

@@ -35,18 +35,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/cli-core": "workspace:^",
-    "@tikkhun/overload": "workspace:^",
+    "@tikkhun/config-loader": "workspace:^",
     "@tikkhun/logger": "workspace:^",
+    "@tikkhun/overload": "workspace:^",
     "@tikkhun/utils": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "commander": "^14.0.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.10",
-    "tsx": "^4.20.5",
     "tsup": "^8.5.0",
+    "tsx": "^4.20.5",
     "vitest": "^3.2.4"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tikkhun/info-string",
-  "version": "0.0.15",
+  "version": "0.1.0",
   "description": "",
   "main": "dist/index.js",
   "module": "dist/index.mjs",
@@ -35,6 +35,7 @@
     "@tikkhun/info": "workspace:^",
     "@tikkhun/utils-core": "workspace:^",
     "@types/lodash": "^4.17.20",
+    "dayjs": "^1.11.18",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
