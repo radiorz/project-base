@@ -47,6 +47,7 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
         if (!args?.length) {
           return null;
         }
+        // @ts-ignore
         const originInfo = await loadInfo(...args);
         return transInfo(originInfo, { prefix, map });
       } catch (error) {
