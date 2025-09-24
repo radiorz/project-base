@@ -6,10 +6,22 @@ import { basename, join } from 'path';
 import { Info } from '../info.interface';
 
 export const __FILE_STAT__ = '__FILE_STAT__';
-/** 
- * @deprecated use __FILE_STAT__ instead
- */
-export const FileStat = __FILE_STAT__
+
+// 为 loadInfo 函数添加重载声明
+interface LoadInfoFunction {
+  // 获取文件状态信息的重载
+  (fileStatMarker: typeof __FILE_STAT__, filePath: string): Promise<any>;
+  // 通过文件路径读取配置文件的重载
+  (filePath: string): Promise<any>;
+  // 通过工作空间和文件路径读取配置文件的重载
+  (workspace: string, filePath: string): Promise<any>;
+  // 通过输入 info 对象的重载
+  (value: Info): Info;
+  // 添加实现的方法
+  addImpl: (...args: any[]) => void;
+  // 调试用的 fnMap
+  fnMap: Map<string, any>;
+}
 export const loadInfo = createOverLoad({
   getType(arg: any, index: number) {
     // 定义一种特殊的类型，用于获取单文件信息
@@ -18,7 +30,7 @@ export const loadInfo = createOverLoad({
     }
     return typeof arg;
   },
-});
+}) as LoadInfoFunction;
 export function loadStatFromPath(_path: string) {
   return stat(_path);
 }
