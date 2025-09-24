@@ -1,5 +1,19 @@
 # @tikkhun/release-input-move
 
+## 0.0.16
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/info@0.0.18
+
+## 0.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/info@0.0.17
+
 ## 0.0.14
 
 ### Patch Changes

@@ -1,5 +1,27 @@
 # @tikkhun/release
 
+## 0.1.27
+
+### Patch Changes
+
+- feat: map提升到load之外，这样不管什么配置都可以map
+- Updated dependencies
+  - @tikkhun/info@0.0.18
+  - @tikkhun/release-info-store@0.0.15
+  - @tikkhun/info-string@0.1.3
+  - @tikkhun/release-input-move@0.0.16
+
+## 0.1.26
+
+### Patch Changes
+
+- feat: add ignoreError
+- Updated dependencies
+  - @tikkhun/info@0.0.17
+  - @tikkhun/release-info-store@0.0.14
+  - @tikkhun/info-string@0.1.2
+  - @tikkhun/release-input-move@0.0.15
+
 ## 0.1.25
 
 ### Patch Changes

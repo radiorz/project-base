@@ -1,5 +1,17 @@
 # @tikkhun/info
 
+## 0.0.18
+
+### Patch Changes
+
+- feat: map提升到load之外，这样不管什么配置都可以map
+
+## 0.0.17
+
+### Patch Changes
+
+- feat: add ignoreError
+
 ## 0.0.16
 
 ### Patch Changes

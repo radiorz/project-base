@@ -30,18 +30,23 @@ export interface TikkhunReleaseDefaultOptions
 export const TikkhunReleaseDefaultOptions = {
   ...omit(Release.defaultOptions, ['infoStore', 'info', 'releaseName']),
   getInfoOptions: {
+    debug: false,
+    ignoreError: true,
     from: [
-      [
-        'package.json',
-        {
+      // TODO FILENAME,
+      {
+        args: [
+          'package.json',
+        ],
+        map: {
           name: 'name',
           version: 'version',
           description: 'description',
           tag: 'tag',
           system: 'system',
           hardware: 'hardware',
-        },
-      ],
+        }
+      }
     ],
   },
   infoStoreOptions: {

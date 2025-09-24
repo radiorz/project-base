@@ -20,6 +20,8 @@ const cli = new Cli({
     clean: 'boolean',
     getInfoOptions: {
       from: 'objectArray',
+      debug: 'boolean',
+      ignoreError: 'boolean',
     },
     inputMoveOptions: {
       items: 'objectArray', // 实际上是 objectArray
@@ -50,6 +52,8 @@ const cli = new Cli({
     },
     getInfoOptions: {
       from: '[信息管理]项目信息来源',
+      debug: '[信息管理]调试模式',
+      ignoreError: '[信息管理]忽略错误',
     },
     infoStoreOptions: {
       enabled: '[信息存储]开启',
