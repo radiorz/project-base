@@ -30,7 +30,7 @@ loadInfo.addImpl(__FILE_STAT__, 'string', async (_: string, filePath: string) =>
     filePath: filePath,
     fileName: basename(filePath),
   };
-  // 只有 file 才计算 md5
+  // 只有 file 才计算 md5 directory 不计算
   if (await isFile(filePath)) {
     config.fileMd5 = await calculateMD5(filePath)
   }
