@@ -42,7 +42,7 @@ export async function getInfo(options: GetInfoOptions): Promise<Info> {
   const infoSources = await Promise.all(
     opts.from.filter(isObject).map(normalizeFromOptions).map(async (fromOptions) => {
       try {
-        const { prefix, args, map } = fromOptions || {};
+        const { args, prefix, map } = fromOptions || {};
         // 没有参数就直接返回null
         if (!args?.length) {
           return null;

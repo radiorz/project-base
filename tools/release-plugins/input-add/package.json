@@ -1,5 +1,5 @@
 {
-  "name": "@tikkhun/release-input-move",
+  "name": "@tikkhun/release-input-add",
   "version": "0.0.16",
   "description": "",
   "main": "dist/index.js",
@@ -33,7 +33,9 @@
   "license": "ISC",
   "dependencies": {
     "@tikkhun/release-core": "workspace:^",
-    "@tikkhun/utils-core": "workspace:^"
+    "@tikkhun/utils-core": "workspace:^",
+    "@tikkhun/info": "workspace:^",
+    "glob": "^11.0.3"
   },
   "devDependencies": {
     "@types/node": "^24.0.10",
