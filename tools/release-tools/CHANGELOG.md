@@ -1,5 +1,16 @@
 # @tikkhun/release
 
+## 0.2.0
+
+### Minor Changes
+
+- feat: inputs 可以添加
+
+### Patch Changes
+
+- Updated dependencies
+  - @tikkhun/release-input-add@0.1.0
+
 ## 0.1.27
 
 ### Patch Changes

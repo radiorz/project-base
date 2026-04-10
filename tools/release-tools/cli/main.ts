@@ -23,6 +23,9 @@ const cli = new Cli({
       debug: 'boolean',
       ignoreError: 'boolean',
     },
+    inputAddOptions: {
+      items: 'objectArray', 
+    },
     inputMoveOptions: {
       items: 'objectArray', // 实际上是 objectArray
     },

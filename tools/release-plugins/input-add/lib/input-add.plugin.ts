@@ -5,11 +5,10 @@ import { mergeOptions } from '@tikkhun/utils-core';
 // 导入 Node.js 文件系统相关模块
 import { stat } from 'node:fs/promises';
 // 导入路径处理相关函数
-import { isAbsolute } from 'node:path';
+import { isAbsolute, resolve } from 'node:path';
 import { join } from 'path';
 // 导入 glob 用于文件匹配
 import { glob } from 'glob';
-import { workspace } from '../../../version/lib/utils';
 
 export const pluginName = '添加输入插件';
 // 定义单个文件移动选项接口

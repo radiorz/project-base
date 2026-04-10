@@ -12,6 +12,7 @@ import { InfoString, InfoStringOptions } from '@tikkhun/info-string';
 import { Logger } from '@tikkhun/logger';
 import { Release, ReleaseOptions } from '@tikkhun/release-core';
 import { ReleaseInfoStoreOptions, ReleaseInfoStorePlugin } from '@tikkhun/release-info-store';
+import { InputAddPlugin, InputAddPluginOptions } from '@tikkhun/release-input-add';
 import { InputMovePlugin, InputMovePluginOptions } from '@tikkhun/release-input-move';
 import { mergeOptions } from '@tikkhun/utils-core';
 import _ from 'lodash';
@@ -24,6 +25,8 @@ export interface TikkhunReleaseDefaultOptions
   infoStoreOptions: Partial<{ enabled: boolean } & ReleaseInfoStoreOptions>;
   // 释放文件的名称
   releaseNameOptions: Partial<InfoStringOptions>;
+  // 添加输入
+  inputAddOptions: Partial<InputAddPluginOptions>;
   // 重命名文件
   inputMoveOptions: Partial<InputMovePluginOptions>;
 }
@@ -55,6 +58,8 @@ export const TikkhunReleaseDefaultOptions = {
   },
   releaseNameOptions: omit(InfoString.defaultOptions, ['info']),
   // 重命名的文件列表
+  inputAddOptions: InputAddPlugin.defaultOptions,
+  // 重命名的文件列表
   inputMoveOptions: InputMovePlugin.defaultOptions,
 };
 const logger = new Logger('TikkhunRelease');
@@ -64,7 +69,7 @@ export async function TikkhunRelease(options?: Partial<TikkhunReleaseDefaultOpti
   console.time('tikkhun-release');
   const opts: TikkhunReleaseDefaultOptions = mergeOptions(TikkhunReleaseDefaultOptions, options);
   logger.log('[说明] 最终配置参数: ' + JSON.stringify(opts, null, 2));
-  const { infoStoreOptions, getInfoOptions, releaseNameOptions, inputMoveOptions, ...releaseOptions } = opts;
+  const { infoStoreOptions, getInfoOptions, releaseNameOptions, inputAddOptions, inputMoveOptions, ...releaseOptions } = opts;
   const info = await getInfo(getInfoOptions);
   logger.log('[说明] 项目信息:' + JSON.stringify(info, null, 2));
   const releaseNameBuilder = new InfoString({ ...releaseNameOptions, info });
@@ -75,6 +80,10 @@ export async function TikkhunRelease(options?: Partial<TikkhunReleaseDefaultOpti
   if (infoStoreOptions?.enabled) {
     const releaseInfoStorePlugin = new ReleaseInfoStorePlugin({ ...infoStoreOptions, info });
     plugins.push(releaseInfoStorePlugin);
+  }
+  if (inputAddOptions) {
+    const inputAddPlugin = new InputAddPlugin(inputAddOptions);
+    plugins.push(inputAddPlugin);
   }
   if (inputMoveOptions) {
     const inputMovePlugins = new InputMovePlugin(inputMoveOptions);
