@@ -2,47 +2,88 @@
 import { Logger } from '@tikkhun/logger';
 import { program } from 'commander';
 import { getDateVersion, DEFAULT_DATE_VERSION_GETTER_OPTIONS } from '@tikkhun/date-version';
-import { DEFAULT_JSON_STORE_OPTIONS, JsonStore, VersionManager } from '../lib';
-import { findUp } from '@tikkhun/utils';
+import { DEFAULT_JSON_STORE_OPTIONS, VersionManager } from '../lib';
+import { printManagerResult, resolveTarget, TargetCommandOptions } from './shared';
 Logger.log('[欢迎] date-version');
 
-interface UpdateJsonVersionOptions {
+/**
+ * @description 日期版本更新参数.
+ */
+interface DateVersionCommandOptions extends TargetCommandOptions {
+  /**
+   * @description 日期格式.
+   */
   format: string;
-  path: string;
 }
+
 program
   .command('update')
-  .description('更新JSON')
+  .description('生成日期版本并写入目标文件')
   .option('-f --format <format>', '日期格式', DEFAULT_DATE_VERSION_GETTER_OPTIONS.pattern)
-  .option('-p --path <filePath>', 'json文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
-  .action(async (options: UpdateJsonVersionOptions) => {
-    const filePath = findUp(options.path, process.cwd()); // 向上查找直到找到
-    if (!filePath) throw new Error(`更新版本号，但失败，无法获取${options.path}文件路径`);
-    Logger.debug!('更新的文件路径: ' + filePath);
+  .option('-F --file <filePath>', '目标文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
+  .option('-t --type <type>', '目标文件类型', 'json')
+  .option('-k --key <key>', '兼容旧版 key 参数', DEFAULT_JSON_STORE_OPTIONS.key)
+  .option('--path <path>', '结构化路径')
+  .option('--mode <mode>', '文本模式. raw 或 replace', 'raw')
+  .option('--pattern <pattern>', '文本替换正则')
+  .option('--replacement <replacement>', '文本替换模板', '{{version}}')
+  .option('--create-if-not-exists', '文件不存在时自动创建', false)
+  .action(async (options: DateVersionCommandOptions) => {
     const versionManager = new VersionManager({
       getter: {
         get() {
-          return getDateVersion();
+          return getDateVersion({ pattern: options.format });
         },
       },
-      store: new JsonStore({
-        file: options.path,
-        key: 'version',
-      }),
+      targets: [resolveTarget(options)],
     });
     const result = await versionManager.update();
-    if (result) {
-      // TODO 这里需要打印结果（new version old version)
-      Logger.debug!('package json 的版本更新成功');
-    }
+    printManagerResult(result);
   });
 
 program
   .command('get')
-  .description('获取版本')
+  .description('生成日期版本')
   .option('-p --pattern <pattern>', '日期格式', DEFAULT_DATE_VERSION_GETTER_OPTIONS.pattern)
   .action(({ pattern }: { pattern: string }) => {
     Logger.log(getDateVersion({ pattern }));
+  });
+
+program
+  .command('read')
+  .description('读取目标文件中的版本')
+  .option('-F --file <filePath>', '目标文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
+  .option('-t --type <type>', '目标文件类型', 'json')
+  .option('-k --key <key>', '兼容旧版 key 参数', DEFAULT_JSON_STORE_OPTIONS.key)
+  .option('--path <path>', '结构化路径')
+  .option('--mode <mode>', '文本模式. raw 或 replace', 'raw')
+  .option('--pattern <pattern>', '文本替换正则')
+  .action(async (options: TargetCommandOptions) => {
+    const versionManager = new VersionManager({
+      targets: [resolveTarget(options)],
+    });
+    const result = await versionManager.read();
+    printManagerResult(result);
+  });
+
+program
+  .command('set')
+  .description('把指定版本值写入目标文件')
+  .argument('<value>', '版本值')
+  .option('-F --file <filePath>', '目标文件路径', DEFAULT_JSON_STORE_OPTIONS.file)
+  .option('-t --type <type>', '目标文件类型', 'json')
+  .option('-k --key <key>', '兼容旧版 key 参数', DEFAULT_JSON_STORE_OPTIONS.key)
+  .option('--path <path>', '结构化路径')
+  .option('--mode <mode>', '文本模式. raw 或 replace', 'raw')
+  .option('--pattern <pattern>', '文本替换正则')
+  .option('--replacement <replacement>', '文本替换模板', '{{version}}')
+  .option('--create-if-not-exists', '文件不存在时自动创建', false)
+  .action(async (value: string, options: TargetCommandOptions) => {
+    const versionManager = new VersionManager({
+      targets: [resolveTarget(options)],
+    });
+    const result = await versionManager.set(value);
+    printManagerResult(result);
   });
 
 program.parse(process.argv);

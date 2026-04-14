@@ -1,0 +1,8 @@
+{
+  "name": "host-example-manager-three-slaves",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm -C ../../ exec tsx ./examples/管理主机管分机/src/index.ts"
+  }
+}
